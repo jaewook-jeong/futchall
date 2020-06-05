@@ -11,13 +11,12 @@ const Maps = (props) => {
     const [map, setMap] = useState();
     const { latitude, longitude,} = useSelector(state => state.location);
     const dispatch = useDispatch();
-    let options;
-    let temp;
+    let temp; //처음으로 마운트 되었을 때 Map에 해당하는 내용이 저장 될 곳, 처음 렌더링 될 때는 setMap에 저장해도(대충 29번쨰 줄) 다른 useEffect에서 사용이 안돼서 temp로 빼놨음, 나중에 해결책 알면 해결해야 함
 
     useEffect(
         () => {
             //최초 마운트 시
-            options = {
+            let options = {
                 center: new kakao.maps.LatLng(latitude, longitude),
                 level: 8
             };

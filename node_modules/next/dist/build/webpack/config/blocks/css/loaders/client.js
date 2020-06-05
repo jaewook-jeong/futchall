@@ -18,3 +18,4 @@ parentNode.insertBefore(element,anchorElement)// Remember: this is development o
 // this operation since there may be multiple style
 // tags.
 ;(self.requestAnimationFrame||setTimeout)(function(){for(var x=document.querySelectorAll('[data-next-hide-fouc]'),i=x.length;i--;){x[i].parentNode.removeChild(x[i]);}});}}}:{loader:_miniCssExtractPlugin.default.loader,options:{publicPath:`${assetPrefix}/_next/`}};}
+//# sourceMappingURL=client.js.map

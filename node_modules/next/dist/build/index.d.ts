@@ -1,3 +1,4 @@
+import '../next-server/server/node-polyfill-fetch';
 import { __ApiPreviewProps } from '../next-server/server/api-utils';
 export declare type SsgRoute = {
     initialRevalidateSeconds: number | false;

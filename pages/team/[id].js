@@ -6,10 +6,10 @@ import {Skeleton, Col, Row, Tabs, Button, message, Descriptions, Tag, Typography
 import {SELECT_TEAM_REQUEST}from '../../reducers/team';
 import { CopyOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 const Stadium = () =>{
+    const router = useRouter();
     const { id } = router.query;
     const { info, isSelected } = useSelector(state => state.team);
     const {me, isLoggedIn } = useSelector(state => state.user);
-    const router = useRouter();
     const dispatch = useDispatch();
 
     useEffect(

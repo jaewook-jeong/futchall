@@ -10,6 +10,7 @@ const dummyInfo = {
     description:"인왕산 초입에 있는 풋살 구장입니다. 골대와 바닥, 펜스가 최근에 교체하여 깔끔합니다.",
     team:"잔디FC",
     teamInfo:"1",
+    teamImg:"https://quod.lib.umich.edu/cgi/i/image/api/tile/bhl:WSOC2009:WSOC2009/0,0,2048,2048/256,/0/default.jpg",
     valid:"2020-05-05",
 }
 

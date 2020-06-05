@@ -84,7 +84,7 @@ function* enroll() {
     try {
         // yield call(enrollAPI);
         yield delay(2000);
-        throw new Error('에러에러에러');
+        // throw new Error('에러에러에러');
         yield put({ // put은 dispatch 동일
             type: ENROLL_STADIUM_SUCCESS,
         });

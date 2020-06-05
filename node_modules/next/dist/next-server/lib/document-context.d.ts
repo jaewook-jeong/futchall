@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { DocumentProps } from './utils';
 declare type DocumentContext = {
     readonly _documentProps: DocumentProps;

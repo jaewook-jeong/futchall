@@ -1,1 +1,1 @@
-{"/_app":"static/development/pages/_app.js","/_document":"static/development/pages/_document.js","/_error":"static/development/pages/_error.js","/stadium/[id]":"static/development/pages/stadium/[id].js","/stadium/register/details":"static/development/pages/stadium/register/details.js"}
+{"/_app":"static/development/pages/_app.js","/_document":"static/development/pages/_document.js","/_error":"static/development/pages/_error.js","/stadia":"static/development/pages/stadia.js","/team/search":"static/development/pages/team/search.js"}

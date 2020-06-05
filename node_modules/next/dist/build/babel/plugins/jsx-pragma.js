@@ -9,3 +9,4 @@ let newPath;if(existingBinding&&t.isVariableDeclarator(existingBinding.path.node
 t.importSpecifier(importAs,t.identifier(state.opts.import)):state.opts.importNamespace?t.importNamespaceSpecifier(importAs):// import _pragma from '$module'
 t.importDefaultSpecifier(importAs)],t.stringLiteral(state.opts.module||'react'));// @ts-ignore
 const[newPath]=path.unshiftContainer('body',importSpecifier);for(const specifier of newPath.get('specifiers')){path.scope.registerBinding('module',specifier);}}}}}}};}
+//# sourceMappingURL=jsx-pragma.js.map

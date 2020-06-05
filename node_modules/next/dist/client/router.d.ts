@@ -20,7 +20,7 @@ export declare const createRouter: (pathname: string, query: import("querystring
         props?: any;
         err?: Error | undefined;
         error?: any;
-    }, App?: React.ComponentClass<{}, any> | React.FunctionComponent<{}> | undefined) => void;
+    }, App?: React.ComponentClass<{}, any> | React.FunctionComponent<{}> | undefined) => Promise<void>;
     initialProps: any;
     pageLoader: any;
     Component: React.ComponentType<{}>;

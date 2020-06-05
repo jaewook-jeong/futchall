@@ -5,3 +5,4 @@
       return Promise.all([${pluginIds.map((id,idx)=>`${id}(ctx, ${JSON.stringify(pluginConfigs[idx])})`).join(',')}])
     }
   `;};var _default=nextPluginLoader;exports.default=_default;
+//# sourceMappingURL=next-plugin-loader.js.map

@@ -1,10 +1,11 @@
 import React, {useEffect} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useRouter } from 'next/router'
+import Router, { useRouter } from 'next/router'
 import {Skeleton, Col, Row, Tabs, Button, message, Descriptions, Tag, Typography, Tooltip} from 'antd';
 import StadiumComment from '../../components/StadiumComment';
 import {SELECT_STADIUM_REQUEST}from '../../reducers/stadium';
 import { CopyOutlined, QuestionCircleOutlined } from '@ant-design/icons';
+import styles from '../../SCSS/stadium.module.scss'
 const Stadium = () =>{
     const router = useRouter();
     const dispatch = useDispatch();
@@ -23,16 +24,39 @@ const Stadium = () =>{
             };
             const map = new kakao.maps.Map(document.getElementById("stadiumAddress"), options);
             map.addControl(new kakao.maps.MapTypeControl(), kakao.maps.ControlPosition.TOPRIGHT);
-            //나중에 info에 팀 사진 가져와서 overlay로 띄우자
             const marker = new kakao.maps.Marker(
                 {
                     map: map,
                     position: new kakao.maps.LatLng(info.lat, info.lng)
                 }
             )
+            const overlayFrame = `<div class=${styles.overlaybox}>
+                <div class=${styles.boxtitle} id="whatShouldIDo">구장 점령 팀</div>
+                <div class=${styles.first} >
+                    <img src=${info.teamImg}>
+                    <div class=${styles.triangle}>1</div>
+                    <div class=${styles.movietitle}>${info.team}</div>
+                </div>
+            </div>`
 
+            var customOverlay = new kakao.maps.CustomOverlay({
+                position: marker.getPosition(),
+                content: overlayFrame,
+                xAnchor: 0.5,
+                yAnchor: 1.3
+            });
+            
+            // 커스텀 오버레이를 지도에 표시합니다
+            customOverlay.setMap(map);
+
+            //오버레이 클릭시 팀으로 이동하고 싶은데 위에 overlayFrame에 그대로 넣으면 대부분의 방식에서 "function" 이런식으로 해석되어 버림
+            document.getElementById('whatShouldIDo').onclick = moveToTeam;
         }
     },[isSelected])
+
+    const moveToTeam = () =>{
+        Router.push(`/team/${info.teamInfo}`);
+    }
     return(
         <div>
             <Row gutter={[0, 16]} >
@@ -47,7 +71,7 @@ const Stadium = () =>{
                             <Descriptions
                             column={{ xxl: 4, xl: 3, lg: 3, md: 2, sm: 1, xs: 1 }}
                             bordered={true}
-                            size="middle"
+                            size="small"
                             >
                                 <Descriptions.Item label="주소">
                                     <Skeleton loading={!isSelected} active paragraph={false}/>
@@ -67,20 +91,20 @@ const Stadium = () =>{
                                         return (<Tag key={c}>#{c}</Tag>)
                                     })}
                                 </Descriptions.Item>
-                                <Descriptions.Item label="소개" span={2}>
+                                <Descriptions.Item label="소개" span={2} >
                                 <Skeleton loading={!isSelected} active paragraph={false}/>
                                     {isSelected && info.description}
                                 </Descriptions.Item>
                                 <Descriptions.Item label="점령 팀">
                                 <Skeleton loading={!isSelected} active paragraph={false}/>
-                                    {isSelected && <a onClick={()=>{alert(`${info.teamInfo}`)}}>{info.team}</a>}
+                                    {isSelected && <a onClick={moveToTeam}>{info.team}</a>}
                                 </Descriptions.Item>
                                 <Descriptions.Item label={<>유효기간 <Tooltip title="점령 후 도전을 받지 않을 시 유지되는 기간입니다."><QuestionCircleOutlined/></Tooltip></>} >
                                     <Skeleton loading={!isSelected} active paragraph={false}/>
                                         {isSelected && info.valid}
                                 </Descriptions.Item>
                             </Descriptions>
-                            <div id="stadiumAddress" style={{width:'100%', height:'500px', marginTop:'10px'}}></div>
+                            <div id="stadiumAddress" style={{width:'100%', height:'70vh', marginTop:'10px'}}></div>
                         </Tabs.TabPane>
                         <Tabs.TabPane tab="후기" key="2">
                                 <Skeleton active loading={!isSelected}></Skeleton>

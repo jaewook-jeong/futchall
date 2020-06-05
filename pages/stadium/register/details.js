@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { withRouter } from 'next/router';
+import Router, { withRouter, } from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
 import {ENROLL_STADIUM_REQUEST} from '../../../reducers/stadium'
-import { Col, Row, Typography, Button, Form, Input, TimePicker, Radio, Select, Upload} from 'antd';
+import { Col, Row, Typography, Button, Form, Input, TimePicker, Radio, Select, Upload, message} from 'antd';
 import { PlusOutlined} from '@ant-design/icons';
 
 const Details = (props) => {
     // const [, forceUpdate] = useState(); 
-    const { isEnrolling } = useSelector(state => state.stadium);
+    const { isEnrolling, isEnrolled } = useSelector(state => state.stadium);
     const [form] = Form.useForm();
     const dispatch = useDispatch();
     let data;
@@ -15,7 +15,8 @@ const Details = (props) => {
     if (props.router.query.data) {
         data = props.router.query.data.split(",");
     }else{
-        console.log("어디서 사기치려고하니?");
+        message.error("비정상적인 접근입니다.");
+        Router.push("/stadia")
     }
     const formItemLayout = {
         labelCol: {
@@ -33,6 +34,7 @@ const Details = (props) => {
                 ...values
             }
         })
+        // Router.push("")
     })
     const multipleSpecaility = [
         <Select.Option key={"1"}>잔디구장</Select.Option>,

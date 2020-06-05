@@ -13,6 +13,7 @@ export declare type ServerlessLoaderQuery = {
     basePath: string;
     runtimeConfig: string;
     previewProps: string;
+    loadedEnvFiles: string;
 };
 declare const nextServerlessLoader: loader.Loader;
 export default nextServerlessLoader;

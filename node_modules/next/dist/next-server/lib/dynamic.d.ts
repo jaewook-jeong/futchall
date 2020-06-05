@@ -32,5 +32,5 @@ export declare type DynamicOptions<P = {}> = LoadableBaseOptions<P> & {
 };
 export declare type LoadableFn<P = {}> = (opts: LoadableOptions<P>) => React.ComponentType<P>;
 export declare type LoadableComponent<P = {}> = React.ComponentType<P>;
-export declare function noSSR<P = {}>(LoadableInitializer: LoadableFn<P>, loadableOptions: LoadableOptions<P>): React.ComponentClass<P, any> | React.FunctionComponent<P> | (() => JSX.Element);
+export declare function noSSR<P = {}>(LoadableInitializer: LoadableFn<P>, loadableOptions: LoadableOptions<P>): React.ComponentType<P>;
 export default function dynamic<P = {}>(dynamicOptions: DynamicOptions<P> | Loader<P>, options?: DynamicOptions<P>): React.ComponentType<P>;

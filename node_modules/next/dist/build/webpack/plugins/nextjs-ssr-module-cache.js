@@ -17,3 +17,4 @@ class NextJsSsrImportPlugin{constructor(options){this.options=void 0;this.option
 if(!_constants.IS_BUNDLED_PAGE_REGEX.exec(chunk.name)){return originalFn(source,chunk);}const pagePath=(0,_path.join)(outputPath,(0,_path.dirname)(chunk.name));let relativePathToBaseDir=(0,_path.relative)(pagePath,(0,_path.join)(outputPath,SSR_MODULE_CACHE_FILENAME));// Make sure even in windows, the path looks like in unix
 // Node.js require system will convert it accordingly
 const relativePathToBaseDirNormalized=relativePathToBaseDir.replace(/\\/g,'/');return _webpack.default.Template.asString([source,'// The module cache',`var installedModules = require('${relativePathToBaseDirNormalized}');`]);};}return tapInfo;}});});}}exports.default=NextJsSsrImportPlugin;
+//# sourceMappingURL=nextjs-ssr-module-cache.js.map
