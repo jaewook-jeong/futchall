@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import Router from 'next/router'
 import { Form, Input, Button, Row, Col, Typography, message, Select, Tooltip, Divider } from 'antd';
 import { useInput } from '../util/useInput';
 import { useSetter } from '../util/useSetter';
@@ -51,15 +52,15 @@ const Signup = () => {
     const [age, onAge] = useSetter('');
     const [selectedLocations, onLocations] = useSetter('');
     
-    const { isSigningUp, me } = useSelector(state => state.user);
+    const { isSigningUp, me, isSignedUp } = useSelector(state => state.user);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (me) {
+        if (isSignedUp) {
             message.success("회원가입이 정상적으로 처리되었습니다.")
             Router.push('/stadia');
         }
-    }, [me && me.id]);
+    }, [isSignedUp]);
 
     const onSubmitForm = useCallback((e) => {
         e.preventDefault();

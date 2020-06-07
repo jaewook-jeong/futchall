@@ -12,6 +12,9 @@ export const initialState = {
     isSignedUp: false, // 회원가입 성공
     isSigningUp: false, // 회원가입 시도중
     signUpErrorReason: '', // 회원가입 실패 사유
+    isChangingTo : false, //회원정보 수정중
+    isChangedTo : false, //회원정보 수정완료
+    changedToErrorReason : '', //회원정보 수정 실패 사유
     me: null, // 내 정보
 };
 
@@ -31,54 +34,58 @@ export const LOG_OUT_REQUEST = 'LOG_OUT_REQUEST';
 export const LOG_OUT_SUCCESS = 'LOG_OUT_SUCCESS';
 export const LOG_OUT_FAILURE = 'LOG_OUT_FAILURE';
 
+export const CHANGE_TO_REQUEST = 'CHANGE_TO_REQUEST';
+export const CHANGE_TO_SUCCESS = 'CHANGE_TO_SUCCESS';
+export const CHANGE_TO_FAILURE = 'CHANGE_TO_FAILURE';
+
 
 export default (state = initialState, action) => {
     switch (action.type) {
         case LOG_IN_REQUEST: {
-        return {
-            ...state,
-            isLoggingIn: true,
-            logInErrorReason: '',
-        };
+            return {
+                ...state,
+                isLoggingIn: true,
+                logInErrorReason: '',
+            };
         }
         case LOG_IN_SUCCESS: {
-        return {
-            ...state,
-            isLoggingIn: false,
-            isLoggedIn: true,
-            me: dummyUser,
-        };
+            return {
+                ...state,
+                isLoggingIn: false,
+                isLoggedIn: true,
+                me: dummyUser,
+            };
         }
         case LOG_IN_FAILURE: {
-        return {
-            ...state,
-            isLoggingIn: false,
-            isLoggedIn: false,
-            logInErrorReason: action.error,
-            me: null,
-        };
+            return {
+                ...state,
+                isLoggingIn: false,
+                isLoggedIn: false,
+                logInErrorReason: action.error,
+                me: null,
+            };
         }
         case LOG_OUT_REQUEST: {
-        return {
-            ...state,
-            isLoggedIn: false,
-            me: null,
-        };
+            return {
+                ...state,
+                isLoggedIn: false,
+                me: null,
+            };
         }
         case SIGN_UP_REQUEST: {
-        return {
-            ...state,
-            isSigningUp: true,
-            isSignedUp: false,
-            signUpErrorReason: '',
-        };
+            return {
+                ...state,
+                isSigningUp: true,
+                isSignedUp: false,
+                signUpErrorReason: '',
+            };
         }
         case SIGN_UP_SUCCESS: {
-        return {
-            ...state,
-            isSigningUp: false,
-            isSignedUp: true,
-        };
+            return {
+                ...state,
+                isSigningUp: false,
+                isSignedUp: true,
+            };
         }
         case SIGN_UP_FAILURE: {
         return {
@@ -86,6 +93,28 @@ export default (state = initialState, action) => {
             isSigningUp: false,
             signUpErrorReason: action.error,
         };
+        }
+        case CHANGE_TO_REQUEST: {
+            return {
+                ...state,
+                isChangingTo: true,
+                isChangedTo: false,
+                changedToErrorReason: '',
+            };
+            }
+        case CHANGE_TO_SUCCESS: {
+            return {
+                ...state,
+                isChangingTo: false,
+                isChangedTo: true,
+            };
+        }
+        case CHANGE_TO_FAILURE: {
+            return {
+                ...state,
+                isChangingTo: false,
+                changedToErrorReason: action.error,
+            };
         }
         default: {
         return {

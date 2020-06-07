@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect,} from 'react';
-import { Button, Input, Modal, Form } from 'antd';
+import { Button, Input, Modal, Form, Row, Col } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { LOG_IN_REQUEST } from '../reducers/user';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
@@ -10,7 +10,6 @@ const LoginForm = (props) => {
     const { isLoggingIn, isLoggedIn } = useSelector(state => state.user);
     const [form] = Form.useForm();
     const dispatch = useDispatch();
-
     useEffect(
         ()=>{
             if(isLoggedIn){
@@ -20,6 +19,7 @@ const LoginForm = (props) => {
         },[isLoggedIn]
     )
     const onHandleCancel = (() => {
+        form.resetFields(["id", "password"]);
         setVisible(false);
     })
     const onSubmitForm = useCallback(() => {
@@ -44,14 +44,7 @@ const LoginForm = (props) => {
             onOk={onSubmitForm}
             onCancel={onHandleCancel}
             centered="true"
-            footer={[
-                <Button key="back" onClick={onHandleCancel}>
-                    뒤로가기
-                </Button>,
-                <Button key="submit" type="primary" loading={isLoggingIn} onClick={onSubmitForm}>
-                    로그인
-                </Button>,
-            ]}
+            footer={null}
         >
             <Form
             {...formItemLayout}
@@ -62,14 +55,35 @@ const LoginForm = (props) => {
                 <Form.Item
                 name="id"
                 label="아이디"
+                rules={[{required:true}]}
                 >
                     <Input placeholder="아이디" prefix={<UserOutlined className="site-form-item-icon"/>} autoFocus={true}/>
                 </Form.Item>
                 <Form.Item
                 name="password"
                 label="비밀번호"
+                rules={[{required:true}]}
                 >
                     <Input placeholder="비밀번호" type="password" prefix={<LockOutlined className="site-form-item-icon"/>} onPressEnter={onSubmitForm}/>
+                </Form.Item>
+
+                <Form.Item shouldUpdate wrapperCol={{span:20}}>
+                    {() => (
+                    <div style={{textAlign:"right"}}>
+                        <Button onClick={onHandleCancel} style={{marginRight:"10px"}}>
+                            뒤로가기
+                        </Button>
+                        <Button 
+                            type="primary"
+                            loading={isLoggingIn}
+                            key="submit"
+                            disabled={ !form.isFieldsTouched(true) || form.getFieldsError().filter(({ errors }) => errors.length).length}
+                            onClick={onSubmitForm}
+                        >
+                            로그인
+                        </Button>
+                    </div>
+                    )}
                 </Form.Item>
             </Form>
         </Modal>

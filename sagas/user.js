@@ -1,4 +1,4 @@
-import { all, delay, fork, put, takeEvery } from 'redux-saga/effects';
+import { all, delay, fork, put, takeEvery, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
 import {
     LOG_IN_REQUEST,
@@ -7,6 +7,9 @@ import {
     SIGN_UP_REQUEST,
     SIGN_UP_SUCCESS,
     SIGN_UP_FAILURE,
+    CHANGE_TO_REQUEST,
+    CHANGE_TO_SUCCESS,
+    CHANGE_TO_FAILURE,
 } from '../reducers/user';
 
 function loginAPI() {
@@ -60,9 +63,31 @@ function* watchSignUp() {
     yield takeEvery(SIGN_UP_REQUEST, signUp);
 }
 
+function changeToAPI(data) {
+    return axios.post('/user/modify');
+}
+function* changeTo(action) {
+    try{
+        // yield call(changeToAPI(action));
+        yield delay(1000);
+        yield put({
+            type:CHANGE_TO_SUCCESS,
+        })
+    }catch (e) {
+        yield put({
+            type:CHANGE_TO_FAILURE,
+            error:e,
+        })
+    }
+}
+function* watchChangeTo(){
+    yield takeLatest(CHANGE_TO_REQUEST, changeTo);
+}
+
 export default function* userSaga() {
     yield all([
         fork(watchLogin),
         fork(watchSignUp),
+        fork(watchChangeTo),
     ]);
 }
