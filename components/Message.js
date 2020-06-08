@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { GET_LIST_REQUEST, DELETE_LIST_REQUEST } from '../reducers/messenger';
-import { Drawer, List, Collapse, Skeleton, Avatar, Popconfirm, message} from 'antd';
+import { Drawer, List, Collapse, Skeleton, Avatar, Popconfirm, message, Input, Comment } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons'
 
 const Message = (props) =>{
@@ -39,8 +39,7 @@ const Message = (props) =>{
                 message.success("대화내용이 삭제되었습니다.");
             }}
         >
-            <DeleteOutlined style={{fontSize:'20px', lineHeight:'40px', color:'#ddd'}} onClick={event => {event.stopPropagation();
-    }}/>
+            <DeleteOutlined style={{fontSize:'20px', lineHeight:'40px', color:'#ddd'}} onClick={event => {event.stopPropagation();}}/>
         </Popconfirm>
         
     )
@@ -66,11 +65,13 @@ const Message = (props) =>{
                                 style={{width:"100%"}}
                                 expandIconPosition="left"
                                 onChange = {(key)=>console.log(key)}
+                                accordion={true}
                             >
                                 <Collapse.Panel 
                                     header={<span><Avatar shape="circle" size="large">{item.clubname} </Avatar> { item.nickname}</span>} 
                                     extra={deleteTalkData(`${item.id}`)}
-                                    key={item.id} >
+                                    key={item.id} 
+                                >
                                         
                                 </Collapse.Panel>
                             </Collapse>

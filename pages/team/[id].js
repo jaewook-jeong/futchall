@@ -2,9 +2,9 @@ import React, {useEffect} from 'react';
 import Router from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router'
-import {Skeleton, Col, Row, Tabs, Button, message, Descriptions, Tag, Typography, Tooltip} from 'antd';
-import {SELECT_TEAM_REQUEST}from '../../reducers/team';
-import { CopyOutlined, QuestionCircleOutlined } from '@ant-design/icons';
+import { Skeleton, Col, Row, Tabs, Button, message, Descriptions, Typography } from 'antd';
+import { SELECT_TEAM_REQUEST }from '../../reducers/team';
+import { QuestionCircleOutlined } from '@ant-design/icons';
 const Stadium = () =>{
     const router = useRouter();
     const { id } = router.query;
@@ -49,7 +49,6 @@ const Stadium = () =>{
                     <Typography.Title level={3} copyable={isSelected && {text:window.location.pathname}}>
                         <Skeleton loading={!isSelected} active paragraph={false}/>
                         {isSelected && info.title}
-                        {/* {isSelected && <Button onClick={()=>{message.info("링크가 복사되었습니다.")}} type="link"><CopyOutlined />Copy</Button>} */}
                     </Typography.Title>
                     <Tabs tabBarExtraContent={(isSelected && isLoggedIn && (info.req === me.club))? <Button onClick={()=>{message.warn("준비중입니다.")}} shape="round"><QuestionCircleOutlined />팀 관리</Button> :null}>
                         <Tabs.TabPane tab="상세정보" key="1" >
