@@ -34,7 +34,7 @@ const Home = () => {
         Router.push('/stadia');
     }
     return (
-        <div style={{ height: '80vh' }}>
+        <div style={{ height: '100vh' }}>
             <Row align="middle" style={{ height: '100%', height: '100%', textAlign: 'center' }}>
                 <Col md={{ span: 14, offset: 5 }} xs={{ span: 18, offset: 3 }}>
                     <Row>
