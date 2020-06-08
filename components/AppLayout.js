@@ -14,10 +14,13 @@ import { SEARCH_TEAMS_REQUEST } from '../reducers/team';
 const AppLayout = ({ children }) => {
     const { isLoggedIn, me } = useSelector(state => state.user);
     const [visible, setVisible] = useState(false);
+    const [chatVisible, setChatVisible] = useState(false);
     const Router = useRouter();
     const dispatch = useDispatch();
     
     const showModal = () => setVisible(true); 
+    const popRightMessage = () => setChatVisible(true);
+
     const onLogOut = useCallback(() => {
         dispatch({type: LOG_OUT_REQUEST});
     }, []);
@@ -49,12 +52,18 @@ const AppLayout = ({ children }) => {
                     {!isLoggedIn && <Menu.Item key="login_modal" onClick={showModal} style={{ float: "right" }}>로그인</Menu.Item>}
                     {!isLoggedIn && <Menu.Item key="signup" style={{ float: "right" }}><Link href="/signup"><a><UserAddOutlined />회원가입</a></Link></Menu.Item>}
                 </Menu>
-                <LoginForm visible={visible} setVisible={setVisible} ></LoginForm>
+                <LoginForm visible={visible} setVisible={setVisible} />
             </Col>
             <Col span={24}>
                 {children}
             </Col>
-            {isLoggedIn && <Affix target={() => document.getElementById("mainContainer")} style={{ position: "fixed", right: '5vw', bottom: '10vh', zIndex:1000 }} ><Button type="primary" shape="circle" size="large" icon={<MessageFilled />} ></Button> </Affix>}
+            {isLoggedIn && <Affix 
+                            target={() => document.getElementById("mainContainer")} 
+                            style={{ position: "fixed", right: '5vw', bottom: '10vh', zIndex:1000 }} >
+                                <Button type="primary" shape="circle" size="large" icon={<MessageFilled />}onClick={popRightMessage} ></Button> 
+                            </Affix>
+            }
+            {isLoggedIn && <Message visible={chatVisible} setVisible={setChatVisible}/>}
         </Row>
     );
 };

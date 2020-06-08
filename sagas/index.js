@@ -3,6 +3,7 @@ import user from './user';
 import location from './location';
 import stadium from './stadium';
 import team from './team';
+import messenger from './messenger';
 
 export default function* rootSaga() {
     yield all([
@@ -10,5 +11,6 @@ export default function* rootSaga() {
         fork(location),
         fork(stadium),
         fork(team),
+        fork(messenger),
     ]);
 }
