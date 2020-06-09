@@ -25,7 +25,7 @@ const ProfileAvatar = () => {
     >
     </Card>);
     return (
-        <Popover placement="bottom" trigger="hover" content={CardTabs}>
+        <Popover placement="bottom" trigger="click" content={CardTabs}>
             <Avatar shape="circle" >{me.nickname}</Avatar>
         </Popover>
     );

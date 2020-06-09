@@ -17,8 +17,7 @@ const BattleMap = () => {
                 data:{latitude: latitude, longitude: longitude,} 
             })
         }
-        console.log(stadiumList)
-    },[])
+    },[stadiumList])
 
     return (
         <div>

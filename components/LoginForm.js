@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect,} from 'react';
-import { Button, Input, Modal, Form, Row, Col } from 'antd';
+import { Button, Input, Modal, Form,} from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { LOG_IN_REQUEST } from '../reducers/user';
+import { SET_USER_ID } from '../reducers/messenger';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
 const LoginForm = (props) => {
@@ -26,6 +27,10 @@ const LoginForm = (props) => {
         dispatch({
             type: LOG_IN_REQUEST,
             data: form.getFieldsValue(["id","password"]),
+        });
+        dispatch({
+            type: SET_USER_ID,
+            data : form.getFieldValue("id")
         });
     }, []);
 
