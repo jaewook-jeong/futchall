@@ -114,7 +114,7 @@ const columns = [
     {
         title: '비고',
         dataIndex: 'leader',
-        fixed: 'right',
+        // fixed: 'right',
         align:'center',
         width: 80,
         render: (value) => <div><a onClick={()=>{console.log(value)}}>연락하기</a></div>,
@@ -132,7 +132,7 @@ const Ranking = () =>{
     },[])
     return(
         <Row>
-            <Col xs={{ span: 22, offset:1 }} sm={{ span: 22, offset: 1 }} md={{ span: 18, offset: 3 }}>
+            <Col xs={{ span: 22, offset:1 }} sm={{ span: 22, offset: 1 }} md={{ span: 20, offset: 2 }}>
                 <Typography.Title level={3}>
                     구장깨기 순위
                 </Typography.Title>
