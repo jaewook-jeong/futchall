@@ -70,7 +70,7 @@ const Apply = () => {
 
     return (
             <Row>
-                <Col xs={{span:22, offset:1}} md={{span:10, offset:7}} xl={{span:8,offset:8}} style={{ width: '430px', margin: "0 auto", border: "1px solid #dadce0", borderRadius: "8px", padding:"30px 10px" }}>
+                <Col xs={{span:22, offset:1}} md={{span:14, offset:5}} xl={{span:8,offset:8}} xxl={{span:6, offset:9}} style={{ margin: "0 auto", border: "1px solid #dadce0", borderRadius: "8px", padding:"30px 10px" }}>
                     <Row gutter={[0, 16]}>
                         <Col style={{ width: '100%', textAlign: "center" }}>
                             <Typography.Title level={3} style={{ color: "#202124" }}>구장 등록하기</Typography.Title>
@@ -81,7 +81,7 @@ const Apply = () => {
                     </Row>
                     <Row gutter={[0, 16]}>
                         <Col span={22} offset={1}>
-                            <div id="register_map" style={{width:"100%", height:"470px"}}>
+                            <div id="register_map" style={{width:"100%", height:"60vh"}}>
                             </div>
                         </Col>
                     </Row>

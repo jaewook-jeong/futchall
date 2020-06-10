@@ -61,7 +61,12 @@ const Signup = () => {
             Router.push('/stadia');
         }
     }, [isSignedUp]);
-
+    useEffect(()=>{
+        if(me){
+            message.error("로그인 상태입니다");
+            Router.push("/stadia")
+        }
+    },[me])
     const onSubmitForm = useCallback((e) => {
         e.preventDefault();
         console.log(`id=${id}, nick=${nick}, password=${password}, passwordchekc=${passwordCheck}, positions=${selectedPositions}, age=${age}, where=${selectedLocations}`);
@@ -87,103 +92,104 @@ const Signup = () => {
     }, [password]);
 
     return (
-        <div style={{ width: '450px', margin: '0 auto' }}>
-            <Row>
-                <Col style={{ width: '100%', textAlign: 'center' }}>
-                    <Typography.Title level={2}>지역 챔피언이 되어보세요</Typography.Title><TrophyOutlined />
-                </Col>
-            </Row>
-            <Row style={{ textAlign: "center" }}>
-                <Form onSubmit={onSubmitForm} style={{ padding: 10 }}>
-                    <Divider orientation="left" style={{ color: '#ff8ca0' }}>필수항목</Divider>
-                    <Row gutter={[0, 16]}>
-                        <Col style={{ width: 100, display: "inline-block", textAlign: "left", lineHeight: "32px" }}>
-                            아이디
-                        </Col>
-                        <Col style={{ width: 300, display: "inline-block", textAlign: "left" }}>
-                            <Input name="user-id" value={id} required onChange={onChangeId} prefix={<UserOutlined />} />
-                        </Col>
-                    </Row>
-                    <Row gutter={[0, 16]}>
-                        <Col style={{ width: 100, display: "inline-block", textAlign: "left", lineHeight: "32px" }}>
-                            닉네임
-                        </Col>
-                        <Col style={{ width: 300, display: "inline-block", textAlign: "left" }}>
-                            <Input name="user-nick" value={nick} required onChange={onChangeNick} />
-                        </Col>
-                    </Row>
-                    <Row gutter={[0, 16]}>
-                        <Col style={{ width: 100, display: "inline-block", textAlign: "left", lineHeight: "32px" }}>
-                            비밀번호
-                        </Col>
-                        <Col style={{ width: 300, display: "inline-block", textAlign: "left" }}>
-                            <Input.Password name="user-password" value={password} required onChange={onChangePassword} />
-                        </Col>
-                    </Row>
-                    <Row gutter={[0, 16]}>
-                        <Col style={{ width: 100, display: "inline-block", textAlign: "left", lineHeight: "32px" }}>
-                            비밀번호 확인
-                        </Col>
-                        <Col style={{ width: 300, display: "inline-block", textAlign: "left" }}>
-                            <Input.Password name="user-password-check" value={passwordCheck} required onBlur={onBlurPasswordCheck} onChange={onPasswordCheck} />
-                        </Col>
-                    </Row>
-                    <Divider></Divider>
-                    <Row gutter={[0, 16]}>
-                        <Col style={{ width: 100, display: "inline-block", textAlign: "left", lineHeight: "32px" }}>
-                            주 포지션
-                        </Col>
-                        <Col style={{ width: 300, display: "inline-block", textAlign: "left" }}>
-                            <Select
-                                size="middle"
-                                mode="multiple"
-                                placeholder="풋살 포지션을 선택해주세요"
-                                onChange={onPositions}
-                                style={{ width: '100%' }}
-                            >
-                                {positions}
-                            </Select>
-                        </Col>
-                    </Row>
-                    <Row gutter={[0, 16]}>
-                        <Col style={{ width: 100, display: "inline-block", textAlign: "left", lineHeight: "32px" }}>
-                            연령대
-                        </Col>
-                        <Col style={{ width: 300, display: "inline-block", textAlign: "left" }}>
-                            <Select
-                                size="middle"
-                                placeholder="연령대를 체크해 주세요"
-                                onChange={onAge}
-                                style={{ width: '100%' }}
-                            >
-                                {ageGroup}
-                            </Select>
-                        </Col>
-                    </Row>
-                    <Row gutter={[0, 16]}>
-                        <Col style={{ width: 100, display: "inline-block", textAlign: "left", lineHeight: "32px" }}>
-                            활동지역
-                        </Col>
-                        <Col style={{ width: 300, display: "inline-block", textAlign: "left" }}>
-                            <Select
-                                size="middle"
-                                mode="multiple"
-                                onChange={onLocations}
-                                style={{ width: '100%' }}
-                            >
-                                {locations}
-                            </Select>
-                        </Col>
-                    </Row>
-                    <Row style={{ textAlign: 'center', marginTop: '10px' }}>
-                        <Col style={{ width: '100%' }}>
-                            <Button type="primary" shape="round" size="large" htmlType="button" onClick={onSubmitForm} loading={isSigningUp}>가입하기</Button>
-                        </Col>
-                    </Row>
-                </Form>
-            </Row>
-
-        </div>
+        <Row>
+            <Col xs={{span:22, offset:1}} md={{span:14, offset:5}} xl={{span:10,offset:4}} xxl={{span:8, offset:8}} style={{ margin: "0 auto", border: "1px solid #dadce0", borderRadius: "8px", padding:"30px 10px" }}>
+                <Row>
+                    <Col style={{ width: '100%', textAlign: 'center' }}>
+                        <Typography.Title level={2}>지역 챔피언이 되어보세요</Typography.Title><TrophyOutlined />
+                    </Col>
+                </Row>
+                <Row style={{ textAlign: "center" }}>
+                    <Form onSubmit={onSubmitForm} style={{ padding: 10 }}>
+                        <Divider orientation="left" style={{ color: '#ff8ca0' }}>필수항목</Divider>
+                        <Row gutter={[0, 16]}>
+                            <Col style={{ width: 100, display: "inline-block", textAlign: "left", lineHeight: "32px" }}>
+                                아이디
+                            </Col>
+                            <Col style={{ width: 300, display: "inline-block", textAlign: "left" }}>
+                                <Input name="user-id" value={id} required onChange={onChangeId} prefix={<UserOutlined />} />
+                            </Col>
+                        </Row>
+                        <Row gutter={[0, 16]}>
+                            <Col style={{ width: 100, display: "inline-block", textAlign: "left", lineHeight: "32px" }}>
+                                닉네임
+                            </Col>
+                            <Col style={{ width: 300, display: "inline-block", textAlign: "left" }}>
+                                <Input name="user-nick" value={nick} required onChange={onChangeNick} />
+                            </Col>
+                        </Row>
+                        <Row gutter={[0, 16]}>
+                            <Col style={{ width: 100, display: "inline-block", textAlign: "left", lineHeight: "32px" }}>
+                                비밀번호
+                            </Col>
+                            <Col style={{ width: 300, display: "inline-block", textAlign: "left" }}>
+                                <Input.Password name="user-password" value={password} required onChange={onChangePassword} />
+                            </Col>
+                        </Row>
+                        <Row gutter={[0, 16]}>
+                            <Col style={{ width: 100, display: "inline-block", textAlign: "left", lineHeight: "32px" }}>
+                                비밀번호 확인
+                            </Col>
+                            <Col style={{ width: 300, display: "inline-block", textAlign: "left" }}>
+                                <Input.Password name="user-password-check" value={passwordCheck} required onBlur={onBlurPasswordCheck} onChange={onPasswordCheck} />
+                            </Col>
+                        </Row>
+                        <Divider></Divider>
+                        <Row gutter={[0, 16]}>
+                            <Col style={{ width: 100, display: "inline-block", textAlign: "left", lineHeight: "32px" }}>
+                                주 포지션
+                            </Col>
+                            <Col style={{ width: 300, display: "inline-block", textAlign: "left" }}>
+                                <Select
+                                    size="middle"
+                                    mode="multiple"
+                                    placeholder="풋살 포지션을 선택해주세요"
+                                    onChange={onPositions}
+                                    style={{ width: '100%' }}
+                                >
+                                    {positions}
+                                </Select>
+                            </Col>
+                        </Row>
+                        <Row gutter={[0, 16]}>
+                            <Col style={{ width: 100, display: "inline-block", textAlign: "left", lineHeight: "32px" }}>
+                                연령대
+                            </Col>
+                            <Col style={{ width: 300, display: "inline-block", textAlign: "left" }}>
+                                <Select
+                                    size="middle"
+                                    placeholder="연령대를 체크해 주세요"
+                                    onChange={onAge}
+                                    style={{ width: '100%' }}
+                                >
+                                    {ageGroup}
+                                </Select>
+                            </Col>
+                        </Row>
+                        <Row gutter={[0, 16]}>
+                            <Col style={{ width: 100, display: "inline-block", textAlign: "left", lineHeight: "32px" }}>
+                                활동지역
+                            </Col>
+                            <Col style={{ width: 300, display: "inline-block", textAlign: "left" }}>
+                                <Select
+                                    size="middle"
+                                    mode="multiple"
+                                    onChange={onLocations}
+                                    style={{ width: '100%' }}
+                                >
+                                    {locations}
+                                </Select>
+                            </Col>
+                        </Row>
+                        <Row style={{ textAlign: 'center', marginTop: '10px' }}>
+                            <Col style={{ width: '100%' }}>
+                                <Button type="primary" shape="round" size="large" htmlType="button" onClick={onSubmitForm} loading={isSigningUp}>가입하기</Button>
+                            </Col>
+                        </Row>
+                    </Form>
+                </Row>
+            </Col>
+        </Row>
     );
 };
 

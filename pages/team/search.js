@@ -32,7 +32,7 @@ const Search = (props) =>{
     return(
         <div>
             <Row>
-                <Col xs={{ span: 24 }} sm={{ span: 22, offset: 1 }} md={{ span: 18, offset: 3 }}>
+                <Col xs={{ span: 22, offset:1 }} md={{ span: 20, offset: 2 }}>
                     <Typography.Title level={4}>"{query}"에 대한 검색 결과입니다.</Typography.Title>
                     
                     {

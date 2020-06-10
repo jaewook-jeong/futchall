@@ -60,7 +60,7 @@ const Stadium = () =>{
     return(
         <div>
             <Row gutter={[0, 16]} >
-                <Col xs={{ span: 22, offset:1 }} sm={{ span: 22, offset: 1 }} md={{ span: 18, offset: 3 }}>
+                <Col xs={{ span: 22, offset:1 }} sm={{ span: 22, offset: 1 }} md={{ span: 20, offset: 2 }}>
                     <Typography.Title level={3}>
                         <Skeleton loading={!isSelected} active paragraph={false}/>
                         {isSelected && info.title}
@@ -93,7 +93,7 @@ const Stadium = () =>{
                                 </Descriptions.Item>
                                 <Descriptions.Item label="소개" span={2} >
                                 <Skeleton loading={!isSelected} active paragraph={false}/>
-                                    {isSelected && info.description}
+                                    {isSelected && <Typography.Paragraph ellipsis={{rows:1, expandable:true, symbol:<span>"더보기"</span>}}>{info.description}</Typography.Paragraph>}
                                 </Descriptions.Item>
                                 <Descriptions.Item label="점령 팀">
                                 <Skeleton loading={!isSelected} active paragraph={false}/>

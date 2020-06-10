@@ -53,9 +53,9 @@ const AppLayout = ({ children }) => {
                 </Menu>
             </Layout.Sider>
             <Layout>
-                <Layout.Header style={{backgroundColor:"#f0f2f5"}}>
+                <Layout.Header style={{backgroundColor:"#fff"}}>
                 </Layout.Header>
-                <Layout.Content>
+                <Layout.Content style={{backgroundColor:"#fff"}}>
                     {children}
                 </Layout.Content>
             </Layout>
