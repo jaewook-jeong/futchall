@@ -32,6 +32,7 @@ const LoginForm = (props) => {
             type: SET_USER_ID,
             data : form.getFieldValue("id")
         });
+        setVisible(false);
     }, []);
 
     const formItemLayout = {

@@ -34,18 +34,17 @@ const Home = () => {
         Router.push('/stadia');
     }
     return (
-        <div style={{ height: '100vh' }}>
-            <Row align="middle" style={{ height: '100%', height: '100%', textAlign: 'center' }}>
-                <Col md={{ span: 14, offset: 5 }} xs={{ span: 18, offset: 3 }}>
-                    <Row>
-                        <Divider orientation="left"><TrophyTwoTone twoToneColor="#fbd71f" style={{ marginRight: "5px" }} />어제의 기록</Divider>
-                        <Col md={{ span: 6, offset: 3 }} xs={{ span: 18, offset: 3 }} >
+            <Row style={{ height: '100%', textAlign: 'center' }}>
+                <Col md={{ span: 16, offset: 4 }} xs={{ span: 20, offset: 2 }}>
+                    <Row gutter={[0,10]}>
+                        <Divider orientation="left"><TrophyTwoTone twoToneColor="#fbd71f"/>어제의 기록</Divider>
+                        <Col md={{ span: 6, offset: 2 }} xs={{ span: 18, offset: 3 }} >
                             <Statistic title="최다 구장 점령 수" value={7} prefix={<LikeOutlined />}></Statistic>
                         </Col>
-                        <Col md={{ span: 6, offset: 0 }} xs={{ span: 18, offset: 3 }}>
+                        <Col md={{ span: 6, offset: 1 }} xs={{ span: 18, offset: 3 }}>
                             <Statistic title="새로등록된 구장 수" value={7} valueStyle={{ color: "#40a9ff" }} prefix={<ArrowUpOutlined />} suffix="개"></Statistic>
                         </Col>
-                        <Col md={{ span: 6, offset: 0 }} xs={{ span: 18, offset: 3 }}>
+                        <Col md={{ span: 6, offset: 1 }} xs={{ span: 18, offset: 3 }}>
                             <Statistic title="구장깨기 성공 비율" value={30.45} precision={2} valueStyle={{ color: '#3f8600' }} prefix={<ArrowUpOutlined />} suffix="%"></Statistic>
                         </Col>
                     </Row>
@@ -64,7 +63,6 @@ const Home = () => {
                     </Row>
                 </Col>
             </Row>
-        </div>
     );
 };
 

@@ -100,46 +100,46 @@ const Signup = () => {
                     </Col>
                 </Row>
                 <Row style={{ textAlign: "center" }}>
-                    <Form onSubmit={onSubmitForm} style={{ padding: 10 }}>
+                    <Form onSubmit={onSubmitForm} style={{ padding: 10, width:'100%', textAlign:'left' }}>
                         <Divider orientation="left" style={{ color: '#ff8ca0' }}>필수항목</Divider>
                         <Row gutter={[0, 16]}>
-                            <Col style={{ width: 100, display: "inline-block", textAlign: "left", lineHeight: "32px" }}>
+                            <Col xs={{span:24}} sm={{span:8, offset:1}} md={{span:6, offset:2}} xl={{span:4, offset:2}} style={{ lineHeight: "32px" }}>
                                 아이디
                             </Col>
-                            <Col style={{ width: 300, display: "inline-block", textAlign: "left" }}>
+                            <Col xs={{span:24}} sm={{span:13, offset:1}} md={{span:13, offset:1}} xl={{span:15, offset:1}}>
                                 <Input name="user-id" value={id} required onChange={onChangeId} prefix={<UserOutlined />} />
                             </Col>
                         </Row>
                         <Row gutter={[0, 16]}>
-                            <Col style={{ width: 100, display: "inline-block", textAlign: "left", lineHeight: "32px" }}>
+                            <Col xs={{span:24}} sm={{span:8, offset:1}} md={{span:6, offset:2}} xl={{span:4, offset:2}} style={{ lineHeight: "32px" }}>
                                 닉네임
                             </Col>
-                            <Col style={{ width: 300, display: "inline-block", textAlign: "left" }}>
+                            <Col xs={{span:24}} sm={{span:13, offset:1}} md={{span:13, offset:1}} xl={{span:15, offset:1}}>
                                 <Input name="user-nick" value={nick} required onChange={onChangeNick} />
                             </Col>
                         </Row>
                         <Row gutter={[0, 16]}>
-                            <Col style={{ width: 100, display: "inline-block", textAlign: "left", lineHeight: "32px" }}>
+                            <Col xs={{span:24}} sm={{span:8, offset:1}} md={{span:6, offset:2}} xl={{span:4, offset:2}} style={{ lineHeight: "32px" }}>
                                 비밀번호
                             </Col>
-                            <Col style={{ width: 300, display: "inline-block", textAlign: "left" }}>
+                            <Col xs={{span:24}} sm={{span:13, offset:1}} md={{span:13, offset:1}} xl={{span:15, offset:1}}>
                                 <Input.Password name="user-password" value={password} required onChange={onChangePassword} />
                             </Col>
                         </Row>
                         <Row gutter={[0, 16]}>
-                            <Col style={{ width: 100, display: "inline-block", textAlign: "left", lineHeight: "32px" }}>
+                            <Col xs={{span:24}} sm={{span:8, offset:1}} md={{span:6, offset:2}} xl={{span:4, offset:2}} style={{ lineHeight: "32px" }}>
                                 비밀번호 확인
                             </Col>
-                            <Col style={{ width: 300, display: "inline-block", textAlign: "left" }}>
+                            <Col xs={{span:24}} sm={{span:13, offset:1}} md={{span:13, offset:1}} xl={{span:15, offset:1}}>
                                 <Input.Password name="user-password-check" value={passwordCheck} required onBlur={onBlurPasswordCheck} onChange={onPasswordCheck} />
                             </Col>
                         </Row>
                         <Divider></Divider>
                         <Row gutter={[0, 16]}>
-                            <Col style={{ width: 100, display: "inline-block", textAlign: "left", lineHeight: "32px" }}>
+                            <Col xs={{span:24}} sm={{span:8, offset:1}} md={{span:6, offset:2}} xl={{span:4, offset:2}} style={{ lineHeight: "32px" }}>
                                 주 포지션
                             </Col>
-                            <Col style={{ width: 300, display: "inline-block", textAlign: "left" }}>
+                            <Col xs={{span:24}} sm={{span:13, offset:1}} md={{span:13, offset:1}} xl={{span:15, offset:1}}>
                                 <Select
                                     size="middle"
                                     mode="multiple"
@@ -152,10 +152,10 @@ const Signup = () => {
                             </Col>
                         </Row>
                         <Row gutter={[0, 16]}>
-                            <Col style={{ width: 100, display: "inline-block", textAlign: "left", lineHeight: "32px" }}>
+                            <Col xs={{span:24}} sm={{span:8, offset:1}} md={{span:6, offset:2}} xl={{span:4, offset:2}} style={{ lineHeight: "32px" }}>
                                 연령대
                             </Col>
-                            <Col style={{ width: 300, display: "inline-block", textAlign: "left" }}>
+                            <Col xs={{span:24}} sm={{span:13, offset:1}} md={{span:13, offset:1}} xl={{span:15, offset:1}}>
                                 <Select
                                     size="middle"
                                     placeholder="연령대를 체크해 주세요"
@@ -167,10 +167,10 @@ const Signup = () => {
                             </Col>
                         </Row>
                         <Row gutter={[0, 16]}>
-                            <Col style={{ width: 100, display: "inline-block", textAlign: "left", lineHeight: "32px" }}>
+                            <Col xs={{span:24}} sm={{span:8, offset:1}} md={{span:6, offset:2}} xl={{span:4, offset:2}} style={{ lineHeight: "32px" }}>
                                 활동지역
                             </Col>
-                            <Col style={{ width: 300, display: "inline-block", textAlign: "left" }}>
+                            <Col xs={{span:24}} sm={{span:13, offset:1}} md={{span:13, offset:1}} xl={{span:15, offset:1}}>
                                 <Select
                                     size="middle"
                                     mode="multiple"

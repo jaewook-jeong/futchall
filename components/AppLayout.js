@@ -23,6 +23,7 @@ const AppLayout = ({ children }) => {
 
     const onLogOut = useCallback(() => {
         dispatch({type: LOG_OUT_REQUEST});
+        message.info("정상적으로 로그아웃되었습니다.")
     }, []);
     const onApply = () => {
         !isLoggedIn ? message.info("로그인 후 등록할 수 있습니다.") : Router.push('/stadium/register/location');
@@ -53,9 +54,9 @@ const AppLayout = ({ children }) => {
                 </Menu>
             </Layout.Sider>
             <Layout>
-                <Layout.Header style={{backgroundColor:"#fff"}}>
+                <Layout.Header style={{backgroundColor:"#fff", height:'5vh'}}>
                 </Layout.Header>
-                <Layout.Content style={{backgroundColor:"#fff"}}>
+                <Layout.Content style={{backgroundColor:"#fff", height:'95vh'}}>
                     {children}
                 </Layout.Content>
             </Layout>
