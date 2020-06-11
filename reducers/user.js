@@ -12,6 +12,9 @@ export const initialState = {
     isSignedUp: false, // 회원가입 성공
     isSigningUp: false, // 회원가입 시도중
     signUpErrorReason: '', // 회원가입 실패 사유
+    isPreempting: false, //회원가입시 아이디 중복체크중
+    isPreempted: false, //회원가입시 아이디 중복체크 완료
+    preemptErrorReason: '', //회원가입시 아이디 중복체크 실패 사유
     isChangingTo : false, //회원정보 수정중
     isChangedTo : false, //회원정보 수정완료
     changedToErrorReason : '', //회원정보 수정 실패 사유
@@ -38,6 +41,9 @@ export const CHANGE_TO_REQUEST = 'CHANGE_TO_REQUEST';
 export const CHANGE_TO_SUCCESS = 'CHANGE_TO_SUCCESS';
 export const CHANGE_TO_FAILURE = 'CHANGE_TO_FAILURE';
 
+export const PREEMPT_REQUEST = 'PREEMPT_REQUEST';
+export const PREEMPT_SUCCESS = 'PREEMPT_SUCCESS';
+export const PREEMPT_FAILURE = 'PREEMPT_FAILURE';
 
 export default (state = initialState, action) => {
     switch (action.type) {
@@ -115,6 +121,29 @@ export default (state = initialState, action) => {
                 isChangingTo: false,
                 changedToErrorReason: action.error,
             };
+        }
+        case PREEMPT_REQUEST: {
+            return{
+                ...state,
+                isPreempting : true,
+                isPreempted : false,
+                preemptErrorReason :''
+            };
+        }
+        case PREEMPT_SUCCESS: {
+            return{
+                ...state,
+                isPreempting : false,
+                isPreempted : true,
+            }
+        }
+        case PREEMPT_FAILURE: {
+            return{
+                ...state,
+                isPreempted : false,
+                isPreempting : false,
+                preemptErrorReason : action.error
+            }
         }
         default: {
         return {

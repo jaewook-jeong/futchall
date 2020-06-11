@@ -10,6 +10,9 @@ import {
     CHANGE_TO_REQUEST,
     CHANGE_TO_SUCCESS,
     CHANGE_TO_FAILURE,
+    PREEMPT_REQUEST,
+    PREEMPT_SUCCESS,
+    PREEMPT_FAILURE,
 } from '../reducers/user';
 
 function loginAPI() {
@@ -39,7 +42,7 @@ function* watchLogin() {
 
 function signUpAPI() {
   // 서버에 요청을 보내는 부분
-    return axios.post('/login');
+    return axios.post('/user/signup');
 }
 
 function* signUp() {
@@ -84,10 +87,35 @@ function* watchChangeTo(){
     yield takeLatest(CHANGE_TO_REQUEST, changeTo);
 }
 
+function preemptAPI(data){
+    return axios.post(`/user/preempt/${data}`)
+}
+function* preempt(action){
+    try{
+        // yield call(preemptAPI(action.data))
+        yield delay(500);
+        console.log(action.data);
+        throw new Error('이미 존재하는 아이디 입니다.')
+        yield put({
+            type:PREEMPT_SUCCESS,
+            data:action.data
+        })
+    }catch(e){
+        yield put({
+            type:PREEMPT_FAILURE,
+            error : e,
+        })
+    }
+}
+function* watchPreempt(){
+    yield takeLatest(PREEMPT_REQUEST, preempt);
+
+}
 export default function* userSaga() {
     yield all([
         fork(watchLogin),
         fork(watchSignUp),
         fork(watchChangeTo),
+        fork(watchPreempt),
     ]);
 }

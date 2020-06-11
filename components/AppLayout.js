@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 import Router, { useRouter } from 'next/router';
@@ -36,6 +36,12 @@ const AppLayout = ({ children }) => {
         });
         Router.push(`/team/search?q=${value}`);
     }
+    // console.log(visible,"visible변수", isLoggedIn, "이건 isloggedIn변수")
+    useEffect(()=>{
+            if(isLoggedIn){
+            setVisible(false);
+        }
+    },[isLoggedIn])
     return (
         <Layout style={{minHeight : '100vh', maxWidth : '1920px', width : '100vw'}}>
             <Layout.Sider breakpoint={"sm"} >

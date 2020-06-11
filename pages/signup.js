@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Router from 'next/router'
-import { Form, Input, Button, Row, Col, Typography, message, Select, Tooltip, Divider } from 'antd';
+import { Form, Input, Button, Row, Col, Typography, message, Select, Tooltip, Divider, Popover } from 'antd';
 import { useInput } from '../util/useInput';
 import { useSetter } from '../util/useSetter';
-import { SIGN_UP_REQUEST } from '../reducers/user';
-import { TrophyOutlined, UserOutlined } from '@ant-design/icons';
+import { SIGN_UP_REQUEST, PREEMPT_REQUEST } from '../reducers/user';
+import { TrophyOutlined, UserOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 
 const positions = [
     <Select.Option key={"PIVO"}><Tooltip title={"중앙 공격수"}>PIVO</Tooltip></Select.Option>,
@@ -52,7 +52,7 @@ const Signup = () => {
     const [age, onAge] = useSetter('');
     const [selectedLocations, onLocations] = useSetter('');
     
-    const { isSigningUp, me, isSignedUp } = useSelector(state => state.user);
+    const { isSigningUp, me, isSignedUp, preemptErrorReason, isPreempting } = useSelector(state => state.user);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -67,6 +67,20 @@ const Signup = () => {
             Router.push("/stadia")
         }
     },[me])
+    const checkIdOverlap = () =>{
+        //중복체크 및 만약의 상황에서 중복 입력 제어, 체크시 사용가능한 아이디면 미리 데이터에 입력하여 대기 상태 유지
+        dispatch({
+            type:PREEMPT_REQUEST,
+            data : id,
+        })
+    }
+    useEffect(()=>{
+        if(!isPreempting){
+            if(preemptErrorReason){
+                message.error("해당 아이디는 이미 사용중입니다.")
+            }
+        }
+    },[isPreempting])
     const onSubmitForm = useCallback((e) => {
         e.preventDefault();
         console.log(`id=${id}, nick=${nick}, password=${password}, passwordchekc=${passwordCheck}, positions=${selectedPositions}, age=${age}, where=${selectedLocations}`);
@@ -107,12 +121,14 @@ const Signup = () => {
                                 아이디
                             </Col>
                             <Col xs={{span:24}} sm={{span:13, offset:1}} md={{span:13, offset:1}} xl={{span:15, offset:1}}>
-                                <Input name="user-id" value={id} required onChange={onChangeId} prefix={<UserOutlined />} />
+                                <Popover trigger="focus" content="첫문자가 영소문자로 시작하는 5자 이상 아이디를 입력해 주세요" placement="topLeft">
+                                    <Input name="user-id" value={id} required onChange={onChangeId} prefix={<UserOutlined />}  onBlur={checkIdOverlap}/>
+                                </Popover>
                             </Col>
                         </Row>
                         <Row gutter={[0, 16]}>
                             <Col xs={{span:24}} sm={{span:8, offset:1}} md={{span:6, offset:2}} xl={{span:4, offset:2}} style={{ lineHeight: "32px" }}>
-                                닉네임
+                                닉네임 <Tooltip title="설정하신 닉네임으로 활동하게 됩니다"><QuestionCircleOutlined/></Tooltip>
                             </Col>
                             <Col xs={{span:24}} sm={{span:13, offset:1}} md={{span:13, offset:1}} xl={{span:15, offset:1}}>
                                 <Input name="user-nick" value={nick} required onChange={onChangeNick} />
@@ -134,7 +150,7 @@ const Signup = () => {
                                 <Input.Password name="user-password-check" value={passwordCheck} required onBlur={onBlurPasswordCheck} onChange={onPasswordCheck} />
                             </Col>
                         </Row>
-                        <Divider></Divider>
+                        <Divider orientation="left" style={{color :"#bbb"}}>선택항목</Divider>
                         <Row gutter={[0, 16]}>
                             <Col xs={{span:24}} sm={{span:8, offset:1}} md={{span:6, offset:2}} xl={{span:4, offset:2}} style={{ lineHeight: "32px" }}>
                                 주 포지션
@@ -183,7 +199,16 @@ const Signup = () => {
                         </Row>
                         <Row style={{ textAlign: 'center', marginTop: '10px' }}>
                             <Col style={{ width: '100%' }}>
-                                <Button type="primary" shape="round" size="large" htmlType="button" onClick={onSubmitForm} loading={isSigningUp}>가입하기</Button>
+                                <Button type="primary" 
+                                        shape="round" 
+                                        size="large" 
+                                        htmlType="button" 
+                                        onClick={onSubmitForm} 
+                                        disabled={!/^[a-z]+[a-z0-9]{5,19}$/.test(id)}
+                                        loading={isSigningUp}
+                                >
+                                    가입하기
+                                </Button>
                             </Col>
                         </Row>
                     </Form>

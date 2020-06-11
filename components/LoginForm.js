@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect,} from 'react';
+import React, { useCallback } from 'react';
 import { Button, Input, Modal, Form,} from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { LOG_IN_REQUEST } from '../reducers/user';
@@ -8,19 +8,12 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 const LoginForm = (props) => {
     
     const { visible, setVisible } = props;
-    const { isLoggingIn, isLoggedIn } = useSelector(state => state.user);
+    const { isLoggingIn } = useSelector(state => state.user);
     const [form] = Form.useForm();
     const dispatch = useDispatch();
-    useEffect(
-        ()=>{
-            if(isLoggedIn){
-                setVisible(false);
-                form.resetFields(["id", "password"]);
-            }
-        },[isLoggedIn]
-    )
+    
     const onHandleCancel = (() => {
-        form.resetFields(["id", "password"]);
+        // form.resetFields(["id", "password"]);
         setVisible(false);
     })
     const onSubmitForm = useCallback(() => {
@@ -32,7 +25,7 @@ const LoginForm = (props) => {
             type: SET_USER_ID,
             data : form.getFieldValue("id")
         });
-        setVisible(false);
+        
     }, []);
 
     const formItemLayout = {
