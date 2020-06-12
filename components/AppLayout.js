@@ -59,10 +59,10 @@ const AppLayout = ({ children }) => {
                     {!isLoggedIn && <Menu.Item key="signup" icon={<UserAddOutlined/>} onClick={()=>Router.push("/signup")}>회원가입</Menu.Item>}
                 </Menu>
             </Layout.Sider>
-            <Layout>
-                <Layout.Header style={{backgroundColor:"#fff", height:'5vh'}}>
+            <Layout style={{backgroundColor:"#fff"}}>
+                <Layout.Header style={{height:'5vh', backgroundColor:"#fff"}}>
                 </Layout.Header>
-                <Layout.Content style={{backgroundColor:"#fff", height:'95vh'}}>
+                <Layout.Content style={{minHeight:'95vh'}}>
                     {children}
                 </Layout.Content>
             </Layout>
