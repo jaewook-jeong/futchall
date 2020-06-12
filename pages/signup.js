@@ -106,11 +106,11 @@ const Signup = () => {
     }, [password]);
 
     return (
-        <Row>
-            <Col xs={{span:22, offset:1}} md={{span:14, offset:5}} xl={{span:10,offset:4}} xxl={{span:8, offset:8}} style={{ margin: "0 auto", border: "1px solid #dadce0", borderRadius: "8px", padding:"30px 10px" }}>
+        <Row style={{backgroundColor:"#fff"}}>
+            <Col xs={{span:22, offset:1}} md={{span:14, offset:5}} xl={{span:10,offset:4}} xxl={{span:8, offset:8}} style={{ margin: "0 auto", border: "1px solid #dadce0", borderRadius: "8px", padding:"30px 10px 20px 10px" }}>
                 <Row>
                     <Col style={{ width: '100%', textAlign: 'center' }}>
-                        <Typography.Title level={2}>지역 챔피언이 되어보세요</Typography.Title><TrophyOutlined />
+                        <Typography.Title level={2}>지역 챔피언이 되어보세요</Typography.Title><TrophyOutlined style={{fontSize:20}}/>
                     </Col>
                 </Row>
                 <Row style={{ textAlign: "center" }}>
