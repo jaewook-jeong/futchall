@@ -3,7 +3,7 @@ import { useDispatch, useSelector} from 'react-redux';
 import axios from 'axios';
 import { Row, Col, Typography, Form, Input, Space, Tooltip, Divider, Select, Button } from 'antd';
 import { SIGN_UP_REQUEST } from '../reducers/user';
-import { UserOutlined, QuestionCircleOutlined } from '@ant-design/icons';
+import { UserOutlined, QuestionCircleOutlined, TrophyFilled, TrophyTwoTone } from '@ant-design/icons';
 
 const Signup = () => {
     const dispatch = useDispatch();
@@ -66,10 +66,11 @@ const Signup = () => {
     },[me])
     return(
         <Row>
-            <Col xs={{sapn:22, offset:1}} md={{span:14, offset:5}} xl={{span:10, offset:4}} xxl={{span:8, offset:8}} style={{margin: "0 auto", border:"1px solid #dadce0", borderRadius:"8px", padding:"30px 10px 20px 10px", textAlign:"center", }}>
+            <Col xs={{sapn:22, offset:1}} sm={{span:14, offset:5}} md={{span:10, offset:7}} xl={{span:8, offset:8}} xxl={{span:6, offset:9}} style={{margin: "0 auto", padding:"30px 10px 20px 10px", textAlign:"center", }}>
                 <Row justify="center">
                     <Col span={24} >
-                        <Typography.Title level={2}>지역 챔피언이 되어보세요!</Typography.Title>
+                        <Typography.Title level={2} ellipsis={1,false,null,()=>{console.log("너무 작아")}}>지역 챔피언이 되어보세요!</Typography.Title>
+                        <TrophyTwoTone twoToneColor="#e6c71e" style={{fontSize:"20px", marginBottom:"10px"}}/>
                     </Col>
                 </Row>
                 <Row>
@@ -79,9 +80,9 @@ const Signup = () => {
                         form={form}
                         colon={false}
                         onFinish={submitSignupData}
-                        labelAlign="right"
-                        labelCol={{xs:{span:24}, sm:{span:24}, md:{span:6, offset:1},  }}
-                        wrapperCol={{xs:{span:24}, sm:{span:24}, md:{span:15, offset:1},  }}
+                        labelAlign="left"
+                        labelCol={{flex:"0.3 0 100px"}}
+                        wrapperCol={{flex:"1 1 200px"}}
                     >
                         <Form.Item
                             name="id"
@@ -107,7 +108,7 @@ const Signup = () => {
                             rules={[{required:true}]}
                             label={<Space>닉네임<Tooltip title="설정하신 닉네임으로 활동하게 됩니다!"><QuestionCircleOutlined/></Tooltip></Space>}
                         >
-                            <Input placeholder="아이디"/>
+                            <Input placeholder="닉네임"/>
                         </Form.Item>
                         <Form.Item
                             name="password"
@@ -186,11 +187,12 @@ const Signup = () => {
                             </Select>
                         </Form.Item>
 
-                        <Form.Item shouldUpdate>
+                        <Form.Item shouldUpdate wrapperCol={{span:24}}>
                             {()=>{
                                 return(
                                     <Button
                                         type="primary"
+                                        style={{width:"100%"}} 
                                         htmlType="submit"
                                         loading={isSigningUp}
                                         disabled={!form.isFieldsTouched(["id", "nickname", "password", "confirm"],true) ||form.getFieldsError().filter(({ errors }) => errors.length).length}
