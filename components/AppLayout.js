@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 import Router, { useRouter } from 'next/router';
@@ -23,6 +23,7 @@ const AppLayout = ({ children }) => {
 
     const onLogOut = useCallback(() => {
         dispatch({type: LOG_OUT_REQUEST});
+        message.info("정상적으로 로그아웃되었습니다.")
     }, []);
     const onApply = () => {
         !isLoggedIn ? message.info("로그인 후 등록할 수 있습니다.") : Router.push('/stadium/register/location');
@@ -35,6 +36,12 @@ const AppLayout = ({ children }) => {
         });
         Router.push(`/team/search?q=${value}`);
     }
+    // console.log(visible,"visible변수", isLoggedIn, "이건 isloggedIn변수")
+    useEffect(()=>{
+            if(isLoggedIn){
+            setVisible(false);
+        }
+    },[isLoggedIn])
     return (
         <Layout style={{minHeight : '100vh', maxWidth : '1920px', width : '100vw'}}>
             <Layout.Sider breakpoint={"sm"} >
@@ -52,10 +59,10 @@ const AppLayout = ({ children }) => {
                     {!isLoggedIn && <Menu.Item key="signup" icon={<UserAddOutlined/>} onClick={()=>Router.push("/signup")}>회원가입</Menu.Item>}
                 </Menu>
             </Layout.Sider>
-            <Layout>
-                <Layout.Header style={{backgroundColor:"#f0f2f5"}}>
+            <Layout style={{backgroundColor:"#fff"}}>
+                <Layout.Header style={{height:'5vh', backgroundColor:"#fff"}}>
                 </Layout.Header>
-                <Layout.Content>
+                <Layout.Content style={{minHeight:'95vh'}}>
                     {children}
                 </Layout.Content>
             </Layout>

@@ -20,14 +20,14 @@ const StadiumList = (props) => {
             renderItem={item => (
                 <List.Item
                     key={item.req}
-                    style={{ textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap" }}
+                    style={{ textOverflow: "ellipsis", overflow: "auto", whiteSpace: "nowrap" }}
                 >
                     <List.Item.Meta
                         title={<Link href="/stadium/[id]" as={`/stadium/${item.req}`} ><a>{item.title}</a></Link>}
                         description={item.tag.map((c) => {
                             return (<Tag key={c}>#{c}</Tag>)
                         })}
-                        style={{ textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap" }}
+                        style={{ textOverflow: "ellipsis", overflow: "auto", whiteSpace: "nowrap" }}
                     />
                 </List.Item >
             )}

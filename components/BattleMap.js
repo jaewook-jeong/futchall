@@ -23,14 +23,14 @@ const BattleMap = () => {
         <div>
             <Row gutter={[20, 16]}>
 
-                <Col xs={{ span: 22, offset: 1 }} md={{ span: 15, offset: 2 }}>
+                <Col xs={{ span: 22, offset: 1 }} sm={{span:22, offset: 1}} md={{ span: 15, offset: 2 }}>
                     {/* 지도 */}
                     {/* {isChangingLocation && <Spin size="large" tip="Loading.." />} */}
                     {/* {isChangedLocation && <Maps list={stadiumList} />} */}
                     <Maps list={stadiumList} />
                 </Col>
 
-                <Col xs={{ span: 22, offset: 1 }} md={{ span: 5, offset: 0 }}>
+                <Col xs={{ span: 22, offset: 1 }} sm={{span:22, offset: 1}} md={{ span: 5, offset: 0 }}>
                     {/* 리스트 */}
                     {/* {isChangedLocation && <StadiumList list={stadiumList} />} */}
                     <StadiumList list={stadiumList} />
