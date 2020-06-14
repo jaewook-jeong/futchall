@@ -141,7 +141,7 @@ const Ranking = () =>{
                     loading={isLoading}
                     showHeader={true}
                     columns={columns}
-                    scroll={{ x: 450, y: '60vh'}}
+                    scroll={{ x: true }}
                     pagination={{ pageSize: 50 }}
                     dataSource={rankingList}
                     size="small"

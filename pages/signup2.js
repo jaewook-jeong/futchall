@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect} from 'react';
+import React, { useCallback, useEffect, useState} from 'react';
 import { useDispatch, useSelector} from 'react-redux';
 import axios from 'axios';
 import { Row, Col, Typography, Form, Input, Space, Tooltip, Divider, Select, Button } from 'antd';
@@ -7,6 +7,7 @@ import { UserOutlined, QuestionCircleOutlined, TrophyFilled, TrophyTwoTone } fro
 
 const Signup = () => {
     const dispatch = useDispatch();
+    const [titleSize, onAlterTitleSize] = useState(2);
     const [form] = Form.useForm();
     const { isSigningUp, me, isSignedUp, } = useSelector(state => state.user);
 
@@ -66,11 +67,11 @@ const Signup = () => {
     },[me])
     return(
         <Row>
-            <Col xs={{sapn:22, offset:1}} sm={{span:14, offset:5}} md={{span:10, offset:7}} xl={{span:8, offset:8}} xxl={{span:6, offset:9}} style={{margin: "0 auto", padding:"30px 10px 20px 10px", textAlign:"center", }}>
+            <Col xs={{sapn:22, offset:1}} sm={{span:16, offset:4}} md={{span:12, offset:6}} xl={{span:8, offset:8}} xxl={{span:6, offset:9}} style={{margin: "0 auto", padding:"30px 10px 20px 10px", textAlign:"center", }}>
                 <Row justify="center">
                     <Col span={24} >
-                        <Typography.Title level={2} ellipsis={1,false,null,()=>{console.log("너무 작아")}}>지역 챔피언이 되어보세요!</Typography.Title>
-                        <TrophyTwoTone twoToneColor="#e6c71e" style={{fontSize:"20px", marginBottom:"10px"}}/>
+                        <Typography.Title level={titleSize}  ellipsis={{rows:1, expandable:false, onEllipsis:(el)=>{ if(el){onAlterTitleSize(titleSize !=4? titleSize+1 : titleSize)}else{console.log("what")}}, onExpand:(ev)=>{console.log(ev)} }}><TrophyTwoTone twoToneColor="#e6c71e" style={{fontSize:"25px", marginBottom:"10px"}}/> 지역 챔피언이 되어보세요!</Typography.Title>
+                        
                     </Col>
                 </Row>
                 <Row>
@@ -105,7 +106,7 @@ const Signup = () => {
                         </Form.Item>
                         <Form.Item
                             name="nickname"
-                            rules={[{required:true}]}
+                            rules={[{required:true, message:"닉네임을 입력해주세요"}]}
                             label={<Space>닉네임<Tooltip title="설정하신 닉네임으로 활동하게 됩니다!"><QuestionCircleOutlined/></Tooltip></Space>}
                         >
                             <Input placeholder="닉네임"/>
