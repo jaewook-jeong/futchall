@@ -2,6 +2,9 @@ const dummyUser = {
     nickname: '우기재',
     club: '1',
     id:'everest88',
+    positions:["PIVO", "ALA", "FIXO"],
+    age:'20',
+    locations:["서울", "경기"],
 };
 
 export const initialState = {

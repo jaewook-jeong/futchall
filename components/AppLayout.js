@@ -60,9 +60,9 @@ const AppLayout = ({ children }) => {
                 </Menu>
             </Layout.Sider>
             <Layout style={{backgroundColor:"#fff"}}>
-                <Layout.Header style={{height:'5vh', backgroundColor:"#fff"}}>
+                <Layout.Header style={{height:'7vh', backgroundColor:"#fff"}}>
                 </Layout.Header>
-                <Layout.Content style={{minHeight:'95vh'}}>
+                <Layout.Content style={{minHeight:'93vh'}}>
                     {children}
                 </Layout.Content>
             </Layout>
