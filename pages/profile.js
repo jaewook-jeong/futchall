@@ -11,8 +11,13 @@ const Profile = () => {
     const [form] = Form.useForm();
     const [editPwd, onChangeEditPwd] = useState(false);
     const dipatch = useDispatch();
+    
     const submitAlterUserData = useCallback(() =>{
-        alert(form.getFieldsValue())
+        alert("프로필 페이지",form.getFieldsValue());
+        dipatch({
+            type:CHANGE_TO_REQUEST,
+            data:{...form.getFieldsValue()}
+        })
     },[])
     useEffect(()=>{
         if(!me){

@@ -57,11 +57,11 @@ const Stadium = () =>{
                             bordered={true}
                             size="middle"
                             >
-                                <Descriptions.Item label="주 활동 지역">
+                                <Descriptions.Item label="활동 지역">
                                     <Skeleton loading={!isSelected} active paragraph={false}/>
                                     {isSelected && info.location}
                                 </Descriptions.Item>
-                                <Descriptions.Item label="주 모임 시간">
+                                <Descriptions.Item label="모임 시간">
                                     <Skeleton loading={!isSelected} active paragraph={false}/>
                                     {isSelected && info.time}
                                 </Descriptions.Item>
