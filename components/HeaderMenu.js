@@ -41,8 +41,8 @@ const HeaderMenu = (props) =>{
                         <input 
                             id="searchQ" 
                             className={styles.searchinput} 
-                            
-                            onKeyDown={(e)=>console.log(e.target)}
+                            onKeyUp={(e)=>{if(e.keyCode === 13)searchTeam(e.target.value)}}
+                            onInput={(e)=>{const delbtn = document.getElementById('delbtn'); if(e.target.value.length != 0){delbtn.style.display = 'inline-block'}else{delbtn.style.display = 'none'}}}
                             placeholder="팀 검색하기" 
                         />
                         <span 
@@ -51,6 +51,30 @@ const HeaderMenu = (props) =>{
                             onClick={(e)=>{document.getElementById("searchQ").value = ''; e.target.style.display = 'none'}}
                             >
                                 X
+                        </span>
+                    </div>
+
+                    <div 
+                        id="hiddenSearchDiv" 
+                        className={styles.hiddensearch} 
+                        onBlur={()=>{document.getElementById('hiddenSearchDiv').style.display = 'none'}}
+                    >
+                        <span className={styles.hiddenout} onClick={()=>{document.getElementById('hiddenSearchDiv').style.display = 'none'}}>
+                            <ArrowLeftOutlined/>
+                        </span>
+                        <input 
+                            id="hiddenSearchQ" 
+                            className={styles.hiddeninput} 
+                            onInput={(e)=>{const delbtn = document.getElementById('hiddenDelBtn'); if(e.target.value.length != 0){delbtn.style.display = 'inline-block'}else{delbtn.style.display = 'none' } }} 
+                            onKeyUp={(e)=>{if(e.keyCode === 13)searchTeam(e.target.value)}}
+                            placeholder="팀 명을 입력하고 Enter를 눌러주세요" 
+                        />
+                        <span 
+                            id="hiddenDelBtn" 
+                            className={styles.hiddendelete} 
+                            onClick={(e)=>{document.getElementById('hiddenSearchQ').value = ''; e.target.style.display = 'none'}}
+                        >
+                            X
                         </span>
                     </div>
                 </li>
