@@ -1,6 +1,7 @@
 const dummyUser = {
     nickname: '우기재',
     club: '1',
+    clubname:'잔디FC',
     id:'everest88',
     positions:["PIVO", "ALA", "FIXO"],
     age:'20',

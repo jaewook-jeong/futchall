@@ -2,14 +2,13 @@ import React, {useCallback, useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Router from 'next/router';
 import { Row, Col, Typography, Form, Select, Input, Space, Tooltip, Button, message, Switch, Checkbox } from 'antd';
-import {ageGroup, locations, positions} from '../util/selectOptions';
+import {ageGroup, locations, positions} from '../../util/selectOptions';
 import { UserOutlined, QuestionCircleOutlined, EditOutlined } from '@ant-design/icons';
-import {CHANGE_TO_REQUEST} from '../reducers/user'
+import {CHANGE_TO_REQUEST} from '../../reducers/user'
 
 const Profile = () => {
     const { me, isChangingTo, isChangedTo, changedToErrorReason } = useSelector(state => state.user);
     const [form] = Form.useForm();
-    const [editPwd, onChangeEditPwd] = useState(false);
     const dipatch = useDispatch();
     
     const submitAlterUserData = useCallback(() =>{
@@ -58,54 +57,11 @@ const Profile = () => {
                             name="prevpwd"
                             dependencies={['alterpwd']}
                             rules={[{required:true, message:"비밀번호를 확인해주세요!"}]}
-                            label={
-                                <Space> 
-                                    {editPwd? "이전 비밀번호" : "비밀번호 확인"}
-                                    <Tooltip title="비밀번호를 변경하시려면 체크해주세요!"> 
-                                        <Checkbox onChange={(e)=>{onChangeEditPwd(e.target.checked)}}></Checkbox> 
-                                    </Tooltip> 
-                                </Space>
-                            }
+                            label={"비밀번호 확인"}
                         >
-                            <Input.Password placeholder={editPwd? "이전 비밀번호" : "비밀번호 확인" } />
+                            <Input.Password placeholder={"비밀번호 확인"} />
                         </Form.Item>
 
-                        <Form.Item
-                            name="password"
-                            label={<Space></Space>}
-                            rules={[
-                            {
-                                required: true,
-                                message: '6자 이상 비밀번호를 입력해주세요!',
-                                min:6
-                            },
-                            ]}
-                            hasFeedback
-                        >
-                            <Input.Password />
-                        </Form.Item>
-                        <Form.Item
-                            name="confirm"
-                            label="새로운 비밀번호 확인"
-                            dependencies={['password']}
-                            hasFeedback
-                            rules={[
-                                {
-                                    required: true,
-                                    message: '비밀번호를 재확인해주세요!',
-                                },
-                                ({ getFieldValue }) => ({
-                                    validator(rule, value) {
-                                        if (!value || getFieldValue('password') === value) {
-                                            return Promise.resolve();
-                                        }
-                                    return Promise.reject('비밀번호가 일치하지 않습니다.');
-                                    },
-                                }),
-                            ]}
-                        >
-                            <Input.Password />
-                        </Form.Item>
                         <Form.Item
                             name="selectedPositions"
                             label="풋살 포지션"
