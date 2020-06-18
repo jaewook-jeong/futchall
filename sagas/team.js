@@ -88,11 +88,15 @@ function* watchLoad(){
 }
 
 function searchAPI(query){
-    return axios.get(`team/search?q=${query}`);
+    if(query.indexOf("지역검색 :") === 0){
+        return axios.get(`team/search?loc=${query}`);
+    }else{
+        return axios.get(`team/search?q=${query}`);
+    }
 }
 function* search(action){
     try{
-        //yield call(searchAPI(action.data.query));
+        //yield call(searchAPI(action.data..query));
         yield delay(1000);
         yield put({
             type:SEARCH_TEAMS_SUCCESS,

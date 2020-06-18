@@ -1,6 +1,6 @@
 import React from 'react';
 import Router from 'next/router';
-import { Button, Col, Row, Input, Statistic, Divider, notification } from 'antd';
+import { Button, Col, Row, Input, Statistic, Divider, notification, message } from 'antd';
 import { SearchOutlined, InfoCircleOutlined, LikeOutlined, ArrowUpOutlined, TrophyTwoTone } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { REFRESH_STADIUMLIST_REQUEST } from '../reducers/location';
@@ -10,7 +10,7 @@ const Home = () => {
     const {isChangingLocation} = useSelector(state=>state.location);
     const dispatch = useDispatch();
     const onSearch = (e) => {
-        console.log(e);
+        Router.push(`/team/search?loc=${e}`);
     }
     const onClickGPS = () => {
         (async () => {
@@ -26,6 +26,7 @@ const Home = () => {
                 Router.push(`/stadia?arr=${arr}`, '/stadia');
             } catch (error) {
                 console.log(error);
+                message.warn(error);
             }
         })();
     }
@@ -50,7 +51,7 @@ const Home = () => {
                     </Row>
                 </Col>
                 <Col md={{ span: 14, offset: 5 }} xs={{ span: 18, offset: 3 }}>
-                    <Input.Search size="large" placeholder="활동지역을 검색하세요" onSearch={onSearch} enterButton />
+                    <Input.Search size="large" placeholder="활동지역을 검색해보세요" onSearch={onSearch} enterButton />
                 </Col>
                 <Col span={24}>
                     <Row gutter={[10, 10]}>
