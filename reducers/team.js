@@ -66,10 +66,49 @@ const dummyList = [
     },
 ]
 
+const dummyMember = [
+    {
+        nickname:'우기재',
+        id: 'everest88',
+        positions:['ALA', 'FIXO', 'PIVO'],
+        score: 15,
+        reader: true,
+    },
+    {
+        nickname:'뚜오니',
+        id: 'suyeon94',
+        positions:['GOLEIRO'],
+        score: 0,
+        reader: false,
+    },
+    {
+        nickname:'인슈',
+        id: 'bsoooo',
+        positions:['ALA'],
+        score: 5,
+        reader: false,
+    },
+    {
+        nickname:'스오',
+        id: 'seung94',
+        positions:['PIVO'],
+        score: 6,
+        reader: false,
+    },
+    {
+        nickname:'미누',
+        id: 'minwoo',
+        positions:['FIXO'],
+        score: 2,
+        reader: false,
+    }
+]
+
 export const initialState = {
     info:null, //팀 정보
-    teamList:null,
-    rankingList:null,
+    memberList:null, //선택한 팀 멤버 리스트
+    teamList:null, //검색했을 때
+    rankingList:null, // 순위 리스트
     query:'', //검색 내용
     isEnrolling:false, //새 팀 등록중
     isEnrolled:false,//새 팀 등록 성공
@@ -116,6 +155,7 @@ export default (state = initialState, action) => {
                 isSelecting:false,
                 isSelected:true,
                 info:dummyInfo,
+                memberList:dummyMember,
             }
         }
         case SELECT_TEAM_FAILURE:{

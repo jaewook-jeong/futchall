@@ -2,16 +2,56 @@ import React, {useEffect} from 'react';
 import Router from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router'
-import { Skeleton, Col, Row, Tabs, Button, message, Descriptions, Typography } from 'antd';
+import { Skeleton, Col, Row, Tabs, Button, message, Descriptions, Typography, Table, Tag } from 'antd';
 import { SELECT_TEAM_REQUEST }from '../../reducers/team';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 const Stadium = () =>{
     const router = useRouter();
     const { id } = router.query;
-    const { info, isSelected } = useSelector(state => state.team);
+    const { info, isSelected, memberList } = useSelector(state => state.team);
     const {me, isLoggedIn } = useSelector(state => state.user);
     const dispatch = useDispatch();
-
+    
+    const columns = [
+        {
+            title: '주장',
+            dataIndex: 'reader',
+            align: 'center',
+            width: 70,
+            render: (val)=><span>{val?"*":""}</span>
+        },
+        {
+            title: '닉네임',
+            dataIndex: 'nickname',
+            align: 'center',
+            sorter: (a,b)=>a.nickname - b.nickname,
+        },
+        {
+            title: '포지션',
+            dataIndex: 'positions',
+            align: 'center',
+            render: (val)=> <div>{val.map((v)=><Tag key={v} color={v=='FIXO'?'blue':v==='ALA'?'green':v==='PIVO'?'red':'orange'}>{v}</Tag>)}</div>,
+            filters:[
+                {text:'PIVO',value:'PIVO'},
+                {text:'ALA',value:'ALA'},
+                {text:'FIXO',value:'FIXO'},
+                {text:'GOLEIRO',value:'GOLEIRO'},
+            ],
+            onFilter:(value, rec)=>rec.positions.indexOf(value) != -1,
+        },
+        {
+            title: '득점',
+            dataIndex: 'score',
+            align: 'center',
+            sorter: (a,b)=>a.score - b.score,
+        },
+        {
+            title: '연락하기',
+            dataIndex: 'id',
+            align: 'center',
+            render: (val)=> <div><a onClick={()=>console.log(val)}>연락하기</a></div>
+        },
+    ]
     useEffect(
         // have to change method to getInitialProps
         ()=>{
@@ -76,12 +116,27 @@ const Stadium = () =>{
                             </Descriptions>
                             <div id="stadiumAddress" style={{width:'100%', height:'500px', marginTop:'10px'}}></div>
                         </Tabs.TabPane>
-                        <Tabs.TabPane tab="전적" key="2">
-                                <Skeleton active loading={!isSelected}></Skeleton>
-                                {isSelected && info.record}
+                        <Tabs.TabPane tab="선수 명단" key="2">
+                            <Skeleton active loading={!isSelected}></Skeleton>
+                            {isSelected &&
+                                <Table
+                                    showHeader={true}
+                                    columns={columns}
+                                    pagination={{pageSize:15}}
+                                    scroll={{ x: 'max-content', scrollToFirstRowOnChange:true }}
+                                    dataSource={memberList}
+                                    rowKey={(memberList)=>{return memberList.id}}
+                                >
+
+                                </Table>
+                            }
                         </Tabs.TabPane>
-                        <Tabs.TabPane tab="사진" key="3">
-                                <Skeleton active></Skeleton>
+                        <Tabs.TabPane tab="전적" key="3">
+                            <Skeleton active loading={!isSelected}></Skeleton>
+                            {isSelected && info.record}
+                        </Tabs.TabPane>
+                        <Tabs.TabPane tab="사진" key="4">
+                            <Skeleton active></Skeleton>
                         </Tabs.TabPane>
                     </Tabs>
                 </Col>
