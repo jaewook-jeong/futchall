@@ -7,7 +7,7 @@ import { LoadingOutlined,} from '@ant-design/icons';
 import  styles from '../SCSS/map.module.scss';
 
 const Maps = (props) => {
-    const  stadiumList  = props.list;
+    const  [list, onChangeSelected, nowSelected]  = props;
     const [map, setMap] = useState();
     const { latitude, longitude,} = useSelector(state => state.location);
     const dispatch = useDispatch();
@@ -41,7 +41,7 @@ const Maps = (props) => {
         }, []
     );
     useEffect(() => {
-        stadiumList.forEach((c) => {
+        list.forEach((c) => {
             let position = new kakao.maps.LatLng(c.lat, c.lng);
             let marker = new kakao.maps.Marker(
                 {
@@ -105,10 +105,12 @@ const Maps = (props) => {
             (function (marker, customOverlay) {
                 kakao.maps.event.addListener(marker, 'click', function () {
                     customOverlay.setMap(temp ?? map);
+                    onChangeSelected(c.req);
                 });
             })(marker, customOverlay);
         })
-    }, [stadiumList])
+    }, [list])
+    //여기부터 nowselected바뀌면 해당하는 마커 띄워줘야 해, 느낌상 객체에 모든 마커 넣고 찾아야 할 듯?
     return (
         <div id="mapContainer" style={{ height: '70vh', textAlign: 'center' }}>
             <LoadingOutlined style={{ margin: '0 auto', width: '10vh', height: '10vh' }} />

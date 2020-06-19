@@ -30,7 +30,9 @@ const contentList = {
 };
 
 
-const StadiumInfo = () => {
+const StadiumInfo = (props) => {
+    const [list, onChangeSelected, nowSelected] = props;
+
     const [key, setKey] = useState('tab1');
     const onTabChange = (key) => {
         setKey(key);
