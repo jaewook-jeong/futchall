@@ -7,14 +7,16 @@ import { LoadingOutlined,} from '@ant-design/icons';
 import  styles from '../SCSS/map.module.scss';
 
 const Maps = (props) => {
-    const  [list, onChangeSelected, nowSelected]  = props;
-    const [map, setMap] = useState();
+    const  {list, onChangeSelected, nowSelected} = props;
+    const [map, setMap] = useState(null);
+    const [overlays, setOverlays] = useState([]);
     const { latitude, longitude,} = useSelector(state => state.location);
     const dispatch = useDispatch();
     let temp; //처음으로 마운트 되었을 때 Map에 해당하는 내용이 저장 될 곳, 처음 렌더링 될 때는 setMap에 저장해도(대충 29번쨰 줄) 다른 useEffect에서 사용이 안돼서 temp로 빼놨음, 나중에 해결책 알면 해결해야 함
 
     useEffect(
         () => {
+            console.log("지도를 띄우는 useEffect")
             //최초 마운트 시
             let options = {
                 center: new kakao.maps.LatLng(latitude, longitude),
@@ -41,6 +43,7 @@ const Maps = (props) => {
         }, []
     );
     useEffect(() => {
+        let tempOverlays = [];
         list.forEach((c) => {
             let position = new kakao.maps.LatLng(c.lat, c.lng);
             let marker = new kakao.maps.Marker(
@@ -108,9 +111,23 @@ const Maps = (props) => {
                     onChangeSelected(c.req);
                 });
             })(marker, customOverlay);
+            tempOverlays.push(customOverlay);
         })
+        setOverlays(tempOverlays);
     }, [list])
     //여기부터 nowselected바뀌면 해당하는 마커 띄워줘야 해, 느낌상 객체에 모든 마커 넣고 찾아야 할 듯?
+    useEffect(()=>{
+        if(nowSelected != -1 ){
+            overlays.map((val, index) =>{
+                if(nowSelected == index){
+                    val.setMap(temp ?? map);
+                }else{
+                    val.setMap(null);
+                }
+            })
+        }
+    },[nowSelected])
+    
     return (
         <div id="mapContainer" style={{ height: '70vh', textAlign: 'center' }}>
             <LoadingOutlined style={{ margin: '0 auto', width: '10vh', height: '10vh' }} />

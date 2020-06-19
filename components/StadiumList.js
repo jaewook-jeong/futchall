@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { List, Tag } from 'antd';
 
 const StadiumList = (props) => {
+    const  {list, onChangeSelected}  = props;
     return (
         <List
             header={<div style={{ fontSize: 20, fontWeight: "bold", paddingLeft: '16px' }}>구장 리스트</div>}
@@ -16,11 +17,12 @@ const StadiumList = (props) => {
                 },
                 showLessItems: true,
             }}
-            dataSource={props.list}
-            renderItem={item => (
+            dataSource={list}
+            renderItem={(item, index) => (
                 <List.Item
                     key={item.req}
-                    style={{ textOverflow: "ellipsis", overflow: "auto", whiteSpace: "nowrap" }}
+                    onClick={()=>onChangeSelected(index)}
+                    style={{ textOverflow: "ellipsis", overflow: "auto", whiteSpace: "nowrap", cursor:'pointer' }}
                 >
                     <List.Item.Meta
                         title={<Link href="/stadium/[id]" as={`/stadium/${item.req}`} ><a>{item.title}</a></Link>}
