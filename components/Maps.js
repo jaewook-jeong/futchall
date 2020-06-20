@@ -118,13 +118,15 @@ const Maps = (props) => {
     //여기부터 nowselected바뀌면 해당하는 마커 띄워줘야 해, 느낌상 객체에 모든 마커 넣고 찾아야 할 듯?
     useEffect(()=>{
         if(nowSelected != -1 ){
-            overlays.map((val, index) =>{
+            let immuneArr = overlays.slice();
+            immuneArr.map((val, index) =>{
                 if(nowSelected == index){
                     val.setMap(temp ?? map);
                 }else{
                     val.setMap(null);
                 }
             })
+            setOverlays(immuneArr);
         }
     },[nowSelected])
     
