@@ -44,7 +44,7 @@ const Maps = (props) => {
     );
     useEffect(() => {
         let tempOverlays = [];
-        list.forEach((c) => {
+        list.forEach((c,i) => {
             let position = new kakao.maps.LatLng(c.lat, c.lng);
             let marker = new kakao.maps.Marker(
                 {
@@ -108,7 +108,7 @@ const Maps = (props) => {
             (function (marker, customOverlay) {
                 kakao.maps.event.addListener(marker, 'click', function () {
                     customOverlay.setMap(temp ?? map);
-                    onChangeSelected(c.req);
+                    onChangeSelected(i);
                 });
             })(marker, customOverlay);
             tempOverlays.push(customOverlay);
@@ -118,6 +118,7 @@ const Maps = (props) => {
     //여기부터 nowselected바뀌면 해당하는 마커 띄워줘야 해, 느낌상 객체에 모든 마커 넣고 찾아야 할 듯?
     useEffect(()=>{
         if(nowSelected != -1 ){
+            // console.log("기존 배열",overlays);
             let immuneArr = overlays.slice();
             immuneArr.map((val, index) =>{
                 if(nowSelected == index){
@@ -127,6 +128,7 @@ const Maps = (props) => {
                 }
             })
             setOverlays(immuneArr);
+            // console.log("수정 후 배열", immuneArr);
         }
     },[nowSelected])
     

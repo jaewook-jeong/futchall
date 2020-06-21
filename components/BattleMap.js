@@ -43,7 +43,7 @@ const BattleMap = () => {
 
                 {nowSelected != -1 && 
                     <Col xs={{span: 22, offset: 1}} sm={{span:22, offset:1}} md={{ span:20, offset: 2}}>
-                        <StadiumInfo list={stadiumList} onChangeSelected={onChangeSelected} nowSelected={nowSelected}/>
+                        <StadiumInfo list={stadiumList} nowSelected={nowSelected}/>
                     </Col>
                 }
                 

@@ -1,18 +1,23 @@
 .stadiumInfo{
-    height: 9vh;
-    line-height: normal;
+    height: auto !important; 
+    line-height: initial !important;
+    overflow: initial !important;
     .flag{
         display: inline-block;
+        height: 30px;
+        width: 30px;
     }
     .details{
         display: inline-block;
+        line-height: initial;
         .title{
             display: block;
-            height: 3vh;
+            line-height: 2;
+            height: 30px;
         }
         .tags{
             display: block;
-            height: 3vh;
+            height: 25px;
         }
     }
 
