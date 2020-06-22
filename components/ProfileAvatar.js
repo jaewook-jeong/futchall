@@ -1,7 +1,7 @@
 import { useSelector, useDispatch} from 'react-redux';
 import Link from 'next/link';
-import { Popover, List, Avatar, Descriptions, Tabs, Button, message } from 'antd';
-import { SettingOutlined, RightOutlined } from '@ant-design/icons';
+import { Popover, List, Avatar, Descriptions, Tabs, Button, message, Card } from 'antd';
+import { SettingOutlined, RightOutlined, DeleteOutlined } from '@ant-design/icons';
 import  Router  from 'next/router';
 import { LOG_OUT_REQUEST } from '../reducers/user';
 
@@ -16,9 +16,23 @@ const ProfileAvatar = () => {
     const CardTabs = (
         <Tabs type="card" size="small" defaultActiveKey="2" style={{width:'250px'}}>
             <Tabs.TabPane tab="최근 본 구장" key="1">
-                <List>
-
-                </List>
+                <List
+                    footer={<Button size="small" shape="round" onClick={()=>alert("삭제")} block><DeleteOutlined/>최근 본 구장 삭제하기</Button>}
+                    // itemLayout="vertical"
+                    pagination={{pageSize:3}}
+                    dataSource={[{title:"누상동 다목적 운동장", address:"서울-종로", src:''},{title:"서대문 돌산구장", address:"서울-서대문", src:''}, ]}
+                    renderItem={item=>(
+                        <List.Item>
+                            <Card style={{width:'100%'}} size="small">
+                                <Card.Meta
+                                    avatar={<Avatar src={item.src ?? 'https://www.americaskidsinmotion.com/wp-content/uploads/2016/05/product-soccer-ball.jpg'}/>}
+                                    title={item.title}
+                                    description={item.address}
+                                />
+                            </Card>
+                        </List.Item>
+                    )}
+                />
             </Tabs.TabPane>
             <Tabs.TabPane tab="회원정보" key="2">
                 <Descriptions layout="horizontal" column={1} style={{width:'200px'}} colon={false} >

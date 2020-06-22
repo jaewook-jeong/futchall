@@ -12,7 +12,7 @@ const Maps = (props) => {
     const [overlays, setOverlays] = useState([]);
     const { latitude, longitude,} = useSelector(state => state.location);
     const dispatch = useDispatch();
-    let temp; //처음으로 마운트 되었을 때 Map에 해당하는 내용이 저장 될 곳, 처음 렌더링 될 때는 setMap에 저장해도(대충 29번쨰 줄) 다른 useEffect에서 사용이 안돼서 temp로 빼놨음, 나중에 해결책 알면 해결해야 함
+    //처음으로 마운트 되었을 때 Map에 해당하는 내용이 저장 될 곳, 처음 렌더링 될 때는 setMap에 저장해도(대충 29번쨰 줄) 다른 useEffect에서 사용이 안돼서 temp로 빼놨음, 나중에 해결책 알면 해결해야 함
 
     useEffect(
         () => {
@@ -22,7 +22,7 @@ const Maps = (props) => {
                 center: new kakao.maps.LatLng(latitude, longitude),
                 level: 8
             };
-            temp = new kakao.maps.Map(document.getElementById("mapContainer"), options);
+            let temp = new kakao.maps.Map(document.getElementById("mapContainer"), options);
             temp.addControl(new kakao.maps.MapTypeControl(), kakao.maps.ControlPosition.TOPRIGHT);
             kakao.maps.event.addListener(temp, 'dragend', function () {
                 let latlng = temp.getCenter();
@@ -48,7 +48,7 @@ const Maps = (props) => {
             let position = new kakao.maps.LatLng(c.lat, c.lng);
             let marker = new kakao.maps.Marker(
                 {
-                    map: temp ?? map,
+                    map: map,
                     position: position
                 }
             )
@@ -68,7 +68,7 @@ const Maps = (props) => {
             let btn_close = document.createElement('div');
             btn_close.className = `${styles.titleClose}`
             btn_close.setAttribute("title", "닫기");
-            btn_close.onclick = function() { customOverlay.setMap(null); };
+            btn_close.onclick = function() { customOverlay.setMap(null); onChangeSelected(-1) };
             
             content_title.appendChild(document.createTextNode(c.title));
             content_title.appendChild(btn_close);
@@ -107,7 +107,7 @@ const Maps = (props) => {
 
             (function (marker, customOverlay) {
                 kakao.maps.event.addListener(marker, 'click', function () {
-                    customOverlay.setMap(temp ?? map);
+                    customOverlay.setMap(map);
                     onChangeSelected(i);
                 });
             })(marker, customOverlay);
@@ -115,20 +115,18 @@ const Maps = (props) => {
         })
         setOverlays(tempOverlays);
     }, [list])
-    //여기부터 nowselected바뀌면 해당하는 마커 띄워줘야 해, 느낌상 객체에 모든 마커 넣고 찾아야 할 듯?
+
     useEffect(()=>{
         if(nowSelected != -1 ){
-            // console.log("기존 배열",overlays);
             let immuneArr = overlays.slice();
             immuneArr.map((val, index) =>{
                 if(nowSelected == index){
-                    val.setMap(temp ?? map);
+                    val.setMap(map);
                 }else{
                     val.setMap(null);
                 }
             })
             setOverlays(immuneArr);
-            // console.log("수정 후 배열", immuneArr);
         }
     },[nowSelected])
     

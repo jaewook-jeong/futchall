@@ -15,7 +15,7 @@ const StadiumInfo = (props) => {
     return (
         <Tabs
             type="card"
-            tabBarExtraContent={<Button onClick={()=>{console.log("click")}} icon={<HeartTwoTone twoToneColor="#eb2f96" style={{fontSize:'24px'}}/>}></Button>}
+            tabBarExtraContent={<Button type="link" onClick={()=>{console.log("click")}} icon={<HeartTwoTone twoToneColor="#eb2f96" style={{fontSize:'24px'}}/>}></Button>}
         >
             <Tabs.TabPane
                 tab="구장정보" key="1"
