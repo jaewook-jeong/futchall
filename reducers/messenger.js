@@ -1,5 +1,6 @@
 export const initialState = {
     list : [], //대화한 유저 리스트
+    talkData : [], //특정 유저와 대화한 대화 내용
     userId : null,
     isGettingList : false, //대화한 유저 리스트 가져오는중
     isGettedList : false, //대화한 유저 리스트 가져옴

@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { GET_LIST_REQUEST, DELETE_LIST_REQUEST } from '../reducers/messenger';
 import { Drawer, List, Collapse, Skeleton, Avatar, Popconfirm, message, Input, Comment } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons'
+import Talk from './Talk';
 
 const Message = (props) =>{
     const {visible, setVisible} = props;
-    // const {me, isLoggedIn} = useSelector(state => state.user);
     const {list, isGettingList, userId} = useSelector(state => state.messenger);
     const dispatch = useDispatch();
 
@@ -64,15 +64,14 @@ const Message = (props) =>{
                             <Collapse
                                 style={{width:"100%"}}
                                 expandIconPosition="left"
-                                onChange = {(key)=>console.log(key)}
-                                accordion={true}
+                                // onChange = {(key)=>console.log(key)}
                             >
                                 <Collapse.Panel 
                                     header={<span><Avatar shape="circle" size="large">{item.clubname} </Avatar> { item.nickname}</span>} 
                                     extra={deleteTalkData(`${item.id}`)}
                                     key={item.id} 
                                 >
-                                        
+                                    <Talk opponent={item.id} />
                                 </Collapse.Panel>
                             </Collapse>
                         </Skeleton>
