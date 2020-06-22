@@ -72,6 +72,7 @@ function changeToAPI(data) {
 function* changeTo(action) {
     try{
         // yield call(changeToAPI(action));
+        console.log("여기는 사가",action.data)
         yield delay(1000);
         yield put({
             type:CHANGE_TO_SUCCESS,
@@ -109,7 +110,6 @@ function* preempt(action){
 }
 function* watchPreempt(){
     yield takeLatest(PREEMPT_REQUEST, preempt);
-
 }
 export default function* userSaga() {
     yield all([

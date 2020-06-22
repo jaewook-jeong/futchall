@@ -27,6 +27,10 @@
     "/index": [
       "static/runtime/webpack.js",
       "static/runtime/main.js"
+    ],
+    "/team/ranking": [
+      "static/runtime/webpack.js",
+      "static/runtime/main.js"
     ]
   }
 }

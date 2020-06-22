@@ -13,9 +13,9 @@ const Search = (props) =>{
     // const[hashPage, setHashPage] = useState(1);
     useEffect(
         ()=>{
-            dispatch({type:SEARCH_TEAMS_REQUEST, data:{"query": props.router.query.q}});
+            dispatch({type:SEARCH_TEAMS_REQUEST, data:{"query": props.router.query.q ?? "지역검색 : "+props.router.query.loc}});
         }
-    ,[props.router.query.q]);
+    ,[props.router.query]);
 
     // useCallback(
     //     ()=>{

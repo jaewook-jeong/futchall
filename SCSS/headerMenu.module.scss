@@ -1,0 +1,123 @@
+$sm : 576px;
+.headerMenu{
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    background-color: #fff;
+    padding: 0 5px;
+    margin-bottom: 5px;
+    ul{
+        list-style: none;
+        outline: none;
+        box-sizing: border-box;
+        li{
+            display: inline-block;
+            vertical-align: bottom;
+            font-size: 14px;
+            border-bottom: 2px solid transparent;
+            padding: 0 10px;
+            cursor: pointer;
+            &:hover{
+                color: #1890ff;
+            }
+            .icon{
+                min-width: 14px;
+                margin-right: 10px;
+                font-size: 14px;
+                display: inline-block;
+            }
+            .title{
+                @media screen and (max-width: $sm){
+                    display: none;
+                }
+            }
+            .findicon{
+                @media screen and (min-width: $sm){
+                    display: none;
+                }
+                width: 44px;
+                margin-right: 10px;
+                font-size: 14px;
+                display: inline-block;
+
+            }
+            .searchtitle{
+                background-color: #f1f3f4;
+                border-radius: 8px;
+                display: inline-block;;
+                padding: 0 11px;
+                width: 350px;
+                height: 45px;
+                line-height: 2px;
+                &:hover{
+                    border: 1px solid #1890ff;
+                }
+                @media screen and (max-width: $sm){
+                    display: none;
+                }
+                .searchicon{
+                    margin-right: 4px;
+                    cursor: pointer;
+                }
+                .searchinput{
+                    outline: none;
+                    border: none;
+                    margin: 0;
+                    width: 270px;
+                    background-color: #f1f3f4;
+                    height: 41px;
+                }
+                .searchDelete{
+                    float: right;
+                    color: #585858;
+                    cursor: pointer;
+                    display: none;
+                    height: 41px;
+                    font-size: 15px;
+                    line-height: 2.7;
+                    &:hover{
+                        color: #1890ff;
+                    }
+                }
+            }
+            .hiddensearch{
+                border-radius: 3px;
+                top: 5px;
+                left: 5px;
+                position: absolute;
+                display: none;
+                background-color: #f1f3f4;
+                padding: 0 11px;
+                width: 280px;
+                height: 45px;
+                border: 0;
+                box-shadow: 0 1px 1px 0 rgba(65,69,73,0.3), 0 1px 3px 1px rgba(65,69,73,0.15);
+                line-height: 2px;
+                z-index: 6;
+                .hiddenout{
+                    margin-right: 10px;
+                    cursor: pointer;
+                    color: #585858;
+                }
+                .hiddeninput{
+                    outline: none;
+                    border: none;
+                    margin: 0;
+                    width: 210px;
+                    background-color: #f1f3f4;
+                    height: 41px;
+                }
+                .hiddendelete{
+                    float: right;
+                    color: #585858;
+                    cursor: pointer;
+                    display: none;
+                    height: 41px;
+                    font-size: 15px;
+                    line-height: 2.7;
+                }
+            }
+        }
+    }
+}
