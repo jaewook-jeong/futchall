@@ -39,7 +39,7 @@ const Message = (props) =>{
                 message.success("대화내용이 삭제되었습니다.");
             }}
         >
-            <DeleteOutlined style={{fontSize:'20px', lineHeight:'40px', color:'#ddd'}} onClick={event => {event.stopPropagation();}}/>
+            <DeleteOutlined style={{fontSize:'20px', lineHeight:'40px', color:'#e66767'}} onClick={event => {event.stopPropagation();}}/>
         </Popconfirm>
         
     )

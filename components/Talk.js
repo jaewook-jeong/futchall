@@ -1,6 +1,6 @@
 import React, {useEffect, useCallback} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Row, Col, Input, Divider, Button, message } from 'antd';
+import { Row, Col, Input, Divider, Button, message, Tooltip } from 'antd';
 import styles from '../SCSS/messenger.module.scss';
 
 const Talk = (props) =>{
@@ -8,7 +8,7 @@ const Talk = (props) =>{
     const { opponent } = props;
     const { me, isLoggedIn } = useSelector(state => state.user);
     // const {talkData} = useSelector(state => state.messenger);
-    const talkData = [{id:'everest88', content:'안녕하세요'}, {id:'suyeon9456', content:'ㅎㅇㅎㅇ'}, {id:'suyeon9456', content:'경기하실래요?'}, {id:'everest88', content:'ㄱㄱ'},]
+    const talkData = [{id:'everest88', data:[{content:'안녕하세요', date:'2020-06-23 17:23'}]}, {id:'suyeon9456', data:[{content:'ㅎㅇㅎㅇ', date:'2020-06-23 17:24'}]}, {id:'suyeon9456', data:[{content:'경기하실래요?', date:'2020-06-23 17:24'}]}, {id:'everest88', data:[{content:'ㄱㄱ', date:'2020-06-23 17:26'}]},{id:'everest88', data:[{content:'언제하실?', date:'2020-06-23 17:26'}]},{id:'everest88', data:[{content:'우리는 토욜 가능', date:'2020-06-23 17:27'}]},]
     useEffect(()=>{
         // dispatch({type:})
         if(!isLoggedIn){message.warn("경고에요!")}
@@ -17,27 +17,42 @@ const Talk = (props) =>{
         console.log('------------------------------------');
     },[])
     const showData = (
-        talkData.map((v)=>{
+        sortingForShow(talkData).map((v)=>{
             if(v.id === me.id){
                 return(
-                    <Row justify="end">
-                        <Col>{v.content}</Col>
-                    </Row>
+                    <div className={styles.myMsg}>
+                        {v.data.map((v,i)=>{
+                            return (<Tooltip placement="bottomRight" title={v.date} key={i}><Row justify="end"><Col>{v.content}</Col></Row></Tooltip>)
+                        })}
+                    </div>
                 )
             }else{
                 return(
-                    <Row justify="start">
-                        <Col>{v.content}</Col>
-                    </Row>
+                    <div className={styles.yourMsg}>
+                        {v.data.map((v,i)=>{
+                            return (<Tooltip placement="bottomLeft" title={v.date} key={i}><Row justify="start"><Col>{v.content}</Col></Row></Tooltip>)
+                        })}
+                    </div>
                 )
             }
         })
     )
 
-    const sortingForShow = (data) =>{
-        
+    function sortingForShow(data){
+        let tempTalkData = [];
+        let id = '';
+        for(let temp of data){
+            if(temp.id === id){
+                let oriData = tempTalkData.pop();
+                oriData.data.push(temp.data[0]);
+                tempTalkData.push(oriData);
+            }else{
+                tempTalkData.push(temp);
+                id = temp.id;
+            }
+        }
+        return tempTalkData;
     }
-    let cont = 'asd'
     
     return(
         <Row>
@@ -49,9 +64,9 @@ const Talk = (props) =>{
                 </Row>
                 <Divider/>
                 <Row>
-                    <Input 
+                    <Input
                         allowClear={true} 
-                        addonAfter={<Button type="primary" size="small" style={{width:'100%', height:'100%'}}>보내기</Button>}
+                        addonAfter={"보내기"}
                     />
                 </Row>
             </Col>

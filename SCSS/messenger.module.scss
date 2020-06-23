@@ -1,0 +1,62 @@
+.myMsg{
+    div{
+        color: #fdfdfd;
+        margin-top: 2px;
+        &:first-child:last-child{
+            div{
+                border-radius: 12px !important;
+            }
+        }
+        &:first-child{
+            div{
+                border-radius: 12px 12px 0px 12px !important;
+            }
+        }
+        &:nth-child(n+1){
+            div{
+                border-radius: 12px 0px 0px 12px;
+            }
+        }
+        &:last-child{
+            div{
+                border-radius: 12px 0px 12px 12px;
+            }
+        }
+        div{
+            padding: 3px 8px 3px 8px;
+            background-color: #1890ff;
+            
+        }
+    }
+}
+
+.yourMsg{
+    div{
+        margin-top: 2px;
+        &:first-child:last-child{
+            div{
+                border-radius: 12px !important;
+            }
+        }
+        &:first-child{
+            div{
+                border-radius: 12px 12px 12px 0px !important;
+            }
+        }
+        &:nth-child(n+1){
+            div{
+                border-radius: 0px 12px 12px 0px;
+            }
+        }
+        &:last-child{
+            div{
+                border-radius: 0px 12px 12px 12px;
+            }
+        }
+        div{
+            background-color: #ddd;
+            padding: 3px 8px 3px 8px;
+            
+        }
+    }
+}
