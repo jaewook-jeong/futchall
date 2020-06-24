@@ -22,11 +22,11 @@ const Home = () => {
                         data:{latitude: arr[2], longitude: arr[3],} 
                     });
                 }
-                //클라이언트사이드 렌더링
                 Router.push(`/stadia?arr=${arr}`, '/stadia');
             } catch (error) {
                 console.log(error);
                 message.warn(error);
+                Router.push('/stadia');
             }
         })();
     }

@@ -6,16 +6,15 @@ import { HeartTwoTone, QuestionCircleOutlined } from '@ant-design/icons';
 import {SELECT_STADIUM_REQUEST} from '../reducers/stadium';
 const StadiumInfo = (props) => {
     const {list, nowSelected} = props;
-    const {info, isSelected} = useSelector(state => state.stadium);
+    const {info, isSelected} = useSelector(state => state.stadium, (left, right)=>{if(left['info']['req'] == right['info']['req']){return true}else{return false}});
     const dispatch = useDispatch();
-
     useEffect(()=>{
         dispatch({type:SELECT_STADIUM_REQUEST, data:{req:list[nowSelected].req}});
-    },[])
+    },[nowSelected])
     return (
         <Tabs
-            type="card"
-            tabBarExtraContent={<Button type="link" onClick={()=>{console.log("click")}} icon={<HeartTwoTone twoToneColor="#eb2f96" style={{fontSize:'24px'}}/>}></Button>}
+        type="card"
+        tabBarExtraContent={<Button type="link" onClick={()=>{console.log("click")}} icon={<HeartTwoTone twoToneColor="#eb2f96" style={{fontSize:'24px'}}/>}></Button>}
         >
             <Tabs.TabPane
                 tab="구장정보" key="1"

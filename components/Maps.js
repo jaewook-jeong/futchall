@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Router, { withRouter } from 'next/router';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { REFRESH_STADIUMLIST_REQUEST } from '../reducers/location';
 import { notification, message } from 'antd';
 import { LoadingOutlined,} from '@ant-design/icons';
@@ -10,27 +10,14 @@ const Maps = (props) => {
     const  {list, onChangeSelected, nowSelected} = props;
     const [map, setMap] = useState(null);
     const [overlays, setOverlays] = useState([]);
-    const { latitude, longitude,} = useSelector(state => state.location);
     const dispatch = useDispatch();
-    //처음으로 마운트 되었을 때 Map에 해당하는 내용이 저장 될 곳, 처음 렌더링 될 때는 setMap에 저장해도(대충 29번쨰 줄) 다른 useEffect에서 사용이 안돼서 temp로 빼놨음, 나중에 해결책 알면 해결해야 함
 
     useEffect(
         () => {
-            console.log("지도를 띄우는 useEffect")
             //최초 마운트 시
-            let options = {
-                center: new kakao.maps.LatLng(latitude, longitude),
-                level: 8
-            };
-            let temp = new kakao.maps.Map(document.getElementById("mapContainer"), options);
-            temp.addControl(new kakao.maps.MapTypeControl(), kakao.maps.ControlPosition.TOPRIGHT);
-            kakao.maps.event.addListener(temp, 'dragend', function () {
-                let latlng = temp.getCenter();
-                dispatch({ type:REFRESH_STADIUMLIST_REQUEST , data:{latitude: latlng.getLat(), longitude: latlng.getLng()} });
-            });
-            setMap(temp);
+            let arr = [];
             if (props.router.query.arr) {
-                const arr = props.router.query.arr.split(",");
+                arr = props.router.query.arr.split(",");
                 if (arr[0] === "success") {
                     message.success(arr[1]);
                 } else if (arr[0] === "warn") {
@@ -40,6 +27,17 @@ const Maps = (props) => {
                     message.error(arr[1], 4);
                 }
             }
+            let options = {
+                center: new kakao.maps.LatLng(arr[2] ?? '37.5795876', arr[3] ?? '126.9636324'),
+                level: 8
+            };
+            let temp = new kakao.maps.Map(document.getElementById("mapContainer"), options);
+            temp.addControl(new kakao.maps.MapTypeControl(), kakao.maps.ControlPosition.TOPRIGHT);
+            kakao.maps.event.addListener(temp, 'dragend', function () {
+                let latlng = temp.getCenter();
+                dispatch({ type:REFRESH_STADIUMLIST_REQUEST , data:{latitude: latlng.getLat(), longitude: latlng.getLng()} });
+            });
+            setMap(temp);
         }, []
     );
     useEffect(() => {
