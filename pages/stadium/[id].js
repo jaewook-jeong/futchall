@@ -10,7 +10,7 @@ const Stadium = () =>{
     const router = useRouter();
     const dispatch = useDispatch();
     const { id } = router.query
-    const { info, isSelected } = useSelector(state => state.stadium);
+    const { info, isSelected } = useSelector(state => state.stadium, (left, right)=>{if(left['info']['req'] == right['info']['req']){return true}else{return false}});
     useEffect(
         ()=>{
             dispatch({type:SELECT_STADIUM_REQUEST, data:{req:id}});

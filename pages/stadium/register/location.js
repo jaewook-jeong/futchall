@@ -3,7 +3,6 @@ import Router from 'next/router';
 import { useSelector } from 'react-redux';
 import { Col, Row, Typography, Button, Tooltip, Input } from 'antd';
 import {QuestionCircleOutlined} from '@ant-design/icons';
-// import { useInput } from '../../../util/useInput';
 
 const Apply = () => {
     const { latitude, longitude, } = useSelector(state => state.location,[]);
@@ -11,9 +10,13 @@ const Apply = () => {
     const [seleted, setSelected] = useState(true);
     const [convey_data, setConvey_data] = useState([]);
     const [find, setFind] = useState('');
-    // if (!isLoggeIn) {
-    //     message.error("로그인 후 이용하여주세요")
-    // }
+    useEffect(()=>{
+        if (!isLoggeIn) {
+            message.error("로그인 후 이용하여주세요")
+            Router.push(`/stadia`);
+        }
+    },[isLoggeIn])
+    
 
     const onSubmitForm = useCallback((e) => {
         e.preventDefault();

@@ -8,8 +8,8 @@ import { QuestionCircleOutlined } from '@ant-design/icons';
 const Stadium = () =>{
     const router = useRouter();
     const { id } = router.query;
-    const { info, isSelected, memberList } = useSelector(state => state.team);
-    const {me, isLoggedIn } = useSelector(state => state.user);
+    const { info, isSelected, memberList } = useSelector(state => state.team, (left, right)=>{if(left['info']['req'] == right['info']['req']){return true}else{return false}});
+    const {me, isLoggedIn } = useSelector(state => state.user, (left, right)=>{ if (left['me']['id'] == right['me']['id']){return true}else{return false}});
     const dispatch = useDispatch();
     
     const columns = [

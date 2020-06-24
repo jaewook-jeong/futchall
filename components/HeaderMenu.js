@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import Router from 'next/router';
 import { SEARCH_TEAMS_REQUEST } from '../reducers/team';
 import ProfileAvatar  from './ProfileAvatar';
@@ -9,7 +9,7 @@ import styles from '../SCSS/headerMenu.module.scss'
 const HeaderMenu = (props) =>{
     const showModal = props.showModal;
     const dispatch = useDispatch();
-    const {isLoggedIn} = useSelector(state=> state.user);
+    const {isLoggedIn} = useSelector(state=> state.user, shallowEqual);
     const searchTeam = (value) => {
         // event.preventDefault();
         // let value = event.target.value;

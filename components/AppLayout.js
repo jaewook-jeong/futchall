@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
@@ -11,7 +11,7 @@ import HeaderMenu from './HeaderMenu';
 
 
 const AppLayout = ({ children }) => {
-    const { isLoggedIn, me } = useSelector(state => state.user);
+    const { isLoggedIn, me } = useSelector(state => state.user, (left, right)=>{ if (left['me']['id'] == right['me']['id']){return true}else{return false}});
     const [visible, setVisible] = useState(false);
     const [chatVisible, setChatVisible] = useState(false);
     const Router = useRouter();

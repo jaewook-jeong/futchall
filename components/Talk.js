@@ -6,7 +6,7 @@ import styles from '../SCSS/messenger.module.scss';
 const Talk = (props) =>{
     const dispatch = useDispatch();
     const { opponent } = props;
-    const { me, isLoggedIn } = useSelector(state => state.user);
+    const { me, isLoggedIn } = useSelector(state => state.user, (left, right)=>{ if (left['me']['id'] == right['me']['id']){return true}else{return false}});
     // const {talkData} = useSelector(state => state.messenger);
     const talkData = [{id:'everest88', data:[{content:'안녕하세요', date:'2020-06-23 17:23'}]}, {id:'suyeon9456', data:[{content:'ㅎㅇㅎㅇ', date:'2020-06-23 17:24'}]}, {id:'suyeon9456', data:[{content:'경기하실래요?', date:'2020-06-23 17:24'}]}, {id:'everest88', data:[{content:'ㄱㄱ', date:'2020-06-23 17:26'}]},{id:'everest88', data:[{content:'언제하실?', date:'2020-06-23 17:26'}]},{id:'everest88', data:[{content:'우리는 토욜 가능', date:'2020-06-23 17:27'}]},]
     useEffect(()=>{

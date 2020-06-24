@@ -5,7 +5,7 @@ import Link from 'next/link';
 import {useDispatch, useSelector} from 'react-redux';
 import {Row, Col, List, Skeleton, Typography, Button, Tag, Tooltip} from 'antd';
 import {SEARCH_TEAMS_REQUEST} from '../../reducers/team'
-import {MessageOutlined, LikeOutlined, StarOutlined} from '@ant-design/icons'
+import { LikeOutlined } from '@ant-design/icons'
 
 const Search = (props) =>{
     const dispatch = useDispatch();

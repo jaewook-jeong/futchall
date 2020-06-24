@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import Router, { withRouter, } from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
 import {ENROLL_STADIUM_REQUEST} from '../../../reducers/stadium'
@@ -7,7 +7,7 @@ import { PlusOutlined} from '@ant-design/icons';
 
 const Details = (props) => {
     // const [, forceUpdate] = useState(); 
-    const { isEnrolling, isEnrolled } = useSelector(state => state.stadium);
+    const { isEnrolling } = useSelector(state => state.stadium);
     const [form] = Form.useForm();
     const dispatch = useDispatch();
     let data;
