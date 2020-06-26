@@ -1,24 +1,33 @@
-import React from 'react';
-import { useSelector, useDispatch, shallowEqual } from 'react-redux';
+import React, {useState, useMemo} from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
 import Router from 'next/router';
-import { SEARCH_TEAMS_REQUEST } from '../reducers/team';
 import ProfileAvatar  from './ProfileAvatar';
 import {HomeOutlined, SearchOutlined, KeyOutlined, ArrowLeftOutlined} from '@ant-design/icons'
 import styles from '../SCSS/headerMenu.module.scss'
 
 const HeaderMenu = (props) =>{
-    const showModal = props.showModal;
-    const dispatch = useDispatch();
+    const showLoginModal = props.showModal;
     const {isLoggedIn} = useSelector(state=> state.user, shallowEqual);
-    const searchTeam = (value) => {
-        // event.preventDefault();
-        // let value = event.target.value;
-        dispatch({
-            type:SEARCH_TEAMS_REQUEST, 
-            data:{"query": value},
-        });
-        Router.push(`/team/search?q=${value}`);
+    const [searchQuery, handleSearchQuery, clearSearchQuery, deleteButton] = useTeamSearching();
+
+    const searchTeam = () => {
+        Router.push(`/team/search?q=${searchQuery}`);
     }
+
+    function useTeamSearching(){
+        const [searchQuery, setSearchQuery]= useState('');
+        const deleteButton = useMemo(()=>{ if(searchQuery.length === 0){return false }else{return true}}, [searchQuery]);
+        
+        function handleSearchQuery(event){
+            setSearchQuery(event.target.value);
+        }
+
+        function clearSearchQuery(){
+            setSearchQuery('');
+        }
+        return [searchQuery, handleSearchQuery, clearSearchQuery, deleteButton];
+    }
+
     return(
         <div className={styles.headerMenu}>
             <ul>
@@ -35,23 +44,28 @@ const HeaderMenu = (props) =>{
                         <SearchOutlined/>
                     </span>
                     <div className={styles.searchtitle}>
-                        <span className={styles.searchicon} onClick={()=>{console.log(document.getElementById("searchQ"))}}>
+                        <span className={styles.searchicon}>
                             <SearchOutlined/>
                         </span>
                         <input 
                             id="searchQ" 
+                            value={searchQuery}
+                            onChange={handleSearchQuery}
                             className={styles.searchinput} 
-                            onKeyUp={(e)=>{if(e.keyCode === 13)searchTeam(e.target.value)}}
-                            onInput={(e)=>{const delbtn = document.getElementById('delbtn'); if(e.target.value.length != 0){delbtn.style.display = 'inline-block'}else{delbtn.style.display = 'none'}}}
+                            onKeyUp={(e)=>{if(e.keyCode === 13)searchTeam()}}
                             placeholder="팀 검색하기" 
                         />
-                        <span 
-                            id="delbtn" 
-                            className={styles.searchDelete} 
-                            onClick={(e)=>{document.getElementById("searchQ").value = ''; e.target.style.display = 'none'}}
-                            >
-                                X
-                        </span>
+                        {
+                            deleteButton && 
+                            <span 
+                                id="delbtn" 
+                                className={styles.searchDelete} 
+                                onClick={clearSearchQuery}
+                                >
+                                    X
+                            </span>
+                        }
+                        
                     </div>
 
                     <div 
@@ -65,21 +79,26 @@ const HeaderMenu = (props) =>{
                         <input 
                             id="hiddenSearchQ" 
                             className={styles.hiddeninput} 
-                            onInput={(e)=>{const delbtn = document.getElementById('hiddenDelBtn'); if(e.target.value.length != 0){delbtn.style.display = 'inline-block'}else{delbtn.style.display = 'none' } }} 
-                            onKeyUp={(e)=>{if(e.keyCode === 13)searchTeam(e.target.value)}}
+                            onChange={handleSearchQuery}
+                            value={searchQuery}
+                            onKeyUp={(e)=>{if(e.keyCode === 13)searchTeam()}}
                             placeholder="팀 명을 입력하고 Enter를 눌러주세요" 
                         />
-                        <span 
-                            id="hiddenDelBtn" 
-                            className={styles.hiddendelete} 
-                            onClick={(e)=>{document.getElementById('hiddenSearchQ').value = ''; e.target.style.display = 'none'}}
-                        >
-                            X
-                        </span>
+                        {
+                            deleteButton && 
+                            <span 
+                                id="hiddenDelBtn" 
+                                className={styles.hiddendelete} 
+                                onClick={clearSearchQuery}
+                            >
+                                X
+                            </span>
+                        }
+                        
                     </div>
                 </li>
                 {!isLoggedIn && 
-                    <li onClick={showModal} style={{float:'right'}}>
+                    <li onClick={showLoginModal} style={{float:'right'}}>
                         <span className={styles.icon}>
                             <KeyOutlined/>
                         </span>
