@@ -28,7 +28,8 @@ const StadiumList = (props) => {
                             </Col>
                             <Col className={styles.details}>
                                 <Row className={styles.title}>
-                                    <Link href="/stadium/[id]" as={`/stadium/${v.req}`} ><a>{v.title}</a></Link>
+                                    {/* <Link href="/stadium/[id]" as={`/stadium/${v.req}`} ><a>{v.title}</a></Link> */}
+                                    {v.title}
                                 </Row>
                                 <Row className={styles.tags} >
                                     {v.tag.map((c)=>{return <Tag key={c}>#{c}</Tag>;})}
