@@ -17,19 +17,14 @@ const AppLayout = ({ children }) => {
     const Router = useRouter();
     const dispatch = useDispatch();
     
-    const showModal = useCallback(() => setVisible(true),[]); 
-    const popRightMessage = () => setChatVisible(true);
+    const showModal = () => setVisible(!visible); 
+    const popRightMessage = () => setChatVisible(!chatVisible);
     console.log("앱 레이아웃 렌더링")
     
-    const onApply = () => {
+    const onApply = useCallback(() => {
         !isLoggedIn ? message.info("로그인 후 등록할 수 있습니다.") : Router.push('/stadium/register/location');
-    }
-    
-    useEffect(()=>{
-            if(isLoggedIn){
-            setVisible(false);
-        }
     },[isLoggedIn])
+    
     return (
         <Layout style={{minHeight : '100vh', maxWidth : '1920px', width : '100vw'}} >
             <Layout.Header style={{backgroundColor:'#fff', padding:'0 5px'}}>
