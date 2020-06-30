@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
@@ -17,7 +17,7 @@ const AppLayout = ({ children }) => {
     const Router = useRouter();
     const dispatch = useDispatch();
     
-    const showModal = () => setVisible(true); 
+    const showModal = useCallback(() => setVisible(true),[]); 
     const popRightMessage = () => setChatVisible(true);
     console.log("앱 레이아웃 렌더링")
     
