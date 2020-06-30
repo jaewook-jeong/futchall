@@ -19,7 +19,7 @@ const AppLayout = ({ children }) => {
     
     const showModal = () => setVisible(true); 
     const popRightMessage = () => setChatVisible(true);
-
+    console.log("앱 레이아웃 렌더링")
     
     const onApply = () => {
         !isLoggedIn ? message.info("로그인 후 등록할 수 있습니다.") : Router.push('/stadium/register/location');
@@ -33,7 +33,7 @@ const AppLayout = ({ children }) => {
     return (
         <Layout style={{minHeight : '100vh', maxWidth : '1920px', width : '100vw'}} >
             <Layout.Header style={{backgroundColor:'#fff', padding:'0 5px'}}>
-                    {HeaderMenu({'showModal':showModal})}
+                    <HeaderMenu showModal={showModal}/>
             </Layout.Header>
             <Layout.Content style={{height:'5px', backgroundColor:'#fff'}}></Layout.Content>
             <Layout style={{backgroundColor:"#fff"}} >

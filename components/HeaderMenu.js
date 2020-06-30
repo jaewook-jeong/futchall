@@ -119,4 +119,4 @@ const HeaderMenu = (props) =>{
     )
 
 }
-export default HeaderMenu;
+export default React.memo(HeaderMenu);
