@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from 'next/link';
 import { Tag, Tooltip, Menu, Row, Col } from 'antd';
 import {FlagOutlined, FlagTwoTone} from '@ant-design/icons';
 import styles from '../SCSS/stadiumList.module.scss';
@@ -28,7 +27,6 @@ const StadiumList = (props) => {
                             </Col>
                             <Col className={styles.details}>
                                 <Row className={styles.title}>
-                                    {/* <Link href="/stadium/[id]" as={`/stadium/${v.req}`} ><a>{v.title}</a></Link> */}
                                     {v.title}
                                 </Row>
                                 <Row className={styles.tags} >

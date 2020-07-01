@@ -11,7 +11,6 @@ const Maps = (props) => {
     const [map, setMap] = useState(null);
     const [overlays, setOverlays] = useState([]);
     const dispatch = useDispatch();
-
     useEffect(
         () => {
             //최초 마운트 시
@@ -44,7 +43,7 @@ const Maps = (props) => {
         let tempOverlays = [];
         list.forEach((c,i) => {
             let position = new kakao.maps.LatLng(c.lat, c.lng);
-            let marker = new kakao.maps.Marker(
+            const marker = new kakao.maps.Marker(
                 {
                     map: map,
                     position: position
@@ -116,7 +115,7 @@ const Maps = (props) => {
 
     useEffect(()=>{
         if(nowSelected != -1 ){
-            let immuneArr = overlays.slice();
+            let immuneArr = [...overlays];
             immuneArr.map((val, index) =>{
                 if(nowSelected == index){
                     val.setMap(map);
