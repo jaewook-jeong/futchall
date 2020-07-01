@@ -5,24 +5,17 @@ import { Col, Row, Typography, Button, Tooltip, Input, message } from 'antd';
 import {QuestionCircleOutlined} from '@ant-design/icons';
 // import {getLocation} from '../../../util/getLocation';
 const Apply = () => {
-    // const { latitude, longitude } = useSelector(state => state.location);
     const { isLoggedIn } = useSelector(state => state.user);
     const [seleted, setSelected] = useState(true);
-    const [convey_data, setConvey_data] = useState([]);
     let kakaoMap = useRef();
     let kakaoMarker = useRef();
-    // useEffect(()=>{
-    //     if (!isLoggedIn) {
-    //         message.error("로그인 후 이용하여주세요")
-    //         Router.push(`/stadia`);
-    //     }
-    // },[])
-    
 
     const onSubmitForm = useCallback((e) => {
         e.preventDefault();
-        Router.push(`/stadium/register/details?data=${convey_data}`, '/stadium/register/details');
-    },[convey_data])
+        const latlng = kakaoMarker.current.getPosition();
+        const address = document.getElementById('road_address').innerHTML;
+        Router.push(`/stadium/register/details?data=${[latlng.getLat(), latlng.getLng(), address]}`, '/stadium/register/details');
+    },[])
 
     const searchDetailAddrFromCoords = useCallback((coords, callback)=>{
         const geocoder = new kakao.maps.services.Geocoder();
@@ -31,7 +24,11 @@ const Apply = () => {
 
     //지도 만드는 로직
     useEffect(()=>{
-        const latitude = '37.5665', longitude = '126.9780';
+        if (!isLoggedIn) {
+            message.error("로그인 후 이용하여주세요")
+            Router.push(`/stadia`);
+        }
+        const latitude = '37.5665', longitude = '126.9780'; //서울 위도경도
         const options = {
             center: new kakao.maps.LatLng(latitude, longitude),
             level: 9
@@ -40,29 +37,26 @@ const Apply = () => {
         temp.addControl(new kakao.maps.MapTypeControl(), kakao.maps.ControlPosition.TOPRIGHT);
         const zoomControl = new kakao.maps.ZoomControl();
         temp.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
-        
-        kakao.maps.event.addListener(temp, 'click', function(mouseEvent) {
+        kakaoMap.current = temp;
+        kakaoMarker.current?.setMap(kakaoMap.current);
+
+        kakao.maps.event.addListener(kakaoMap.current, 'click', function(mouseEvent) {
             if(kakaoMarker.current === undefined){
                 kakaoMarker.current = new kakao.maps.Marker({ 
-                    position: mouseEvent.latLng
+                    position: mouseEvent.latLng,
+                    map: kakaoMap.current,
                 }); 
-                kakaoMarker.current.setMap(temp);
-                
             }
-            let latlngadd = [mouseEvent.latLng.getLat(), mouseEvent.latLng.getLng()];
             kakaoMarker.current.setPosition(mouseEvent.latLng);
             setSelected(false); //마커로 위치를 선택했는지 여부
             searchDetailAddrFromCoords(mouseEvent.latLng, function(result, status) {
                 if (status === kakao.maps.services.Status.OK) {
                     //주소를 띄우는 로직
-                    let address = result[0].road_address ? result[0].road_address.address_name : result[0].address.address_name;
+                    const address = result[0].road_address ? result[0].road_address.address_name : result[0].address.address_name;
                     document.getElementById("road_address").innerHTML = address;
-                    latlngadd.push(address);
-                    setConvey_data(latlngadd);
                 }
             });
         });
-        kakaoMap.current = temp;
         return kakaoMap.current.relayout();
     },[])
 
