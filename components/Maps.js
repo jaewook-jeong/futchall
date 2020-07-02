@@ -43,12 +43,38 @@ const Maps = (props) => {
         let tempOverlays = [];
         list.forEach((c,i) => {
             let position = new kakao.maps.LatLng(c.lat, c.lng);
+            let icon;
+            if(c.occupation === 'Y'){
+                icon = new kakao.maps.MarkerImage(
+                    '/markerY.png',
+                    new kakao.maps.Size(32, 32),
+                    {
+                        // offset: new kakao.maps.Point(16, 34),
+                        alt: "점령중",
+                        shape: "poly",
+                        coords: "1,20,1,9,5,2,10,0,21,0,27,3,30,9,30,20,17,33,14,33"
+                    }
+                );
+            }else{
+                icon = new kakao.maps.MarkerImage(
+                    '/markerN.png',
+                    new kakao.maps.Size(32, 32),
+                    {
+                        // offset: new kakao.maps.Point(16, 34),
+                        alt: "점령중",
+                        shape: "poly",
+                        coords: "1,20,1,9,5,2,10,0,21,0,27,3,30,9,30,20,17,33,14,33"
+                    }
+                );
+            }
             const marker = new kakao.maps.Marker(
                 {
                     map: map,
-                    position: position
+                    position: position,
+                    image:icon
                 }
             )
+            
             let customOverlay = new daum.maps.CustomOverlay({
                 position: marker.getPosition()
             });
