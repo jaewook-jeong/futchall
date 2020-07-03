@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Router, { withRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
 import { REFRESH_STADIUMLIST_REQUEST } from '../reducers/location';
@@ -8,7 +8,7 @@ import  styles from '../SCSS/map.module.scss';
 
 const Maps = (props) => {
     const  {list, onChangeSelected, nowSelected} = props;
-    const [map, setMap] = useState(null);
+    const kakaoMap = useRef();
     const [overlays, setOverlays] = useState([]);
     const dispatch = useDispatch();
     useEffect(
@@ -30,26 +30,26 @@ const Maps = (props) => {
                 center: new kakao.maps.LatLng(arr[2] ?? '37.5795876', arr[3] ?? '126.9636324'),
                 level: 8
             };
-            let temp = new kakao.maps.Map(document.getElementById("mapContainer"), options);
-            temp.addControl(new kakao.maps.MapTypeControl(), kakao.maps.ControlPosition.TOPRIGHT);
-            kakao.maps.event.addListener(temp, 'dragend', function () {
-                let latlng = temp.getCenter();
-                dispatch({ type:REFRESH_STADIUMLIST_REQUEST , data:{latitude: latlng.getLat(), longitude: latlng.getLng()} });
+            kakaoMap.current = new kakao.maps.Map(document.getElementById("mapContainer"), options);
+            kakaoMap.current.addControl(new kakao.maps.MapTypeControl(), kakao.maps.ControlPosition.TOPRIGHT);
+
+            kakao.maps.event.addListener(kakaoMap.current, 'dragend', function () {
+                let latlng = kakaoMap.current.getCenter();
+                // dispatch({ type:REFRESH_STADIUMLIST_REQUEST , data:{latitude: latlng.getLat(), longitude: latlng.getLng()} });
             });
-            setMap(temp);
         }, []
     );
     useEffect(() => {
         let tempOverlays = [];
-        list.forEach((c,i) => {
-            let position = new kakao.maps.LatLng(c.lat, c.lng);
+        list.forEach((stadiumInfo,index) => {
+            let position = new kakao.maps.LatLng(stadiumInfo.lat, stadiumInfo.lng);
             let icon;
-            if(c.occupation === 'Y'){
+            if(stadiumInfo.occupation === 'Y'){
                 icon = new kakao.maps.MarkerImage(
                     '/markerY.png',
                     new kakao.maps.Size(32, 32),
                     {
-                        // offset: new kakao.maps.Point(16, 34),
+                        offset: new kakao.maps.Point(16, 34),
                         alt: "점령중",
                         shape: "poly",
                         coords: "1,20,1,9,5,2,10,0,21,0,27,3,30,9,30,20,17,33,14,33"
@@ -60,7 +60,7 @@ const Maps = (props) => {
                     '/markerN.png',
                     new kakao.maps.Size(32, 32),
                     {
-                        // offset: new kakao.maps.Point(16, 34),
+                        offset: new kakao.maps.Point(16, 34),
                         alt: "점령중",
                         shape: "poly",
                         coords: "1,20,1,9,5,2,10,0,21,0,27,3,30,9,30,20,17,33,14,33"
@@ -69,7 +69,7 @@ const Maps = (props) => {
             }
             const marker = new kakao.maps.Marker(
                 {
-                    map: map,
+                    map: kakaoMap.current,
                     position: position,
                     image:icon
                 }
@@ -93,7 +93,7 @@ const Maps = (props) => {
             btn_close.setAttribute("title", "닫기");
             btn_close.onclick = function() { customOverlay.setMap(null); onChangeSelected(-1) };
             
-            content_title.appendChild(document.createTextNode(c.title));
+            content_title.appendChild(document.createTextNode(stadiumInfo.title));
             content_title.appendChild(btn_close);
 
             let content_body = document.createElement('div');
@@ -102,18 +102,18 @@ const Maps = (props) => {
             let body_img = document.createElement('div');
             body_img.className = `${styles.bodyImg}`
             let img = document.createElement('img');
-            img.setAttribute('src', c.src ?? "https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png");
+            img.setAttribute('src', stadiumInfo.src ?? "https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png");
             body_img.appendChild(img);
 
             let body_info = document.createElement('div');
             body_info.className = `${styles.bodyInfo}`
             let info_address = document.createElement('div');
             info_address.className = `${styles.bodyAddress}`
-            info_address.appendChild(document.createTextNode(c.address));
+            info_address.appendChild(document.createTextNode(stadiumInfo.address));
             let info_href = document.createElement('div');
             let href_anchor = document.createElement('a');
             href_anchor.appendChild(document.createTextNode("구장 확인하러 가기"));
-            href_anchor.onclick = function() { Router.push(`/stadium/${c.req}`)};
+            href_anchor.onclick = function() { Router.push(`/stadium/${stadiumInfo.req}`)};
             info_href.appendChild(href_anchor);
 
             body_info.appendChild(info_address);
@@ -130,13 +130,14 @@ const Maps = (props) => {
 
             (function (marker, customOverlay) {
                 kakao.maps.event.addListener(marker, 'click', function () {
-                    customOverlay.setMap(map);
-                    onChangeSelected(i);
+                    customOverlay.setMap(kakaoMap.current);
+                    onChangeSelected(index);
                 });
             })(marker, customOverlay);
             tempOverlays.push(customOverlay);
         })
         setOverlays(tempOverlays);
+        kakaoMap.current.relayout();
     }, [list])
 
     useEffect(()=>{
@@ -144,7 +145,7 @@ const Maps = (props) => {
             let immuneArr = [...overlays];
             immuneArr.map((val, index) =>{
                 if(nowSelected == index){
-                    val.setMap(map);
+                    val.setMap(kakaoMap.current);
                 }else{
                     val.setMap(null);
                 }
