@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import Router from 'next/router';
 import { Tabs, Button, Descriptions, Tooltip, Typography, Tag } from 'antd';
 import { HeartTwoTone, QuestionCircleOutlined } from '@ant-design/icons';
@@ -7,12 +7,13 @@ import {SELECT_STADIUM_REQUEST} from '../reducers/stadium';
 const StadiumInfo = (props) => {
     const dispatch = useDispatch();
     const {list, nowSelected} = props;
-    const {info, isSelected} = useSelector(state => state.stadium);
-    //(left, right)=>{if(left['info']['req'] == right['info']['req']){return true}else{return false}}
-    useEffect((event)=>{
+    const {info, isSelected} = useSelector(state => state.stadium, (left, right)=>{if(left['info']['req'] == right['info']['req']){return true}else{return false}});
+    
+    useEffect(()=>{
         dispatch({type:SELECT_STADIUM_REQUEST, data:{req:list[nowSelected].req}});
         console.log("hi")
     },[nowSelected])
+    
     return (
         <Tabs
         type="card"

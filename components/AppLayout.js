@@ -11,16 +11,12 @@ import HeaderMenu from './HeaderMenu';
 
 const AppLayout = ({ children }) => {
     const { isLoggedIn, me } = useSelector(state => state.user, shallowEqual);
-
-    // const isLoggedIn = false;
-    // const me = null;
     const [visible, setVisible] = useState(false);
     const [chatVisible, setChatVisible] = useState(false);
     const Router = useRouter();
     
     const showModal = useCallback(() => setVisible(!visible),[]); 
     const popRightMessage = useCallback(() => setChatVisible(!chatVisible),[]);
-    // console.log(isLoggedIn, me);
     
     const onApply = useCallback(() => {
         isLoggedIn ? Router.push('/stadium/register/location') : message.info("로그인 후 등록할 수 있습니다.");
