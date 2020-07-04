@@ -7,10 +7,10 @@ import { LoadingOutlined,} from '@ant-design/icons';
 import  styles from '../SCSS/map.module.scss';
 
 const Maps = (props) => {
+    const dispatch = useDispatch();
     const  {list, onChangeSelected, nowSelected} = props;
     const kakaoMap = useRef();
     const [overlays, setOverlays] = useState([]);
-    const dispatch = useDispatch();
     useEffect(
         () => {
             //최초 마운트 시
@@ -33,9 +33,15 @@ const Maps = (props) => {
             kakaoMap.current = new kakao.maps.Map(document.getElementById("mapContainer"), options);
             kakaoMap.current.addControl(new kakao.maps.MapTypeControl(), kakao.maps.ControlPosition.TOPRIGHT);
 
-            kakao.maps.event.addListener(kakaoMap.current, 'dragend', function () {
+            kakao.maps.event.addListener(kakaoMap.current, 'dragend',() => {
                 let latlng = kakaoMap.current.getCenter();
-                // dispatch({ type:REFRESH_STADIUMLIST_REQUEST , data:{latitude: latlng.getLat(), longitude: latlng.getLng()} });
+                dispatch({ 
+                    type:REFRESH_STADIUMLIST_REQUEST , 
+                    data:{
+                        latitude: latlng.getLat(), 
+                        longitude: latlng.getLng()
+                    } 
+                });
             });
         }, []
     );
@@ -61,7 +67,7 @@ const Maps = (props) => {
                     new kakao.maps.Size(32, 32),
                     {
                         offset: new kakao.maps.Point(16, 34),
-                        alt: "점령중",
+                        alt: "점령가능",
                         shape: "poly",
                         coords: "1,20,1,9,5,2,10,0,21,0,27,3,30,9,30,20,17,33,14,33"
                     }

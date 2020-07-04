@@ -7,14 +7,13 @@ import StadiumList from './StadiumList';
 import StadiumInfo from './StadiumInfo';
 
 const BattleMap = () => {
-    const stadiumList  = useSelector(state => state.location['stadiumList'], (left, right) => {let array1 =  left.map((v)=>v['req']); let array2 = right.map((v)=>v['req']); if(array1.length === array2.length && array1.sort().every(function(value, index) { return value === array2.sort()[index]})){return true}else{return false} });
-    
     const dispatch = useDispatch();
+    const stadiumList  = useSelector(state => state.location['stadiumList'], (left, right) => {let array1 =  left.map((v)=>v['req']); let array2 = right.map((v)=>v['req']); if(array1.length === array2.length && array1.sort().every(function(value, index) { return value === array2.sort()[index]})){return true}else{return false} });
     const [nowSelected, setNowSeleted] = useState('-1');
     
     const onChangeSelected = useCallback((req) =>{
         setNowSeleted(req);
-    },[nowSelected])
+    },[])
     useEffect(()=>{
         //If users didn`t access BattleMap page from Index, to cover another access
         if(stadiumList.length === 0){

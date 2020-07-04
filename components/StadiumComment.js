@@ -7,7 +7,14 @@ const CommentList = ({ comments }) => (
     <List
         dataSource={comments}
         itemLayout="horizontal"
-        renderItem={props => <Comment {...props} avatar={<Avatar shape="circle">{props.profile}</Avatar>} actions={[<Rate disabled value={props.rating}></Rate>]} />}
+        renderItem={value => 
+                            (<Comment 
+                                datetime = {value.datetime} 
+                                content = {value.content}
+                                author = {value.author} 
+                                avatar = {<Avatar shape="circle">{value.profile}</Avatar>} 
+                                actions={[<Rate disabled value={value.rating}></Rate>]} 
+                            />)}
     />
 );
 

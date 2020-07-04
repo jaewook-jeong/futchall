@@ -5,11 +5,13 @@ import { Tabs, Button, Descriptions, Tooltip, Typography, Tag } from 'antd';
 import { HeartTwoTone, QuestionCircleOutlined } from '@ant-design/icons';
 import {SELECT_STADIUM_REQUEST} from '../reducers/stadium';
 const StadiumInfo = (props) => {
-    const {list, nowSelected} = props;
-    const {info, isSelected} = useSelector(state => state.stadium, (left, right)=>{if(left['info']['req'] == right['info']['req']){return true}else{return false}});
     const dispatch = useDispatch();
-    useEffect(()=>{
+    const {list, nowSelected} = props;
+    const {info, isSelected} = useSelector(state => state.stadium);
+    //(left, right)=>{if(left['info']['req'] == right['info']['req']){return true}else{return false}}
+    useEffect((event)=>{
         dispatch({type:SELECT_STADIUM_REQUEST, data:{req:list[nowSelected].req}});
+        console.log("hi")
     },[nowSelected])
     return (
         <Tabs

@@ -1,14 +1,5 @@
-const dummyUser = {
-    nickname: '우기재',
-    club: '1',
-    clubname:'잔디FC',
-    id:'everest88',
-    positions:["PIVO", "ALA", "FIXO"],
-    age:'20',
-    locations:["서울", "경기"],
-};
-
 export const initialState = {
+    me: null, // 내 정보
     isLoggedIn: false, // 로그인 여부
     isLoggingOut: false, // 로그아웃 시도중
     isLoggingIn: false, // 로그인 시도중
@@ -22,7 +13,16 @@ export const initialState = {
     isChangingTo : false, //회원정보 수정중
     isChangedTo : false, //회원정보 수정완료
     changedToErrorReason : '', //회원정보 수정 실패 사유
-    me: null, // 내 정보
+};
+
+const dummyUser = {
+    nickname: '우기재',
+    club: '1',
+    clubname:'잔디FC',
+    id:'everest88',
+    positions:["PIVO", "ALA", "FIXO"],
+    age:'20',
+    locations:["서울", "경기"],
 };
 
 export const SIGN_UP_REQUEST = 'SIGN_UP_REQUEST';
