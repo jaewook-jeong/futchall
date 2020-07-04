@@ -3,14 +3,14 @@ import Link from 'next/link';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import { Menu, Button, Affix, message, Layout} from 'antd';
-import { useSelector } from 'react-redux';
+import { useSelector, shallowEqual } from 'react-redux';
 import LoginForm from './LoginForm';
 import Message from './Message';
 import { MessageFilled, UserAddOutlined, PlusSquareOutlined, LineChartOutlined, CompassOutlined, TeamOutlined } from '@ant-design/icons';
 import HeaderMenu from './HeaderMenu';
 
 const AppLayout = ({ children }) => {
-    const { isLoggedIn, me } = useSelector(state => state.user);
+    const { isLoggedIn, me } = useSelector(state => state.user, shallowEqual);
 
     // const isLoggedIn = false;
     // const me = null;
@@ -18,9 +18,9 @@ const AppLayout = ({ children }) => {
     const [chatVisible, setChatVisible] = useState(false);
     const Router = useRouter();
     
-    const showModal = () => setVisible(!visible); 
-    const popRightMessage = () => setChatVisible(!chatVisible);
-    console.log(isLoggedIn, me);
+    const showModal = useCallback(() => setVisible(!visible),[]); 
+    const popRightMessage = useCallback(() => setChatVisible(!chatVisible),[]);
+    // console.log(isLoggedIn, me);
     
     const onApply = useCallback(() => {
         isLoggedIn ? Router.push('/stadium/register/location') : message.info("로그인 후 등록할 수 있습니다.");
