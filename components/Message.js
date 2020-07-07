@@ -1,14 +1,14 @@
-import React, {useEffect} from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, {useEffect, useCallback} from 'react';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { GET_LIST_REQUEST, DELETE_LIST_REQUEST } from '../reducers/messenger';
-import { Drawer, List, Collapse, Skeleton, Avatar, Popconfirm, message, Input, Comment } from 'antd';
+import { Drawer, List, Collapse, Skeleton, Avatar, Popconfirm, message,  } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons'
 import Talk from './Talk';
 
 const Message = (props) =>{
-    const {visible, setVisible} = props;
-    const {list, isGettingList, userId} = useSelector(state => state.messenger);
     const dispatch = useDispatch();
+    const {visible, setVisible} = props;
+    const {list, isGettingList, userId} = useSelector(state => state.messenger, shallowEqual);
 
     useEffect(()=>{
         if(visible){
@@ -18,9 +18,11 @@ const Message = (props) =>{
             })
         }
     },[visible])
-    const onHandleClose = () =>{
+    
+    const onHandleClose = useCallback(() =>{
         setVisible(false);
-    }
+    },[])
+    
     const deleteTalkData = (id) => (
         <Popconfirm
             placement="bottomRight"

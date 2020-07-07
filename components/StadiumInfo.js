@@ -11,7 +11,6 @@ const StadiumInfo = (props) => {
     
     useEffect(()=>{
         dispatch({type:SELECT_STADIUM_REQUEST, data:{req:list[nowSelected].req}});
-        console.log("hi")
     },[nowSelected])
     
     return (
