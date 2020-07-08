@@ -12,7 +12,7 @@ const Stadium = () =>{
     const {me, isLoggedIn } = useSelector(state => state.user, (left, right)=>{ if (left['me']['id'] == right['me']['id']){return true}else{return false}});
     const dispatch = useDispatch();
     
-    const columns = [
+    const memberColumns = [
         {
             title: '주장',
             dataIndex: 'reader',
@@ -51,6 +51,48 @@ const Stadium = () =>{
             align: 'center',
             render: (val)=> <div><a onClick={()=>console.log(val)}>연락하기</a></div>
         },
+    ]
+    const recordColumns= [
+        {
+            title: 'Home',
+            children:[
+                {
+                    title:'점령팀',
+                    dataIndex: 'homeTeamName',
+                    align: 'center'
+                },
+                {
+                    title:'득점',
+                    dataIndex: 'homeTeamScore',
+                    align: 'center'
+                }
+            ]
+        },
+        {
+            title: 'Away',
+            children:[
+                {
+                    title:'도전팀',
+                    dataIndex: 'awayTeamName',
+                    align: 'center'
+                },
+                {
+                    title:'득점',
+                    dataIndex: 'awayTeamScore',
+                    align: 'center'
+                }
+            ]
+        },
+        {
+            title: '일시',
+            dataIndex: 'date',
+            align: 'center'
+        },
+        {
+            title: '장소',
+            dataIndex: 'satdiumName',
+            align: 'center'
+        }
     ]
     useEffect(
         // have to change method to getInitialProps
@@ -121,7 +163,7 @@ const Stadium = () =>{
                             {isSelected &&
                                 <Table
                                     showHeader={true}
-                                    columns={columns}
+                                    columns={memberColumns}
                                     pagination={{pageSize:15}}
                                     scroll={{ x: 'max-content', scrollToFirstRowOnChange:true }}
                                     dataSource={memberList}
@@ -133,7 +175,14 @@ const Stadium = () =>{
                         </Tabs.TabPane>
                         <Tabs.TabPane tab="전적" key="3">
                             <Skeleton active loading={!isSelected}></Skeleton>
-                            {isSelected && info.record}
+                            {isSelected && 
+                                <Table
+                                    showHeader={true}
+                                    columns={recordColumns}
+                                    dataSource={info.record}
+                                >
+                                </Table>
+                            }
                         </Tabs.TabPane>
                         <Tabs.TabPane tab="사진" key="4">
                             <Skeleton active></Skeleton>

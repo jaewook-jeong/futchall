@@ -6,7 +6,20 @@ const dummyInfo = {
     recruit:"Y",
     description:"20대로 이루어진 풋살팀입니다.",
     picture:[],
-    record:[],
+    record:[
+        {
+            req: 1,
+            homeTeamReq: 1,
+            homeTeamName: '잔디FC',
+            awayTeamName: 'FC벌',
+            awayTeamReq: 2,
+            homeTeamScore: 3,
+            awayTeamScore: 1,
+            date: '2020-06-07',
+            stadiumName: '누상동 다목적 운동장',
+
+        }
+    ],
     captures:[
         {
             req: 1, //시퀀스
