@@ -57,7 +57,7 @@ const AppLayout = ({ children }) => {
 };
 
 AppLayout.propTypes = {
-    children: PropTypes.node,
+    children: PropTypes.node.isRequired,
 };
 
 export default AppLayout;
