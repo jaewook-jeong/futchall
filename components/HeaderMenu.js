@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
 import Router from 'next/router';
 import PropTypes from 'prop-types';
@@ -10,7 +10,7 @@ import HeaderSearchBox from './HeaderSearchBox';
 const HeaderMenu = (props) =>{
     const showLoginModal = props.showModal;
     const {isLoggedIn} = useSelector(state=> state.user, shallowEqual);
-    
+    const floatRight = useMemo(()=>({float:'right'}),[]);
     return(
         <div className={styles.headerMenu}>
             <ul>
@@ -26,7 +26,7 @@ const HeaderMenu = (props) =>{
                     <HeaderSearchBox/>
                 </li>
                 {!isLoggedIn && 
-                    <li onClick={showLoginModal} style={{float:'right'}}>
+                    <li onClick={showLoginModal} style={floatRight}>
                         <span className={styles.icon}>
                             <KeyOutlined/>
                         </span>
@@ -36,7 +36,7 @@ const HeaderMenu = (props) =>{
                     </li>
                 }
                 {isLoggedIn &&
-                    <li style={{float:'right'}}>
+                    <li style={floatRight}>
                         <span className={styles.icon}>
                             <ProfileAvatar/>
                         </span>

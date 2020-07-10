@@ -1,4 +1,4 @@
-import React, { useState, useCallback} from 'react';
+import React, { useState, useCallback } from 'react';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
@@ -6,9 +6,35 @@ import { Menu, Button, Affix, message, Layout} from 'antd';
 import { useSelector, shallowEqual } from 'react-redux';
 import LoginForm from './LoginForm';
 import Message from './Message';
+import styled from 'styled-components';
 import { MessageFilled, UserAddOutlined, PlusSquareOutlined, LineChartOutlined, CompassOutlined, TeamOutlined } from '@ant-design/icons';
 import HeaderMenu from './HeaderMenu';
 
+const OutterLayout = styled(Layout)`
+    min-height: 100vh;
+    max-width: 1920px;
+`;
+const LayoutHeader = styled(Layout.Header)`
+    background-color: #fff;
+    padding: 0 5px;
+`;
+const LayoutContent = styled(Layout.Content)`
+    background-color: #fff;
+    height: 5px;
+`;
+const InnerLayout = styled(Layout)`
+    background-color: #fff;
+`;
+const MainLayout = styled(Layout.Content)`
+    min-height: 94vh;
+    z-index: 5;
+`;
+const MessageAffix = styled(Affix)`
+    position: fixed;
+    right: 5vw;
+    bottom: 10vh;
+    z-index: 1000;
+`;
 const AppLayout = ({ children }) => {
     const { isLoggedIn, me } = useSelector(state => state.user, shallowEqual);
     const [visible, setVisible] = useState(false);
@@ -17,18 +43,17 @@ const AppLayout = ({ children }) => {
     
     const showModal = useCallback(() => setVisible(!visible),[]); 
     const popRightMessage = useCallback(() => setChatVisible(!chatVisible),[]);
-    
     const onApply = useCallback(() => {
         isLoggedIn ? Router.push('/stadium/register/location') : message.info("로그인 후 등록할 수 있습니다.");
     },[]);
 
     return (
-        <Layout style={{minHeight : '100vh', maxWidth : '1920px', width : '100vw'}} >
-            <Layout.Header style={{backgroundColor:'#fff', padding:'0 5px'}}>
+        <OutterLayout>
+            <LayoutHeader>
                 <HeaderMenu showModal={showModal}/>
-            </Layout.Header>
-            <Layout.Content style={{height:'5px', backgroundColor:'#fff'}}></Layout.Content>
-            <Layout style={{backgroundColor:"#fff"}} hasSider={true}>
+            </LayoutHeader>
+            <LayoutContent/>
+            <InnerLayout hasSider={true}>
                 <Layout.Sider breakpoint={"sm"} theme="light" zeroWidthTriggerStyle={{top:'-30px'}} collapsedWidth={0}>
                     <Menu mode="inline" theme="light" >
                         <Menu.Item key="stadia" icon={<CompassOutlined/>} onClick={()=>Router.push("/stadia")}>구장찾기</Menu.Item>
@@ -39,20 +64,21 @@ const AppLayout = ({ children }) => {
                         {!isLoggedIn && <Menu.Item key="signup" icon={<UserAddOutlined/>} onClick={()=>Router.push("/signup")}>회원가입</Menu.Item>}
                     </Menu>
                 </Layout.Sider>
-                <Layout.Content style={{minHeight:'94vh', zIndex:5}}>
+                <MainLayout>
                     {children}
-                </Layout.Content>
-            </Layout>
+                </MainLayout>
+            </InnerLayout>
             
-            {isLoggedIn && <Affix 
-                        // target={() => document.getElementById("mainContainer")} 
-                        style={{ position: "fixed", right: '5vw', bottom: '10vh', zIndex:1000 }} >
-                        <Button type="primary" shape="circle" size="large" icon={<MessageFilled />}onClick={popRightMessage} ></Button> 
-                        </Affix>
+            {isLoggedIn && 
+                        <MessageAffix
+                            // target={() => document.getElementById("mainContainer")} 
+                        >
+                            <Button type="primary" shape="circle" size="large" icon={<MessageFilled />}onClick={popRightMessage} ></Button> 
+                        </MessageAffix>
             }
             {!isLoggedIn && <LoginForm visible={visible} setVisible={setVisible} />}
             {isLoggedIn && <Message visible={chatVisible} setVisible={setChatVisible}/>}
-        </Layout>
+        </OutterLayout>
     );
 };
 

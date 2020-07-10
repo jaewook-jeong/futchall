@@ -5,8 +5,13 @@ import PropTypes from 'prop-types';
 import { REFRESH_STADIUMLIST_REQUEST } from '../reducers/location';
 import { notification, message } from 'antd';
 import { LoadingOutlined,} from '@ant-design/icons';
+import styled from 'styled-components';
 import  styles from '../SCSS/map.module.scss';
 
+const MapContainer = styled.div`
+    height: 70vh;
+    text-align: center;
+`
 const Maps = (props) => {
     const dispatch = useDispatch();
     const  {list, onChangeSelected, nowSelected} = props;
@@ -148,7 +153,7 @@ const Maps = (props) => {
     }, [list])
 
     useEffect(()=>{
-        if(nowSelected != -1 ){
+        if(nowSelected !== -1 ){
             let immuneArr = [...overlays];
             immuneArr.map((val, index) =>{
                 if(nowSelected == index){
@@ -162,14 +167,17 @@ const Maps = (props) => {
     },[nowSelected])
     
     return (
-        <div id="mapContainer" style={{ height: '70vh', textAlign: 'center' }}>
-            <LoadingOutlined style={{ margin: '0 auto', width: '10vh', height: '10vh' }} />
-        </div>
+        <MapContainer id="mapContainer">
+            {/* <LoadingOutlined style={{ margin: '0 auto', width: '10vh', height: '10vh' }} /> */}
+        </MapContainer>
     );
 };
 Maps.propTypes = {
     list : PropTypes.array,
     onChangeSelected: PropTypes.func,
-    nowSelected: PropTypes.number,
+    nowSelected: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+    ]),
 }
 export default withRouter(Maps);

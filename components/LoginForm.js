@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { Button, Input, Modal, Form, Checkbox,} from 'antd';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import Link from 'next/link';
@@ -17,7 +17,10 @@ const LoginForm = (props) => {
     const onHandleCancel = (() => {
         form.resetFields(["id", "password"]);
         setVisible(false);
-    })
+    });
+    const FullWidth = useMemo(()=>({width: '100%'}),[]);
+    const FloatRight = useMemo(()=>({float: 'right'}),[]);
+    const MarginBottomZero = useMemo(()=>({marginBottom: 0}));
     const onSubmitForm = useCallback(() => {
         dispatch({
             type: LOG_IN_REQUEST,
@@ -66,10 +69,10 @@ const LoginForm = (props) => {
                     >
                         <Checkbox>아이디 기억하기</Checkbox>
                     </Form.Item>
-                    <Link href=""><a style={{float:"right"}}>비밀번호 찾기</a></Link>
+                    <Link href=""><a style={FloatRight}>비밀번호 찾기</a></Link>
                 </Form.Item>
 
-                <Form.Item shouldUpdate style={{marginBottom:0}}>
+                <Form.Item shouldUpdate style={MarginBottomZero}>
                     {()=>{
                         return (
                             <Button 
@@ -78,7 +81,7 @@ const LoginForm = (props) => {
                                 key="submit"
                                 disabled={ !form.isFieldsTouched(["id", "password"],true) }
                                 onClick={onSubmitForm}
-                                style={{width:"100%"}}
+                                style={FullWidth}
                             >
                                 로그인
                             </Button>
