@@ -14,6 +14,7 @@ import {
 
 const dummyComment=[
     {
+        req:1,
         datetime:"2020-04-26",
         content:"깔끔하고 너무 좋습니다",
         profile:"우기재",
@@ -21,6 +22,7 @@ const dummyComment=[
         rating:5,
     },
     {
+        req:2,
         datetime:"2020-04-25",
         content:"꽤괜;",
         profile:"뚜요니",
@@ -28,6 +30,7 @@ const dummyComment=[
         rating:4,
     },
     {
+        req:3,
         datetime:"2020-04-25",
         content:"약간 좁은 듯한 느낌",
         profile:"우기재",
@@ -35,6 +38,7 @@ const dummyComment=[
         rating:3,
     },
     {
+        req:4,
         datetime:"2020-04-24",
         content:"아 이게 뭐야",
         profile:"우기재",
@@ -42,6 +46,7 @@ const dummyComment=[
         rating:1,
     },
     {
+        req:5,
         datetime:"2020-04-23",
         content:"정류장에서 조금 걸어야 합니다",
         profile:"뚜요니",

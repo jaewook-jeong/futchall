@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useCallback } from 'react';
-import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { REFRESH_STADIUMLIST_REQUEST } from '../reducers/location';
 import { Row, Col } from 'antd';
 import Maps from './Maps';

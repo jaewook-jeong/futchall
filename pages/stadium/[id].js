@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useCallback} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Router, { useRouter } from 'next/router'
 import {Skeleton, Col, Row, Tabs, Button, message, Descriptions, Tag, Typography, Tooltip} from 'antd';
@@ -54,9 +54,9 @@ const Stadium = () =>{
         }
     },[isSelected])
 
-    const moveToTeam = () =>{
+    const moveToTeam = useCallback(() =>{
         Router.push(`/team/${info.teamInfo}`);
-    }
+    },[info])
     return(
         <div>
             <Row gutter={[0, 16]} >

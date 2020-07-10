@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import { Button, Input, Modal, Form, Checkbox,} from 'antd';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import Link from 'next/link';
+import PropTypes from 'prop-types';
 import { LOG_IN_REQUEST } from '../reducers/user';
 import { SET_USER_ID } from '../reducers/messenger';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
@@ -88,5 +89,8 @@ const LoginForm = (props) => {
         </Modal>
     );
 };
-
+LoginForm.propTypes = {
+    visible:PropTypes.bool,
+    setVisible:PropTypes.func
+};
 export default LoginForm;

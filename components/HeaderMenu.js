@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
 import Router from 'next/router';
+import PropTypes from 'prop-types';
 import ProfileAvatar  from './ProfileAvatar';
 import { HomeOutlined, KeyOutlined } from '@ant-design/icons'
 import styles from '../SCSS/headerMenu.module.scss'
@@ -44,6 +45,9 @@ const HeaderMenu = (props) =>{
             </ul>
         </div>
     )
-
 }
+HeaderMenu.propTypes = {
+    showModal: PropTypes.func,
+};
+
 export default HeaderMenu;

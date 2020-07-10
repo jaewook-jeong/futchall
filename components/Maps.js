@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Router, { withRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 import { REFRESH_STADIUMLIST_REQUEST } from '../reducers/location';
 import { notification, message } from 'antd';
 import { LoadingOutlined,} from '@ant-design/icons';
@@ -166,5 +167,9 @@ const Maps = (props) => {
         </div>
     );
 };
-
+Maps.propTypes = {
+    list : PropTypes.array,
+    onChangeSelected: PropTypes.func,
+    nowSelected: PropTypes.number,
+}
 export default withRouter(Maps);

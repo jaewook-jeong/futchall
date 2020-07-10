@@ -1,6 +1,7 @@
-import React, {useEffect, useCallback} from 'react';
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { Row, Col, Input, Divider, Button, message, Tooltip } from 'antd';
+import { Row, Col, Input, Divider, message, Tooltip } from 'antd';
 import styles from '../SCSS/messenger.module.scss';
 
 const Talk = (props) =>{
@@ -72,6 +73,9 @@ const Talk = (props) =>{
             </Col>
         </Row>
     )
+}
+Talk.propTypes = {
+    opponent: PropTypes.string.isRequired
 }
 
 export default Talk;

@@ -1,5 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 import {Comment, List, Avatar, Form, Button, Input, Rate} from 'antd';
 import {ADD_COMMENT_REQUEST} from '../reducers/stadium'
 
@@ -13,11 +14,13 @@ const CommentList = ({ comments }) => (
                                 content = {value.content}
                                 author = {value.author} 
                                 avatar = {<Avatar shape="circle">{value.profile}</Avatar>} 
-                                actions={[<Rate disabled value={value.rating}></Rate>]} 
+                                actions={[<Rate disabled value={value.rating} key={value.req}></Rate>]} 
                             />)}
     />
 );
-
+CommentList.propTypes = {
+    comments: PropTypes.array
+}
 const StadiumComment = () =>{
     const { comments, isAddingComment, isAddedComment } = useSelector(state=> state.stadium);
     const { isLoggedIn, me } = useSelector(state => state.user);
@@ -25,7 +28,7 @@ const StadiumComment = () =>{
     const [rate, onSetRate] = useState(3);
     const dispatch = useDispatch();
 
-    const handleSubmit = ()=>{
+    const handleSubmit = useCallback(()=>{
         dispatch({
             type:ADD_COMMENT_REQUEST,
             data:{
@@ -36,13 +39,13 @@ const StadiumComment = () =>{
                 rating:rate
             }
         });
-    }
-    const handleChange= (e)=>{
+    },[]);
+    const handleChange= useCallback((e)=>{
         onChangeComment(e.target.value);
-    }
-    const onChangeRate = (e) =>{
+    },[]);
+    const onChangeRate = useCallback((e) =>{
         onSetRate(e);
-    }
+    },[])
     useEffect(()=>{
         if(isAddedComment){
             onChangeComment('');

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Tag, Tooltip, Menu, Row, Col } from 'antd';
 import {FlagOutlined, FlagTwoTone} from '@ant-design/icons';
 import styles from '../SCSS/stadiumList.module.scss';
@@ -40,6 +41,11 @@ const StadiumList = (props) => {
             </Menu.SubMenu>
         </Menu>
     )
+}
+StadiumList.propTypes = {
+    list: PropTypes.array,
+    onChangeSelected: PropTypes.func,
+    nowSelected: PropTypes.number,
 }
 
 export default StadiumList;

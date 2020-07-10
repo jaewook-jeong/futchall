@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useState} from 'react';
 import { useDispatch, useSelector} from 'react-redux';
 import axios from 'axios';
-import { Row, Col, Typography, Form, Input, Space, Tooltip, Divider, Select, Button } from 'antd';
+import Router from 'next/router';
+import { Row, Col, Typography, Form, Input, Space, Tooltip, Divider, Select, Button, message } from 'antd';
 import { SIGN_UP_REQUEST } from '../reducers/user';
-import { UserOutlined, QuestionCircleOutlined, TrophyFilled, TrophyTwoTone } from '@ant-design/icons';
+import { UserOutlined, QuestionCircleOutlined, TrophyTwoTone } from '@ant-design/icons';
 import { ageGroup, locations, positions } from '../util/selectOptions'
 
 const Signup = () => {

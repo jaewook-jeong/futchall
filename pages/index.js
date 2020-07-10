@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import Router from 'next/router';
 import { Button, Col, Row, Input, Statistic, Divider, notification, message } from 'antd';
 import { SearchOutlined, InfoCircleOutlined, LikeOutlined, ArrowUpOutlined, TrophyTwoTone } from '@ant-design/icons';
@@ -9,10 +9,10 @@ import { getLocation } from '../util/getLocation';
 const Home = () => {
     const {isChangingLocation} = useSelector(state=>state.location);
     const dispatch = useDispatch();
-    const onSearch = (e) => {
+    const onSearch = useCallback((e) => {
         Router.push(`/team/search?loc=${e}`);
-    }
-    const onClickGPS = () => {
+    },[]);
+    const onClickGPS = useCallback(() => {
         (async () => {
             try {
                 const arr = await getLocation();
@@ -29,11 +29,11 @@ const Home = () => {
                 Router.push('/stadia');
             }
         })();
-    }
-    const onClickNoGPS = () => {
+    },[])
+    const onClickNoGPS = useCallback(() => {
         notification.open({ message: "현재위치로 탐색하시려면?", description: `이전에 위치정보 제공을 동의하시지 않은 경우, 주소창 앞 자물쇠 버튼을 클릭하여 수정하여 주세요. 그렇지 않은 경우 메인페이지에서 파란색 "현재위치정보 이용하여 둘러보기"를 클릭하여 주세요.(Internet Explorer에서는 사용하실 수 없습니다.)`, duration: 0 })
         Router.push('/stadia');
-    }
+    },[])
     return (
             <Row style={{ height: '100%', textAlign: 'center' }} >
                 <Col md={{ span: 16, offset: 4 }} sm={{span: 18, offset: 3}} xs={{ span: 20, offset: 2 }}>

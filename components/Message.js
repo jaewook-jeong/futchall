@@ -1,5 +1,6 @@
 import React, {useEffect, useCallback} from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+import PropTypes from 'prop-types';
 import { GET_LIST_REQUEST, DELETE_LIST_REQUEST } from '../reducers/messenger';
 import { Drawer, List, Collapse, Skeleton, Avatar, Popconfirm, message,  } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons'
@@ -83,5 +84,8 @@ const Message = (props) =>{
         </Drawer>
     );
 }
-
+Message.propTypes = {
+    visible:PropTypes.bool,
+    setVisible:PropTypes.func
+};
 export default Message;

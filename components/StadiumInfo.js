@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Router from 'next/router';
+import PropTypes from 'prop-types';
 import { Tabs, Button, Descriptions, Tooltip, Typography, Tag } from 'antd';
 import { HeartTwoTone, QuestionCircleOutlined } from '@ant-design/icons';
 import {SELECT_STADIUM_REQUEST} from '../reducers/stadium';
+
 const StadiumInfo = (props) => {
     const dispatch = useDispatch();
     const {list, nowSelected} = props;
@@ -53,5 +55,9 @@ const StadiumInfo = (props) => {
             </Tabs.TabPane>
         </Tabs>
     );
+}
+StadiumInfo.propTypes = {
+    list : PropTypes.array,
+    nowSelected : PropTypes.number,
 }
 export default StadiumInfo;

@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Router from 'next/router';
 import { Row, Col, Typography, Form, Input, Button, message } from 'antd';
@@ -6,7 +6,7 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import {CHANGE_TO_REQUEST} from '../../reducers/user'
 
 const Altpwd = () => {
-    const { me, isChangingTo, isChangedTo, changedToErrorReason } = useSelector(state => state.user);
+    const { me, isChangingTo } = useSelector(state => state.user);
     const [form] = Form.useForm();
     const dipatch = useDispatch();
     

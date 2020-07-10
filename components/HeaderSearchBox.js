@@ -1,14 +1,11 @@
-import React, {useState, useMemo}from  'react';
+import React, {useState, useMemo, useCallback}from  'react';
 import styles from '../SCSS/headerMenu.module.scss'
 import Router from 'next/router';
 import {SearchOutlined, ArrowLeftOutlined} from '@ant-design/icons'
 
 const HeaderSearchBox = () =>{
 
-    const searchTeam = () => {
-        Router.push(`/team/search?q=${searchQuery}`);
-    }
-    const useTeamSearching = () => {
+    const useTeamSearching = useCallback(() => {
         const [searchQuery, setSearchQuery]= useState('');
         const deleteButton = useMemo(()=>{ if(searchQuery.length === 0){return false }else{return true}}, [searchQuery]);
         
@@ -19,10 +16,13 @@ const HeaderSearchBox = () =>{
         function clearSearchQuery(){
             setSearchQuery('');
         }
-        return [searchQuery, handleSearchQuery, clearSearchQuery, deleteButton];
-    }
+        const searchTeam = () => {
+            Router.push(`/team/search?q=${searchQuery}`);
+        }
+        return [searchQuery, handleSearchQuery, clearSearchQuery, deleteButton, searchTeam];
+    },[])
     
-    const [searchQuery, handleSearchQuery, clearSearchQuery, deleteButton] = useTeamSearching();
+    const [searchQuery, handleSearchQuery, clearSearchQuery, deleteButton, searchTeam] = useTeamSearching();
     return(
         <>
             <span className={styles.findicon} onClick={()=>{document.getElementById('hiddenSearchDiv').style.display = 'block'}}>

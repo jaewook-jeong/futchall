@@ -123,7 +123,7 @@ const columns = [
 
 const Ranking = () =>{
     const dispatch = useDispatch();
-    const { rankingList,  isLoading, isLoaded} = useSelector(state => state.team);
+    const { rankingList,  isLoading } = useSelector(state => state.team);
     useEffect(
         ()=>{
             dispatch({

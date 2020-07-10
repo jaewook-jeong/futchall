@@ -1,9 +1,9 @@
-import React, {useEffect, useCallback, useState } from 'react';
-import { useRouter, withRouter, } from 'next/router'
+import React, {useEffect, } from 'react';
+import { withRouter, } from 'next/router'
 import Router from 'next/router';
 import Link from 'next/link';
 import {useDispatch, useSelector} from 'react-redux';
-import {Row, Col, List, Skeleton, Typography, Button, Tag, Tooltip} from 'antd';
+import {Row, Col, List,  Typography, Button, Tag, Tooltip} from 'antd';
 import {SEARCH_TEAMS_REQUEST} from '../../reducers/team'
 import { LikeOutlined } from '@ant-design/icons'
 
@@ -55,7 +55,7 @@ const Search = (props) =>{
                                 <List.Item
                                     key={item.req}
                                     actions={[
-                                        <Tooltip title="현재 점령중인 구장 수"><LikeOutlined/>{item.occupation}</Tooltip>,
+                                        <Tooltip title="현재 점령중인 구장 수" key={item.occupation}><LikeOutlined/>{item.occupation}</Tooltip>,
                                         <Tag key={item.location} >#{item.location}</Tag>,
                                         <Tag key={item.recruit} hidden={item.recruit !== "Y" }>#모집중</Tag> 
                                     ]}

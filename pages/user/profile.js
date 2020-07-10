@@ -1,13 +1,13 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Router from 'next/router';
-import { Row, Col, Typography, Form, Select, Input, Space, Tooltip, Button, message, Switch, Checkbox } from 'antd';
+import { Row, Col, Typography, Form, Select, Input, Space, Tooltip, Button, message, } from 'antd';
 import {ageGroup, locations, positions} from '../../util/selectOptions';
 import { UserOutlined, QuestionCircleOutlined, EditOutlined } from '@ant-design/icons';
 import {CHANGE_TO_REQUEST} from '../../reducers/user'
 
 const Profile = () => {
-    const { me, isChangingTo, isChangedTo, changedToErrorReason } = useSelector(state => state.user);
+    const { me, isChangingTo } = useSelector(state => state.user);
     const [form] = Form.useForm();
     const dipatch = useDispatch();
     
