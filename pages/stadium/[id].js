@@ -6,6 +6,7 @@ import StadiumComment from '../../components/StadiumComment';
 import {SELECT_STADIUM_REQUEST}from '../../reducers/stadium';
 import { CopyOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import styles from '../../SCSS/stadium.module.scss'
+import AppLayout from '../../components/AppLayout';
 const Stadium = () =>{
     const router = useRouter();
     const dispatch = useDispatch();
@@ -58,7 +59,7 @@ const Stadium = () =>{
         Router.push(`/team/${info.teamInfo}`);
     },[info])
     return(
-        <div>
+        <AppLayout>
             <Row gutter={[0, 16]} >
                 <Col xs={{ span: 22, offset:1 }} sm={{ span: 22, offset: 1 }} md={{ span: 20, offset: 2 }}>
                     <Typography.Title level={3}>
@@ -120,7 +121,7 @@ const Stadium = () =>{
                 <Col xs={{ span: 22, offset:1 }} sm={{ span: 22, offset: 1 }} md={{ span: 18, offset: 3 }}>
                 </Col>
             </Row>
-        </div>
+        </AppLayout>
     );
 }
 export default Stadium;

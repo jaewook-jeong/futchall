@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Row, Col, List,  Typography, Button, Tag, Tooltip} from 'antd';
 import {SEARCH_TEAMS_REQUEST} from '../../reducers/team'
 import { LikeOutlined } from '@ant-design/icons'
+import AppLayout from '../../components/AppLayout';
 
 const Search = (props) =>{
     const dispatch = useDispatch();
@@ -30,7 +31,7 @@ const Search = (props) =>{
     // },[window.location.hash.substr(1)])
 
     return(
-        <div>
+        <AppLayout>
             <Row>
                 <Col xs={{ span: 22, offset:1 }} md={{ span: 20, offset: 2 }}>
                     <Typography.Title level={4}>"{query}"에 대한 검색 결과입니다.</Typography.Title>
@@ -80,7 +81,7 @@ const Search = (props) =>{
                     
                 </Col>
             </Row>
-        </div>
+        </AppLayout>
     );
 }
 export default withRouter(Search);

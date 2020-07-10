@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {LOAD_LIST_REQUEST} from '../../reducers/team';
 import {Table, Col, Row, Typography} from 'antd';
+import AppLayout from '../../components/AppLayout';
 
 
 const columns = [
@@ -131,24 +132,26 @@ const Ranking = () =>{
             })
     },[])
     return(
-        <Row>
-            <Col xs={{ span: 22, offset:1 }} sm={{ span: 22, offset: 1 }} md={{ span: 20, offset: 2 }}>
-                <Typography.Title level={3}>
-                    구장깨기 순위
-                </Typography.Title>
-                
-                <Table
-                    loading={isLoading}
-                    showHeader={true}
-                    columns={columns}
-                    scroll={{ x: 'max-content', scrollToFirstRowOnChange:true }}
-                    pagination={{ pageSize: 50 }}
-                    dataSource={rankingList}
-                    size="small"
-                >
-                </Table>
-            </Col>
-        </Row>
+        <AppLayout>
+            <Row>
+                <Col xs={{ span: 22, offset:1 }} sm={{ span: 22, offset: 1 }} md={{ span: 20, offset: 2 }}>
+                    <Typography.Title level={3}>
+                        구장깨기 순위
+                    </Typography.Title>
+                    
+                    <Table
+                        loading={isLoading}
+                        showHeader={true}
+                        columns={columns}
+                        scroll={{ x: 'max-content', scrollToFirstRowOnChange:true }}
+                        pagination={{ pageSize: 50 }}
+                        dataSource={rankingList}
+                        size="small"
+                    >
+                    </Table>
+                </Col>
+            </Row>
+        </AppLayout>
     );
 }
 

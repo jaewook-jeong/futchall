@@ -6,7 +6,6 @@ import { applyMiddleware, compose, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
 
-import AppLayout from '../components/AppLayout';
 import reducer from '../reducers';
 import rootSaga from '../sagas';
 
@@ -21,9 +20,7 @@ const FutChall = ({ Component, store }) => {
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/antd/4.1.5/antd.min.js"></script>
                 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=60712c2e792d545d1241f9c9bc3a1f28&libraries=clusterer,services"></script>
             </Head>
-            <AppLayout>
-                <Component />
-            </AppLayout>
+            <Component />
         </Provider>
     );
 }

@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 import { Skeleton, Col, Row, Tabs, Button, message, Descriptions, Typography, Table, Tag } from 'antd';
 import { SELECT_TEAM_REQUEST }from '../../reducers/team';
 import { QuestionCircleOutlined } from '@ant-design/icons';
+import AppLayout from '../../components/AppLayout';
 const Stadium = () =>{
     const router = useRouter();
     const { id } = router.query;
@@ -125,7 +126,7 @@ const Stadium = () =>{
         }
     },[isSelected])
     return(
-        <div>
+        <AppLayout>
             <Row gutter={[0, 16]} >
                 <Col xs={{ span: 22, offset:1 }} sm={{ span: 22, offset: 1 }} md={{ span: 20, offset: 2 }}>
                     <Typography.Title level={3} copyable={isSelected && {text:window.location.pathname}}>
@@ -194,7 +195,7 @@ const Stadium = () =>{
                 <Col xs={{ span: 22, offset:1 }} sm={{ span: 22, offset: 1 }} md={{ span: 18, offset: 3 }}>
                 </Col>
             </Row>
-        </div>
+        </AppLayout>
     );
 }
 export default Stadium;

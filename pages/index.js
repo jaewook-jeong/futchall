@@ -35,35 +35,35 @@ const Home = () => {
         Router.push('/stadia');
     },[])
     return (
-            <Row style={{ height: '100%', textAlign: 'center' }} >
-                <Col md={{ span: 16, offset: 4 }} sm={{span: 18, offset: 3}} xs={{ span: 20, offset: 2 }}>
-                    <Row gutter={[0,20]}>
-                        <Divider orientation="left"><TrophyTwoTone twoToneColor="#fbd71f"/>어제의 기록</Divider>
-                        <Col md={{ span: 6, offset: 2 }} xs={{ span: 18, offset: 3 }} >
-                            <Statistic title="최다 구장 점령 수" value={7} prefix={<LikeOutlined />}></Statistic>
-                        </Col>
-                        <Col md={{ span: 6, offset: 1 }} xs={{ span: 18, offset: 3 }}>
-                            <Statistic title="새로등록된 구장 수" value={7} valueStyle={{ color: "#40a9ff" }} prefix={<ArrowUpOutlined />} suffix="개"></Statistic>
-                        </Col>
-                        <Col md={{ span: 6, offset: 1 }} xs={{ span: 18, offset: 3 }}>
-                            <Statistic title="구장깨기 성공 비율" value={30.45} precision={2} valueStyle={{ color: '#3f8600' }} prefix={<ArrowUpOutlined />} suffix="%"></Statistic>
-                        </Col>
-                    </Row>
-                </Col>
-                <Col md={{ span: 14, offset: 5 }} xs={{ span: 18, offset: 3 }}>
-                    <Input.Search size="large" placeholder="활동지역을 검색해보세요" onSearch={onSearch} enterButton />
-                </Col>
-                <Col span={24}>
-                    <Row gutter={[10, 10]}>
-                        <Col span={24} >
-                            <Button type="primary" icon={<SearchOutlined />} size="large" shape="round" onClick={onClickGPS} loading={isChangingLocation}>현재위치정보 이용하여 둘러보기</Button>
-                        </Col>
-                        <Col span={24}>
-                            <Button size="large" icon={<InfoCircleOutlined />} shape="round" onClick={onClickNoGPS}>지도로 구장 찾아보기</Button>
-                        </Col>
-                    </Row>
-                </Col>
-            </Row>
+        <Row style={{ height: '100vh', textAlign: 'center' }} >
+            <Col md={{ span: 16, offset: 4 }} sm={{span: 18, offset: 3}} xs={{ span: 20, offset: 2 }}>
+                <Row gutter={[0,20]}>
+                    <Divider orientation="left"><TrophyTwoTone twoToneColor="#fbd71f"/>어제의 기록</Divider>
+                    <Col md={{ span: 6, offset: 2 }} xs={{ span: 18, offset: 3 }} >
+                        <Statistic title="최다 구장 점령 수" value={7} prefix={<LikeOutlined />}></Statistic>
+                    </Col>
+                    <Col md={{ span: 6, offset: 1 }} xs={{ span: 18, offset: 3 }}>
+                        <Statistic title="새로등록된 구장 수" value={7} valueStyle={{ color: "#40a9ff" }} prefix={<ArrowUpOutlined />} suffix="개"></Statistic>
+                    </Col>
+                    <Col md={{ span: 6, offset: 1 }} xs={{ span: 18, offset: 3 }}>
+                        <Statistic title="구장깨기 성공 비율" value={30.45} precision={2} valueStyle={{ color: '#3f8600' }} prefix={<ArrowUpOutlined />} suffix="%"></Statistic>
+                    </Col>
+                </Row>
+            </Col>
+            <Col md={{ span: 14, offset: 5 }} xs={{ span: 18, offset: 3 }}>
+                <Input.Search size="large" placeholder="활동지역을 검색해보세요" onSearch={onSearch} enterButton />
+            </Col>
+            <Col span={24}>
+                <Row gutter={[10, 10]}>
+                    <Col span={24} >
+                        <Button type="primary" icon={<SearchOutlined />} size="large" shape="round" onClick={onClickGPS} loading={isChangingLocation}>현재위치정보 이용하여 둘러보기</Button>
+                    </Col>
+                    <Col span={24}>
+                        <Button size="large" icon={<InfoCircleOutlined />} shape="round" onClick={onClickNoGPS}>지도로 구장 찾아보기</Button>
+                    </Col>
+                </Row>
+            </Col>
+        </Row>
     );
 };
 

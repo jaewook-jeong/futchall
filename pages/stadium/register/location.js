@@ -3,6 +3,7 @@ import Router from 'next/router';
 import { useSelector } from 'react-redux';
 import { Col, Row, Typography, Button, Tooltip, Input, message } from 'antd';
 import {QuestionCircleOutlined} from '@ant-design/icons';
+import AppLayout from '../../../components/AppLayout';
 // import {getLocation} from '../../../util/getLocation';
 const Apply = () => {
     const { isLoggedIn } = useSelector(state => state.user);
@@ -81,6 +82,7 @@ const Apply = () => {
     },[])
 
     return (
+        <AppLayout>
             <Row>
                 <Col xs={{span:22, offset:1}} md={{span:14, offset:5}} xl={{span:8,offset:8}} xxl={{span:6, offset:9}} style={{ margin: "0 auto", border: "1px solid #dadce0", borderRadius: "8px", padding:"30px 10px" }}>
                     <Row gutter={[0, 16]}>
@@ -108,6 +110,7 @@ const Apply = () => {
                     </Row>
                 </Col>
             </Row>
+        </AppLayout>
     );
 }
 
