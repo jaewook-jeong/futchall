@@ -43,7 +43,7 @@ const StadiumInfo = (props) => {
                         })}
                     </Descriptions.Item>
                     <Descriptions.Item label="소개" span={2} >
-                        {isSelected && <Typography.Paragraph ellipsis={{rows:1, expandable:true, symbol:<span>"더보기"</span>}}>{info.description}</Typography.Paragraph>}
+                        {isSelected && <Typography.Paragraph ellipsis={{rows:1, expandable:true, symbol:<span>더보기</span>}}>{info.description}</Typography.Paragraph>}
                     </Descriptions.Item>
                     <Descriptions.Item label="점령 팀">
                         {isSelected && <a onClick={()=>Router.push(`/team/${info.teamInfo}`)}>{info.team}</a>}
@@ -58,6 +58,9 @@ const StadiumInfo = (props) => {
 }
 StadiumInfo.propTypes = {
     list : PropTypes.array,
-    nowSelected : PropTypes.number,
+    nowSelected: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+    ]),
 }
 export default StadiumInfo;

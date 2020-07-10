@@ -45,7 +45,10 @@ const StadiumList = (props) => {
 StadiumList.propTypes = {
     list: PropTypes.array,
     onChangeSelected: PropTypes.func,
-    nowSelected: PropTypes.number,
+    nowSelected: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+    ]),
 }
 
 export default StadiumList;
