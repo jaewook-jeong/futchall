@@ -35,7 +35,10 @@ const Home = () => {
         Router.push('/stadia');
     },[])
     return (
-        <Row style={{ height: '100vh', textAlign: 'center' }} >
+        <Row style={{ minHeight: '100vh', textAlign: 'center' }} align={"middle"}>
+            <Col md={{ span: 16, offset: 4 }} sm={{span: 18, offset: 3}} xs={{ span: 20, offset: 2 }}>
+                <img src="/index.png" alt="futchall icon"/>
+            </Col>
             <Col md={{ span: 16, offset: 4 }} sm={{span: 18, offset: 3}} xs={{ span: 20, offset: 2 }}>
                 <Row gutter={[0,20]}>
                     <Divider orientation="left"><TrophyTwoTone twoToneColor="#fbd71f"/>어제의 기록</Divider>
@@ -50,10 +53,10 @@ const Home = () => {
                     </Col>
                 </Row>
             </Col>
-            <Col md={{ span: 14, offset: 5 }} xs={{ span: 18, offset: 3 }}>
+            <Col md={{ span: 16, offset: 4 }} sm={{span: 18, offset: 3}} xs={{ span: 20, offset: 2 }}>
                 <Input.Search size="large" placeholder="활동지역을 검색해보세요" onSearch={onSearch} enterButton />
             </Col>
-            <Col span={24}>
+            <Col md={{ span: 16, offset: 4 }} sm={{span: 18, offset: 3}} xs={{ span: 20, offset: 2 }}>
                 <Row gutter={[10, 10]}>
                     <Col span={24} >
                         <Button type="primary" icon={<SearchOutlined />} size="large" shape="round" onClick={onClickGPS} loading={isChangingLocation}>현재위치정보 이용하여 둘러보기</Button>

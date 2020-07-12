@@ -36,7 +36,7 @@ const MessageAffix = styled(Affix)`
     z-index: 1000;
 `;
 const AppLayout = ({ children }) => {
-    const { isLoggedIn, me } = useSelector(state => state.user, shallowEqual);
+    const { isLoggedIn, me } = useSelector(state => state.user);
     const [visible, setVisible] = useState(false);
     const [chatVisible, setChatVisible] = useState(false);
     const Router = useRouter();
@@ -45,7 +45,7 @@ const AppLayout = ({ children }) => {
     const popRightMessage = useCallback(() => setChatVisible(!chatVisible),[]);
     const onApply = useCallback(() => {
         isLoggedIn ? Router.push('/stadium/register/location') : message.info("로그인 후 등록할 수 있습니다.");
-    },[]);
+    },[isLoggedIn]);
 
     return (
         <OutterLayout>
@@ -54,7 +54,7 @@ const AppLayout = ({ children }) => {
             </LayoutHeader>
             <LayoutContent/>
             <InnerLayout hasSider={true}>
-                <Layout.Sider breakpoint={"sm"} theme="light" zeroWidthTriggerStyle={{top:'-30px'}} collapsedWidth={0}>
+                <Layout.Sider breakpoint={"sm"} theme="light" collapsedWidth={0}>
                     <Menu mode="inline" theme="light" >
                         <Menu.Item key="stadia" icon={<CompassOutlined/>} onClick={()=>Router.push("/stadia")}>구장찾기</Menu.Item>
                         <Menu.Item key="ranking" icon={<LineChartOutlined/>} onClick={()=>Router.push("/team/ranking")}>순위보기</Menu.Item>

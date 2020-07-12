@@ -61,7 +61,7 @@ const Maps = (props) => {
                     '/markerY.png',
                     new kakao.maps.Size(32, 32),
                     {
-                        offset: new kakao.maps.Point(16, 34),
+                        offset: new kakao.maps.Point(18, 42),
                         alt: "점령중",
                         shape: "poly",
                         coords: "1,20,1,9,5,2,10,0,21,0,27,3,30,9,30,20,17,33,14,33"
@@ -72,7 +72,7 @@ const Maps = (props) => {
                     '/markerN.png',
                     new kakao.maps.Size(32, 32),
                     {
-                        offset: new kakao.maps.Point(16, 34),
+                        offset: new kakao.maps.Point(18, 42),
                         alt: "점령가능",
                         shape: "poly",
                         coords: "1,20,1,9,5,2,10,0,21,0,27,3,30,9,30,20,17,33,14,33"
