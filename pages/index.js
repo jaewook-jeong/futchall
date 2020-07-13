@@ -53,7 +53,7 @@ const Home = () => {
                     </Col>
                 </Row>
             </Col>
-            <Col md={{ span: 16, offset: 4 }} sm={{span: 18, offset: 3}} xs={{ span: 20, offset: 2 }}>
+            <Col md={{ span: 12, offset: 6 }} sm={{span: 14, offset: 5}} xs={{ span: 20, offset: 2 }}>
                 <Input.Search size="large" placeholder="활동지역을 검색해보세요" onSearch={onSearch} enterButton />
             </Col>
             <Col md={{ span: 16, offset: 4 }} sm={{span: 18, offset: 3}} xs={{ span: 20, offset: 2 }}>

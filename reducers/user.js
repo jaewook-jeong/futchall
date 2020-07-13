@@ -17,12 +17,14 @@ export const initialState = {
 
 const dummyUser = {
     nickname: '우기재',
-    club: '1',
-    clubname:'잔디FC',
     id:'everest88',
     positions:["PIVO", "ALA", "FIXO"],
     age:'20',
     locations:["서울", "경기"],
+    Team: {
+        club: '1',
+        clubname:'잔디FC',
+    },
 };
 
 export const SIGN_UP_REQUEST = 'SIGN_UP_REQUEST';
