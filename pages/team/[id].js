@@ -133,7 +133,7 @@ const Stadium = () =>{
                         <Skeleton loading={!isSelected} active paragraph={false}/>
                         {isSelected && info.title}
                     </Typography.Title>
-                    <Tabs tabBarExtraContent={(isSelected && isLoggedIn && (info.req === me.club))? <Button onClick={()=>{message.warn("준비중입니다.")}} shape="round"><QuestionCircleOutlined />팀 관리</Button> :null}>
+                    <Tabs tabBarExtraContent={(isSelected && isLoggedIn && (info.req === me.Team.club))? <Button onClick={()=>{message.warn("준비중입니다.")}} shape="round"><QuestionCircleOutlined />팀 관리</Button> :null}>
                         <Tabs.TabPane tab="상세정보" key="1" >
                             <Descriptions
                             column={{ xxl: 4, xl: 3, lg: 3, md: 2, sm: 1, xs: 1 }}
