@@ -23,7 +23,16 @@ const Talk = (props) =>{
                 return(
                     <div className={styles.myMsg}>
                         {v.data.map((v,i)=>{
-                            return (<Tooltip placement="bottomRight" title={v.date} key={i}><Row justify="end"><Col>{v.content}</Col></Row></Tooltip>)
+                            return (<Tooltip 
+                                        placement="bottomRight" 
+                                        title={v.date} 
+                                        key={i}
+                                    >
+                                        <Row justify="end">
+                                            <Col>{v.content}</Col>
+                                        </Row>
+                                    </Tooltip>
+                                    )
                         })}
                     </div>
                 )
@@ -31,7 +40,16 @@ const Talk = (props) =>{
                 return(
                     <div className={styles.yourMsg}>
                         {v.data.map((v,i)=>{
-                            return (<Tooltip placement="bottomLeft" title={v.date} key={i}><Row justify="start"><Col>{v.content}</Col></Row></Tooltip>)
+                            return (<Tooltip 
+                                        placement="bottomLeft" 
+                                        title={v.date} 
+                                        key={i}
+                                    >
+                                        <Row justify="start">
+                                            <Col>{v.content}</Col>
+                                        </Row>
+                                    </Tooltip>
+                                    )
                         })}
                     </div>
                 )

@@ -1,7 +1,8 @@
 import React, { useCallback } from 'react';
-import Router, { withRouter, } from 'next/router';
+import Router, { withRouter } from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
 import {ENROLL_STADIUM_REQUEST} from '../../../reducers/stadium'
+import PropTypes from 'prop-types';
 import { Col, Row, Typography, Button, Form, Input, TimePicker, Radio, Select, Upload, message} from 'antd';
 import { PlusOutlined} from '@ant-design/icons';
 import AppLayout from '../../../components/AppLayout';
@@ -179,5 +180,15 @@ const Details = (props) => {
         </AppLayout>
     );
 };
+
+Details.propTypes = {
+    props: PropTypes.shape({
+        router: PropTypes.shape({
+            query: PropTypes.shape({
+                data: PropTypes.string.isRequired
+            })
+        })
+    })
+}
 
 export default withRouter(Details);
