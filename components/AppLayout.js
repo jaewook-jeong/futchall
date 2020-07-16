@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
@@ -46,7 +46,11 @@ const AppLayout = ({ children }) => {
     const onApply = useCallback(() => {
         isLoggedIn ? Router.push('/stadium/register/location') : message.info("로그인 후 등록할 수 있습니다.");
     },[isLoggedIn]);
-
+    useEffect(()=>{
+        if(isLoggedIn){
+            setVisible(false);
+        }
+    },[isLoggedIn]);
     return (
         <OutterLayout>
             <LayoutHeader>
