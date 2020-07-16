@@ -19,7 +19,7 @@ const Talk = (props) =>{
     },[])
     const showData = (
         sortingForShow(talkData).map((v)=>{
-            if(v.id === me.id){
+            if(v.id === me.userId){
                 return(
                     <div className={styles.myMsg}>
                         {v.data.map((v,i)=>{

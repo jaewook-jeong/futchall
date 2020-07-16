@@ -17,7 +17,7 @@ export const initialState = {
 
 const dummyUser = {
     nickname: '우기재',
-    id:'everest88',
+    userId:'everest88',
     positions:["PIVO", "ALA", "FIXO"],
     age:'20',
     locations:["서울", "경기"],
