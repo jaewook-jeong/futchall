@@ -111,7 +111,7 @@ function* search(action){
 function* watchSearch(){
     yield takeLatest(SEARCH_TEAMS_REQUEST, search);
 }
-export default function* userSaga() {
+export default function* teamSaga() {
     yield all([
         fork(watchSelect),
         fork(watchEnroll),

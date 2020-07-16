@@ -96,7 +96,7 @@ function* deleteContactUser(action) {
 function* watchDeleteContactUser() {
   yield takeLatest(DELETE_LIST_REQUEST, deleteContactUser);
 }
-export default function* postSaga() {
+export default function* messengerSaga() {
   yield all([
     fork(watchGetContactUserList),
     fork(watchDeleteContactUser),

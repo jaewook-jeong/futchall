@@ -128,7 +128,7 @@ function* add(action){
 function* watchAddComment(){
     yield takeEvery(ADD_COMMENT_REQUEST, add);
 }
-export default function* userSaga() {
+export default function* stadiumSaga() {
     yield all([
         fork(watchSelect),
         fork(watchEnroll),

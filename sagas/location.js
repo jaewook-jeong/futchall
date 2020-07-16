@@ -1,4 +1,4 @@
-import { all, fork, takeLatest, put, delay, call } from 'redux-saga/effects';
+import { all, fork, put, delay, call, debounce } from 'redux-saga/effects';
 import axios from 'axios';
 import {
     REFRESH_STADIUMLIST_REQUEST,
@@ -56,10 +56,10 @@ function* refreshStadiumList(action) {
 }
 
 function* watchRefreshStadiumList() {
-  yield takeLatest(REFRESH_STADIUMLIST_REQUEST, refreshStadiumList);
+  yield debounce(400,REFRESH_STADIUMLIST_REQUEST, refreshStadiumList);
 }
 
-export default function* postSaga() {
+export default function* locationSaga() {
   yield all([
     fork(watchRefreshStadiumList),
   ]);
