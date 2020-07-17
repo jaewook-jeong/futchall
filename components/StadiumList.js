@@ -20,8 +20,7 @@ const StadiumList = (props) => {
         key="main"
         title="구장 리스트"
       >
-        {list.map((v, i) => {
-          // eslint-disable-next-line react/no-array-index-key
+        {list.map((v, i) => (
           <Menu.Item key={i} className={styles.stadiumInfo}>
             <Row style={{ overflow: 'auto' }}>
               <Col className={styles.flag}>
@@ -38,8 +37,8 @@ const StadiumList = (props) => {
                 </Row>
               </Col>
             </Row>
-          </Menu.Item>;
-        })}
+          </Menu.Item>
+        ))}
       </Menu.SubMenu>
     </Menu>
   );
