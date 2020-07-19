@@ -59,7 +59,7 @@ const AppLayout = ({ children }) => {
       </LayoutHeader>
       <LayoutContent />
       <InnerLayout hasSider>
-        <Layout.Sider breakpoint="sm" theme="light" collapsedWidth={0}>
+        <Layout.Sider breakpoint="sm" theme="light" collapsedWidth={0} zeroWidthTriggerStyle={{ zIndex: 10 }}>
           <Menu mode="inline" theme="light">
             <Menu.Item key="stadia" icon={<CompassOutlined />} onClick={() => Router.push('/stadia')}>구장찾기</Menu.Item>
             <Menu.Item key="ranking" icon={<LineChartOutlined />} onClick={() => Router.push('/team/ranking')}>순위보기</Menu.Item>
