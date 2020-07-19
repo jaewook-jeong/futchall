@@ -24,12 +24,12 @@ const Search = (props) => {
   //   },[]
   // )
 
-  useEffect(
-    () => {
-    console.log(window.location.hash.substr(1));
-    setHashPage(Number(window.location.hash.substr(1)));
-    console.log(hashPage,"jaeewook");
-  },[window.location.hash.substr(1)]);
+  // useEffect(
+  //   () => {
+  //   console.log(window.location.hash.substr(1));
+  //   setHashPage(Number(window.location.hash.substr(1)));
+  //   console.log(hashPage,"jaeewook");
+  // },[window.location.hash.substr(1)]);
 
   return (
     <AppLayout>
