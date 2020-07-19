@@ -17,10 +17,7 @@ const HeaderMenu = (props) => {
       <ul>
         <li onClick={() => Router.push("/")}>
           <span className={styles.icon}>
-            <HomeOutlined />
-          </span>
-          <span className={styles.title}>
-            FUTCHALL
+            <img src="/futchall.png" alt="futchall title" />
           </span>
         </li>
         <li>
