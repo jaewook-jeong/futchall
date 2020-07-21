@@ -41,7 +41,7 @@ const Home = () => {
             </Col>
             <Col md={{ span: 16, offset: 4 }} sm={{span: 18, offset: 3}} xs={{ span: 20, offset: 2 }}>
                 <Row gutter={[0,20]}>
-                    <Divider orientation="left"><TrophyTwoTone twoToneColor="#fbd71f"/>어제의 기록</Divider>
+                    <Divider orientation="left"><TrophyTwoTone twoToneColor="#fbd71f" /> 어제의 기록</Divider>
                     <Col md={{ span: 6, offset: 2 }} xs={{ span: 18, offset: 3 }} >
                         <Statistic title="최다 구장 점령 수" value={7} prefix={<LikeOutlined />}></Statistic>
                     </Col>

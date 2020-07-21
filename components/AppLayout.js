@@ -20,8 +20,8 @@ const LayoutHeader = styled(Layout.Header)`
     padding: 0 5px;
 `;
 const LayoutContent = styled(Layout.Content)`
-    background-color: #fff;
-    height: 5px;
+    background-color: #eaeaea;
+    height: 1.5px;
 `;
 const InnerLayout = styled(Layout)`
     background-color: #fff;
