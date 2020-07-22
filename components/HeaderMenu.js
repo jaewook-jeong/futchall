@@ -41,7 +41,7 @@ const HeaderMenu = (props) => {
           && (
             <>
               <li>
-                <span className={styles.icon} onClick={StadiaButton}>
+                <span className={styles.shrink} onClick={StadiaButton}>
                   <Popover
                     placement="bottom"
                     content="구장찾기"
@@ -51,10 +51,10 @@ const HeaderMenu = (props) => {
                 </span>
               </li>
               <li>
-                <span className={styles.icon} onClick={TeamButton}>
+                <span className={styles.shrink} onClick={TeamButton}>
                   <Popover
                     placement="bottom"
-                    content={me.Team.club ? '팀관리' : '팀등록'}
+                    content={me?.Team.club ? '팀관리' : '팀등록'}
                   >
                     <TeamOutlined />
                   </Popover>
