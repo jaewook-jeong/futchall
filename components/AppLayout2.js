@@ -12,6 +12,7 @@ import HeaderMenu from './HeaderMenu';
 const OutterLayout = styled(Layout)`
     min-height: 100vh;
     max-width: 1920px;
+    background-color: #fff;
 `;
 const LayoutHeader = styled(Layout.Header)`
     background-color: #fff;
@@ -19,10 +20,11 @@ const LayoutHeader = styled(Layout.Header)`
 `;
 const LayoutContent = styled(Layout.Content)`
     background-color: #eaeaea;
-    height: 1.5px;
+    height: 3px;
 `;
 const MainLayout = styled(Layout.Content)`
     min-height: 94vh;
+    padding-top: 5px;
     z-index: 5;
 `;
 const MessageAffix = styled(Affix)`
@@ -54,9 +56,9 @@ const AppLayout = ({ children }) => {
           <Col
             xs={{ span: 22, offset: 1 }}
             sm={{ span: 22, offset: 1 }}
-            md={{ span: 18, offset: 3 }}
-            lg={{ span: 16, offset: 4 }}
-            xl={{ span: 14, offset: 5 }}
+            md={{ span: 20, offset: 2 }}
+            lg={{ span: 20, offset: 2 }}
+            xl={{ span: 20, offset: 2 }}
           >
             {children}
           </Col>
