@@ -6,7 +6,7 @@ import { Skeleton, Col, Row, Tabs, Button, message, Descriptions, Typography, Ta
 import { QuestionCircleOutlined } from '@ant-design/icons';
 
 import { SELECT_TEAM_REQUEST } from '../../reducers/team';
-import AppLayout from '../../components/AppLayout';
+import AppLayout2 from '../../components/AppLayout2';
 
 const Stadium = () => {
   const router = useRouter();
@@ -127,8 +127,8 @@ const Stadium = () => {
     }
   }, [isSelected]);
   return (
-    <AppLayout>
-      <Row gutter={[0, 16]}>
+    <AppLayout2>
+      <Row>
         <Col xs={{ span: 22, offset: 1 }} sm={{ span: 22, offset: 1 }} md={{ span: 20, offset: 2 }}>
           <Typography.Title level={3} copyable={isSelected && { text: window.location.pathname }}>
             <Skeleton loading={!isSelected} active paragraph={false} />
@@ -194,7 +194,7 @@ const Stadium = () => {
       <Row>
         <Col xs={{ span: 22, offset: 1 }} sm={{ span: 22, offset: 1 }} md={{ span: 18, offset: 3 }} />
       </Row>
-    </AppLayout>
+    </AppLayout2>
   );
 };
 export default Stadium;
