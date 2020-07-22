@@ -27,6 +27,20 @@ $sm : 576px;
                 font-size: 14px;
                 display: inline-block;
             }
+            .shrink{
+                min-width: 14px;
+                margin-right: 5px;
+                padding: 0 25px;
+                font-size: 20px;
+                display: inline-block;
+                height: 50px;
+                vertical-align: middle;
+                line-height: 50px;
+                border-radius: 8px;
+                &:hover{
+                  background-color: #ddd;
+                }
+            }
             .title{
                 @media screen and (max-width: $sm){
                     display: none;
