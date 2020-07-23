@@ -7,6 +7,7 @@ import { QuestionCircleOutlined } from '@ant-design/icons';
 
 import { SELECT_TEAM_REQUEST } from '../../reducers/team';
 import AppLayout2 from '../../components/AppLayout2';
+import Feed from '../../components/Feed';
 
 const Stadium = () => {
   const router = useRouter();
@@ -129,7 +130,7 @@ const Stadium = () => {
   return (
     <AppLayout2>
       <Row>
-        <Col xs={{ span: 22, offset: 1 }} sm={{ span: 22, offset: 1 }} md={{ span: 20, offset: 2 }}>
+        <Col xs={{ span: 24 }} sm={{ span: 24 }} md={{ span: 9 }}>
           <Typography.Title level={3} copyable={isSelected && { text: window.location.pathname }}>
             <Skeleton loading={!isSelected} active paragraph={false} />
             {isSelected && info.title}
@@ -190,9 +191,9 @@ const Stadium = () => {
             </Tabs.TabPane>
           </Tabs>
         </Col>
-      </Row>
-      <Row>
-        <Col xs={{ span: 22, offset: 1 }} sm={{ span: 22, offset: 1 }} md={{ span: 18, offset: 3 }} />
+        <Col xs={{ span: 24 }} sm={{ span: 24 }} md={{ span: 14, offset: 1 }}>
+          <Feed where="team" req={id} />
+        </Col>
       </Row>
     </AppLayout2>
   );

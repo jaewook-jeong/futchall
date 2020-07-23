@@ -1,10 +1,26 @@
 import React from 'react';
-import {} from 'antd';
+import { useSelector, useDispatch, shallowEqual } from 'react-redux';
+import {  } from 'antd';
+import PropTypes from 'prop-types';
 
-const Feed = () => {
+import PostForm from './PostForm';
+
+const Feed = (props) => {
+  const { where, req } = props;
+  const { me } = useSelector((state) => state.user, shallowEqual);
   return (
-  //기본적인 게시글 하나의 컴포넌트
+    <>
+      {me && <PostForm />}
+
+    </>
   );
+};
+
+Feed.propTypes = {
+  props: PropTypes.shape({
+    where: PropTypes.string.isRequired,
+    req: PropTypes.number.isRequired,
+  }).isRequired,
 };
 
 export default Feed;
