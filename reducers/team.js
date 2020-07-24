@@ -1,4 +1,4 @@
-import produce from 'immer';
+import produce from '../util/produce';
 
 const dummyInfo = {
   req: '1',

@@ -1,4 +1,4 @@
-import produce from 'immer';
+import produce from '../util/produce';
 
 export const initialState = {
   latitude: '37.5795876', // 현재 보는 지도의 위도
