@@ -55,7 +55,7 @@ const AppLayout = ({ children }) => {
   return (
     <OutterLayout>
       <LayoutHeader>
-        <HeaderMenu showModal={showModal} />
+        <HeaderMenu showModal={showModal} shrink={false} />
       </LayoutHeader>
       <LayoutContent />
       <InnerLayout hasSider>
