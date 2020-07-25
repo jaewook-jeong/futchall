@@ -10,7 +10,8 @@ const Feed = (props) => {
   const { me } = useSelector((state) => state.user, shallowEqual);
   return (
     <>
-      {me && <PostForm />}
+      {/* {me && <PostForm where={where} req={req} />} */}
+      <PostForm where={where} req={req} />
 
     </>
   );
