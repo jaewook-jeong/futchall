@@ -13,18 +13,22 @@ const OutterLayout = styled(Layout)`
     min-height: 100vh;
     max-width: 1920px;
     background-color: #fff;
+    position: relative;
 `;
 const LayoutHeader = styled(Layout.Header)`
     background-color: #fff;
     padding: 0 5px;
-`;
-const LayoutContent = styled(Layout.Content)`
-    background-color: #eaeaea;
-    height: 3px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 6;
+    margin-bottom: 2px solid #eaeaea;
 `;
 const MainLayout = styled(Layout.Content)`
+    position: absolute;
+    width: 100%;
+    top: 6vh;
     min-height: 94vh;
-    padding-top: 5px;
     z-index: 5;
 `;
 const MessageAffix = styled(Affix)`
@@ -50,7 +54,6 @@ const AppLayout = ({ children }) => {
       <LayoutHeader>
         <HeaderMenu showModal={showModal} shrink />
       </LayoutHeader>
-      <LayoutContent />
       <MainLayout>
         <Row>
           <Col
@@ -58,7 +61,7 @@ const AppLayout = ({ children }) => {
             sm={{ span: 22, offset: 1 }}
             md={{ span: 20, offset: 2 }}
             lg={{ span: 20, offset: 2 }}
-            xl={{ span: 20, offset: 2 }}
+            xl={{ span: 18, offset: 3 }}
           >
             {children}
           </Col>
