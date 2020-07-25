@@ -1,0 +1,28 @@
+$sm : 576px;
+.mainInfo{
+  width: 100%;
+  .cardDiv{
+    border-radius: 0 0 15px 15px;
+    text-align: center;
+    img{
+      height: 300px;
+    }
+  }
+}
+
+.fixedInfo{
+  margin-bottom: 5px;
+  min-height: 91vh;
+  border-radius: 15px;
+  background-color: #fafafa;
+  padding: 5px;
+  .occupyMap{
+    width: 100%;
+    height: 400px;
+    margin-top: 15px;
+  }
+}
+
+.postWall{
+
+}

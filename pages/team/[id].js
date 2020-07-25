@@ -2,12 +2,13 @@
 import React, { useEffect } from 'react';
 import Router, { useRouter } from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
-import { Skeleton, Col, Row, Tabs, Button, message, Descriptions, Typography, Table, Tag } from 'antd';
+import { Skeleton, Col, Row, Tabs, Button, message, Descriptions, Typography, Table, Tag, Card } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 
 import { SELECT_TEAM_REQUEST } from '../../reducers/team';
 import AppLayout2 from '../../components/AppLayout2';
 import Feed from '../../components/Feed';
+import style from '../../SCSS/feedLayout.module.scss';
 
 const Stadium = () => {
   const router = useRouter();
@@ -129,37 +130,50 @@ const Stadium = () => {
   }, [isSelected]);
   return (
     <AppLayout2>
+      <Row gutter={[0, 20]}>
+        <Col className={style.mainInfo}>
+          <Card
+            cover={<img alt="Main image of Team" src="https://via.placeholder.com/350/dddddd" />}
+            className={style.cardDiv}
+          >
+            <Card.Meta
+              title={(
+                <Typography.Title level={3} copyable={isSelected && { text: window.location.pathname }}>
+                  <Skeleton loading={!isSelected} active paragraph={false} />
+                  {isSelected && info.title}
+                </Typography.Title>
+                )}
+              description={isSelected && info.description}
+            />
+          </Card>
+        </Col>
+      </Row>
       <Row>
-        <Col xs={{ span: 24 }} sm={{ span: 24 }} md={{ span: 9 }}>
-          <Typography.Title level={3} copyable={isSelected && { text: window.location.pathname }}>
-            <Skeleton loading={!isSelected} active paragraph={false} />
-            {isSelected && info.title}
-          </Typography.Title>
-          <Tabs tabBarExtraContent={(isSelected && isLoggedIn && (info.req === me.Team.club)) ? <Button onClick={() => { message.warn('준비중입니다.'); }} shape="round"><QuestionCircleOutlined />팀 관리</Button> : null}>
+        <Col xs={{ span: 24 }} sm={{ span: 24 }} md={{ span: 10 }} className={style.fixedInfo}>
+          <Tabs
+            tabBarExtraContent={(isSelected && isLoggedIn && (info.req === me.Team.club)) ? <Button onClick={() => { message.warn('준비중입니다.'); }} shape="round"><QuestionCircleOutlined />팀 관리</Button> : null}
+          >
             <Tabs.TabPane tab="상세정보" key="1">
               <Descriptions
-                column={{ xxl: 4, xl: 3, lg: 3, md: 2, sm: 1, xs: 1 }}
+                column={{ xxl: 4, xl: 2, lg: 2, md: 2, sm: 2, xs: 2 }}
                 bordered
+                title={isSelected && info.title}
                 size="middle"
               >
-                <Descriptions.Item label="활동 지역">
+                <Descriptions.Item label="활동 지역" span={2}>
                   <Skeleton loading={!isSelected} active paragraph={false} />
                   {isSelected && info.location}
                 </Descriptions.Item>
-                <Descriptions.Item label="모임 시간">
+                <Descriptions.Item label="모임 시간" span={2}>
                   <Skeleton loading={!isSelected} active paragraph={false} />
                   {isSelected && info.time}
                 </Descriptions.Item>
-                <Descriptions.Item label="모집 여부">
+                <Descriptions.Item label="모집 여부" span={2}>
                   <Skeleton loading={!isSelected} active paragraph={false} />
                   {isSelected && info.recruit}
                 </Descriptions.Item>
-                <Descriptions.Item label="소개" span={2}>
-                  <Skeleton loading={!isSelected} active paragraph={false} />
-                  {isSelected && <Typography.Paragraph ellipsis={{ rows: 1, expandable: true }}>{info.description}</Typography.Paragraph>}
-                </Descriptions.Item>
               </Descriptions>
-              <div id="stadiumAddress" style={{ width: '100%', height: '500px', marginTop: '10px' }} />
+              <div id="stadiumAddress" className={style.occupyMap} />
             </Tabs.TabPane>
             <Tabs.TabPane tab="선수 명단" key="2">
               <Skeleton active loading={!isSelected} />
@@ -191,7 +205,7 @@ const Stadium = () => {
             </Tabs.TabPane>
           </Tabs>
         </Col>
-        <Col xs={{ span: 24 }} sm={{ span: 24 }} md={{ span: 14, offset: 1 }}>
+        <Col xs={{ span: 24 }} sm={{ span: 24 }} md={{ span: 13, offset: 1 }}>
           <Feed where="team" req={id} />
         </Col>
       </Row>
