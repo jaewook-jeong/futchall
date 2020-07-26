@@ -1,13 +1,13 @@
 import React, { useCallback } from 'react';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Form, Avatar, Input, Button } from 'antd';
+import { Form, Avatar, Input, Button, Divider } from 'antd';
 import styled from 'styled-components';
 
 const PostFormDiv = styled.div`
   border-radius: 15px;
   padding: 10px;
-  background-color: #fafafa;
+  border: 1px solid #f0f0f0;
   height: auto;
 `;
 const PostForm = (props) => {
@@ -36,13 +36,15 @@ const PostForm = (props) => {
         >
           <Input.TextArea
             autoSize={{ minRows: 2, maxRows: 10 }}
+            style={{ border: '1px solid #f0f0f0', borderRadius: '15px', backgroundColor: 'fafafa', color: 'fff' }}
             placeholder="무슨 생각을 하고 계신가요?"
           />
         </Form.Item>
+        <Divider />
         <Form.Item
-          style={{ marginBottom: 0 }}
+          style={{ marginBottom: 0, textAlign: 'right' }}
         >
-          <Button type="primary" htmlType="submit">게시하기</Button>
+          <Button type="primary" htmlType="submit" style={{borderRadius: '8px'}}>게시하기</Button>
         </Form.Item>
       </Form>
     </PostFormDiv>

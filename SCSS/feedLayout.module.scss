@@ -7,22 +7,36 @@ $sm : 576px;
     img{
       height: 300px;
     }
+    .stickyTitle{
+      position: -webkit-sticky;
+      position: sticky;
+      top: 0;
+    }
   }
 }
+.flowInfo{
+  position: relative;
+  max-width: 100%;
+  box-sizing: border-box;
 
-.fixedInfo{
-  margin-bottom: 5px;
-  min-height: 91vh;
-  border-radius: 15px;
-  background-color: #fafafa;
-  padding: 5px;
-  .occupyMap{
-    width: 100%;
-    height: 400px;
-    margin-top: 15px;
+  .fixedInfo{
+    // position: absolute;
+    margin-bottom: 5px;
+    min-height: 91vh;
+    border-radius: 15px;
+    background-color: #fff;
+    border: 1px solid #f0f0f0;
+    padding: 10px;
+    .occupyMap{
+      width: 100%;
+      min-height: 400px;
+      margin-top: 15px;
+    }
+    @media screen and (max-width: $sm){
+    }
   }
-}
-
-.postWall{
-
+  
+  .postWall{
+    position: relative;
+  }
 }

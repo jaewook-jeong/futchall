@@ -40,6 +40,9 @@ $sm : 576px;
                 &:hover{
                   background-color: #ddd;
                 }
+                @media screen and (max-width: $sm){
+                  padding: 0 10px;
+                }
             }
             .title{
                 @media screen and (max-width: $sm){

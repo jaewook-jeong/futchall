@@ -50,12 +50,12 @@ const Stadium = () => {
       align: 'center',
       sorter: (a, b) => a.score - b.score,
     },
-    {
-      title: '연락하기',
-      dataIndex: 'id',
-      align: 'center',
-      render: (val) => <div><a onClick={() => console.log(val)}>연락하기</a></div>,
-    },
+    // {
+    //   title: '연락하기',
+    //   dataIndex: 'id',
+    //   align: 'center',
+    //   render: (val) => <div><a onClick={() => console.log(val)}>연락하기</a></div>,
+    // },
   ];
   const recordColumns = [
     {
@@ -144,11 +144,12 @@ const Stadium = () => {
                 </Typography.Title>
                 )}
               description={isSelected && info.description}
+              className={style.stickyTitle}
             />
           </Card>
         </Col>
       </Row>
-      <Row>
+      <Row className={style.flowInfo}>
         <Col xs={{ span: 24 }} sm={{ span: 24 }} md={{ span: 10 }} className={style.fixedInfo}>
           <Tabs
             tabBarExtraContent={(isSelected && isLoggedIn && (info.req === me.Team.club)) ? <Button onClick={() => { message.warn('준비중입니다.'); }} shape="round"><QuestionCircleOutlined />팀 관리</Button> : null}
@@ -183,7 +184,7 @@ const Stadium = () => {
                                   showHeader
                                   columns={memberColumns}
                                   pagination={{ pageSize: 15 }}
-                                  scroll={{ x: 'max-content', scrollToFirstRowOnChange: true }}
+                                  scroll={{ x: '100%', scrollToFirstRowOnChange: true, y: 550 }}
                                   dataSource={memberList}
                                   rowKey={(member) => member.id}
                                 />
@@ -205,7 +206,7 @@ const Stadium = () => {
             </Tabs.TabPane>
           </Tabs>
         </Col>
-        <Col xs={{ span: 24 }} sm={{ span: 24 }} md={{ span: 13, offset: 1 }}>
+        <Col xs={{ span: 24 }} sm={{ span: 24 }} md={{ span: 13, offset: 1 }} className={style.postWall}>
           <Feed where="team" req={id} />
         </Col>
       </Row>
