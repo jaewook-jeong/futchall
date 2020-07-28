@@ -1,15 +1,62 @@
 .postOutter{
   border: 1px solid #fafafa;
+  background-color: #fff;
   border-radius: max(0px, min(8px, ((100vw - 4px) - 100%) * 9999)) / 8px;
   box-shadow: 0 1px 2px #00000033;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+  width: 100%;
   .writter{
-
+    display: flex;
+    padding: 15px;
+    align-items: flex-start;
+    flex-direction: row;
+    .avatar{
+      float: left;
+      margin-right: 16px;
+    }
+    .info{
+      display: block;
+      flex-grow: 1;
+      // overflow: hidden;
+      .title{
+        display: block;
+        overflow: hidden;
+        margin-bottom: -5px;
+        color: #000000d9;
+        font-weight: 500;
+        font-size: 16px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        .extra{
+          float: right;
+          width: 36px;
+          height: 36px;
+          line-height: 36px;
+          font-size: 25px;
+          text-align: center;
+          border-radius: 50%;
+          border: 1px solid #fff;
+          align-self: flex-start;
+          &:hover{
+            background-color: #dcdcdc;
+          }
+        }
+      }
+      .time{
+        font-size: 14px;
+        display: block;
+        color: #00000073;
+      }
+    }
+    
   }
   .content{
-
+    padding: 0 15px;
   }
   .multipart{
-
+    width: 100%;
+    margin: 10px 0;
   }
   .comments{
 

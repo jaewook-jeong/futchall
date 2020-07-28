@@ -130,7 +130,7 @@ const Stadium = () => {
   }, [isSelected]);
   return (
     <AppLayout2>
-      <Row gutter={[0, 20]}>
+      <Row style={{ marginBottom: '10px' }}>
         <Col className={style.mainInfo}>
           <Card
             cover={<img alt="Main image of Team" src="https://via.placeholder.com/350/dddddd" />}
