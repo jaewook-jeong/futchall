@@ -30,6 +30,9 @@ export const generateDummyPost = (number) => Array(number).fill().map(() => ({
   content: faker.lorem.paragraph(),
   Images: [{
     src: faker.image.image(),
+  },
+  {
+    src: faker.image.image(),
   }],
   date: faker.date.recent(),
   Comments: [{
@@ -88,7 +91,7 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       draft.loadPostsLoading = false;
       draft.loadPostsDone = true;
       draft.mainPosts = action.data.concat(draft.mainPosts);
-      draft.hasMorePosts = draft.mainPosts.length <= 30;
+      draft.hasMorePosts = draft.mainPosts.length <= 20;
       break;
     case LOAD_POSTS_FAILURE:
       draft.loadPostsLoading = false;
