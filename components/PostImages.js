@@ -1,8 +1,43 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined, ZoomInOutlined } from '@ant-design/icons';
+import styled from 'styled-components';
 
 import ImagesZoom from './ImagesZoom';
+
+const Thumnail = styled.div`
+  position: relative;
+  padding-top: 100%;
+  overflow: hidden;
+  text-align: center;
+  vertical-align: middle;
+  background-color: #28242b;
+  cursor: pointer;
+`;
+
+const Centered = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  -webkit-transform: translate(50%,50%);
+  -ms-transform: translate(50%,50%);
+  transform: translate(50%,50%);
+`;
+
+const ImageTag = styled.img`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-width: 100%;
+  height: auto;
+  -webkit-transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+`;
 
 const PostImages = ({ images }) => {
   const [modalImage, setModalImage] = useState(false);
@@ -13,39 +48,85 @@ const PostImages = ({ images }) => {
 
   if (images.length === 1) {
     return (
-      <>
-        <img role="presentation" src={images[0].src} alt={images[0].src} onClick={onZoom} />
-        {modalImage && <ImagesZoom images={images} />}
-      </>
+      <div style={{ width: '100%' }}>
+        <Thumnail>
+          <Centered>
+            <ImageTag role="presentation" src={images[0].src} alt={images[0].src} onClick={onZoom} />
+          </Centered>
+        </Thumnail>
+        {modalImage && <ImagesZoom images={images} handler={setModalImage} visible={modalImage} />}
+      </div>
     );
   }
   if (images.length === 2) {
     return (
       <>
-        <div>
-          <img role="presentation" src={images[0].src} alt={images[0].src} width="50%" onClick={onZoom} />
-          <img role="presentation" src={images[1].src} alt={images[1].src} width="50%" onClick={onZoom} />
+        <div style={{ width: '50%', display: 'inline-block', borderRight: '1px solid #ddd' }}>
+          <Thumnail>
+            <Centered>
+              <ImageTag role="presentation" src={images[0].src} alt={images[0].src} onClick={onZoom} />
+            </Centered>
+          </Thumnail>
         </div>
-        {modalImage && <ImagesZoom images={images} />}
+        <div style={{ width: '50%', display: 'inline-block', borderLeft: '1px solid #ddd' }}>
+          <Thumnail>
+            <Centered>
+              <ImageTag role="presentation" src={images[1].src} alt={images[1].src} onClick={onZoom} />
+            </Centered>
+          </Thumnail>
+        </div>
+        {modalImage && <ImagesZoom images={images} handler={setModalImage} visible={modalImage} />}
       </>
     );
   }
   return (
     <>
-      <div>
-        <img role="presentation" src={images[0].src} alt={images[0].src} width="50%" onClick={onZoom} />
-        <div
-          role="presentation"
-          style={{ display: 'inline-block', width: '50%', textAlign: 'center', verticalAlign: 'middle' }}
-          onClick={onZoom}
-        >
-          <PlusOutlined />
-          <br />
-          {images.length - 1}
-          개의 사진 더보기
-        </div>
+      <div style={{ width: '66.66666%', display: 'inline-block', borderRight: '1px solid #ddd' }}>
+        <Thumnail>
+          <Centered>
+            <ImageTag role="presentation" src={images[0].src} alt={images[0].src} onClick={onZoom} />
+          </Centered>
+        </Thumnail>
       </div>
-      {modalImage && <ImagesZoom images={images} />}
+      <div style={{ width: '33.33333%', display: 'inline-block', borderLeft: '1px solid #ddd' }}>
+        <Thumnail style={{ borderBottom: '1px solid #ddd' }}>
+          <Centered>
+            <ImageTag role="presentation" src={images[1].src} alt={images[1].src} onClick={onZoom} />
+          </Centered>
+        </Thumnail>
+        <Thumnail style={{ borderTop: '1px solid #ddd' }} onClick={onZoom}>
+          <Centered>
+            <ImageTag role="presentation" src={images[2].src} alt={images[2].src} />
+          </Centered>
+          {images[3]
+          && (
+            <div style={{
+              position: 'absolute',
+              textAlign: 'center',
+              fontSize: '1.7rem',
+              fontWeight: 600,
+              color: '#fff',
+              margin: 'auto',
+              width: '50%',
+              height: '50%',
+              overflow: 'auto',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+            }}
+            >
+              {/* <PlusOutlined /> */}
+              <div style={{ display: 'flex', justifyContent: 'center', height: '100%' }}>
+                <span style={{ alignSelf: 'center' }}>
+                  +{images.length - 3}장
+                </span>
+              </div>
+            </div>
+          )}
+        </Thumnail>
+      </div>
+      {modalImage && <ImagesZoom images={images} handler={setModalImage} visible={modalImage} />}
     </>
   );
 };

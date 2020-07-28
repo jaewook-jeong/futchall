@@ -3,6 +3,8 @@ import { CloseOutlined } from '@ant-design/icons';
 
 export const Overlay = styled.div`
   background-color: black;
+  height: 100%;
+  overflow: hidden;
 `;
 
 export const CloseBtn = styled(CloseOutlined)`

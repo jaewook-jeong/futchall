@@ -17,19 +17,21 @@ const OutterLayout = styled(Layout)`
 `;
 const LayoutHeader = styled(Layout.Header)`
     background-color: #fff;
-    padding: 0 5px;
+    margin: 0 3px;
+    padding: 0;
     position: fixed;
     top: 0;
     width: 100%;
     z-index: 6;
-    margin-bottom: 2px solid #eaeaea;
+    height: 66px;
 `;
 const MainLayout = styled(Layout.Content)`
     position: absolute;
     width: 100%;
-    top: 6vh;
+    top: 66px;
     min-height: 94vh;
     z-index: 5;
+    background-color: #f0f2f5;
 `;
 const MessageAffix = styled(Affix)`
     position: fixed;

@@ -9,6 +9,8 @@ const PostFormDiv = styled.div`
   padding: 10px;
   border: 1px solid #f0f0f0;
   height: auto;
+  margin-bottom: 10px;
+  background-color: #fff;
 `;
 const PostForm = (props) => {
   const { where, req } = props;
@@ -36,7 +38,7 @@ const PostForm = (props) => {
         >
           <Input.TextArea
             autoSize={{ minRows: 2, maxRows: 10 }}
-            style={{ border: '1px solid #f0f0f0', borderRadius: '15px', backgroundColor: 'fafafa', color: 'fff' }}
+            style={{ border: '1px solid #f0f0f0', borderRadius: '15px', backgroundColor: '#fafafa', color: '#000000d9' }}
             placeholder="무슨 생각을 하고 계신가요?"
           />
         </Form.Item>
