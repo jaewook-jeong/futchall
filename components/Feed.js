@@ -10,9 +10,9 @@ import { LOAD_POSTS_REQUEST } from '../reducers/post';
 const Feed = (props) => {
   const { where, req } = props;
   const { me } = useSelector((state) => state.user, shallowEqual);
-  const { mainPosts, hasMorePost, loadPostsLoading } = useSelector((state) => state.post);
+  const { mainPosts, hasMorePosts, loadPostsLoading } = useSelector((state) => state.post);
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     dispatch({
       type: LOAD_POSTS_REQUEST,
@@ -21,8 +21,8 @@ const Feed = (props) => {
 
   useEffect(() => {
     function onScroll() {
-      if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 500) {
-        if (hasMorePost && !loadPostsLoading) {
+      if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 300) {
+        if (hasMorePosts && !loadPostsLoading) {
           dispatch({
             type: LOAD_POSTS_REQUEST,
             data: mainPosts[mainPosts.length - 1].id,
@@ -34,7 +34,7 @@ const Feed = (props) => {
     return () => {
       window.removeEventListener('scroll', onScroll);
     };
-  }, [mainPosts, hasMorePost, loadPostsLoading]);
+  }, [mainPosts, hasMorePosts, loadPostsLoading]);
 
   return (
     <>
