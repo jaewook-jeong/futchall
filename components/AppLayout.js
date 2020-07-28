@@ -17,11 +17,9 @@ const OutterLayout = styled(Layout)`
 `;
 const LayoutHeader = styled(Layout.Header)`
     background-color: #fff;
-    padding: 0 5px;
-`;
-const LayoutContent = styled(Layout.Content)`
-    background-color: #eaeaea;
-    height: 1.5px;
+    padding: 0;
+    width: 100%;
+    height: 66px;
 `;
 const InnerLayout = styled(Layout)`
     background-color: #fff;
@@ -57,7 +55,6 @@ const AppLayout = ({ children }) => {
       <LayoutHeader>
         <HeaderMenu showModal={showModal} shrink={false} />
       </LayoutHeader>
-      <LayoutContent />
       <InnerLayout hasSider>
         <Layout.Sider breakpoint="sm" theme="light" collapsedWidth={0} zeroWidthTriggerStyle={{ zIndex: 10 }}>
           <Menu mode="inline" theme="light">
