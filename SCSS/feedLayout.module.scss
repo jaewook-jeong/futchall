@@ -20,13 +20,15 @@ $sm : 576px;
   box-sizing: border-box;
 
   .fixedInfo{
-    // position: absolute;
+    position: sticky;
+    top: 70px;
     margin-bottom: 5px;
     min-height: 91vh;
     border-radius: 15px;
     background-color: #fff;
     border: 1px solid #f0f0f0;
     padding: 10px;
+    width: 100%;
     .occupyMap{
       width: 100%;
       min-height: 400px;

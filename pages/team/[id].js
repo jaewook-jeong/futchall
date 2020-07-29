@@ -150,61 +150,63 @@ const Stadium = () => {
         </Col>
       </Row>
       <Row className={style.flowInfo}>
-        <Col xs={{ span: 24 }} sm={{ span: 24 }} md={{ span: 10 }} className={style.fixedInfo}>
-          <Tabs
-            tabBarExtraContent={(isSelected && isLoggedIn && (info.req === me.Team.club)) ? <Button onClick={() => { message.warn('준비중입니다.'); }} shape="round"><QuestionCircleOutlined />팀 관리</Button> : null}
-          >
-            <Tabs.TabPane tab="상세정보" key="1">
-              <Descriptions
-                column={{ xxl: 4, xl: 2, lg: 2, md: 2, sm: 2, xs: 2 }}
-                bordered
-                title={isSelected && info.title}
-                size="middle"
-              >
-                <Descriptions.Item label="활동 지역" span={2}>
-                  <Skeleton loading={!isSelected} active paragraph={false} />
-                  {isSelected && info.location}
-                </Descriptions.Item>
-                <Descriptions.Item label="모임 시간" span={2}>
-                  <Skeleton loading={!isSelected} active paragraph={false} />
-                  {isSelected && info.time}
-                </Descriptions.Item>
-                <Descriptions.Item label="모집 여부" span={2}>
-                  <Skeleton loading={!isSelected} active paragraph={false} />
-                  {isSelected && info.recruit}
-                </Descriptions.Item>
-              </Descriptions>
-              <div id="stadiumAddress" className={style.occupyMap} />
-            </Tabs.TabPane>
-            <Tabs.TabPane tab="선수 명단" key="2">
-              <Skeleton active loading={!isSelected} />
-              {isSelected
-                                && (
-                                <Table
-                                  showHeader
-                                  columns={memberColumns}
-                                  pagination={{ pageSize: 15 }}
-                                  scroll={{ x: '100%', scrollToFirstRowOnChange: true, y: 550 }}
-                                  dataSource={memberList}
-                                  rowKey={(member) => member.id}
-                                />
-                                )}
-            </Tabs.TabPane>
-            <Tabs.TabPane tab="전적" key="3">
-              <Skeleton active loading={!isSelected} />
-              {isSelected
-                                && (
-                                <Table
-                                  showHeader
-                                  columns={recordColumns}
-                                  dataSource={info.record}
-                                />
-                                )}
-            </Tabs.TabPane>
-            <Tabs.TabPane tab="사진" key="4">
-              <Skeleton active />
-            </Tabs.TabPane>
-          </Tabs>
+        <Col xs={{ span: 24 }} sm={{ span: 24 }} md={{ span: 10 }}>
+          <div className={style.fixedInfo}>
+            <Tabs
+              tabBarExtraContent={(isSelected && isLoggedIn && (info.req === me.Team.club)) ? <Button onClick={() => { message.warn('준비중입니다.'); }} shape="round"><QuestionCircleOutlined />팀 관리</Button> : null}
+            >
+              <Tabs.TabPane tab="상세정보" key="1">
+                <Descriptions
+                  column={{ xxl: 4, xl: 2, lg: 2, md: 2, sm: 2, xs: 2 }}
+                  bordered
+                  title={isSelected && info.title}
+                  size="middle"
+                >
+                  <Descriptions.Item label="활동 지역" span={2}>
+                    <Skeleton loading={!isSelected} active paragraph={false} />
+                    {isSelected && info.location}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="모임 시간" span={2}>
+                    <Skeleton loading={!isSelected} active paragraph={false} />
+                    {isSelected && info.time}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="모집 여부" span={2}>
+                    <Skeleton loading={!isSelected} active paragraph={false} />
+                    {isSelected && info.recruit}
+                  </Descriptions.Item>
+                </Descriptions>
+                <div id="stadiumAddress" className={style.occupyMap} />
+              </Tabs.TabPane>
+              <Tabs.TabPane tab="선수 명단" key="2">
+                <Skeleton active loading={!isSelected} />
+                {isSelected
+                                  && (
+                                  <Table
+                                    showHeader
+                                    columns={memberColumns}
+                                    pagination={{ pageSize: 15 }}
+                                    scroll={{ x: '100%', scrollToFirstRowOnChange: true, y: 550 }}
+                                    dataSource={memberList}
+                                    rowKey={(member) => member.id}
+                                  />
+                                  )}
+              </Tabs.TabPane>
+              <Tabs.TabPane tab="전적" key="3">
+                <Skeleton active loading={!isSelected} />
+                {isSelected
+                                  && (
+                                  <Table
+                                    showHeader
+                                    columns={recordColumns}
+                                    dataSource={info.record}
+                                  />
+                                  )}
+              </Tabs.TabPane>
+              <Tabs.TabPane tab="사진" key="4">
+                <Skeleton active />
+              </Tabs.TabPane>
+            </Tabs>
+          </div>
         </Col>
         <Col xs={{ span: 24 }} sm={{ span: 24 }} md={{ span: 13, offset: 1 }} className={style.postWall}>
           <Feed where="team" req={id} />
