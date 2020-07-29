@@ -1,9 +1,8 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import { PlusOutlined, ZoomInOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 
-import ImagesZoom from './ImagesZoom';
+import PhotoSlider from './PhotoSlider';
 
 const Thumnail = styled.div`
   position: relative;
@@ -54,7 +53,7 @@ const PostImages = ({ images }) => {
             <ImageTag role="presentation" src={images[0].src} alt={images[0].src} onClick={onZoom} />
           </Centered>
         </Thumnail>
-        {modalImage && <ImagesZoom images={images} handler={setModalImage} visible={modalImage} />}
+        {modalImage && <PhotoSlider images={images} handler={setModalImage} visible={modalImage} />}
       </div>
     );
   }
@@ -75,7 +74,7 @@ const PostImages = ({ images }) => {
             </Centered>
           </Thumnail>
         </div>
-        {modalImage && <ImagesZoom images={images} handler={setModalImage} visible={modalImage} />}
+        {modalImage && <PhotoSlider images={images} handler={setModalImage} visible={modalImage} />}
       </>
     );
   }
@@ -126,7 +125,7 @@ const PostImages = ({ images }) => {
           )}
         </Thumnail>
       </div>
-      {modalImage && <ImagesZoom images={images} handler={setModalImage} visible={modalImage} />}
+      {modalImage && <PhotoSlider images={images} handler={setModalImage} visible={modalImage} />}
     </>
   );
 };
