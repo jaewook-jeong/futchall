@@ -23,7 +23,7 @@ $sm : 576px;
     position: sticky;
     top: 70px;
     margin-bottom: 5px;
-    min-height: 91vh;
+    height: calc(100vh - 75px);
     border-radius: 15px;
     background-color: #fff;
     border: 1px solid #f0f0f0;
@@ -31,10 +31,8 @@ $sm : 576px;
     width: 100%;
     .occupyMap{
       width: 100%;
-      min-height: 400px;
+      height: calc(100vh - 375px);
       margin-top: 15px;
-    }
-    @media screen and (max-width: $sm){
     }
   }
   
