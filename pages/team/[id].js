@@ -9,6 +9,7 @@ import { SELECT_TEAM_REQUEST } from '../../reducers/team';
 import AppLayout2 from '../../components/AppLayout2';
 import Feed from '../../components/Feed';
 import style from '../../SCSS/feedLayout.module.scss';
+import { teamMemberColumns as memberColumns, teamRecordColumns as recordColumns } from '../../util/columns';
 
 const Stadium = () => {
   const router = useRouter();
@@ -17,88 +18,6 @@ const Stadium = () => {
   const { me, isLoggedIn } = useSelector((state) => state.user, (left, right) => { if (left.me.id === right.me.id) { return true; } return false; });
   const dispatch = useDispatch();
 
-  const memberColumns = [
-    {
-      title: '주장',
-      dataIndex: 'reader',
-      align: 'center',
-      width: 70,
-      render: (val) => <span>{val ? '*' : ''}</span>,
-    },
-    {
-      title: '닉네임',
-      dataIndex: 'nickname',
-      align: 'center',
-      sorter: (a, b) => a.nickname - b.nickname,
-    },
-    {
-      title: '포지션',
-      dataIndex: 'positions',
-      align: 'center',
-      render: (val) => <div>{val.map((v) => <Tag key={v} color={v == 'FIXO' ? 'blue' : v === 'ALA' ? 'green' : v === 'PIVO' ? 'red' : 'orange'}>{v}</Tag>)}</div>,
-      filters: [
-        { text: 'PIVO', value: 'PIVO' },
-        { text: 'ALA', value: 'ALA' },
-        { text: 'FIXO', value: 'FIXO' },
-        { text: 'GOLEIRO', value: 'GOLEIRO' },
-      ],
-      onFilter: (value, rec) => rec.positions.indexOf(value) !== -1,
-    },
-    {
-      title: '득점',
-      dataIndex: 'score',
-      align: 'center',
-      sorter: (a, b) => a.score - b.score,
-    },
-    // {
-    //   title: '연락하기',
-    //   dataIndex: 'id',
-    //   align: 'center',
-    //   render: (val) => <div><a onClick={() => console.log(val)}>연락하기</a></div>,
-    // },
-  ];
-  const recordColumns = [
-    {
-      title: 'Home',
-      children: [
-        {
-          title: '점령팀',
-          dataIndex: 'homeTeamName',
-          align: 'center',
-        },
-        {
-          title: '득점',
-          dataIndex: 'homeTeamScore',
-          align: 'center',
-        },
-      ],
-    },
-    {
-      title: 'Away',
-      children: [
-        {
-          title: '도전팀',
-          dataIndex: 'awayTeamName',
-          align: 'center',
-        },
-        {
-          title: '득점',
-          dataIndex: 'awayTeamScore',
-          align: 'center',
-        },
-      ],
-    },
-    {
-      title: '일시',
-      dataIndex: 'date',
-      align: 'center',
-    },
-    {
-      title: '장소',
-      dataIndex: 'satdiumName',
-      align: 'center',
-    },
-  ];
   useEffect(
     // have to change method to getInitialProps
     () => {
@@ -118,6 +37,7 @@ const Stadium = () => {
       map.setZoomable(false);
       const bounds = new kakao.maps.LatLngBounds();
       for (let i = 0; i < points.length; i++) {
+        // need index for getting req, so don't use forEach etc.
         const marker = new kakao.maps.Marker({ position: points[i], clickable: true });
         marker.setMap(map);
         kakao.maps.event.addListener(marker, 'click', () => {
@@ -125,6 +45,7 @@ const Stadium = () => {
         });
         bounds.extend(points[i]);
       }
+      map.relayout();
       map.setBounds(bounds);
     }
   }, [isSelected]);
@@ -133,7 +54,17 @@ const Stadium = () => {
       <Row style={{ marginBottom: '10px' }}>
         <Col className={style.mainInfo}>
           <Card
-            cover={<img alt="Main image of Team" src="https://via.placeholder.com/350/dddddd" />}
+            cover={(
+              <div
+                style={{ width: '100%', height: '100%', backgroundColor: '#ccc', opacity: '0.3' }}
+              >
+                <img
+                alt="Main image of Team"
+                src="https://via.placeholder.com/500x200/808080"
+                style={{ maxHeight: '100%', maxWidth: '100%', width: 'auto', height: '100%', margin: '0 auto' }}
+                />
+              </div>
+            )}
             className={style.cardDiv}
           >
             <Card.Meta
@@ -175,7 +106,10 @@ const Stadium = () => {
                     {isSelected && info.recruit}
                   </Descriptions.Item>
                 </Descriptions>
-                <div id="stadiumAddress" className={style.occupyMap} />
+
+                <div className={style.mapContainer}>
+                  <div id="stadiumAddress" className={style.occupyMap} />
+                </div>
               </Tabs.TabPane>
               <Tabs.TabPane tab="선수 명단" key="2">
                 <Skeleton active loading={!isSelected} />
@@ -183,9 +117,10 @@ const Stadium = () => {
                                   && (
                                   <Table
                                     showHeader
+                                    tableLayout="fixed"
                                     columns={memberColumns}
                                     pagination={{ pageSize: 15 }}
-                                    scroll={{ x: '100%', scrollToFirstRowOnChange: true, y: 550 }}
+                                    scroll={{ x: 'max-content', scrollToFirstRowOnChange: true, y: 550 }}
                                     dataSource={memberList}
                                     rowKey={(member) => member.id}
                                   />
