@@ -18,7 +18,7 @@ $sm : 576px;
   position: relative;
   max-width: 100%;
   box-sizing: border-box;
-
+  
   .fixedInfo{
     position: sticky;
     top: 70px;
@@ -29,11 +29,20 @@ $sm : 576px;
     border: 1px solid #f0f0f0;
     padding: 10px;
     width: 100%;
-    .occupyMap{
+    .mapContainer{
       width: 100%;
-      height: calc(100vh - 375px);
       margin-top: 15px;
+      padding-top: 100%; /* 1:1 Aspect Ratio */
+      position: relative; /* If you want text inside of it */
+      .occupyMap{
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+      }
     }
+    
   }
   
   .postWall{
