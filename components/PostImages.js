@@ -1,42 +1,8 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 
 import PhotoSlider from './PhotoSlider';
-
-const Thumnail = styled.div`
-  position: relative;
-  padding-top: 100%;
-  overflow: hidden;
-  text-align: center;
-  vertical-align: middle;
-  background-color: #28242b;
-  cursor: pointer;
-`;
-
-const Centered = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  -webkit-transform: translate(50%,50%);
-  -ms-transform: translate(50%,50%);
-  transform: translate(50%,50%);
-`;
-
-const ImageTag = styled.img`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  max-width: 100%;
-  height: auto;
-  -webkit-transform: translate(-50%,-50%);
-  -ms-transform: translate(-50%,-50%);
-  transform: translate(-50%,-50%);
-`;
+import { Thumnail, Centered, ImageTag } from '../SCSS/StyledComponents';
 
 const PostImages = ({ images }) => {
   const [modalImage, setModalImage] = useState(false);
