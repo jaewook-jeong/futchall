@@ -1,8 +1,9 @@
 import React, { useCallback } from 'react';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Form, Avatar, Input, Button, Divider } from 'antd';
+import { Form, Avatar, Input, Button, Divider, Space } from 'antd';
 import styled from 'styled-components';
+import { FileImageOutlined, CalendarOutlined } from '@ant-design/icons';
 
 const PostFormDiv = styled.div`
   border-radius: 15px;
@@ -19,7 +20,7 @@ const PostForm = (props) => {
   const dispatch = useDispatch();
 
   const onSubmit = useCallback(() => {
-    console.log(form.getFieldsValue(['content']));
+    console.log(form.getFieldsValue(['content']), me?.id);
   }, []);
   return (
     <PostFormDiv>
@@ -46,7 +47,11 @@ const PostForm = (props) => {
         <Form.Item
           style={{ marginBottom: 0, textAlign: 'right' }}
         >
-          <Button type="primary" htmlType="submit" style={{borderRadius: '8px'}}>게시하기</Button>
+          <Space>
+            <Button type="default" htmlType="button" shape="round"><FileImageOutlined />사진</Button>
+            <Button type="default" htmlType="button" shape="round"><CalendarOutlined />경기 일정</Button>
+            <Button type="primary" htmlType="submit" shape="round">게시하기</Button>
+          </Space>
         </Form.Item>
       </Form>
     </PostFormDiv>
