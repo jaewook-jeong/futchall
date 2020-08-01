@@ -56,7 +56,7 @@ const Stadium = () => {
           <Card
             cover={(
               <div
-                style={{ width: '100%', height: '100%', backgroundColor: '#ccc', opacity: '0.3' }}
+                style={{ width: '100%', backgroundColor: '#ccc', opacity: '0.3' }}
               >
                 <img
                 alt="Main image of Team"
