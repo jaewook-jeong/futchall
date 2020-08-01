@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
-import {  } from 'antd';
 import PropTypes from 'prop-types';
 
 import PostForm from './PostForm';
