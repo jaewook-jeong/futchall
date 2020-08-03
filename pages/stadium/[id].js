@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Router, { useRouter } from 'next/router';
 import { Skeleton, Col, Row, Tabs, Button, message, Descriptions, Tag, Typography, Tooltip, Card } from 'antd';
@@ -16,6 +16,8 @@ const Stadium = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const { id } = router.query;
+  const lastScrollTop = useRef(0);
+  // const [lastScrollTop, onLastScrollTop] = useState(0);
   const { info, isSelected } = useSelector((state) => state.stadium, (left, right) => { if (left.info.req === right.info.req) { return true; } return false; });
   const { me, isLoggedIn } = useSelector((state) => state.user, (left, right) => { if (left.me.id === right.me.id) { return true; } return false; });
 
@@ -33,7 +35,7 @@ const Stadium = () => {
     if (isSelected) {
       const options = {
         center: new kakao.maps.LatLng(info.lat, info.lng),
-        level: 3,
+        level: 4,
       };
       const map = new kakao.maps.Map(document.getElementById('stadiumAddress'), options);
       map.addControl(new kakao.maps.MapTypeControl(), kakao.maps.ControlPosition.TOPRIGHT);
@@ -63,10 +65,27 @@ const Stadium = () => {
       document.getElementById('whatShouldIDo').onclick = moveToTeam;
     }
   }, [isSelected]);
-
+  useEffect(() => {
+    function onScroll() {
+      const st = window.pageYOffset;
+      const targetDiv = document.getElementById('facebookFlow');
+      if (st > lastScrollTop.current) {
+        targetDiv.style.cssText = 'top: calc(100vh - 125%)';
+        console.log("down");
+      } else {
+        targetDiv.style.cssText = 'bottom: -400px';
+        console.log("uup");
+      }
+      lastScrollTop.current = st <= 0 ? 0 : st;
+    }
+    window.addEventListener('scroll', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+    };
+  }, []);
   return (
     <AppLayout2>
-      <Row style={{ marginBottom: '10px' }}>
+      <Row>
         <Col className={style.mainInfo}>
           <Card
             cover={(
@@ -87,7 +106,6 @@ const Stadium = () => {
                 <Typography.Title level={3} copyable={isSelected && { text: window.location.pathname }}>
                   <Skeleton loading={!isSelected} active paragraph={false} />
                   {isSelected && info.title}
-                  {isSelected && <Button onClick={() => { message.info('링크가 복사되었습니다.'); }} type="link"><CopyOutlined />Copy</Button>}
                 </Typography.Title>
                 )}
               description={isSelected && info.description}
@@ -98,7 +116,7 @@ const Stadium = () => {
       </Row>
       <Row className={style.flowInfo}>
         <Col xs={{ span: 24 }} sm={{ span: 24 }} md={{ span: 10 }}>
-          <div className={style.fixedInfo}>
+          <div className={style.fixedInfo} id="facebookFlow">
             <Tabs tabBarExtraContent={<Button onClick={() => { message.warn('준비중입니다.'); }} shape="round"><QuestionCircleOutlined />정보수정</Button>}>
               <Tabs.TabPane tab="상세정보" key="1">
                 <Descriptions
