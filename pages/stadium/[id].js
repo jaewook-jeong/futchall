@@ -17,6 +17,7 @@ const Stadium = () => {
   const dispatch = useDispatch();
   const { id } = router.query;
   const lastScrollTop = useRef(0);
+  const updownDirection = useRef(false);
   // const [lastScrollTop, onLastScrollTop] = useState(0);
   const { info, isSelected } = useSelector((state) => state.stadium, (left, right) => { if (left.info.req === right.info.req) { return true; } return false; });
   const { me, isLoggedIn } = useSelector((state) => state.user, (left, right) => { if (left.me.id === right.me.id) { return true; } return false; });
@@ -69,12 +70,28 @@ const Stadium = () => {
     function onScroll() {
       const st = window.pageYOffset;
       const targetDiv = document.getElementById('facebookFlow');
+      const fakeDiv = document.getElementById('facebookFake');
+      const upDivHeight = document.getElementById('upDiv').offsetHeight + 66;
+      const vh = window.innerHeight;
+      if (st <= upDivHeight) {
+        fakeDiv.style.cssText = 'height: 0px';
+        updownDirection.current = false;
+      }
+
       if (st > lastScrollTop.current) {
-        targetDiv.style.cssText = 'top: calc(100vh - 125%)';
-        console.log("down");
-      } else {
-        targetDiv.style.cssText = 'bottom: -400px';
-        console.log("uup");
+        // down
+        targetDiv.style.cssText = `top: ${vh - targetDiv.offsetHeight - 10}px`;
+        if (updownDirection.current && st > upDivHeight) {
+          fakeDiv.style.cssText = `height: ${st - targetDiv.offsetHeight}px`;
+          updownDirection.current = false;
+        }
+      } else if (st < lastScrollTop.current) {
+        // up
+        targetDiv.style.cssText = `bottom: ${vh - targetDiv.offsetHeight - 70}px`;
+        if (!updownDirection.current) {
+          fakeDiv.style.cssText = `height: ${st}px`;
+          updownDirection.current = true;
+        }
       }
       lastScrollTop.current = st <= 0 ? 0 : st;
     }
@@ -86,7 +103,7 @@ const Stadium = () => {
   return (
     <AppLayout2>
       <Row>
-        <Col className={style.mainInfo}>
+        <Col className={style.mainInfo} id="upDiv">
           <Card
             cover={(
               <div
@@ -94,7 +111,7 @@ const Stadium = () => {
               >
                 <img
                 alt="Main image of Stadium"
-                src="https://via.placeholder.com/500x200/808080"
+                src="https://via.placeholder.com/500x300/808080"
                 style={{ maxHeight: '100%', maxWidth: '100%', width: 'auto', height: '100%', margin: '0 auto' }}
                 />
               </div>
@@ -116,6 +133,7 @@ const Stadium = () => {
       </Row>
       <Row className={style.flowInfo}>
         <Col xs={{ span: 24 }} sm={{ span: 24 }} md={{ span: 10 }}>
+          <div id="facebookFake"/>
           <div className={style.fixedInfo} id="facebookFlow">
             <Tabs tabBarExtraContent={<Button onClick={() => { message.warn('준비중입니다.'); }} shape="round"><QuestionCircleOutlined />정보수정</Button>}>
               <Tabs.TabPane tab="상세정보" key="1">
