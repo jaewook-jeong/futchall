@@ -14,7 +14,7 @@ const LoginForm = (props) => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
 
-  const onHandleCancel = (() => {
+  const onHandleCancel = useCallback(() => {
     form.resetFields(['id', 'password']);
     setVisible(false);
   });
