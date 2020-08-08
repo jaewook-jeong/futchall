@@ -57,35 +57,35 @@ const HeaderSearchBox = () => {
         }
 
       </div>
-        <div
-          id="hiddenSearchDiv" 
-          className={styles.hiddensearch} 
-          onBlur={()=>{document.getElementById('hiddenSearchDiv').style.display = 'none'}}
-        >
-          <span className={styles.hiddenout} onClick={()=>{document.getElementById('hiddenSearchDiv').style.display = 'none'}}>
-            <ArrowLeftOutlined />
-          </span>
-          <input
-            id="hiddenSearchQ"
-            className={styles.hiddeninput}
-            onChange={handleSearchQuery}
-            value={searchQuery}
-            onKeyUp={(e) => { if (e.keyCode === 13)searchTeam(); }}
-            placeholder="팀 명을 입력하고 Enter를 눌러주세요"
-          />
-          {
-            deleteButton
-                && (
-                <span
-                  id="hiddenDelBtn" 
-                  className={styles.hiddendelete} 
-                  onClick={clearSearchQuery}
-                >
-                  X
-                </span>
-                )
-          }
-        </div>
+      <div
+        id="hiddenSearchDiv" 
+        className={styles.hiddensearch} 
+        onBlur={()=>{document.getElementById('hiddenSearchDiv').style.display = 'none'}}
+      >
+        <span className={styles.hiddenout} onClick={()=>{document.getElementById('hiddenSearchDiv').style.display = 'none'}}>
+          <ArrowLeftOutlined />
+        </span>
+        <input
+          id="hiddenSearchQ"
+          className={styles.hiddeninput}
+          onChange={handleSearchQuery}
+          value={searchQuery}
+          onKeyUp={(e) => { if (e.keyCode === 13)searchTeam(); }}
+          placeholder="팀 명을 입력하고 Enter를 눌러주세요"
+        />
+        {
+          deleteButton
+              && (
+              <span
+                id="hiddenDelBtn" 
+                className={styles.hiddendelete} 
+                onClick={clearSearchQuery}
+              >
+                X
+              </span>
+              )
+        }
+      </div>
     </>
   );
 };
