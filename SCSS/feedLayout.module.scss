@@ -1,6 +1,7 @@
 $sm : 576px;
 .mainInfo{
   width: 100%;
+  margin-bottom: 10px;
   .cardDiv{
     border-radius: 0 0 15px 15px;
     text-align: center;
@@ -21,9 +22,10 @@ $sm : 576px;
   
   .fixedInfo{
     position: sticky;
-    top: 70px;
+    // top: calc(100vh - 100% + 80px);
     margin-bottom: 5px;
-    height: calc(100vh - 75px);
+    // height: calc(100vh - 75px);
+    height: auto;
     border-radius: 15px;
     background-color: #fff;
     border: 1px solid #f0f0f0;
@@ -32,7 +34,7 @@ $sm : 576px;
     .mapContainer{
       width: 100%;
       margin-top: 15px;
-      padding-top: 100%; /* 1:1 Aspect Ratio */
+      padding-top: 200%; /* 1:1 Aspect Ratio */
       position: relative; /* If you want text inside of it */
       .occupyMap{
         position: absolute;
