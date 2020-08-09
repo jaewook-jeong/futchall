@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react';
-import { Modal, Form, DatePicker, TimePicker, Input } from 'antd';
+import { Modal, Form, DatePicker, TimePicker, Input, Button } from 'antd';
 import PropTypes from 'prop-types';
 
 const ReservationMatch = (props) => {
-  const { visible, setVisible, onLoadPost, stadiumReq } = props;
+  const { visible, setVisible, onLoadPost, stadiumReq, setEnrollment } = props;
   const [form] = Form.useForm();
 
   const onHandleCancel = useCallback(() => {
@@ -13,8 +13,13 @@ const ReservationMatch = (props) => {
 
   const onFetchPost = useCallback(() => {
     // push to clicked post
-    console.log(form.getFieldsValue(['home', 'away', 'stadium']));
-    // onLoadPost();
+    onLoadPost({
+      stadiumTitle: form.getFieldValue('stadiumTitle'),
+      day: form.getFieldValue('day').format('YYYY-MM-DD'),
+      time: form.getFieldValue('time').format('HH:mm'),
+    });
+    setVisible(false);
+    setEnrollment(true);
   }, []);
 
   return (
@@ -22,7 +27,6 @@ const ReservationMatch = (props) => {
       title="일정 선택하기"
       visible={visible}
       onCancel={onHandleCancel}
-      onOk={onFetchPost}
       centered
       footer={null}
     >
@@ -32,12 +36,29 @@ const ReservationMatch = (props) => {
         onFinish={onFetchPost}
         initialValues={{ stadiumReq }}
       >
-        <Form.Item name="date">
+        <Form.Item name="day" label="날짜" colon={false}>
           <DatePicker />
-          <TimePicker />
         </Form.Item>
-        <Form.Item name="stadiumReq">
+        <Form.Item name="time" label="시간" colon={false}>
+          <TimePicker
+            use12Hours
+            format="h:mm a"
+          />
+        </Form.Item>
+        <Form.Item
+          name="stadiumTitle"
+          label="경기장"
+          colon={false}
+        >
           <Input />
+        </Form.Item>
+        <Form.Item>
+          <Button
+            type="primary"
+            onClick={onFetchPost}
+          >
+            일정 생성
+          </Button>
         </Form.Item>
       </Form>
 
@@ -50,7 +71,11 @@ ReservationMatch.propTypes = {
     visible: PropTypes.bool.isRequired,
     setVisible: PropTypes.func.isRequired,
     onLoadPost: PropTypes.func.isRequired,
-    stadiumReq: PropTypes.number,
+    stadiumReq: PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.number,
+    ]).isRequired,
+    setEnrollment: PropTypes.func.isRequired,
   }).isRequired,
 };
 
