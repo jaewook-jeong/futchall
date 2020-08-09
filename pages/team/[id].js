@@ -51,7 +51,7 @@ const Stadium = () => {
   }, [isSelected]);
   return (
     <AppLayout2>
-      <Row style={{ marginBottom: '10px' }}>
+      <Row>
         <Col className={style.mainInfo}>
           <Card
             cover={(
