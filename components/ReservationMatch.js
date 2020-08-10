@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import { Modal, Form, DatePicker, TimePicker, Input, Button } from 'antd';
+import moment from 'moment';
 import PropTypes from 'prop-types';
 
 const ReservationMatch = (props) => {
@@ -15,12 +16,13 @@ const ReservationMatch = (props) => {
     // push to clicked post
     onLoadPost({
       stadiumTitle: form.getFieldValue('stadiumTitle'),
-      day: form.getFieldValue('day').format('YYYY-MM-DD'),
-      time: form.getFieldValue('time').format('HH:mm'),
+      date: form.getFieldValue('date').format('YYYY-MM-DD HH:mm'),
     });
     setVisible(false);
     setEnrollment(true);
   }, []);
+
+  const disabledDate = useCallback((current) => current && current < moment().endOf('day'), []);
 
   return (
     <Modal
@@ -36,18 +38,16 @@ const ReservationMatch = (props) => {
         onFinish={onFetchPost}
         initialValues={{ stadiumReq }}
       >
-        <Form.Item name="day" label="날짜" colon={false}>
-          <DatePicker />
-        </Form.Item>
-        <Form.Item name="time" label="시간" colon={false}>
-          <TimePicker
-            use12Hours
-            format="h:mm a"
+        <Form.Item name="date" label="일정" colon={false}>
+          <DatePicker
+            format="YYYY-MM-DD HH:mm"
+            disabledDate={disabledDate}
+            showTime={{ defaultValue: moment('00:00', 'HH:mm') }}
           />
         </Form.Item>
         <Form.Item
           name="stadiumTitle"
-          label="경기장"
+          label="장소"
           colon={false}
         >
           <Input />

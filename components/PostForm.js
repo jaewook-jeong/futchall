@@ -22,10 +22,10 @@ const PostForm = (props) => {
   const { me } = useSelector((state) => state.user, shallowEqual);
   const [visible, setVisible] = useState(false);
   const [enrollment, setEnrollment] = useState(false);
-  const [matchInfo, setMatchInfo] = useState({ stadiumTitle: null, stadiumReq: null, day: null, time: null });
+  const [matchInfo, setMatchInfo] = useState({ stadiumTitle: null, stadiumReq: null, date: null });
 
   const onSubmit = useCallback(() => {
-    console.log(form.getFieldsValue(['content']), me?.id);
+    console.log(form.getFieldsValue(['content']), me?.id, matchInfo);
   }, []);
 
   const onAdjustMatch = useCallback(() => {
@@ -54,18 +54,6 @@ const PostForm = (props) => {
             placeholder="무슨 생각을 하고 계신가요?"
           />
         </Form.Item>
-        <Form.Item
-          hidden
-          name="matchDate"
-        >
-          <Input value={matchInfo.day + matchInfo.time} />
-        </Form.Item>
-        <Form.Item
-          hidden
-          name="stadiumReq"
-        >
-          <Input value={matchInfo.stadiumReq} />
-        </Form.Item>
         {
           enrollment && (
           <div>
@@ -75,7 +63,7 @@ const PostForm = (props) => {
               onClose={() => { setEnrollment(false); }}
               color="#1890ff"
             >
-              {matchInfo.stadiumTitle + ' ' + matchInfo.day + ' ' + matchInfo.time}
+              {matchInfo.stadiumTitle + ' ' + matchInfo.date}
             </Tag>
           </div>
           )
