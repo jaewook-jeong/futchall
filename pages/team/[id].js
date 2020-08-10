@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Router, { useRouter } from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
 import { Skeleton, Col, Row, Tabs, Button, message, Descriptions, Typography, Table, Tag, Card } from 'antd';
@@ -17,6 +17,8 @@ const Stadium = () => {
   const { info, isSelected, memberList } = useSelector((state) => state.team, (left, right) => { if (left.info.req === right.info.req) { return true; } return false; });
   const { me, isLoggedIn } = useSelector((state) => state.user, (left, right) => { if (left.me.id === right.me.id) { return true; } return false; });
   const dispatch = useDispatch();
+  const lastScrollTop = useRef(0);
+  const updownDirection = useRef(false);
 
   useEffect(
     // have to change method to getInitialProps
@@ -49,10 +51,44 @@ const Stadium = () => {
       map.setBounds(bounds);
     }
   }, [isSelected]);
+  useEffect(() => {
+    function onScroll() {
+      const st = window.pageYOffset;
+      const targetDiv = document.getElementById('facebookFlow');
+      const fakeDiv = document.getElementById('facebookFake');
+      const upDivHeight = document.getElementById('upDiv').offsetHeight + 66;
+      const vh = window.innerHeight;
+      if (st <= upDivHeight) {
+        fakeDiv.style.cssText = 'height: 0px';
+        updownDirection.current = false;
+      }
+
+      if (st > lastScrollTop.current) {
+        // down
+        targetDiv.style.cssText = `top: ${vh - targetDiv.offsetHeight - 10}px`;
+        if (updownDirection.current && st > upDivHeight) {
+          fakeDiv.style.cssText = `height: ${st - targetDiv.offsetHeight}px`;
+          updownDirection.current = false;
+        }
+      } else if (st < lastScrollTop.current) {
+        // up
+        targetDiv.style.cssText = `bottom: ${vh - targetDiv.offsetHeight - 70}px`;
+        if (!updownDirection.current) {
+          fakeDiv.style.cssText = `height: ${st}px`;
+          updownDirection.current = true;
+        }
+      }
+      lastScrollTop.current = st <= 0 ? 0 : st;
+    }
+    window.addEventListener('scroll', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+    };
+  }, []);
   return (
     <AppLayout2>
       <Row>
-        <Col className={style.mainInfo}>
+        <Col className={style.mainInfo} id="upDiv">
           <Card
             cover={(
               <div
@@ -82,7 +118,8 @@ const Stadium = () => {
       </Row>
       <Row className={style.flowInfo}>
         <Col xs={{ span: 24 }} sm={{ span: 24 }} md={{ span: 10 }}>
-          <div className={style.fixedInfo}>
+          <div id="facebookFake" />
+          <div className={style.fixedInfo} id="facebookFlow">
             <Tabs
               tabBarExtraContent={(isSelected && isLoggedIn && (info.req === me.Team.club)) ? <Button onClick={() => { message.warn('준비중입니다.'); }} shape="round"><QuestionCircleOutlined />팀 관리</Button> : null}
             >
