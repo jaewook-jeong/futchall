@@ -10,7 +10,7 @@ import { LOG_OUT_REQUEST } from '../reducers/user';
 const ProfileAvatar = () => {
   const { me } = useSelector(
     (state) => state.user,
-    (left, right) => { if (left.me.id === right.me.id) { return true; } return false; },
+    (left, right) => { if (left.me.userId === right.me.userId) { return true; } return false; },
   );
   const isLoggingOut = useSelector((state) => state.user.isLoggingOut);
   const dispatch = useDispatch();
