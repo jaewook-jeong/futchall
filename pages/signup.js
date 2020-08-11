@@ -57,18 +57,19 @@ const Signup = () => {
               wrapperCol={{ flex: '1 1 200px' }}
             >
               <Form.Item
-                name="id"
+                name="userId"
                 label="아이디"
                 hasFeedback
                 rules={[{ required: true, min: 5, max: 20, pattern: /^[a-z]+[a-z0-9]{4,19}$/, message: '5자 이상 20자 이하의 영소문자로 시작하는 아이디를 입력해주세요' },
                   () => ({
                     async validator(rule, value) {
-                      // const isTaken = await axios.get('')
-                      const nameTaken = 'everest88';
-                      if (value !== nameTaken) {
-                        return Promise.resolve('사용 가능한 아이디입니다.');
+                      if (value.length >= 5) {
+                        const isTaken = await axios.post('http://localhost:3065/user/isTaken', { userId: value });
+                        if (isTaken) {
+                          return Promise.resolve('사용 가능한 아이디입니다.');
+                        }
+                        return Promise.reject('이미 사용중인 아이디입니다.');
                       }
-                      return Promise.reject('이미 사용중인 아이디입니다.');
                     },
                   }),
                 ]}
@@ -94,7 +95,7 @@ const Signup = () => {
                 ]}
                 hasFeedback
               >
-                <Input.Password />
+                <Input.Password style={{ imeMode: 'disabled' }} />
               </Form.Item>
 
               <Form.Item
@@ -110,6 +111,9 @@ const Signup = () => {
                   ({ getFieldValue }) => ({
                     validator(rule, value) {
                       if (!value || getFieldValue('password') === value) {
+                        if (value.length < 6) {
+                          return Promise.reject('6자 이상 비밀번호를 입력해주세요!');
+                        }
                         return Promise.resolve();
                       }
                       return Promise.reject('비밀번호가 일치하지 않습니다.');
