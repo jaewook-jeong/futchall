@@ -15,7 +15,7 @@ const Stadium = () => {
   const router = useRouter();
   const { id } = router.query;
   const { info, isSelected, memberList } = useSelector((state) => state.team, (left, right) => { if (left.info.req === right.info.req) { return true; } return false; });
-  const { me, isLoggedIn } = useSelector((state) => state.user, (left, right) => { if (left.me.id === right.me.id) { return true; } return false; });
+  const { me, isLoggedIn } = useSelector((state) => state.user, (left, right) => { if (left.me.userId === right.me.userId) { return true; } return false; });
   const dispatch = useDispatch();
   const lastScrollTop = useRef(0);
   const updownDirection = useRef(false);
