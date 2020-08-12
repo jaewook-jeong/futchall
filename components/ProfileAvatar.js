@@ -10,7 +10,7 @@ import { LOG_OUT_REQUEST } from '../reducers/user';
 const ProfileAvatar = () => {
   const { me } = useSelector(
     (state) => state.user,
-    (left, right) => { if (left.me.userId === right.me.userId) { return true; } return false; },
+    (left, right) => { if (left.me.originalId === right.me.originalId) { return true; } return false; },
   );
   const isLoggingOut = useSelector((state) => state.user.isLoggingOut);
   const dispatch = useDispatch();
@@ -49,8 +49,8 @@ const ProfileAvatar = () => {
             <Tabs.TabPane tab="회원정보" key="2">
               <Descriptions layout="horizontal" column={1} style={{ width: '200px' }} colon={false}>
                 <Descriptions.Item label="닉네임">{me.nickname}</Descriptions.Item>
-                <Descriptions.Item label="아이디">{me.userId}</Descriptions.Item>
-                {me.Team.club && <Descriptions.Item label="팀">{me.Team.clubname}   <Link href={`/team/${me.Team.club}`}><a><SettingOutlined /></a></Link></Descriptions.Item> }
+                <Descriptions.Item label="아이디">{me.originalId}</Descriptions.Item>
+                {me?.Team?.club && <Descriptions.Item label="팀">{me.Team.clubname}   <Link href={`/team/${me.Team.club}`}><a><SettingOutlined /></a></Link></Descriptions.Item> }
               </Descriptions>
               <Button size="default" block style={{ borderRadius: '5px' }} onClick={onLogOut} loading={isLoggingOut}>로그아웃</Button>
             </Tabs.TabPane>
