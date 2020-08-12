@@ -2,16 +2,15 @@ import produce from '../util/produce';
 
 export const initialState = {
   me: null, // 내 정보
-  isLoggedIn: false, // 로그인 여부
   isLoggingOut: false, // 로그아웃 시도중
+  isLoggedOut: false, // 로그아웃 여부
+  logOutErrorReason: '', // 로그아웃 실패 사유
   isLoggingIn: false, // 로그인 시도중
+  isLoggedIn: false, // 로그인 여부
   logInErrorReason: '', // 로그인 실패 사유
   isSignedUp: false, // 회원가입 성공
   isSigningUp: false, // 회원가입 시도중
   signUpErrorReason: '', // 회원가입 실패 사유
-  isPreempting: false, // 회원가입시 아이디 중복체크중
-  isPreempted: false, // 회원가입시 아이디 중복체크 완료
-  preemptErrorReason: '', // 회원가입시 아이디 중복체크 실패 사유
   isChangingTo: false, // 회원정보 수정중
   isChangedTo: false, // 회원정보 수정완료
   changedToErrorReason: '', // 회원정보 수정 실패 사유
@@ -19,7 +18,7 @@ export const initialState = {
 
 const dummyUser = {
   nickname: '우기재',
-  userId: 'everest88',
+  originalId: 'everest88',
   positions: ['PIVO', 'ALA', 'FIXO'],
   age: '20',
   locations: ['서울', '경기'],
@@ -49,10 +48,6 @@ export const CHANGE_TO_REQUEST = 'CHANGE_TO_REQUEST';
 export const CHANGE_TO_SUCCESS = 'CHANGE_TO_SUCCESS';
 export const CHANGE_TO_FAILURE = 'CHANGE_TO_FAILURE';
 
-export const PREEMPT_REQUEST = 'PREEMPT_REQUEST';
-export const PREEMPT_SUCCESS = 'PREEMPT_SUCCESS';
-export const PREEMPT_FAILURE = 'PREEMPT_FAILURE';
-
 export default (state = initialState, action) => produce(state, (draft) => {
   switch (action.type) {
     case LOG_IN_REQUEST:
@@ -62,7 +57,8 @@ export default (state = initialState, action) => produce(state, (draft) => {
     case LOG_IN_SUCCESS:
       draft.isLoggingIn = false;
       draft.isLoggedIn = true;
-      draft.me = dummyUser;
+      draft.me = action.data;
+      draft.logInErrorReason = null;
       break;
     case LOG_IN_FAILURE:
       draft.isLoggingIn = false;
@@ -71,8 +67,18 @@ export default (state = initialState, action) => produce(state, (draft) => {
       draft.me = null;
       break;
     case LOG_OUT_REQUEST:
-      draft.isLoggedIn = false;
+      draft.isLoggingOut = true;
+      draft.logOutErrorReason = null;
+      draft.isLoggedOut = false;
+      break;
+    case LOG_OUT_SUCCESS:
+      draft.isLoggedOut = true;
+      draft.isLoggingOut = false;
       draft.me = null;
+      break;
+    case LOG_OUT_FAILURE:
+      draft.isLoggingOut = false;
+      draft.logOutErrorReason = action.error;
       break;
     case SIGN_UP_REQUEST:
       draft.isSigningUp = true;
@@ -99,20 +105,6 @@ export default (state = initialState, action) => produce(state, (draft) => {
     case CHANGE_TO_FAILURE:
       draft.isChangingTo = false;
       draft.changedToErrorReason = action.error;
-      break;
-    case PREEMPT_REQUEST:
-      draft.isPreempting = true;
-      draft.isPreempted = false;
-      draft.preemptErrorReason = null;
-      break;
-    case PREEMPT_SUCCESS:
-      draft.isPreempting = false;
-      draft.isPreempted = true;
-      break;
-    case PREEMPT_FAILURE:
-      draft.isPreempted = false;
-      draft.isPreempting = false;
-      draft.preemptErrorReason = action.error;
       break;
     default:
       break;
