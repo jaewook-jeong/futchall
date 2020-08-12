@@ -48,7 +48,6 @@ Post.propTypes = {
     id: PropTypes.string,
     User: PropTypes.object,
     date: PropTypes.any,
-    UserId: PropTypes.number,
     content: PropTypes.string,
     createdAt: PropTypes.object,
     Comments: PropTypes.arrayOf(PropTypes.any),

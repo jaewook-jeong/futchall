@@ -20,7 +20,7 @@ const Stadium = () => {
   const updownDirection = useRef(false);
   // const [lastScrollTop, onLastScrollTop] = useState(0);
   const { info, isSelected } = useSelector((state) => state.stadium, (left, right) => { if (left.info.req === right.info.req) { return true; } return false; });
-  const { me, isLoggedIn } = useSelector((state) => state.user, (left, right) => { if (left.me.userId === right.me.userId) { return true; } return false; });
+  const { me, isLoggedIn } = useSelector((state) => state.user, (left, right) => { if (left.me.originalId === right.me.originalId) { return true; } return false; });
 
   const moveToTeam = useCallback(() => {
     Router.push(`/team/${info.teamInfo}`);

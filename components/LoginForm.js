@@ -1,5 +1,5 @@
-import React, { useCallback, useMemo } from 'react';
-import { Button, Input, Modal, Form, Checkbox } from 'antd';
+import React, { useCallback, useMemo, useEffect } from 'react';
+import { Button, Input, Modal, Form, Checkbox, message } from 'antd';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
@@ -10,12 +10,12 @@ import { SET_USER_ID } from '../reducers/messenger';
 
 const LoginForm = (props) => {
   const { visible, setVisible } = props;
-  const { isLoggingIn } = useSelector((state) => state.user, shallowEqual);
+  const { isLoggingIn, logInErrorReason } = useSelector((state) => state.user, shallowEqual);
   const [form] = Form.useForm();
   const dispatch = useDispatch();
 
   const onHandleCancel = useCallback(() => {
-    form.resetFields(['id', 'password']);
+    form.resetFields(['originalId', 'password']);
     setVisible(false);
   });
   const FullWidth = useMemo(() => ({ width: '100%' }), []);
@@ -24,14 +24,18 @@ const LoginForm = (props) => {
   const onSubmitForm = useCallback(() => {
     dispatch({
       type: LOG_IN_REQUEST,
-      data: form.getFieldsValue(['id', 'password']),
+      data: form.getFieldsValue(['originalId', 'password']),
     });
     dispatch({
       type: SET_USER_ID,
-      data: form.getFieldValue('id'),
+      data: form.getFieldValue('originalId'),
     });
   }, []);
-
+  useEffect(() => {
+    if (visible && logInErrorReason) {
+      message.warn(logInErrorReason);
+    }
+  }, [logInErrorReason, visible]);
   return (
     <Modal
       title="FutChall로그인"
@@ -49,7 +53,7 @@ const LoginForm = (props) => {
         initialValues={{ remember: true }}
       >
         <Form.Item
-          name="id"
+          name="originalId"
         >
           <Input placeholder="아이디" prefix={<UserOutlined className="site-form-item-icon" />} autoFocus />
         </Form.Item>
@@ -77,7 +81,7 @@ const LoginForm = (props) => {
               type="primary"
               loading={isLoggingIn}
               key="submit"
-              disabled={!form.isFieldsTouched(['id', 'password'], true)}
+              disabled={!form.isFieldsTouched(['originalId', 'password'], true)}
               onClick={onSubmitForm}
               style={FullWidth}
             >

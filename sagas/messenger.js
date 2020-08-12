@@ -16,7 +16,7 @@ function getContactUserListAPI(id) {
 function* getContactUserList(action) {
   try {
     yield delay(1000);
-    // yield call(getContactUserListAPI(action.data.userId));
+    // yield call(getContactUserListAPI(action.data.originalId));
     yield put({
       type: GET_LIST_SUCCESS,
       data: [

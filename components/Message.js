@@ -10,13 +10,13 @@ import Talk from './Talk';
 const Message = (props) => {
   const dispatch = useDispatch();
   const { visible, setVisible } = props;
-  const { list, isGettingList, userId } = useSelector((state) => state.messenger, shallowEqual);
+  const { list, isGettingList, originalId } = useSelector((state) => state.messenger, shallowEqual);
 
   useEffect(() => {
     if (visible) {
       dispatch({
         type: GET_LIST_REQUEST,
-        data: userId,
+        data: originalId,
       });
     }
   }, [visible]);
@@ -35,7 +35,7 @@ const Message = (props) => {
         dispatch({
           type: DELETE_LIST_REQUEST,
           data: {
-            id: userId,
+            id: originalId,
             delUser: id,
           },
         });

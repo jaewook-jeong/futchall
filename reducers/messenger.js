@@ -3,7 +3,7 @@ import produce from '../util/produce';
 export const initialState = {
   list: [], // 대화한 유저 리스트
   talkData: [], // 특정 유저와 대화한 대화 내용
-  userId: null,
+  originalId: null,
   isGettingList: false, // 대화한 유저 리스트 가져오는중
   isGettedList: false, // 대화한 유저 리스트 가져옴
   getListErrorResason: '', // 대화한 유저 리스트 에러
@@ -24,7 +24,7 @@ export const DELETE_LIST_FAILURE = 'DELETE_LIST_FAILURE';
 export default (state = initialState, action) => produce(state, (draft) => {
   switch (action.type) {
     case SET_USER_ID:
-      draft.userId = action.data;
+      draft.originalId = action.data;
       break;
     case GET_LIST_REQUEST:
       draft.isGettingList = true;
