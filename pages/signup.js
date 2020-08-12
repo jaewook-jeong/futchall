@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import Router from 'next/router';
-import { Row, Col, Typography, Form, Input, Space, Tooltip, Divider, Select, Button, message } from 'antd';
+import { Row, Col, Typography, Form, Input, Space, Tooltip, Divider, Select, Button, message, notification } from 'antd';
 import { UserOutlined, QuestionCircleOutlined, TrophyTwoTone } from '@ant-design/icons';
 import { SIGN_UP_REQUEST } from '../reducers/user';
 import { ageGroup, locations, positions } from '../util/selectOptions';
@@ -24,15 +24,19 @@ const Signup = () => {
     });
   }, []);
   useEffect(() => {
-    if (isSignedUp) {
-      message.success('회원가입이 정상적으로 처리되었습니다.');
-      Router.push('/stadia');
+    if (isSignedUp && !isSigningUp) {
+      notification.success({
+        message: '회원가입 완료',
+        description: '회원가입이 정상적으로 처리되었습니다. 구장을 점령하여 최고의 팀이 되어보세요!',
+        duration: 10,
+      });
+      Router.replace('/stadia');
     }
-  }, [isSignedUp]);
+  }, [isSignedUp, isSigningUp]);
   useEffect(() => {
     if (me) {
-      message.error('로그인 상태입니다');
-      Router.push('/stadia');
+      message.error('비정상적인 접근입니다!');
+      Router.replace('/stadia');
     }
   }, [me]);
   return (
@@ -57,18 +61,19 @@ const Signup = () => {
               wrapperCol={{ flex: '1 1 200px' }}
             >
               <Form.Item
-                name="userId"
+                name="originalId"
                 label="아이디"
                 hasFeedback
+                style={{ imeMode: 'disabled' }}
                 rules={[{ required: true, min: 5, max: 20, pattern: /^[a-z]+[a-z0-9]{4,19}$/, message: '5자 이상 20자 이하의 영소문자로 시작하는 아이디를 입력해주세요' },
                   () => ({
                     async validator(rule, value) {
                       if (value.length >= 5) {
-                        const isTaken = await axios.post('http://localhost:3065/user/isTaken', { userId: value });
-                        if (isTaken) {
-                          return Promise.resolve('사용 가능한 아이디입니다.');
+                        const isTaken = await axios.post('http://localhost:3065/user/isTaken', { originalId: value });
+                        if (isTaken.data) {
+                          return Promise.reject('이미 사용중인 아이디입니다.');
                         }
-                        return Promise.reject('이미 사용중인 아이디입니다.');
+                        return Promise.resolve('사용 가능한 아이디입니다.');
                       }
                     },
                   }),
