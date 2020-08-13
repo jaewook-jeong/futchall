@@ -14,7 +14,7 @@ import { teamMemberColumns as memberColumns, teamRecordColumns as recordColumns 
 const Stadium = () => {
   const router = useRouter();
   const { id } = router.query;
-  const { info, isSelected, memberList } = useSelector((state) => state.team, (left, right) => { if (left.info.req === right.info.req) { return true; } return false; });
+  const { info, isSelected, memberList } = useSelector((state) => state.team, (left, right) => { if (left.info.id === right.info.id) { return true; } return false; });
   const { me, isLoggedIn } = useSelector((state) => state.user, (left, right) => { if (left.me.originalId === right.me.originalId) { return true; } return false; });
   const dispatch = useDispatch();
   const lastScrollTop = useRef(0);
@@ -23,7 +23,7 @@ const Stadium = () => {
   useEffect(
     // have to change method to getInitialProps
     () => {
-      dispatch({ type: SELECT_TEAM_REQUEST, data: { req: id } });
+      dispatch({ type: SELECT_TEAM_REQUEST, data: { id: id } });
     },
     [],
   );
@@ -43,7 +43,7 @@ const Stadium = () => {
         const marker = new kakao.maps.Marker({ position: points[i], clickable: true });
         marker.setMap(map);
         kakao.maps.event.addListener(marker, 'click', () => {
-          Router.push(`/stadium/${info.captures[i].req}`);
+          Router.push(`/stadium/${info.captures[i].id}`);
         });
         bounds.extend(points[i]);
       }
@@ -121,7 +121,7 @@ const Stadium = () => {
           <div id="facebookFake" />
           <div className={style.fixedInfo} id="facebookFlow">
             <Tabs
-              tabBarExtraContent={(isSelected && isLoggedIn && (info.req === me.Team.club)) ? <Button onClick={() => { message.warn('준비중입니다.'); }} shape="round"><QuestionCircleOutlined />팀 관리</Button> : null}
+              tabBarExtraContent={(isSelected && isLoggedIn && (info.id === me.Team.club)) ? <Button onClick={() => { message.warn('준비중입니다.'); }} shape="round"><QuestionCircleOutlined />팀 관리</Button> : null}
             >
               <Tabs.TabPane tab="상세정보" key="1">
                 <Descriptions

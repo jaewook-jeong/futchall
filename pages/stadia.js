@@ -10,7 +10,8 @@ import AppLayout from '../components/AppLayout';
 
 const Stadia = () => {
   const dispatch = useDispatch();
-  const stadiumList = useSelector((state) => state.location.stadiumList, (left, right) => { const array1 = left.map((v) => v.req); const array2 = right.map((v) => v.req); if (array1.length === array2.length && array1.sort().every((value, index) => value === array2.sort()[index])) { return true; } return false; });
+  // const stadiumList = useSelector((state) => state.location.stadiumList, (left, right) => { const array1 = left.map((v) => v.id); const array2 = right.map((v) => v.id); if (array1.length === array2.length && array1.sort().every((value, index) => value === array2.sort()[index])) { return true; } return false; });
+  const stadiumList = useSelector((state) => state.location.stadiumList);
   const [nowSelected, setNowSeleted] = useState(-1);
 
   const onChangeSelected = useCallback((req) => {

@@ -1,7 +1,7 @@
 import produce from '../util/produce';
 
 const dummyInfo = {
-  req: '0',
+  id: '0',
   title: '누상동 다목적 운동장',
   lat: '37.5795876',
   lng: '126.9636324',

@@ -11,9 +11,9 @@ const StadiumInfo = (props) => {
   const dispatch = useDispatch();
   const { list, nowSelected } = props;
   const { info, isSelected } = useSelector((state) => state.stadium,
-    (left, right) => { if (left.info.req === right.info.req) { return true; } return false; });
+    (left, right) => { if (left.info.id === right.info.id) { return true; } return false; });
   useEffect(() => {
-    dispatch({ type: SELECT_STADIUM_REQUEST, data: { req: list[nowSelected].req } });
+    dispatch({ type: SELECT_STADIUM_REQUEST, data: { id: list[nowSelected].id } });
   }, [nowSelected]);
   return (
     <Tabs

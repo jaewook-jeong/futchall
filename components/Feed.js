@@ -37,8 +37,7 @@ const Feed = (props) => {
 
   return (
     <>
-      {/* {me && <PostForm where={where} req={req} />} */}
-      <PostForm where={where} req={req} />
+      {me && <PostForm where={where} req={req} />}
       {mainPosts.map((v) => (
         <Post key={v.id} data={v} />
       ))}

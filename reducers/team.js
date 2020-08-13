@@ -1,7 +1,7 @@
 import produce from '../util/produce';
 
 const dummyInfo = {
-  req: '1',
+  id: '1',
   title: '잔디FC',
   location: '서울특별시 종로구',
   time: '매주 일요일 아침8시',
@@ -10,7 +10,7 @@ const dummyInfo = {
   picture: [],
   record: [
     {
-      req: 1,
+      id: 1,
       homeTeamReq: 1,
       homeTeamName: '잔디FC',
       awayTeamName: 'FC벌',
@@ -24,17 +24,17 @@ const dummyInfo = {
   ],
   captures: [
     {
-      req: 1, // 시퀀스
+      id: 1, // 시퀀스
       lat: '37.5795876',
       lng: '126.9636324',
     },
     {
-      req: 2, // 시퀀스
+      id: 2, // 시퀀스
       lat: '37.602835',
       lng: '126.945915',
     },
     {
-      req: 3, // 시퀀스
+      id: 3, // 시퀀스
       lat: '37.584397',
       lng: '126.968567',
     },
@@ -62,7 +62,7 @@ const dummyRanking = [
 ];
 const dummyList = [
   {
-    req: 1,
+    id: 1,
     name: '잔디FC',
     location: '서울',
     occupation: 3,
@@ -71,7 +71,7 @@ const dummyList = [
     description: '20대로 이루어진 풋살팀입니다.',
   },
   {
-    req: 2,
+    id: 2,
     name: 'FC벌',
     location: '서울',
     occupation: 1,

@@ -53,7 +53,7 @@ const Search = (props) => {
                     }
                     renderItem={item=>(
                       <List.Item
-                        key={item.req}
+                        key={item.id}
                         actions={[
                           <Tooltip title="현재 점령중인 구장 수" key={item.occupation}><LikeOutlined/>{item.occupation}</Tooltip>,
                           <Tag key={item.location} >#{item.location}</Tag>,
@@ -68,8 +68,8 @@ const Search = (props) => {
                           }
                       >
                         <List.Item.Meta 
-                          title={<Button type="link" onClick={()=>Router.push(`/team/${item.req}`)}>{item.name}</Button> }
-                          // title={<Link href={`/team/${item.req}`} as={`/team/${item.req}`}><a>{item.name}</a></Link>}
+                          title={<Button type="link" onClick={()=>Router.push(`/team/${item.id}`)}>{item.name}</Button> }
+                          // title={<Link href={`/team/${item.id}`} as={`/team/${item.id}`}><a>{item.name}</a></Link>}
                           description={item.description}
                         />
                       </List.Item>

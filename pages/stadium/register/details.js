@@ -19,7 +19,7 @@ const Details = (props) => {
     data = props.router.query.data.split(',');
   } else {
     message.error('비정상적인 접근입니다.');
-    Router.push('/stadia');
+    Router.replace('/stadia');
   }
   const onSubmitForm = useCallback((values) => {
     console.log(values);
@@ -29,7 +29,7 @@ const Details = (props) => {
         ...values,
       },
     });
-    // Router.push("")
+    // Router.replace("")
   });
   const multipleSpecaility = [
     <Select.Option key="1">잔디구장</Select.Option>,

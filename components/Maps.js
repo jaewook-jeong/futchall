@@ -127,7 +127,7 @@ const Maps = (props) => {
       let info_href = document.createElement('div');
       let href_anchor = document.createElement('a');
       href_anchor.appendChild(document.createTextNode('구장 확인하러 가기'));
-      href_anchor.onclick = () => { Router.push(`/stadium/${stadiumInfo.req}`); };
+      href_anchor.onclick = () => { Router.push(`/stadium/${stadiumInfo.id}`); };
       info_href.appendChild(href_anchor);
 
       body_info.appendChild(info_address);

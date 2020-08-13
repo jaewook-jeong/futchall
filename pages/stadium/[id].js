@@ -19,19 +19,15 @@ const Stadium = () => {
   const lastScrollTop = useRef(0);
   const updownDirection = useRef(false);
   // const [lastScrollTop, onLastScrollTop] = useState(0);
-  const { info, isSelected } = useSelector((state) => state.stadium, (left, right) => { if (left.info.req === right.info.req) { return true; } return false; });
+  const { info, isSelected } = useSelector((state) => state.stadium, (left, right) => { if (left.info.id === right.info.id) { return true; } return false; });
   const { me, isLoggedIn } = useSelector((state) => state.user, (left, right) => { if (left.me.originalId === right.me.originalId) { return true; } return false; });
 
   const moveToTeam = useCallback(() => {
     Router.push(`/team/${info.teamInfo}`);
   }, [info]);
 
-  useEffect(
-    () => {
-      dispatch({ type: SELECT_STADIUM_REQUEST, data: { req: id } });
-    },
-    [],
-  );
+  useEffect(() => { dispatch({ type: SELECT_STADIUM_REQUEST, data: { id } }); }, []);
+
   useEffect(() => {
     if (isSelected) {
       const options = {

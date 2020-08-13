@@ -15,7 +15,7 @@ const CommentList = ({ comments }) => (
         content={value.content}
         author={value.author}
         avatar={<Avatar shape="circle">{value.profile}</Avatar>}
-        actions={[<Rate disabled value={value.rating} key={value.req} />]}
+        actions={[<Rate disabled value={value.rating} key={value.id} />]}
       />
     )}
   />
