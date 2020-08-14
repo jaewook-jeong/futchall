@@ -53,6 +53,7 @@ export default (state = initialState, action) => produce(state, (draft) => {
     case LOG_IN_REQUEST:
       draft.isLoggingIn = true;
       draft.logInErrorReason = null;
+      draft.isLoggedOut = false;
       break;
     case LOG_IN_SUCCESS:
       draft.isLoggingIn = false;
@@ -74,6 +75,7 @@ export default (state = initialState, action) => produce(state, (draft) => {
     case LOG_OUT_SUCCESS:
       draft.isLoggedOut = true;
       draft.isLoggingOut = false;
+      draft.isLoggedIn = false;
       draft.me = null;
       break;
     case LOG_OUT_FAILURE:
