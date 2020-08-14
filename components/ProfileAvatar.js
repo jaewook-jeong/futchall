@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Link from 'next/link';
 import { Popover, List, Avatar, Descriptions, Tabs, Button, message, Card, Space } from 'antd';
@@ -12,12 +12,23 @@ const ProfileAvatar = () => {
     (state) => state.user,
     (left, right) => { if (left.me.originalId === right.me.originalId) { return true; } return false; },
   );
-  const isLoggingOut = useSelector((state) => state.user.isLoggingOut);
+  const { isLoggingOut, isLoggedOut, logOutErrorReason} = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const onLogOut = useCallback(() => {
     dispatch({ type: LOG_OUT_REQUEST });
-    message.info('정상적으로 로그아웃되었습니다.');
   }, []);
+
+  useEffect(() => {
+    if (isLoggedOut) {
+      message.info('정상적으로 로그아웃되었습니다.');
+    }
+  }, [isLoggedOut]);
+
+  useEffect(() => {
+    if (logOutErrorReason) {
+      message.error(logOutErrorReason);
+    }
+  }, [logOutErrorReason]);
 
   return (
     <Space>
