@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { FileImageOutlined, CalendarOutlined } from '@ant-design/icons';
 
 import ReservationMatch from './ReservationMatch';
+import { ADD_POST_REQUEST } from '../reducers/post';
 
 const PostFormDiv = styled.div`
   border-radius: 15px;
@@ -25,7 +26,14 @@ const PostForm = (props) => {
   const [matchInfo, setMatchInfo] = useState({ stadiumTitle: null, stadiumReq: null, date: null });
 
   const onSubmit = useCallback(() => {
-    console.log(form.getFieldsValue(['content']), me?.id, matchInfo);
+    console.log(form.getFieldsValue(['content']), matchInfo);
+    dispatch({
+      type: ADD_POST_REQUEST,
+      data: {
+        content: form.getFieldValue('content'),
+        matchInfo,
+      },
+    });
   }, []);
 
   const onAdjustMatch = useCallback(() => {
