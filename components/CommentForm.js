@@ -29,6 +29,7 @@ const CommentForm = (props) => {
       form={form}
       hideRequiredMark
       onFinish={onSubmitComment}
+      layout="inline"
     >
       <Form.Item
         label={<Avatar shape="circle">{me?.nickname}</Avatar>}
@@ -41,6 +42,9 @@ const CommentForm = (props) => {
           style={{ border: '1px solid #f0f0f0', borderRadius: '15px', backgroundColor: '#fafafa', color: '#000000d9' }}
           placeholder="댓글을 입력하세요"
         />
+      </Form.Item>
+      <Form.Item>
+        <Button loading={addCommentLoading} type="primary" shape="round" htmlType="submit" />
       </Form.Item>
     </Form>
   );

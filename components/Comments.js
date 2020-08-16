@@ -1,9 +1,28 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
-const Comments = () => {
+import CommentForm from './CommentForm';
+import CommentComp from './CommentComp';
+
+const Comments = (data) => {
+  const { me } = useSelector((state) => state.user, shallowEqual);
+
   return (
-    
+    <>
+      {
+        // CommentComp
+      }
+      {me && <CommentForm postId={data.postId} />}
+    </>
   );
+};
+
+Comments.propTypes = {
+  data: PropTypes.shape({
+    postId: PropTypes.number.isRequired,
+    comments: PropTypes.array,
+  }),
 };
 
 export default Comments;
