@@ -5,6 +5,7 @@ import { EllipsisOutlined } from '@ant-design/icons';
 
 import style from '../SCSS/post.module.scss';
 import PostImages from './PostImages';
+import Comments from './Comments';
 
 const Post = ({ data }) => (
   <div className={style.postOutter}>
@@ -38,7 +39,7 @@ const Post = ({ data }) => (
       }
     </div>
     <div className={style.comments}>
-
+      <Comments comments={data.Comments} postId={data.id} />
     </div>
   </div>
 );
