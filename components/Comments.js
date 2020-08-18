@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useSelector, shallowEqual } from 'react-redux';
 
 import CommentForm from './CommentForm';
 import CommentComp from './CommentComp';
