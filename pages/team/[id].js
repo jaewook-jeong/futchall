@@ -121,7 +121,7 @@ const Stadium = () => {
           <div id="facebookFake" />
           <div className={style.fixedInfo} id="facebookFlow">
             <Tabs
-              tabBarExtraContent={(isSelected && isLoggedIn && (info.id === me.Team.club)) ? <Button onClick={() => { message.warn('준비중입니다.'); }} shape="round"><QuestionCircleOutlined />팀 관리</Button> : null}
+              tabBarExtraContent={(isSelected && isLoggedIn && (info.id === me?.Team?.club)) ? <Button onClick={() => { message.warn('준비중입니다.'); }} shape="round"><QuestionCircleOutlined />팀 관리</Button> : null}
             >
               <Tabs.TabPane tab="상세정보" key="1">
                 <Descriptions

@@ -54,7 +54,7 @@ const HeaderMenu = (props) => {
                 <span className={styles.shrink} onClick={TeamButton}>
                   <Popover
                     placement="bottom"
-                    content={me?.Team.club ? '팀관리' : '팀등록'}
+                    content={me?.Team?.club ? '팀관리' : '팀등록'}
                   >
                     <TeamOutlined />
                   </Popover>
