@@ -2,31 +2,25 @@ import produce from '../util/produce';
 
 export const initialState = {
   me: null, // 내 정보
+  loadMyInfoLoading: false, // 유저 정보 가져오기 시도중
+  loadMyInfoDone: false,
+  loadMyInfoError: null,
   isLoggingOut: false, // 로그아웃 시도중
   isLoggedOut: false, // 로그아웃 여부
-  logOutErrorReason: '', // 로그아웃 실패 사유
+  logOutErrorReason: null, // 로그아웃 실패 사유
   isLoggingIn: false, // 로그인 시도중
   isLoggedIn: false, // 로그인 여부
-  logInErrorReason: '', // 로그인 실패 사유
+  logInErrorReason: null, // 로그인 실패 사유
   isSignedUp: false, // 회원가입 성공
   isSigningUp: false, // 회원가입 시도중
-  signUpErrorReason: '', // 회원가입 실패 사유
+  signUpErrorReason: null, // 회원가입 실패 사유
   isChangingTo: false, // 회원정보 수정중
   isChangedTo: false, // 회원정보 수정완료
-  changedToErrorReason: '', // 회원정보 수정 실패 사유
+  changedToErrorReason: null, // 회원정보 수정 실패 사유
 };
-
-const dummyUser = {
-  nickname: '우기재',
-  originalId: 'everest88',
-  positions: ['PIVO', 'ALA', 'FIXO'],
-  age: '20',
-  locations: ['서울', '경기'],
-  Team: {
-    club: '1',
-    clubname: '잔디FC',
-  },
-};
+export const LOAD_MY_INFO_REQUEST = 'LOAD_MY_INFO_REQUEST';
+export const LOAD_MY_INFO_SUCCESS = 'LOAD_MY_INFO_SUCCESS';
+export const LOAD_MY_INFO_FAILURE = 'LOAD_MY_INFO_FAILURE';
 
 export const SIGN_UP_REQUEST = 'SIGN_UP_REQUEST';
 export const SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS';
@@ -50,6 +44,20 @@ export const CHANGE_TO_FAILURE = 'CHANGE_TO_FAILURE';
 
 export default (state = initialState, action) => produce(state, (draft) => {
   switch (action.type) {
+    case LOAD_MY_INFO_REQUEST:
+      draft.loadMyInfoLoading = true;
+      draft.loadMyInfoError = null;
+      draft.loadMyInfoDone = false;
+      break;
+    case LOAD_MY_INFO_SUCCESS:
+      draft.loadMyInfoLoading = false;
+      draft.me = action.data;
+      draft.loadMyInfoDone = true;
+      break;
+    case LOAD_MY_INFO_FAILURE:
+      draft.loadMyInfoLoading = false;
+      draft.loadMyInfoError = action.error;
+      break;
     case LOG_IN_REQUEST:
       draft.isLoggingIn = true;
       draft.logInErrorReason = null;
