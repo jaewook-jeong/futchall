@@ -1,7 +1,9 @@
 import React, { useEffect, useState, useCallback } from 'react';
+import Router from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
-import { Col, Row, Typography, Button, Form, Input, Radio, Upload } from 'antd';
+import { Col, Row, Typography, Button, Form, Input, Radio, Upload, notification, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
+
 import { ENROLL_TEAM_REQUEST } from '../../reducers/team';
 import AppLayout from '../../components/AppLayout';
 
@@ -9,7 +11,15 @@ const TeamRegister = () => {
   const [, forceUpdate] = useState(); // when you com back to this page, to delete previous data
   const [form] = Form.useForm();
   const dispatch = useDispatch();
-  const { isEnrolling } = useSelector((state) => state.team);
+  const { isEnrolling, isEnrolled } = useSelector((state) => state.team);
+  const { isLoggedIn } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      Router.replace('/stadia');
+      message.warn('잘못된 접근입니다!');
+    }
+  }, []);
   const onSubmitForm = useCallback((values) => {
     console.log(values);
     dispatch({
@@ -19,6 +29,16 @@ const TeamRegister = () => {
       },
     });
   }, []);
+  useEffect(() => {
+    if (isEnrolled) {
+      notification.success({
+        message: '팀 등록 완료',
+        description: '팀 등록이 완료되었습니다. 구장을 점령하여 최고의 팀으로 이끄세요!',
+        duration: 10,
+      });
+      Router.replace('/stadia');
+    }
+  }, [isEnrolled]);
   const normFile = (e) => {
     console.log('Upload event:', e);
     if (Array.isArray(e)) {
@@ -47,7 +67,7 @@ const TeamRegister = () => {
           <Row gutter={[0, 16]}>
             <Col span={22} offset={1}>
               <Form
-                labelCol={6}
+                labelCol={10}
                 wrapperCol={14}
                 layout="horizontal"
                 form={form}

@@ -6,6 +6,7 @@ import { Skeleton, Col, Row, Tabs, Button, message, Descriptions, Typography, Ta
 import { QuestionCircleOutlined } from '@ant-design/icons';
 
 import { SELECT_TEAM_REQUEST } from '../../reducers/team';
+import { LOAD_POSTS_REQUEST } from '../../reducers/post';
 import AppLayout2 from '../../components/AppLayout2';
 import Feed from '../../components/Feed';
 import style from '../../SCSS/feedLayout.module.scss';
@@ -14,22 +15,27 @@ import { teamMemberColumns as memberColumns, teamRecordColumns as recordColumns 
 const Stadium = () => {
   const router = useRouter();
   const { id } = router.query;
-  const { info, isSelected, memberList } = useSelector((state) => state.team, (left, right) => { if (left.info.id === right.info.id) { return true; } return false; });
+  const { info, isSelected } = useSelector((state) => state.team, (left, right) => { if (left.info.id === right.info.id) { return true; } return false; });
   const { me, isLoggedIn } = useSelector((state) => state.user, (left, right) => { if (left.me.originalId === right.me.originalId) { return true; } return false; });
   const dispatch = useDispatch();
   const lastScrollTop = useRef(0);
   const updownDirection = useRef(false);
 
-  useEffect(
-    // have to change method to getInitialProps
-    () => {
-      dispatch({ type: SELECT_TEAM_REQUEST, data: { id: id } });
-    },
-    [],
-  );
+  useEffect(() => { dispatch({ type: SELECT_TEAM_REQUEST, data: { id } }); }, []);
+
+  // useEffect(() => {
+  //   dispatch({
+  //     type: LOAD_POSTS_REQUEST,
+  //     data: {
+  //       teamId: id,
+  //     },
+  //   });
+  // }, []);
+
   useEffect(() => {
-    if (isSelected) {
-      const points = info.captures.map((obj) => new kakao.maps.LatLng(obj.lat, obj.lng));
+    if (isSelected && info.Stadia.length !== 0) {
+      console.log(info.Stadia.length);
+      const points = info.Stadia.map((obj) => new kakao.maps.LatLng(obj.lat, obj.lng));
       const options = {
         center: new kakao.maps.LatLng(38, 127.30),
         level: 5,
@@ -51,6 +57,7 @@ const Stadium = () => {
       map.setBounds(bounds);
     }
   }, [isSelected]);
+
   useEffect(() => {
     function onScroll() {
       const st = window.pageYOffset;
@@ -85,6 +92,7 @@ const Stadium = () => {
       window.removeEventListener('scroll', onScroll);
     };
   }, []);
+
   return (
     <AppLayout2>
       <Row>
@@ -143,10 +151,13 @@ const Stadium = () => {
                     {isSelected && info.recruit}
                   </Descriptions.Item>
                 </Descriptions>
-
-                <div className={style.mapContainer}>
-                  <div id="stadiumAddress" className={style.occupyMap} />
-                </div>
+                {
+                  isSelected && info.Stadia.length !== 0 && (
+                    <div className={style.mapContainer}>
+                      <div id="stadiumAddress" className={style.occupyMap} />
+                    </div>
+                  )
+                }
               </Tabs.TabPane>
               <Tabs.TabPane tab="선수 명단" key="2">
                 <Skeleton active loading={!isSelected} />
@@ -158,7 +169,7 @@ const Stadium = () => {
                                     columns={memberColumns}
                                     pagination={{ pageSize: 15 }}
                                     scroll={{ x: 'max-content', scrollToFirstRowOnChange: true, y: 550 }}
-                                    dataSource={memberList}
+                                    dataSource={info.Users}
                                     rowKey={(member) => member.id}
                                   />
                                   )}
