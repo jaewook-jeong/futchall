@@ -120,7 +120,7 @@ export const RankingColumns = [
 export const teamMemberColumns = [
   {
     title: '주장',
-    dataIndex: 'reader',
+    dataIndex: 'LeaderId',
     align: 'center',
     width: 50,
     render: (val) => <span>{val ? '*' : ''}</span>,
@@ -137,7 +137,7 @@ export const teamMemberColumns = [
     dataIndex: 'positions',
     align: 'center',
     width: 100,
-    render: (val) => <div>{val.map((v) => <Tag key={v} color={v == 'FIXO' ? 'blue' : v === 'ALA' ? 'green' : v === 'PIVO' ? 'red' : 'orange'}>{v}</Tag>)}</div>,
+    render: (val) => <div>{val.split(',').map((v) => <Tag key={v} color={v == 'FIXO' ? 'blue' : v === 'ALA' ? 'green' : v === 'PIVO' ? 'red' : 'orange'}>{v}</Tag>)}</div>,
     filters: [
       { text: 'PIVO', value: 'PIVO' },
       { text: 'ALA', value: 'ALA' },
@@ -145,13 +145,6 @@ export const teamMemberColumns = [
       { text: 'GOLEIRO', value: 'GOLEIRO' },
     ],
     onFilter: (value, rec) => rec.positions.indexOf(value) !== -1,
-  },
-  {
-    title: '득점',
-    dataIndex: 'score',
-    align: 'center',
-    width: 50,
-    sorter: (a, b) => a.score - b.score,
   },
   // {
   //   title: '연락하기',
