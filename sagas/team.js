@@ -1,4 +1,4 @@
-import { all, delay, fork, put, takeEvery, takeLatest } from 'redux-saga/effects';
+import { all, delay, fork, put, takeEvery, takeLatest, call } from 'redux-saga/effects';
 import axios from 'axios';
 import {
   SELECT_TEAM_FAILURE,
@@ -14,24 +14,24 @@ import {
   SEARCH_TEAMS_SUCCESS,
   SEARCH_TEAMS_FAILURE,
 } from '../reducers/team';
+import { ENROLL_TEAM_INFO } from '../reducers/user';
 
-function selectAPI() {
-  // 서버에 요청을 보내는 부분
-  return axios.post('/team');
+function selectAPI(data) {
+  return axios.get(`/team/${data.id}`);
 }
 
-function* select() {
+function* select(action) {
   try {
-    // yield call(selectAPI);
-    yield delay(2000);
-    yield put({ // put은 dispatch 동일
+    const team = yield call(selectAPI, action.data);
+    yield put({
       type: SELECT_TEAM_SUCCESS,
+      data: team.data,
     });
   } catch (e) {
     console.error(e);
     yield put({
       type: SELECT_TEAM_FAILURE,
-      error: e,
+      error: e.response.data,
     });
   }
 }
@@ -40,24 +40,26 @@ function* watchSelect() {
   yield takeEvery(SELECT_TEAM_REQUEST, select);
 }
 
-function enrollAPI() {
+function enrollAPI(data) {
   // 서버에 요청을 보내는 부분
-  return axios.post('/team/register');
+  return axios.post('/team/register', data);
 }
 
-function* enroll() {
+function* enroll(action) {
   try {
-    // yield call(enrollAPI);
-    yield delay(2000);
-    throw new Error('에러에러에러');
-    yield put({ // put은 dispatch 동일
+    const teamInfo = yield call(enrollAPI, action.data);
+    yield put({
       type: ENROLL_TEAM_SUCCESS,
     });
-  } catch (e) { // loginAPI 실패
+    yield put({
+      type: ENROLL_TEAM_INFO,
+      data: teamInfo,
+    });
+  } catch (e) {
     console.error(e);
     yield put({
       type: ENROLL_TEAM_FAILURE,
-      error: e,
+      error: e.response.data,
     });
   }
 }

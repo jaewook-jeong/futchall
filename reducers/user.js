@@ -42,6 +42,8 @@ export const CHANGE_TO_REQUEST = 'CHANGE_TO_REQUEST';
 export const CHANGE_TO_SUCCESS = 'CHANGE_TO_SUCCESS';
 export const CHANGE_TO_FAILURE = 'CHANGE_TO_FAILURE';
 
+export const ENROLL_TEAM_INFO = 'ENROLL_TEAM_INFO';
+
 export default (state = initialState, action) => produce(state, (draft) => {
   switch (action.type) {
     case LOAD_MY_INFO_REQUEST:
@@ -115,6 +117,11 @@ export default (state = initialState, action) => produce(state, (draft) => {
     case CHANGE_TO_FAILURE:
       draft.isChangingTo = false;
       draft.changedToErrorReason = action.error;
+      break;
+    case ENROLL_TEAM_INFO:
+      draft.me.LeaderId = action.data.id;
+      draft.me.TeamId = action.data.id;
+      draft.me.Team = action.data;
       break;
     default:
       break;

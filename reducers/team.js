@@ -121,7 +121,6 @@ const dummyMember = [
 
 export const initialState = {
   info: null, // 팀 정보
-  memberList: null, // 선택한 팀 멤버 리스트
   teamList: null, // 검색했을 때
   rankingList: null, // 순위 리스트
   query: '', // 검색 내용
@@ -164,8 +163,7 @@ export default (state = initialState, action) => produce(state, (draft) => {
     case SELECT_TEAM_SUCCESS:
       draft.isSelecting = false;
       draft.isSelected = true;
-      draft.info = dummyInfo;
-      draft.memberList = dummyMember;
+      draft.info = action.data;
       break;
     case SELECT_TEAM_FAILURE:
       draft.isSelecting = false;
