@@ -3,13 +3,14 @@ import Link from 'next/link';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import { Menu, Button, Affix, message, Layout } from 'antd';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { MessageFilled, UserAddOutlined, PlusSquareOutlined, LineChartOutlined, CompassOutlined, TeamOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 
 import LoginForm from './LoginForm';
 import Message from './Message';
 import HeaderMenu from './HeaderMenu';
+import { LOAD_MY_INFO_REQUEST } from '../reducers/user';
 
 const OutterLayout = styled(Layout)`
     min-height: 100vh;
@@ -39,12 +40,18 @@ const AppLayout = ({ children }) => {
   const [visible, setVisible] = useState(false);
   const [chatVisible, setChatVisible] = useState(false);
   const Router = useRouter();
+  const dispatch = useDispatch();
 
   const showModal = useCallback(() => setVisible(!visible), []);
   const popRightMessage = useCallback(() => setChatVisible(!chatVisible), []);
   const onApply = useCallback(() => {
     isLoggedIn ? Router.push('/stadium/register/location') : message.info('로그인 후 등록할 수 있습니다.');
   }, [isLoggedIn]);
+  useEffect(() => {
+    dispatch({
+      type: LOAD_MY_INFO_REQUEST,
+    });
+  }, []);
   useEffect(() => {
     if (isLoggedIn) {
       setVisible(false);
@@ -61,8 +68,8 @@ const AppLayout = ({ children }) => {
             <Menu.Item key="stadia" icon={<CompassOutlined />} onClick={() => Router.push('/stadia')}>구장찾기</Menu.Item>
             <Menu.Item key="ranking" icon={<LineChartOutlined />} onClick={() => Router.push('/team/ranking')}>순위보기</Menu.Item>
             <Menu.Item onClick={onApply} key="applyStadium" icon={<PlusSquareOutlined />}>신규구장 등록하기</Menu.Item>
-            {!me?.Team?.club && <Menu.Item key="makeTeam"><Link href="/team/register"><a>팀 생성하기</a></Link></Menu.Item>}
-            {me?.Team?.club && <Menu.Item key="Team" icon={<TeamOutlined />} onClick={() => Router.push('/team/[id]', `/team/${me.Team.club}`)}>팀 관리</Menu.Item>}
+            {isLoggedIn && !me?.TeamId && <Menu.Item key="makeTeam"><Link href="/team/register"><a>팀 생성하기</a></Link></Menu.Item>}
+            {isLoggedIn && me?.TeamId && <Menu.Item key="Team" icon={<TeamOutlined />} onClick={() => Router.push('/team/[id]', `/team/${me.TeamId}`)}>팀 관리</Menu.Item>}
             {!isLoggedIn && <Menu.Item key="signup" icon={<UserAddOutlined />} onClick={() => Router.push('/signup')}>회원가입</Menu.Item>}
           </Menu>
         </Layout.Sider>
