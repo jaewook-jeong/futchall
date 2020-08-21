@@ -53,8 +53,11 @@ export default (state = initialState, action) => produce(state, (draft) => {
       break;
     case LOAD_MY_INFO_SUCCESS:
       draft.loadMyInfoLoading = false;
-      draft.me = action.data;
       draft.loadMyInfoDone = true;
+      if (action.data) {
+        draft.isLoggedIn = true;
+      }
+      draft.me = action.data;
       break;
     case LOAD_MY_INFO_FAILURE:
       draft.loadMyInfoLoading = false;
