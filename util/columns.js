@@ -1,4 +1,4 @@
-import { Tag } from 'antd';
+import { Tag, Select } from 'antd';
 
 export const RankingColumns = [
   {
@@ -195,4 +195,14 @@ export const teamRecordColumns = [
     dataIndex: 'satdiumName',
     align: 'center',
   },
+];
+
+export const multipleSpecaility = [
+  <Select.Option key="1">잔디구장</Select.Option>,
+  <Select.Option key="2">우레탄구장</Select.Option>,
+  <Select.Option key="3">플라스틱 인도어구장</Select.Option>,
+  <Select.Option key="4">샤워실</Select.Option>,
+  <Select.Option key="5">근처 편의점</Select.Option>,
+  <Select.Option key="6">탈의실</Select.Option>,
+  <Select.Option key="7">대기용 좌석</Select.Option>,
 ];
