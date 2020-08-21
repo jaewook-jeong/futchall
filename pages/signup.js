@@ -34,7 +34,7 @@ const Signup = () => {
     }
   }, [isSignedUp, isSigningUp]);
   useEffect(() => {
-    if (me) {
+    if (me && !isSignedUp) {
       message.error('비정상적인 접근입니다!');
       Router.replace('/stadia');
     }

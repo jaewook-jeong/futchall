@@ -129,7 +129,7 @@ const Stadium = () => {
       </Row>
       <Row className={style.flowInfo}>
         <Col xs={{ span: 24 }} sm={{ span: 24 }} md={{ span: 10 }}>
-          <div id="facebookFake"/>
+          <div id="facebookFake" />
           <div className={style.fixedInfo} id="facebookFlow">
             <Tabs tabBarExtraContent={<Button onClick={() => { message.warn('준비중입니다.'); }} shape="round"><QuestionCircleOutlined />정보수정</Button>}>
               <Tabs.TabPane tab="상세정보" key="1">
