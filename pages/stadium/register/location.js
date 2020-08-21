@@ -16,7 +16,7 @@ const Apply = () => {
     e.preventDefault();
     const latlng = kakaoMarker.current.getPosition();
     const address = document.getElementById('road_address').innerHTML;
-    Router.push(`/stadium/register/details?data=${[latlng.getLat(), latlng.getLng(), address]}`, '/stadium/register/details');
+    Router.push(`/stadium/register/details?lat=${latlng.getLat()}&lng=${latlng.getLng()}&address=${address}`);
   }, []);
 
   const searchDetailAddrFromCoords = useCallback((coords, callback) => {
@@ -30,8 +30,8 @@ const Apply = () => {
       message.error('로그인 후 이용하여주세요');
       Router.push('/stadia');
     }
-    const latitude = '37.5665'; const
-      longitude = '126.9780'; // 서울 위도경도
+    const latitude = '37.5665';
+    const longitude = '126.9780'; // 서울 위도경도
     const options = {
       center: new kakao.maps.LatLng(latitude, longitude),
       level: 9,
@@ -92,7 +92,7 @@ const Apply = () => {
               <Typography.Title level={3} style={{ color: '#202124' }}>구장 등록하기</Typography.Title>
               <Typography style={{ color: '#202124', fontWeight: 'normal' }}>구장 위치 찾기</Typography>
               <Typography.Text type="warning"><QuestionCircleOutlined />지도를 클릭하여 정확한 위치를 설정하여 주세요</Typography.Text>
-              <Input.Search placeholder="위치를 검색해보세요" style={{ width: '70%' }} onSearch={(value) => searchLocation(value)} />
+              <Input.Search placeholder="지역을 검색해보세요" style={{ width: '70%' }} onSearch={(value) => searchLocation(value)} />
             </Col>
           </Row>
           <Row gutter={[0, 16]}>

@@ -1,45 +1,50 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import Router, { withRouter } from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Col, Row, Typography, Button, Form, Input, TimePicker, Radio, Select, Upload, message } from 'antd';
+import { Col, Row, Typography, Button, Form, Input, TimePicker, Radio, Select, Upload, message, notification } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 
 import { ENROLL_STADIUM_REQUEST } from '../../../reducers/stadium';
 import AppLayout from '../../../components/AppLayout';
+import { multipleSpecaility } from '../../../util/columns';
 
 const Details = (props) => {
-  // const [, forceUpdate] = useState();
-  const { isEnrolling } = useSelector((state) => state.stadium);
+  const { isEnrolling, isEnrolled } = useSelector((state) => state.stadium);
+  const { isLoggedIn } = useSelector((state) => state.user);
   const [form] = Form.useForm();
   const dispatch = useDispatch();
-  let data;
 
-  if (props.router.query.data) {
-    data = props.router.query.data.split(',');
-  } else {
-    message.error('비정상적인 접근입니다.');
-    Router.replace('/stadia');
-  }
+  useEffect(() => {
+    if (!props.router.query || !isLoggedIn) {
+      message.error('비정상적인 접근입니다.');
+      Router.replace('/stadia');
+    }
+  }, [props.router.query]);
+
+  useEffect(() => {
+    if (isEnrolled) {
+      notification.success({
+        message: '구장등록 완료',
+        description: '구장 등록이 완료되었습니다. 구장 등록 후 3일동안 점령상태가 유지됩니다. 지속적인 점령 경기를 통해 구장 최고의 팀이 되어보세요!',
+        duration: 0,
+      });
+      Router.replace('/stadia');
+    }
+  }, [isEnrolled]);
   const onSubmitForm = useCallback((values) => {
-    console.log(values);
     dispatch({
       type: ENROLL_STADIUM_REQUEST,
       data: {
         ...values,
+        time: `${values.time[0].format('HH:mm')}~${values.time[1].format('HH:mm')}`,
+        special: values.special?.join(),
+        lat: props.router.query.lat,
+        lng: props.router.query.lng,
       },
     });
-    // Router.replace("")
   });
-  const multipleSpecaility = [
-    <Select.Option key="1">잔디구장</Select.Option>,
-    <Select.Option key="2">우레탄구장</Select.Option>,
-    <Select.Option key="3">플라스틱 인도어구장</Select.Option>,
-    <Select.Option key="4">샤워실</Select.Option>,
-    <Select.Option key="5">근처 편의점</Select.Option>,
-    <Select.Option key="6">탈의실</Select.Option>,
-    <Select.Option key="7">대기용 좌석</Select.Option>,
-  ];
+
   const normFile = (e) => {
     console.log('Upload event:', e);
     if (Array.isArray(e)) {
@@ -53,9 +58,6 @@ const Details = (props) => {
       <div className="ant-upload-text">Upload</div>
     </div>
   );
-  // useEffect(() => {
-  //     forceUpdate({});
-  // }, []);
   return (
     <AppLayout>
       <Row>
@@ -73,7 +75,7 @@ const Details = (props) => {
                 labelCol={6}
                 layout="horizontal"
                 form={form}
-                initialValues={{ location: data ? data[2] : '', light: 'N' }}
+                initialValues={{ address: props.router.query.address, light: 'N' }}
                 onFinish={onSubmitForm}
                 scrollToFirstError
               >
@@ -85,7 +87,7 @@ const Details = (props) => {
                   <Input placeholder="정식 구장명을 입력해주세요" />
                 </Form.Item>
                 <Form.Item
-                  name="location"
+                  name="address"
                   label="주소"
                 >
                   <Input disabled />
