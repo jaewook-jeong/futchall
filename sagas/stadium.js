@@ -1,4 +1,4 @@
-import { all, delay, fork, put, takeEvery } from 'redux-saga/effects';
+import { all, delay, fork, put, takeEvery, call } from 'redux-saga/effects';
 import axios from 'axios';
 import {
   SELECT_STADIUM_FAILURE,
@@ -80,24 +80,24 @@ function* watchSelect() {
   yield takeEvery(SELECT_STADIUM_REQUEST, select);
 }
 
-function enrollAPI() {
-  // 서버에 요청을 보내는 부분
-  return axios.post('/stadium/register');
+function enrollAPI(data) {
+  return axios.post('/stadium/register', data);
 }
 
-function* enroll() {
+function* enroll(action) {
   try {
-    // yield call(enrollAPI);
-    yield delay(2000);
-    // throw new Error('에러에러에러');
-    yield put({ // put은 dispatch 동일
+    console.log('------------------------------------');
+    console.log(action.data);
+    console.log('------------------------------------');
+    yield call(enrollAPI, action.data);
+    yield put({
       type: ENROLL_STADIUM_SUCCESS,
     });
-  } catch (e) { // loginAPI 실패
+  } catch (e) {
     console.error(e);
     yield put({
       type: ENROLL_STADIUM_FAILURE,
-      error: e,
+      error: e.response.data,
     });
   }
 }
