@@ -27,13 +27,25 @@ const PostForm = (props) => {
 
   const onSubmit = useCallback(() => {
     console.log(form.getFieldsValue(['content']), matchInfo);
-    dispatch({
-      type: ADD_POST_REQUEST,
-      data: {
-        content: form.getFieldValue('content'),
-        matchInfo,
-      },
-    });
+    if (where === 'team') {
+      dispatch({
+        type: ADD_POST_REQUEST,
+        data: {
+          content: form.getFieldValue('content'),
+          teamId: req,
+          matchInfo,
+        },
+      });
+    } else if (where === 'stadium') {
+      dispatch({
+        type: ADD_POST_REQUEST,
+        data: {
+          content: form.getFieldValue('content'),
+          stadiumId: req,
+          matchInfo,
+        },
+      });
+    }
   }, []);
 
   const onAdjustMatch = useCallback(() => {
