@@ -20,8 +20,8 @@ const HeaderMenu = (props) => {
     Router.push('/stadia');
   }, []);
   const TeamButton = useCallback(() => {
-    if (me?.Team.club) {
-      Router.push('/team/[id]', `/team/${me.Team.club}`);
+    if (me?.TeamId) {
+      Router.push('/team/[id]', `/team/${me.TeamId}`);
     } else {
       Router.push('/team/register');
     }
@@ -54,7 +54,7 @@ const HeaderMenu = (props) => {
                 <span className={styles.shrink} onClick={TeamButton}>
                   <Popover
                     placement="bottom"
-                    content={me?.Team?.club ? '팀관리' : '팀등록'}
+                    content={me?.TeamId ? '팀관리' : '팀등록'}
                   >
                     <TeamOutlined />
                   </Popover>
