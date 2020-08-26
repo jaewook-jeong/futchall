@@ -17,11 +17,12 @@ import {
   REMOVE_POST_REQUEST,
   REMOVE_POST_SUCCESS,
 } from '../reducers/post';
+import { ADD_POST_TO_ME } from '../reducers/user';
 
 // import { ADD_POST_TO_ME, REMOVE_POST_OF_ME } from '../reducers/user';
 
 function loadPostsAPI(data) {
-  return axios.post('/posts', data);
+  return axios.get(`/posts?where=${data.where}&id=${data.id}&lastId=${data.lastId || 0}`);
 }
 
 function* loadPosts(action) {
@@ -41,7 +42,13 @@ function* loadPosts(action) {
 }
 
 function addPostAPI(data) {
-  return axios.post('/post', data);
+  if (data.matchInfo) {
+    return axios.post('/post', data);
+  }
+  if (data.where === 'team') {
+    return axios.post('/post/team', data);
+  }
+  return axios.post('/post/stadium', data);
 }
 
 function* addPost(action) {
@@ -51,10 +58,10 @@ function* addPost(action) {
       type: ADD_POST_SUCCESS,
       data: result.data,
     });
-    // yield put({
-    //   type: ADD_POST_TO_ME,
-    //   data: id,
-    // });
+    yield put({
+      type: ADD_POST_TO_ME,
+      data: result.data.id,
+    });
   } catch (err) {
     console.error(err);
     yield put({

@@ -1,14 +1,14 @@
 /* eslint-disable no-undef */
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 import Router, { useRouter } from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
-import { Skeleton, Col, Row, Tabs, Button, message, Descriptions, Typography, Table, Tag, Card } from 'antd';
+import { Skeleton, Col, Row, Tabs, Button, message, Descriptions, Typography, Table, Card, Space } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 
-import { SELECT_TEAM_REQUEST } from '../../reducers/team';
-import { LOAD_POSTS_REQUEST } from '../../reducers/post';
 import AppLayout2 from '../../components/AppLayout2';
 import Feed from '../../components/Feed';
+import { SELECT_TEAM_REQUEST } from '../../reducers/team';
+import { JOIN_IN_REQUEST } from '../../reducers/user';
 import style from '../../SCSS/feedLayout.module.scss';
 import { teamMemberColumns as memberColumns, teamRecordColumns as recordColumns } from '../../util/columns';
 
@@ -16,21 +16,20 @@ const Stadium = () => {
   const router = useRouter();
   const { id } = router.query;
   const { info, isSelected } = useSelector((state) => state.team, (left, right) => { if (left.info.id === right.info.id) { return true; } return false; });
-  const { me, isLoggedIn } = useSelector((state) => state.user, (left, right) => { if (left.me.originalId === right.me.originalId) { return true; } return false; });
+  const { me, isLoggedIn, isJoinnigIn } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const lastScrollTop = useRef(0);
   const updownDirection = useRef(false);
 
   useEffect(() => { dispatch({ type: SELECT_TEAM_REQUEST, data: { id } }); }, []);
-
-  // useEffect(() => {
-  //   dispatch({
-  //     type: LOAD_POSTS_REQUEST,
-  //     data: {
-  //       teamId: id,
-  //     },
-  //   });
-  // }, []);
+  const joinInTeam = useCallback(() => {
+    dispatch({
+      type: JOIN_IN_REQUEST,
+      data: {
+        id,
+      },
+    });
+  }, []);
 
   useEffect(() => {
     if (isSelected && info.Stadia.length !== 0) {
@@ -129,7 +128,10 @@ const Stadium = () => {
           <div id="facebookFake" />
           <div className={style.fixedInfo} id="facebookFlow">
             <Tabs
-              tabBarExtraContent={(isSelected && isLoggedIn && (info.id === me?.Team?.club)) ? <Button onClick={() => { message.warn('준비중입니다.'); }} shape="round"><QuestionCircleOutlined />팀 관리</Button> : null}
+              tabBarExtraContent={
+                isSelected && isLoggedIn && (info.id === me?.LeaderId)
+                && <Button onClick={() => { message.warn('준비중입니다.'); }} shape="round"><QuestionCircleOutlined />팀 관리</Button>
+              }
             >
               <Tabs.TabPane tab="상세정보" key="1">
                 <Descriptions
@@ -148,7 +150,10 @@ const Stadium = () => {
                   </Descriptions.Item>
                   <Descriptions.Item label="모집 여부" span={2}>
                     <Skeleton loading={!isSelected} active paragraph={false} />
-                    {isSelected && info.recruit}
+                    <Space size="middle">
+                      {isSelected && info.recruit}
+                      {isSelected && isLoggedIn && info.recruit === 'Y' && !me?.TeamId && !me?.JoinInId && <Button type="primary" shape="round" onClick={joinInTeam} size="small" loading={isJoinnigIn}>팀 가입 하기</Button>}
+                    </Space>
                   </Descriptions.Item>
                 </Descriptions>
                 {

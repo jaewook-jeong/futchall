@@ -13,8 +13,14 @@ const Feed = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log(where, req);
     dispatch({
       type: LOAD_POSTS_REQUEST,
+      data: {
+        where,
+        id: req,
+        lastId: mainPosts[mainPosts.length - 1]?.id,
+      },
     });
   }, []);
 
@@ -24,7 +30,11 @@ const Feed = (props) => {
         if (hasMorePosts && !loadPostsLoading) {
           dispatch({
             type: LOAD_POSTS_REQUEST,
-            data: mainPosts[mainPosts.length - 1].id,
+            data: {
+              where,
+              id: req,
+              lastId: mainPosts[mainPosts.length - 1]?.id,
+            },
           });
         }
       }

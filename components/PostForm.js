@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Form, Avatar, Input, Button, Divider, Space, Tag } from 'antd';
@@ -21,38 +21,37 @@ const PostForm = (props) => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
   const { me } = useSelector((state) => state.user, shallowEqual);
+  const { addPostLoading, addPostDone } = useSelector((state) => state.post, shallowEqual);
   const [visible, setVisible] = useState(false);
   const [enrollment, setEnrollment] = useState(false);
   const [matchInfo, setMatchInfo] = useState({ stadiumTitle: null, stadiumReq: null, date: null });
 
   const onSubmit = useCallback(() => {
     console.log(form.getFieldsValue(['content']), matchInfo);
-    if (where === 'team') {
-      dispatch({
-        type: ADD_POST_REQUEST,
-        data: {
-          content: form.getFieldValue('content'),
-          teamId: req,
-          matchInfo,
-        },
-      });
-    } else if (where === 'stadium') {
-      dispatch({
-        type: ADD_POST_REQUEST,
-        data: {
-          content: form.getFieldValue('content'),
-          stadiumId: req,
-          matchInfo,
-        },
-      });
-    }
+    dispatch({
+      type: ADD_POST_REQUEST,
+      data: {
+        content: form.getFieldValue('content'),
+        where,
+        req,
+        matchInfo,
+      },
+    });
   }, []);
 
   const onAdjustMatch = useCallback(() => {
     setVisible(true);
   }, []);
 
-
+  useEffect(() => {
+    if (addPostDone) {
+      form.resetFields(['content']);
+      setMatchInfo({
+        stadiumTitle: null,
+        date: null,
+      });
+    }
+  }, [addPostDone]);
   return (
     <PostFormDiv>
       <Form
@@ -95,7 +94,7 @@ const PostForm = (props) => {
           <Space>
             <Button type="default" htmlType="button" shape="round"><FileImageOutlined />사진</Button>
             {!enrollment && <Button type="default" htmlType="button" shape="round" onClick={onAdjustMatch}><CalendarOutlined />경기 일정</Button>}
-            <Button type="primary" htmlType="submit" shape="round">게시하기</Button>
+            <Button type="primary" htmlType="submit" shape="round" loading={addPostLoading}>게시하기</Button>
           </Space>
         </Form.Item>
       </Form>
