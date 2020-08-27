@@ -17,6 +17,12 @@ export const initialState = {
   isChangingTo: false, // 회원정보 수정중
   isChangedTo: false, // 회원정보 수정완료
   changedToErrorReason: null, // 회원정보 수정 실패 사유
+  isSettingPwd: false, // 비밀번호 수정중
+  isSettedPwd: false, // 비밀번호 수정완료
+  setPwdErrorReason: null, // 비밀번호 수정 실패 사유
+  isJoinnigIn: false, // 팀 가입 신청중
+  isJoinedIn: false, // 팀 가입 신청완료
+  joininErrorReason: null, // 팀 가입 신청 실패 사유
 };
 export const LOAD_MY_INFO_REQUEST = 'LOAD_MY_INFO_REQUEST';
 export const LOAD_MY_INFO_SUCCESS = 'LOAD_MY_INFO_SUCCESS';
@@ -42,7 +48,17 @@ export const CHANGE_TO_REQUEST = 'CHANGE_TO_REQUEST';
 export const CHANGE_TO_SUCCESS = 'CHANGE_TO_SUCCESS';
 export const CHANGE_TO_FAILURE = 'CHANGE_TO_FAILURE';
 
+export const SET_PWD_REQUEST = 'SET_PWD_REQUEST';
+export const SET_PWD_SUCCESS = 'SET_PWD_SUCCESS';
+export const SET_PWD_FAILURE = 'SET_PWD_FAILURE';
+
+export const JOIN_IN_REQUEST = 'JOIN_IN_REQUEST';
+export const JOIN_IN_SUCCESS = 'JOIN_IN_SUCCESS';
+export const JOIN_IN_FAILURE = 'JOIN_IN_FAILURE';
+
 export const ENROLL_TEAM_INFO = 'ENROLL_TEAM_INFO';
+export const ADD_POST_TO_ME = 'ADD_POST_TO_ME';
+export const REMOVE_POST_OF_ME = 'REMOVE_POST_OF_ME';
 
 export default (state = initialState, action) => produce(state, (draft) => {
   switch (action.type) {
@@ -66,11 +82,11 @@ export default (state = initialState, action) => produce(state, (draft) => {
     case LOG_IN_REQUEST:
       draft.isLoggingIn = true;
       draft.logInErrorReason = null;
-      draft.isLoggedOut = false;
       break;
     case LOG_IN_SUCCESS:
       draft.isLoggingIn = false;
       draft.isLoggedIn = true;
+      draft.isLoggedOut = false;
       draft.me = action.data;
       draft.logInErrorReason = null;
       break;
@@ -116,6 +132,7 @@ export default (state = initialState, action) => produce(state, (draft) => {
     case CHANGE_TO_SUCCESS:
       draft.isChangingTo = false;
       draft.isChangedTo = true;
+      draft.me = action.data;
       break;
     case CHANGE_TO_FAILURE:
       draft.isChangingTo = false;
@@ -125,6 +142,39 @@ export default (state = initialState, action) => produce(state, (draft) => {
       draft.me.LeaderId = action.data.id;
       draft.me.TeamId = action.data.id;
       draft.me.Team = action.data;
+      break;
+    case ADD_POST_TO_ME:
+      draft.me.Posts.unshift({ id: action.data });
+      break;
+    case REMOVE_POST_OF_ME:
+      draft.me.Posts.filter((v) => v.id !== action.data);
+      break;
+    case JOIN_IN_REQUEST:
+      draft.isJoinnigIn = true;
+      draft.isJoinedIn = false;
+      draft.joininErrorReason = null;
+      break;
+    case JOIN_IN_SUCCESS:
+      draft.isJoinnigIn = false;
+      draft.isJoinedIn = true;
+      draft.me.JoinInId = action.data;
+      break;
+    case JOIN_IN_FAILURE:
+      draft.isJoinnigIn = false;
+      draft.joininErrorReason = action.error;
+      break;
+    case SET_PWD_REQUEST:
+      draft.isSettingPwd = true;
+      draft.isSettedPwd = false;
+      draft.setPwdErrorReason = null;
+      break;
+    case SET_PWD_SUCCESS:
+      draft.isSettingPwd = false;
+      draft.isSettedPwd = true;
+      break;
+    case SET_PWD_FAILURE:
+      draft.isSettingPwd = false;
+      draft.setPwdErrorReason = action.error;
       break;
     default:
       break;

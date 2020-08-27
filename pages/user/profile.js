@@ -9,15 +9,21 @@ import { CHANGE_TO_REQUEST } from '../../reducers/user';
 import AppLayout from '../../components/AppLayout';
 
 const Profile = () => {
-  const { me, isChangingTo } = useSelector((state) => state.user);
+  const { me, isChangingTo, isChangedTo, changedToErrorReason } = useSelector((state) => state.user);
   const [form] = Form.useForm();
   const dipatch = useDispatch();
 
   const submitAlterUserData = useCallback(() => {
-    alert('프로필 페이지', form.getFieldsValue());
+    console.log(form.getFieldsValue(['selectedLocations', 'nickname', 'prevpwd', 'selectedPositions', 'age']));
     dipatch({
       type: CHANGE_TO_REQUEST,
-      data: { ...form.getFieldsValue() },
+      data: {
+        nickname: form.getFieldValue('nickname'),
+        password: form.getFieldValue('prevpwd'),
+        positions: form.getFieldValue('selectedPositions'),
+        age: form.getFieldValue('age'),
+        locations: form.getFieldValue('selectedLocations'),
+      },
     });
   }, []);
   useEffect(() => {
@@ -26,6 +32,15 @@ const Profile = () => {
       Router.push('/stadia');
     }
   }, []);
+  useEffect(() => {
+    if (isChangedTo) {
+      message.success('회원정보가 변경되었습니다.');
+      Router.replace('/stadia');
+    }
+    if (changedToErrorReason) {
+      message.error(changedToErrorReason);
+    }
+  }, [isChangedTo, changedToErrorReason]);
   return (
     <AppLayout>
       <Row>
@@ -39,6 +54,12 @@ const Profile = () => {
               style={{ width: '100%' }}
               form={form}
               colon={false}
+              initialValues={{
+                nickname: me?.nickname,
+                selectedPositions: me?.positions?.split(','),
+                selectedLocations: me?.locations?.split(','),
+                age: me?.age,
+              }}
               onFinish={submitAlterUserData}
               labelAlign="left"
               labelCol={{ flex: '0.3 0 130px' }}
@@ -48,19 +69,20 @@ const Profile = () => {
                 name="id"
                 label="아이디"
               >
-                <Input prefix={<UserOutlined />} disabled defaultValue={me?.id} />
+                <Input prefix={<UserOutlined />} disabled defaultValue={me?.originalId} />
               </Form.Item>
               <Form.Item
                 name="nickname"
+                rules={[{ required: true, message: '닉네임을 설정해주세요' }]}
                 label={<Space>닉네임<Tooltip title="설정하신 닉네임으로 활동하게 됩니다!"><QuestionCircleOutlined /></Tooltip></Space>}
               >
-                <Input placeholder="닉네임" defaultValue={me?.nickname} />
+                <Input placeholder="닉네임" />
               </Form.Item>
               <Form.Item
                 name="prevpwd"
-                dependencies={['alterpwd']}
                 rules={[{ required: true, message: '비밀번호를 확인해주세요!' }]}
                 label="비밀번호 확인"
+                requiredMark={false}
               >
                 <Input.Password placeholder="비밀번호 확인" />
               </Form.Item>
@@ -73,7 +95,7 @@ const Profile = () => {
                   size="middle"
                   mode="multiple"
                   placeholder="풋살 포지션을 선택해주세요"
-                  defaultValue={me?.positions}
+                  // defaultValue={me?.positions?.split(',')}
                 >
                   {positions}
                 </Select>
@@ -86,7 +108,7 @@ const Profile = () => {
                 <Select
                   size="middle"
                   placeholder="연령대를 체크해 주세요"
-                  defaultValue={me?.age}
+                  // defaultValue={me?.age}
                 >
                   {ageGroup}
                 </Select>
@@ -99,7 +121,7 @@ const Profile = () => {
                 <Select
                   size="middle"
                   mode="multiple"
-                  defaultValue={me?.locations}
+                  // defaultValue={me?.locations?.split(',')}
                 >
                   {locations}
                 </Select>

@@ -4,18 +4,21 @@ import Router from 'next/router';
 import { Row, Col, Typography, Form, Input, Button, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
-import { CHANGE_TO_REQUEST } from '../../reducers/user';
+import { SET_PWD_REQUEST } from '../../reducers/user';
 import AppLayout from '../../components/AppLayout';
 
 const Altpwd = () => {
-  const { me, isChangingTo } = useSelector((state) => state.user);
+  const { me, isSettingPwd, isSettedPwd } = useSelector((state) => state.user);
   const [form] = Form.useForm();
   const dipatch = useDispatch();
 
   const submitAlterUserData = useCallback(() => {
     dipatch({
-      type: CHANGE_TO_REQUEST,
-      data: { ...form.getFieldsValue() },
+      type: SET_PWD_REQUEST,
+      data: {
+        password: form.getFieldValue('password'),
+        prevpwd: form.getFieldValue('prevpwd'),
+      },
     });
   }, []);
   useEffect(() => {
@@ -24,6 +27,12 @@ const Altpwd = () => {
       Router.push('/stadia');
     }
   }, []);
+  useEffect(() => {
+    if (isSettedPwd) {
+      message.success('비밀번호가 변경되었습니다.');
+      Router.replace('/stadia');
+    }
+  }, [isSettedPwd]);
   return (
     <AppLayout>
       <Row>
@@ -46,12 +55,11 @@ const Altpwd = () => {
                 name="id"
                 label="아이디"
               >
-                <Input prefix={<UserOutlined />} disabled defaultValue={me?.id} />
+                <Input prefix={<UserOutlined />} disabled defaultValue={me?.originalId} />
               </Form.Item>
 
               <Form.Item
                 name="prevpwd"
-                dependencies={['alterpwd']}
                 rules={[{ required: true, message: '6자 이상의 비밀번호를 확인해주세요!', min: 6 }]}
                 label="비밀번호 확인"
               >
@@ -102,7 +110,7 @@ const Altpwd = () => {
                     type="primary"
                     style={{ width: '100%', borderRadius: '15px' }}
                     htmlType="submit"
-                    loading={isChangingTo}
+                    loading={isSettingPwd}
                     disabled={!form.isFieldsTouched(['prevpwd', 'password', 'confirm'], true) || form.getFieldsError().filter(({ errors }) => errors.length).length}
                   >
                     비밀번호 변경

@@ -16,6 +16,12 @@ import {
   LOAD_MY_INFO_REQUEST,
   LOAD_MY_INFO_SUCCESS,
   LOAD_MY_INFO_FAILURE,
+  JOIN_IN_FAILURE,
+  JOIN_IN_REQUEST,
+  JOIN_IN_SUCCESS,
+  SET_PWD_REQUEST,
+  SET_PWD_SUCCESS,
+  SET_PWD_FAILURE,
 } from '../reducers/user';
 
 function loadMyInfoAPI() {
@@ -95,15 +101,14 @@ function* watchSignUp() {
 }
 
 function changeToAPI(data) {
-  return axios.post('/user/modify', data);
+  return axios.patch('/user/modify', data);
 }
 function* changeTo(action) {
   try {
-    // yield call(changeToAPI(action));
-    console.log('여기는 사가', action.data);
-    yield delay(1000);
+    const result = yield call(changeToAPI, action.data);
     yield put({
       type: CHANGE_TO_SUCCESS,
+      data: result.data,
     });
   } catch (e) {
     yield put({
@@ -114,6 +119,26 @@ function* changeTo(action) {
 }
 function* watchChangeTo() {
   yield takeLatest(CHANGE_TO_REQUEST, changeTo);
+}
+
+function setPwdAPI(data) {
+  return axios.patch('/user/pwd', data);
+}
+function* setPwd(action) {
+  try {
+    yield call(setPwdAPI, action.data);
+    yield put({
+      type: SET_PWD_SUCCESS,
+    });
+  } catch (e) {
+    yield put({
+      type: SET_PWD_FAILURE,
+      error: e.response.data,
+    });
+  }
+}
+function* watchSetPwd() {
+  yield takeLatest(SET_PWD_REQUEST, setPwd);
 }
 
 function logOutAPI() {
@@ -138,6 +163,29 @@ function* watchLogOut() {
   yield takeLatest(LOG_OUT_REQUEST, logOut);
 }
 
+function joinInAPI(data) {
+  return axios.patch('/user/join', data);
+}
+
+function* joinIn(action) {
+  try {
+    const result = yield call(joinInAPI, action.data);
+    yield put({
+      type: JOIN_IN_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: JOIN_IN_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+function* watchJoinIN() {
+  yield takeLatest(JOIN_IN_REQUEST, joinIn);
+}
+
 export default function* userSaga() {
   yield all([
     fork(watchLoadMyInfo),
@@ -145,5 +193,7 @@ export default function* userSaga() {
     fork(watchSignUp),
     fork(watchChangeTo),
     fork(watchLogOut),
+    fork(watchJoinIN),
+    fork(watchSetPwd),
   ]);
 }
