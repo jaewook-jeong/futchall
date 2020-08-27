@@ -17,7 +17,7 @@ import {
   REMOVE_POST_REQUEST,
   REMOVE_POST_SUCCESS,
 } from '../reducers/post';
-import { ADD_POST_TO_ME } from '../reducers/user';
+import { ADD_POST_TO_ME, REMOVE_POST_OF_ME } from '../reducers/user';
 
 // import { ADD_POST_TO_ME, REMOVE_POST_OF_ME } from '../reducers/user';
 
@@ -72,21 +72,20 @@ function* addPost(action) {
 }
 
 function removePostAPI(data) {
-  return axios.delete('/post', data);
+  return axios.delete(`/post/${data.id}`);
 }
 
 function* removePost(action) {
   try {
-    // const result = yield call(removePostAPI, action.data);
-    yield delay(1000);
+    const result = yield call(removePostAPI, action.data);
     yield put({
       type: REMOVE_POST_SUCCESS,
-      data: action.data,
+      data: result.data.PostId,
     });
-    // yield put({
-    //   type: REMOVE_POST_OF_ME,
-    //   data: action.data,
-    // });
+    yield put({
+      type: REMOVE_POST_OF_ME,
+      data: result.data.PostId,
+    });
   } catch (err) {
     console.error(err);
     yield put({
