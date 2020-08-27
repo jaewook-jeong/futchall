@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useCallback } from 'react';
 import Router, { useRouter } from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
-import { Skeleton, Col, Row, Tabs, Button, message, Descriptions, Typography, Table, Card, Space } from 'antd';
+import { Skeleton, Col, Row, Tabs, Button, message, Descriptions, Typography, Table, Card, Space, Tag } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 
 import AppLayout2 from '../../components/AppLayout2';
@@ -153,6 +153,7 @@ const Stadium = () => {
                     <Space size="middle">
                       {isSelected && info.recruit}
                       {isSelected && isLoggedIn && info.recruit === 'Y' && !me?.TeamId && !me?.JoinInId && <Button type="primary" shape="round" onClick={joinInTeam} size="small" loading={isJoinnigIn}>팀 가입 하기</Button>}
+                      {isSelected && isLoggedIn && me?.JoinInId === info.id && <Tag>가입 대기중</Tag> }
                     </Space>
                   </Descriptions.Item>
                 </Descriptions>

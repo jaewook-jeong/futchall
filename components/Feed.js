@@ -13,7 +13,6 @@ const Feed = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log(where, req);
     dispatch({
       type: LOAD_POSTS_REQUEST,
       data: {

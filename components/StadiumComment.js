@@ -11,7 +11,7 @@ const CommentList = ({ comments }) => (
     itemLayout="horizontal"
     renderItem={(value) => (
       <Comment
-        datetime={value.datetime}
+        datetime={value.createdAt}
         content={value.content}
         author={value.author}
         avatar={<Avatar shape="circle">{value.profile}</Avatar>}

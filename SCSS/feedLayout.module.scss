@@ -19,7 +19,6 @@ $sm : 576px;
   position: relative;
   max-width: 100%;
   box-sizing: border-box;
-  
   .fixedInfo{
     position: sticky;
     // top: calc(100vh - 100% + 80px);
@@ -44,7 +43,6 @@ $sm : 576px;
         right: 0;
       }
     }
-    
   }
   
   .postWall{
