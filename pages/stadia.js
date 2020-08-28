@@ -17,15 +17,15 @@ const Stadia = () => {
   const onChangeSelected = useCallback((req) => {
     setNowSeleted(req);
   }, []);
-  useEffect(() => {
-    // If users didn`t access BattleMap page from Index, to cover another access
-    if (stadiumList.length === 0) {
-      dispatch({
-        type: REFRESH_STADIUMLIST_REQUEST,
-        data: { latitude: 37.5795876, longitude: 126.9636324 },
-      });
-    }
-  }, []);
+  // useEffect(() => {
+  //   // If users didn`t access BattleMap page from Index, to cover another access
+  //   if (stadiumList.length === 0) {
+  //     dispatch({
+  //       type: REFRESH_STADIUMLIST_REQUEST,
+  //       data: { latitude: 37.5795876, longitude: 126.9636324 },
+  //     });
+  //   }
+  // }, []);
   return (
     <AppLayout>
       <div>

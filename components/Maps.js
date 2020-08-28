@@ -20,6 +20,7 @@ const Maps = (props) => {
   const { list, onChangeSelected, nowSelected } = props;
   const kakaoMap = useRef();
   const [overlays, setOverlays] = useState([]);
+
   useEffect(
     () => {
       let arr = [];
@@ -44,14 +45,24 @@ const Maps = (props) => {
       );
 
       kakao.maps.event.addListener(kakaoMap.current, 'dragend', () => {
-        const latlng = kakaoMap.current.getCenter();
-        dispatch({ 
-          type: REFRESH_STADIUMLIST_REQUEST,
-          data: {
-            latitude: latlng.getLat(),
-            longitude: latlng.getLng(),
-          },
-        });
+        const bounds = kakaoMap.current.getBounds();
+        // 영역의 남서쪽 좌표를 얻어옵니다
+        const swLatLng = bounds.getSouthWest();
+        // 영역의 북동쪽 좌표를 얻어옵니다
+        const neLatLng = bounds.getNorthEast();
+        setTimeout(() => {
+          // console.log('왼쪽', swLatLng.getLat(), '아래쪽', swLatLng.getLng());
+          // console.log('오른쪽', neLatLng.getLat(), '위쪽', neLatLng.getLng());
+          dispatch({
+            type: REFRESH_STADIUMLIST_REQUEST,
+            data: {
+              left: swLatLng.getLat(),
+              right: neLatLng.getLat(),
+              top: neLatLng.getLng(),
+              bottom: swLatLng.getLng(),
+            },
+          });
+        }, 400);
       });
     }, [],
   );
@@ -158,9 +169,8 @@ const Maps = (props) => {
 
   useEffect(() => {
     if (nowSelected !== -1) {
-      let immuneArr = [...overlays];
+      const immuneArr = [...overlays];
       immuneArr.map((val, index) => {
-        // eslint-disable-next-line eqeqeq
         if (nowSelected == index) {
           val.setMap(kakaoMap.current);
         } else {
@@ -176,11 +186,15 @@ const Maps = (props) => {
   );
 };
 Maps.propTypes = {
-  list: PropTypes.array,
-  onChangeSelected: PropTypes.func.isRequired,
-  nowSelected: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-  ]).isRequired,
+  props: PropTypes.shape({
+    router: PropTypes.object,
+    list: PropTypes.array,
+    onChangeSelected: PropTypes.func.isRequired,
+    nowSelected: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+    ]).isRequired,
+  }).isRequired,
 };
+
 export default withRouter(Maps);
