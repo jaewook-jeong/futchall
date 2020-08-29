@@ -19,6 +19,7 @@ const Maps = (props) => {
   const dispatch = useDispatch();
   const { list, onChangeSelected, nowSelected } = props;
   const kakaoMap = useRef();
+  const newRequest = useRef(null);
   const [overlays, setOverlays] = useState([]);
 
   useEffect(
@@ -45,12 +46,13 @@ const Maps = (props) => {
       );
 
       kakao.maps.event.addListener(kakaoMap.current, 'dragend', () => {
+        clearTimeout(newRequest.current);
         const bounds = kakaoMap.current.getBounds();
         // 영역의 남서쪽 좌표를 얻어옵니다
         const swLatLng = bounds.getSouthWest();
         // 영역의 북동쪽 좌표를 얻어옵니다
         const neLatLng = bounds.getNorthEast();
-        setTimeout(() => {
+        newRequest.current = setTimeout(() => {
           // console.log('왼쪽', swLatLng.getLat(), '아래쪽', swLatLng.getLng());
           // console.log('오른쪽', neLatLng.getLat(), '위쪽', neLatLng.getLng());
           dispatch({
@@ -127,7 +129,7 @@ const Maps = (props) => {
       let body_img = document.createElement('div');
       body_img.className = `${styles.bodyImg}`;
       let img = document.createElement('img');
-      img.setAttribute('src', stadiumInfo.src ?? 'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png');
+      img.setAttribute('src', stadiumInfo.Image.src ?? 'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png');
       body_img.appendChild(img);
 
       let body_info = document.createElement('div');
