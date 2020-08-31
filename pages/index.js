@@ -9,9 +9,21 @@ import { getLocation } from '../util/getLocation';
 const Home = () => {
   const {isChangingLocation} = useSelector(state=>state.location);
   const dispatch = useDispatch();
+  
   const onSearch = useCallback((e) => {
-      Router.push(`/team/search?loc=${e}`);
+    const geocoder = new kakao.maps.services.Geocoder();
+    geocoder.addressSearch(e, function(result, status) {
+      if (status === kakao.maps.services.Status.OK) {
+        dispatch({
+          type: SET_WHERE_USER,
+          data: { latitude: result[0].y, longitude: result[0].x },
+        });
+        message.success(`\'${e}\'지역으로 검색한 결과입니다!`, 5);
+        Router.push(`/stadia`);
+      }
+    });
   },[]);
+
   const onClickGPS = useCallback(() => {
     (async () => {
       try {
@@ -22,7 +34,7 @@ const Home = () => {
             data: { latitude: arr[2], longitude: arr[3] },
           });
         }
-        Router.push(`/stadia?arr=${arr}`, '/stadia');
+        Router.push(`/stadia?arr=${arr.slice(0, 2)}`, '/stadia');
       } catch (error) {
         console.log(error);
         message.warn(error);
