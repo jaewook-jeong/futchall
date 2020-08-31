@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import React, { useEffect, useState, useRef } from 'react';
 import Router, { withRouter } from 'next/router';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { notification, message } from 'antd';
 // import { LoadingOutlined } from '@ant-design/icons';
@@ -18,6 +18,7 @@ const MapContainer = styled.div`
 const Maps = (props) => {
   const dispatch = useDispatch();
   const { list, onChangeSelected, nowSelected } = props;
+  const { latitude, longitude } = useSelector((state) => state.location);
   const kakaoMap = useRef();
   const newRequest = useRef(null);
   const [overlays, setOverlays] = useState([]);
@@ -37,7 +38,7 @@ const Maps = (props) => {
         }
       }
       const options = {
-        center: new kakao.maps.LatLng(arr[2] ?? '37.5795876', arr[3] ?? '126.9636324'),
+        center: new kakao.maps.LatLng(latitude, longitude),
         level: 8,
       };
       kakaoMap.current = new kakao.maps.Map(document.getElementById('mapContainer'), options);
