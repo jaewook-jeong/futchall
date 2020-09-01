@@ -54,24 +54,23 @@ const dummyComment = [
     rating: 5,
   },
 ];
-function selectAPI() {
+function selectAPI(data) {
   // 서버에 요청을 보내는 부분
-  return axios.post('/stadium');
+  return axios.get(`/stadium/${data}`);
 }
 
-function* select() {
+function* select(action) {
   try {
-    // yield call(selectAPI);
-    yield delay(2000);
-    yield put({ // put은 dispatch 동일
+    const result = yield call(selectAPI, action.data);
+    yield put({
       type: SELECT_STADIUM_SUCCESS,
-      data: dummyComment,
+      data: result.data,
     });
   } catch (e) {
     console.error(e);
     yield put({
       type: SELECT_STADIUM_FAILURE,
-      error: e,
+      error: e.response.data,
     });
   }
 }

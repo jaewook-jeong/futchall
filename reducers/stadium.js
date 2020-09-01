@@ -52,8 +52,7 @@ export default (state = initialState, action) => produce(state, (draft) => {
     case SELECT_STADIUM_SUCCESS:
       draft.isSelecting = false;
       draft.isSelected = true;
-      draft.info = dummyInfo;
-      draft.comments = action.data;
+      draft.info = action.data;
       break;
     case SELECT_STADIUM_FAILURE:
       draft.isSelecting = false;

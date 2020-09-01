@@ -45,7 +45,18 @@ const Maps = (props) => {
       kakaoMap.current.addControl(
         new kakao.maps.MapTypeControl(), kakao.maps.ControlPosition.TOPRIGHT
       );
-
+      const bounds = kakaoMap.current.getBounds();
+      const swLatLng = bounds.getSouthWest();
+      const neLatLng = bounds.getNorthEast();
+      dispatch({
+        type: REFRESH_STADIUMLIST_REQUEST,
+        data: {
+          left: swLatLng.getLat(),
+          right: neLatLng.getLat(),
+          top: neLatLng.getLng(),
+          bottom: swLatLng.getLng(),
+        },
+      });
       kakao.maps.event.addListener(kakaoMap.current, 'dragend', () => {
         clearTimeout(newRequest.current);
         const bounds = kakaoMap.current.getBounds();
@@ -130,7 +141,7 @@ const Maps = (props) => {
       let body_img = document.createElement('div');
       body_img.className = `${styles.bodyImg}`;
       let img = document.createElement('img');
-      img.setAttribute('src', stadiumInfo.Image.src ?? 'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png');
+      img.setAttribute('src', stadiumInfo.Images.src);
       body_img.appendChild(img);
 
       let body_info = document.createElement('div');

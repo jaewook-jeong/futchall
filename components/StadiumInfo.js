@@ -6,6 +6,7 @@ import { Tabs, Button, Descriptions, Tooltip, Typography, Tag } from 'antd';
 import { HeartTwoTone, QuestionCircleOutlined } from '@ant-design/icons';
 
 import { SELECT_STADIUM_REQUEST } from '../reducers/stadium';
+import { multipleSpecaility } from '../util/columns';
 
 const StadiumInfo = (props) => {
   const dispatch = useDispatch();
@@ -13,7 +14,7 @@ const StadiumInfo = (props) => {
   const { info, isSelected } = useSelector((state) => state.stadium,
     (left, right) => { if (left.info.id === right.info.id) { return true; } return false; });
   useEffect(() => {
-    dispatch({ type: SELECT_STADIUM_REQUEST, data: { id: list[nowSelected].id } });
+    dispatch({ type: SELECT_STADIUM_REQUEST, data: list[nowSelected].id });
   }, [nowSelected]);
   return (
     <Tabs
@@ -45,7 +46,7 @@ const StadiumInfo = (props) => {
             {isSelected && info.light}
           </Descriptions.Item>
           <Descriptions.Item label="특징">
-            {isSelected && info.special.map((c) => (<Tag key={c}>#{c}</Tag>))}
+            {isSelected && info.special.split(',').map((c) => (<Tag key={c}>#{multipleSpecaility[c]}</Tag>))}
           </Descriptions.Item>
           <Descriptions.Item label="소개" span={2}>
             {isSelected
@@ -58,7 +59,7 @@ const StadiumInfo = (props) => {
             )}
           </Descriptions.Item>
           <Descriptions.Item label="점령 팀">
-            {isSelected && <a onClick={() => Router.push(`/team/${info.teamInfo}`)}>{info.team}</a>}
+            {isSelected && <a onClick={() => Router.push(`/team/${info.TeamId}`)}>{info.Team.title}</a>}
           </Descriptions.Item>
           <Descriptions.Item label={<>유효기간 <Tooltip title="점령 후 도전을 받지 않을 시 유지되는 기간입니다."><QuestionCircleOutlined /></Tooltip></>}>
             {isSelected && info.valid}

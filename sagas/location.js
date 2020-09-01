@@ -7,12 +7,12 @@ import {
 } from '../reducers/location';
 
 function refreshStadiumListAPI(data) {
-  return axios.get('/stadia', data);
+  return axios.patch('/stadia', data);
 }
 
 function* refreshStadiumList(action) {
   try {
-    const result = yield call(refreshStadiumListAPI(action.data));
+    const result = yield call(refreshStadiumListAPI, action.data);
     yield put({
       type: REFRESH_STADIUMLIST_SUCCESS,
       data: result.data,

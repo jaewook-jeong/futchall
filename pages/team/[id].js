@@ -48,7 +48,7 @@ const Stadium = () => {
         const marker = new kakao.maps.Marker({ position: points[i], clickable: true });
         marker.setMap(map);
         kakao.maps.event.addListener(marker, 'click', () => {
-          Router.push(`/stadium/${info.captures[i].id}`);
+          Router.push(`/stadium/${info.Stadia[i].id}`);
         });
         bounds.extend(points[i]);
       }

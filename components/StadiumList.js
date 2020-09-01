@@ -4,6 +4,7 @@ import { Tag, Tooltip, Menu, Row, Col } from 'antd';
 import { FlagOutlined, FlagTwoTone } from '@ant-design/icons';
 
 import styles from '../SCSS/stadiumList.module.scss';
+import { multipleSpecaility } from '../util/columns';
 
 const StadiumList = (props) => {
   const { list, onChangeSelected, nowSelected } = props;
@@ -24,7 +25,7 @@ const StadiumList = (props) => {
           <Menu.Item key={i} className={styles.stadiumInfo}>
             <Row style={{ overflow: 'auto' }}>
               <Col className={styles.flag}>
-                {v.occupation === 'Y'
+                {v.TeamId
                   ? <Tooltip title="점령중입니다"><FlagTwoTone twoToneColor="red" style={{ fontSize: '20px' }} /></Tooltip>
                   : <FlagOutlined style={{ fontSize: '20px' }} />}
               </Col>
@@ -33,7 +34,7 @@ const StadiumList = (props) => {
                   {v.title}
                 </Row>
                 <Row className={styles.tags}>
-                  {v.tag.map((c) => <Tag key={c}>#{c}</Tag>)}
+                  {v.special.split(',').map((c) => <Tag key={c}>#{multipleSpecaility[c]}</Tag>)}
                 </Row>
               </Col>
             </Row>
