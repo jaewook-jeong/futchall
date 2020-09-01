@@ -1,12 +1,13 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Form, Avatar, Input, Button, Divider, Space, Tag } from 'antd';
+import { Form, Avatar, Input, Button, Divider, Space, Tag, Upload } from 'antd';
 import styled from 'styled-components';
-import { FileImageOutlined, CalendarOutlined } from '@ant-design/icons';
+import { FileImageOutlined, CalendarOutlined, PlusOutlined } from '@ant-design/icons';
 
 import ReservationMatch from './ReservationMatch';
 import { ADD_POST_REQUEST } from '../reducers/post';
+import Modal from 'antd/lib/modal/Modal';
 
 const PostFormDiv = styled.div`
   border-radius: 15px;
@@ -21,7 +22,7 @@ const PostForm = (props) => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
   const { me } = useSelector((state) => state.user, shallowEqual);
-  const { addPostLoading, addPostDone } = useSelector((state) => state.post, shallowEqual);
+  const { addPostLoading, addPostDone, imagePaths } = useSelector((state) => state.post, shallowEqual);
   const [visible, setVisible] = useState(false);
   const [enrollment, setEnrollment] = useState(false);
   const [matchInfo, setMatchInfo] = useState({ stadiumTitle: null, stadiumReq: null, date: null });
@@ -72,6 +73,29 @@ const PostForm = (props) => {
             style={{ border: '1px solid #f0f0f0', borderRadius: '15px', backgroundColor: '#fafafa', color: '#000000d9' }}
             placeholder="무슨 생각을 하고 계신가요?"
           />
+        </Form.Item>
+        <Form.Item
+          name="upload"
+        >
+          <Upload
+            listType="picture-card"
+            action={
+              
+            }
+          >
+            <div>
+              <PlusOutlined />
+              <div style={{ marginTop: 8 }}>Upload</div>
+            </div>
+          </Upload>
+          {/* <Modal
+            visible={previewVisible}
+            title={previewTitle}
+            footer={null}
+            onCancel={this.handleCancel}
+          >
+            <img alt="example" style={{ width: '100%' }} src={previewImage} />
+          </Modal> */}
         </Form.Item>
         {
           enrollment && (
