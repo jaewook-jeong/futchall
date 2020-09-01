@@ -11,6 +11,7 @@ import stadiumMapStyles from '../../SCSS/stadium.module.scss';
 import AppLayout2 from '../../components/AppLayout2';
 import Feed from '../../components/Feed';
 import style from '../../SCSS/feedLayout.module.scss';
+import { multipleSpecaility } from '../../util/columns';
 
 const Stadium = () => {
   const router = useRouter();
@@ -26,7 +27,7 @@ const Stadium = () => {
     Router.push(`/team/${info.teamInfo}`);
   }, [info]);
 
-  useEffect(() => { dispatch({ type: SELECT_STADIUM_REQUEST, data: { id } }); }, []);
+  useEffect(() => { dispatch({ type: SELECT_STADIUM_REQUEST, data: id }); }, []);
 
   useEffect(() => {
     if (isSelected) {
@@ -45,9 +46,9 @@ const Stadium = () => {
       const overlayFrame = `<div class=${stadiumMapStyles.overlaybox}>
                 <div class=${stadiumMapStyles.boxtitle} id="whatShouldIDo">구장 점령 팀</div>
                 <div class=${stadiumMapStyles.first} >
-                    <img src=${info.teamImg}>
+                    <img src=${info?.Images[0]?.src}>
                     <div class=${stadiumMapStyles.triangle}>1</div>
-                    <div class=${stadiumMapStyles.movietitle}>${info.team}</div>
+                    <div class=${stadiumMapStyles.movietitle}>${info.Team.title}</div>
                 </div>
             </div>`;
       const customOverlay = new kakao.maps.CustomOverlay({
@@ -152,7 +153,7 @@ const Stadium = () => {
                   </Descriptions.Item>
                   <Descriptions.Item label="특징" span={2}>
                     <Skeleton loading={!isSelected} active paragraph={false} />
-                    {isSelected && info.special.map((c) => (<Tag key={c}>#{c}</Tag>))}
+                    {isSelected && info.special.split(',').map((c) => (<Tag key={c}>#{multipleSpecaility[c]}</Tag>))}
                   </Descriptions.Item>
                   <Descriptions.Item label="점령 팀" span={2}>
                     <Skeleton loading={!isSelected} active paragraph={false} />

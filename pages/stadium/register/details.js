@@ -124,7 +124,17 @@ const Details = (props) => {
                   label="특징"
                 >
                   <Select mode="tags" placeholder="구장의 다양한 특징을 선택해주세요">
-                    {multipleSpecaility}
+                    {
+                      multipleSpecaility.map((v, i) => {
+                        return(
+                          <Select.Option
+                            key={i}
+                          >
+                            {v}
+                          </Select.Option>
+                        )
+                      })
+                    }
                   </Select>
                 </Form.Item>
                 <Form.Item
