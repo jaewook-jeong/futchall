@@ -198,11 +198,11 @@ export const teamRecordColumns = [
 ];
 
 export const multipleSpecaility = [
-  <Select.Option key="1">잔디구장</Select.Option>,
-  <Select.Option key="2">우레탄구장</Select.Option>,
-  <Select.Option key="3">플라스틱 인도어구장</Select.Option>,
-  <Select.Option key="4">샤워실</Select.Option>,
-  <Select.Option key="5">근처 편의점</Select.Option>,
-  <Select.Option key="6">탈의실</Select.Option>,
-  <Select.Option key="7">대기용 좌석</Select.Option>,
+  '잔디구장',
+  '우레탄구장',
+  '플라스틱 인도어구장',
+  '샤워실',
+  '근처 편의점',
+  '탈의실',
+  '대기용 좌석',
 ];
