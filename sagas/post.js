@@ -44,7 +44,7 @@ function* loadPosts(action) {
 }
 
 function addPostAPI(data) {
-  if (data.matchInfo) {
+  if (data.matchInfo.stadiumReq) {
     return axios.post('/post', data);
   }
   if (data.where === 'team') {
