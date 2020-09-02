@@ -41,6 +41,7 @@ const CommentForm = (props) => {
         <Input
           style={{ border: '1px solid #f0f0f0', borderRadius: '15px', backgroundColor: '#fafafa', color: '#000000d9' }}
           placeholder="댓글을 입력하세요"
+          autoComplete="off"
         />
       </Form.Item>
       {addCommentLoading && <LoadingOutlined /> }

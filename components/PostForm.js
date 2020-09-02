@@ -1,13 +1,15 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Form, Avatar, Input, Button, Divider, Space, Tag, Upload } from 'antd';
+import { Form, Avatar, Input, Button, Divider, Space, Tag, Upload, Modal } from 'antd';
 import styled from 'styled-components';
 import { FileImageOutlined, CalendarOutlined, PlusOutlined } from '@ant-design/icons';
 
 import ReservationMatch from './ReservationMatch';
 import { ADD_POST_REQUEST } from '../reducers/post';
-import Modal from 'antd/lib/modal/Modal';
+import imageUploader from '../util/imageUploader';
+import getBase64 from '../util/getBase64';
+
 
 const PostFormDiv = styled.div`
   border-radius: 15px;
@@ -17,18 +19,22 @@ const PostFormDiv = styled.div`
   margin-bottom: 10px;
   background-color: #fff;
 `;
-const PostForm = (props) => {
-  const { where, req } = props;
+const PostForm = ({ where, req }) => {
+  // const { where, req } = props;
   const dispatch = useDispatch();
   const [form] = Form.useForm();
   const { me } = useSelector((state) => state.user, shallowEqual);
-  const { addPostLoading, addPostDone, imagePaths } = useSelector((state) => state.post, shallowEqual);
+  const { addPostLoading, addPostDone } = useSelector((state) => state.post, shallowEqual);
   const [visible, setVisible] = useState(false);
   const [enrollment, setEnrollment] = useState(false);
   const [matchInfo, setMatchInfo] = useState({ stadiumTitle: null, stadiumReq: null, date: null });
+  const [previewVisible, setPreviewVisible] = useState(false);
+  const [uploadImage, setUploadImage] = useState(false);
+  const [previewImage, setPreviewImage] = useState('');
+  const [imageList, setImagelist] = useState([]);
+  const [dbImage, setDbImage] = useState([]);
 
   const onSubmit = useCallback(() => {
-    console.log(form.getFieldsValue(['content']), matchInfo);
     dispatch({
       type: ADD_POST_REQUEST,
       data: {
@@ -36,14 +42,21 @@ const PostForm = (props) => {
         where,
         req,
         matchInfo,
+        image: dbImage,
       },
     });
-  }, []);
+  }, [matchInfo, dbImage]);
 
   const onAdjustMatch = useCallback(() => {
     setVisible(true);
   }, []);
-
+  const handlePreview = async (file) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
+    setPreviewImage(file.url || file.preview);
+    setPreviewVisible(true);
+  };
   useEffect(() => {
     if (addPostDone) {
       form.resetFields(['content']);
@@ -51,6 +64,9 @@ const PostForm = (props) => {
         stadiumTitle: null,
         date: null,
       });
+      setUploadImage(false);
+      setDbImage([]);
+      setImagelist([]);
     }
   }, [addPostDone]);
   return (
@@ -74,29 +90,41 @@ const PostForm = (props) => {
             placeholder="무슨 생각을 하고 계신가요?"
           />
         </Form.Item>
-        <Form.Item
-          name="upload"
-        >
-          <Upload
-            listType="picture-card"
-            action={
-              
-            }
-          >
-            <div>
-              <PlusOutlined />
-              <div style={{ marginTop: 8 }}>Upload</div>
-            </div>
-          </Upload>
-          {/* <Modal
-            visible={previewVisible}
-            title={previewTitle}
-            footer={null}
-            onCancel={this.handleCancel}
-          >
-            <img alt="example" style={{ width: '100%' }} src={previewImage} />
-          </Modal> */}
-        </Form.Item>
+        { uploadImage
+          && (
+          <Form.Item>
+            <Upload
+              listType="picture-card"
+              action={(file) => imageUploader('http://localhost:3065/post/images', file).then((response) => setDbImage(dbImage.concat(response.data[0])))}
+              onChange={({ fileList }) => setImagelist(fileList)}
+              fileList={imageList}
+              onPreview={(file) => handlePreview(file)}
+              onRemove={(file) => {
+                let index = -1;
+                setImagelist(imageList.filter((v, i) => {
+                  if (v.uid !== file.uid) {
+                    return true;
+                  }
+                  index = i;
+                  return false;
+                }));
+                setDbImage(dbImage.filter((v, i) => i !== index));
+              }}
+            >
+              <div>
+                <PlusOutlined />
+                <div style={{ marginTop: 8 }}>Upload</div>
+              </div>
+            </Upload>
+            <Modal
+              visible={previewVisible}
+              footer={null}
+              onCancel={() => setPreviewVisible(false)}
+            >
+              <img alt="example" style={{ width: '100%' }} src={previewImage} />
+            </Modal>
+          </Form.Item>
+          )}
         {
           enrollment && (
           <div>
@@ -116,7 +144,7 @@ const PostForm = (props) => {
           style={{ marginBottom: 0, textAlign: 'right' }}
         >
           <Space>
-            <Button type="default" htmlType="button" shape="round"><FileImageOutlined />사진</Button>
+            <Button type="default" htmlType="button" shape="round" onClick={() => setUploadImage(true)}><FileImageOutlined />사진</Button>
             {!enrollment && <Button type="default" htmlType="button" shape="round" onClick={onAdjustMatch}><CalendarOutlined />경기 일정</Button>}
             <Button type="primary" htmlType="submit" shape="round" loading={addPostLoading}>게시하기</Button>
           </Space>
@@ -128,10 +156,8 @@ const PostForm = (props) => {
 };
 
 PostForm.propTypes = {
-  props: PropTypes.shape({
-    where: PropTypes.string.isRequired,
-    req: PropTypes.number.isRequired,
-  }).isRequired,
+  where: PropTypes.string.isRequired,
+  req: PropTypes.string.isRequired,
 };
 
 export default PostForm;

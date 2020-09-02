@@ -37,7 +37,7 @@ const Post = ({ data }) => {
           <div className={style.title}>
             {data.User.nickname}
             {
-              me.id === data.UserId
+              me?.id === data.UserId
               && (
               <div className={style.extra}>
                 <Popover
