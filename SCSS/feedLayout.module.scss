@@ -2,9 +2,26 @@ $sm : 576px;
 .mainInfo{
   width: 100%;
   margin-bottom: 10px;
+  height: auto;
   .cardDiv{
     border-radius: 0 0 15px 15px;
     text-align: center;
+    .ImgContainer{
+      width: 100%;
+      &::before {
+        background-color: black;
+        content: '';
+        position: absolute;
+        top: 0; left:0; right:0; bottom:0;
+        background: inherit;
+        z-index:-1;
+        filter: blur(6px); 
+        -webkit-filter: blur(6px); 
+        -moz-filter: blur(6px);
+        -o-filter: blur(6px);
+        filter:url(#blur);
+      }
+    }
     img{
       height: 300px;
     }
