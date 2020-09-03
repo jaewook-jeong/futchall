@@ -6,13 +6,15 @@ import { PlusOutlined } from '@ant-design/icons';
 
 import { ENROLL_TEAM_REQUEST } from '../../reducers/team';
 import AppLayout from '../../components/AppLayout';
+import imageUploader from '../../util/imageUploader';
 
 const TeamRegister = () => {
-  const [, forceUpdate] = useState(); // when you com back to this page, to delete previous data
+  // const [, forceUpdate] = useState(); // when you com back to this page, to delete previous data
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const { isEnrolling, isEnrolled } = useSelector((state) => state.team);
   const { isLoggedIn } = useSelector((state) => state.user);
+  const [dbImage, setDbImage] = useState('');
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -21,14 +23,15 @@ const TeamRegister = () => {
     }
   }, []);
   const onSubmitForm = useCallback((values) => {
-    console.log(values);
+    console.log(values, dbImage);
     dispatch({
       type: ENROLL_TEAM_REQUEST,
       data: {
         ...values,
+        image: dbImage,
       },
     });
-  }, []);
+  }, [dbImage]);
   useEffect(() => {
     if (isEnrolled) {
       notification.success({
@@ -39,22 +42,9 @@ const TeamRegister = () => {
       Router.replace('/stadia');
     }
   }, [isEnrolled]);
-  const normFile = (e) => {
-    console.log('Upload event:', e);
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e && e.fileList;
-  };
-  const uploadButton = (
-    <div>
-      <PlusOutlined />
-      <div className="ant-upload-text">Upload</div>
-    </div>
-  );
-  useEffect(() => {
-    forceUpdate({});
-  }, []);
+  // useEffect(() => {
+  //   forceUpdate({});
+  // }, []);
   return (
     <AppLayout>
       <Row>
@@ -112,13 +102,20 @@ const TeamRegister = () => {
                   </Radio.Group>
                 </Form.Item>
                 <Form.Item
-                  name="picture"
-                  label="팀 사진"
-                  valuePropName="fileList"
-                  getValueFromEvent={normFile}
+                  label="팀 메인사진"
                 >
-                  <Upload name="upload" listType="picture-card">
-                    {uploadButton}
+                  <Upload
+                    listType="picture-card"
+                    action={(file) => imageUploader('http://localhost:3065/team/image', file).then((response) => setDbImage(response.data))}
+                    onRemove={() => setDbImage('')}
+                  >
+                    { !dbImage
+                      && (
+                      <div>
+                        <PlusOutlined />
+                        <div>Upload</div>
+                      </div>
+                      )}
                   </Upload>
                 </Form.Item>
                 <Form.Item
