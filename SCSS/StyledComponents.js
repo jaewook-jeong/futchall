@@ -73,3 +73,9 @@ export const PhotoSliderGlobal = createGlobalStyle`
 .ant-modal-close {
 }
 `;
+
+export const CommentGlobal = createGlobalStyle`
+  .ant-comment-inner {
+    padding: 10px 0;
+  }
+`;
