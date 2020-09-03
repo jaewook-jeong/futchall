@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Empty } from 'antd';
 
 import PostForm from './PostForm';
 import Post from './Post';
@@ -50,6 +51,7 @@ const Feed = (props) => {
       {mainPosts.map((v) => (
         <Post key={v.id} data={v} />
       ))}
+      {mainPosts.length === 0 && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />}
     </>
   );
 };
