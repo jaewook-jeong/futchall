@@ -2,15 +2,18 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import Router from 'next/router';
-import { Row, Col, Typography, Form, Input, Space, Tooltip, Divider, Select, Button, message, notification } from 'antd';
-import { UserOutlined, QuestionCircleOutlined, TrophyTwoTone } from '@ant-design/icons';
+import { Row, Col, Typography, Form, Input, Space, Tooltip, Divider, Select, Button, message, notification, Upload } from 'antd';
+import { UserOutlined, QuestionCircleOutlined, TrophyTwoTone, UploadOutlined } from '@ant-design/icons';
+
 import { SIGN_UP_REQUEST } from '../reducers/user';
 import { ageGroup, locations, positions } from '../util/selectOptions';
 import AppLayout from '../components/AppLayout';
+import imageUploader from '../util/imageUploader';
 
 const Signup = () => {
   const dispatch = useDispatch();
   const [titleSize, onAlterTitleSize] = useState(2);
+  const [dbImage, setDbImage] = useState('');
   const [form] = Form.useForm();
   const { isSigningUp, me, isSignedUp } = useSelector((state) => state.user);
 
@@ -131,6 +134,18 @@ const Signup = () => {
 
               <Divider orientation="left" style={{ color: '#bbb' }}>선택항목</Divider>
 
+              <Form.Item label="프로필 사진">
+                <Upload
+                  listType="picture"
+                  action={(file) => imageUploader('http://localhost:3065/user/image', file).then((response) => setDbImage(response.data))}
+                  onRemove={() => setDbImage('')}
+                >
+                  { !dbImage
+                      && (
+                        <Button icon={<UploadOutlined />}>Upload</Button>
+                      )}
+                </Upload>
+              </Form.Item>
               <Form.Item
                 name="selectedPositions"
                 label="풋살 포지션"

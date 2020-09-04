@@ -1,19 +1,21 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Router, { withRouter } from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Col, Row, Typography, Button, Form, Input, TimePicker, Radio, Select, Upload, message, notification } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+import { UploadOutlined } from '@ant-design/icons';
 
 import { ENROLL_STADIUM_REQUEST } from '../../../reducers/stadium';
 import AppLayout from '../../../components/AppLayout';
 import { multipleSpecaility } from '../../../util/columns';
+import imageUploader from '../../../util/imageUploader';
 
 const Details = (props) => {
-  const { isEnrolling, isEnrolled } = useSelector((state) => state.stadium);
-  const { isLoggedIn } = useSelector((state) => state.user);
   const [form] = Form.useForm();
   const dispatch = useDispatch();
+  const { isEnrolling, isEnrolled } = useSelector((state) => state.stadium);
+  const { isLoggedIn } = useSelector((state) => state.user);
+  const [dbImage, setDbImage] = useState('');
 
   useEffect(() => {
     if (!props.router.query || !isLoggedIn) {
@@ -32,32 +34,22 @@ const Details = (props) => {
       Router.replace('/stadia');
     }
   }, [isEnrolled]);
-  const onSubmitForm = useCallback((values) => {
-    dispatch({
-      type: ENROLL_STADIUM_REQUEST,
-      data: {
-        ...values,
-        time: `${values.time[0].format('HH:mm')}~${values.time[1].format('HH:mm')}`,
-        special: values.special?.join(),
-        lat: props.router.query.lat,
-        lng: props.router.query.lng,
-      },
-    });
-  });
 
-  const normFile = (e) => {
-    console.log('Upload event:', e);
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e && e.fileList;
-  };
-  const uploadButton = (
-    <div>
-      <PlusOutlined />
-      <div className="ant-upload-text">Upload</div>
-    </div>
-  );
+  const onSubmitForm = useCallback((values) => {
+    console.log(values, dbImage);
+    // dispatch({
+    //   type: ENROLL_STADIUM_REQUEST,
+    //   data: {
+    //     ...values,
+    //     time: `${values.time[0].format('HH:mm')}~${values.time[1].format('HH:mm')}`,
+    //     special: values.special?.join(),
+    //     lat: props.router.query.lat,
+    //     lng: props.router.query.lng,
+    //     image: dbImage,
+    //   },
+    // });
+  }, [dbImage]);
+
   return (
     <AppLayout>
       <Row>
@@ -125,15 +117,11 @@ const Details = (props) => {
                 >
                   <Select mode="tags" placeholder="구장의 다양한 특징을 선택해주세요">
                     {
-                      multipleSpecaility.map((v, i) => {
-                        return(
-                          <Select.Option
-                            key={i}
-                          >
-                            {v}
-                          </Select.Option>
-                        )
-                      })
+                      multipleSpecaility.map((v, i) => (
+                        <Select.Option key={i}>
+                          {v}
+                        </Select.Option>
+                      ))
                     }
                   </Select>
                 </Form.Item>
@@ -144,13 +132,17 @@ const Details = (props) => {
                   <Input.TextArea placeholder="구장 설명과 특징을 적어주세요" autoSize />
                 </Form.Item>
                 <Form.Item
-                  name="picture"
-                  label="사진"
-                  valuePropName="fileList"
-                  getValueFromEvent={normFile}
+                  label="구장 메인 사진"
                 >
-                  <Upload name="upload" listType="picture-card">
-                    {uploadButton}
+                  <Upload
+                    listType="text"
+                    action={(file) => imageUploader('http://localhost:3065/stadium/image', file).then((response) => setDbImage(response.data))}
+                    onRemove={() => setDbImage('')}
+                  >
+                    { !dbImage
+                      && (
+                        <Button icon={<UploadOutlined />}>Upload</Button>
+                      )}
                   </Upload>
                 </Form.Item>
                 <Form.Item
@@ -190,8 +182,8 @@ Details.propTypes = {
     router: PropTypes.shape({
       query: PropTypes.shape({
         data: PropTypes.string.isRequired,
-      }),
-    }),
+      }).isRequired,
+    }).isRequired,
   }).isRequired,
 };
 
