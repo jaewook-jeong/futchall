@@ -31,7 +31,11 @@ const Post = ({ data }) => {
     <div className={style.postOutter}>
       <div className={style.writter}>
         <div className={style.avatar}>
-          <Avatar>{data.User.nickname}</Avatar>
+          <Avatar
+            src={`http://localhost:3065/${data.User.Images[0]?.src}`}
+            alt={data.User.nickname}
+          >{!data.User.Images[0]?.src && data.User.nickname}
+          </Avatar>
         </div>
         <div className={style.info}>
           <div className={style.title}>
@@ -82,7 +86,6 @@ const Post = ({ data }) => {
           && <PostImages images={data.Images} />
         }
       </div>
-      <Divider />
       <div className={style.comments}>
         <Comments comments={data.Comments} postId={data.id} />
       </div>

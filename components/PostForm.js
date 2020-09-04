@@ -78,7 +78,13 @@ const PostForm = ({ where, req }) => {
         onFinish={onSubmit}
       >
         <Form.Item
-          label={<Avatar shape="circle">{me?.nickname}</Avatar>}
+          label={(
+            <Avatar
+              src={`http://localhost:3065/${me.Images[0]?.src}`}
+              alt={me.nickname}
+            >{!me.Images[0]?.src && me.nickname}
+            </Avatar>
+          )}
           colon={false}
           name="content"
           required

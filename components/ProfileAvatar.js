@@ -32,7 +32,11 @@ const ProfileAvatar = () => {
 
   return (
     <Space>
-      <Avatar shape="circle">{me.nickname}</Avatar>
+      <Avatar
+        src={`http://localhost:3065/${me.Images[0]?.src}`}
+        alt={me.nickname}
+      >{!me.Images[0]?.src && me.nickname}
+      </Avatar>
       <Popover
         placement="rightTop"
         trigger="click"
@@ -61,7 +65,7 @@ const ProfileAvatar = () => {
               <Descriptions layout="horizontal" column={1} style={{ width: '200px' }} colon={false}>
                 <Descriptions.Item label="닉네임">{me.nickname}</Descriptions.Item>
                 <Descriptions.Item label="아이디">{me.originalId}</Descriptions.Item>
-                {me?.TeamId && <Descriptions.Item label="팀"><Link href={`/team/${me.Team}`}>{me.Team.title}</Link></Descriptions.Item> }
+                {me?.TeamId && <Descriptions.Item label="팀"><Link href={`/team/${me.Team}`}><a>{me.Team.title}</a></Link></Descriptions.Item> }
               </Descriptions>
               <Button size="default" block style={{ borderRadius: '5px' }} onClick={onLogOut} loading={isLoggingOut}>로그아웃</Button>
             </Tabs.TabPane>
