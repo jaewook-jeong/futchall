@@ -21,19 +21,19 @@ const CommentForm = (props) => {
   const onSubmitComment = useCallback(() => {
     dispatch({
       type: ADD_COMMENT_REQUEST,
-      data: { content: form.getFieldValue('commentText'), postId: props.postId, parentId: props?.parentId, userId: me.id },
+      data: { content: form.getFieldValue('commentText'), postId: props.postId, ParentId: props?.parentId },
     });
   }, [me.id]);
 
   return (
     <Form
       form={form}
-      style={{ padding: '0 10px', marginBottom: '-19px', width: '100%' }}
+      style={{ marginBottom: '-19px', width: '100%' }}
       hideRequiredMark
       onFinish={onSubmitComment}
     >
       <Form.Item
-        label={<Avatar shape="circle">{me?.nickname}</Avatar>}
+        label={<Avatar shape="circle" src={`http://localhost:3065/${me?.Images[0]?.src}`}>{!me.Images[0]?.src && me.nickname}</Avatar>}
         colon={false}
         name="commentText"
         required

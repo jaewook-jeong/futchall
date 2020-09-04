@@ -115,6 +115,7 @@ function* addComment(action) {
     });
   }
 }
+
 function uploadImagesAPI(data) {
   return axios.post('/post/images', data);
 }
