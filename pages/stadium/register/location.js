@@ -8,6 +8,7 @@ import AppLayout from '../../../components/AppLayout';
 // import {getLocation} from '../../../util/getLocation';
 const Apply = () => {
   const { isLoggedIn } = useSelector((state) => state.user);
+  const { latitude, longitude } = useSelector((state) => state.location);
   const [seleted, setSelected] = useState(true);
   const kakaoMap = useRef();
   const kakaoMarker = useRef();
@@ -16,7 +17,7 @@ const Apply = () => {
     e.preventDefault();
     const latlng = kakaoMarker.current.getPosition();
     const address = document.getElementById('road_address').innerHTML;
-    Router.push(`/stadium/register/details?lat=${latlng.getLat()}&lng=${latlng.getLng()}&address=${address}`);
+    Router.push(`/stadium/register/details?lat=${latlng.getLat()}&lng=${latlng.getLng()}&address=${address}`, '/stadium/register/details');
   }, []);
 
   const searchDetailAddrFromCoords = useCallback((coords, callback) => {
@@ -30,11 +31,9 @@ const Apply = () => {
       message.error('로그인 후 이용하여주세요');
       Router.push('/stadia');
     }
-    const latitude = '37.5665';
-    const longitude = '126.9780'; // 서울 위도경도
     const options = {
       center: new kakao.maps.LatLng(latitude, longitude),
-      level: 9,
+      level: 6,
     };
     const temp = new kakao.maps.Map(document.getElementById('register_map'), options);
     temp.addControl(new kakao.maps.MapTypeControl(), kakao.maps.ControlPosition.TOPRIGHT);

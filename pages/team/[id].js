@@ -33,7 +33,6 @@ const Stadium = () => {
 
   useEffect(() => {
     if (isSelected && info.Stadia.length !== 0) {
-      console.log(info.Stadia.length);
       const points = info.Stadia.map((obj) => new kakao.maps.LatLng(obj.lat, obj.lng));
       const options = {
         center: new kakao.maps.LatLng(38, 127.30),
@@ -99,12 +98,12 @@ const Stadium = () => {
           <Card
             cover={(
               <div
-                style={{ width: '100%', backgroundColor: '#ccc', opacity: '0.3' }}
+                className={style.ImgContainer}
               >
                 <img
                 alt="Main image of Team"
-                src="https://via.placeholder.com/500x200/808080"
-                style={{ maxHeight: '100%', maxWidth: '100%', width: 'auto', height: '100%', margin: '0 auto' }}
+                src={isSelected && `http://localhost:3065/${info.Images[0]?.src}`}
+                style={{ maxHeight: '100%', width: 'auto', margin: '0 auto' }}
                 />
               </div>
             )}

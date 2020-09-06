@@ -39,7 +39,7 @@ const Maps = (props) => {
       }
       const options = {
         center: new kakao.maps.LatLng(latitude, longitude),
-        level: 8,
+        level: 7,
       };
       kakaoMap.current = new kakao.maps.Map(document.getElementById('mapContainer'), options);
       kakaoMap.current.addControl(
