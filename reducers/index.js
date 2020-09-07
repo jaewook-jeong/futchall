@@ -7,22 +7,22 @@ import team from './team';
 import messenger from './messenger';
 import post from './post';
 
-const rootReducer = combineReducers({
-  index: (state={}, action) => {
-    switch (action.type) {
-      case HYDRATE:
-        console.log('HYDRATE', action);
-        return { ...state, ...action.payload };
-      default:
-        return state;
+const rootReducer = (state, action) => {
+  switch (action.type) {
+    case HYDRATE:
+      console.log('HYDRATE', action);
+      return action.payload;
+    default: {
+      const combinedReducer = combineReducers({
+        user,
+        location,
+        stadium,
+        team,
+        post,
+      });
+      return combinedReducer(state, action);
     }
-  },
-  user,
-  location,
-  stadium,
-  team,
-  messenger,
-  post,
-});
+  }
+};
 
 export default rootReducer;
