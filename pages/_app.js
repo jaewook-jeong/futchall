@@ -1,6 +1,5 @@
 import React from 'react';
 import Head from 'next/head';
-import withReduxSaga from 'next-redux-saga';
 import PropTypes from 'prop-types';
 import 'antd/dist/antd.css';
 
@@ -22,4 +21,4 @@ FutChall.propTypes = {
   Component: PropTypes.elementType.isRequired,
 };
 
-export default wrapper.withRedux(withReduxSaga(FutChall));
+export default wrapper.withRedux(FutChall);
