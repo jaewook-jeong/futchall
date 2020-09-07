@@ -1,9 +1,10 @@
 /* eslint-disable no-undef */
-import React, { useEffect, useCallback, useState, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useEffect, useCallback, useRef } from 'react';
+import { useSelector } from 'react-redux';
+import { END } from 'redux-saga';
 import Router, { useRouter } from 'next/router';
 import { Skeleton, Col, Row, Tabs, Button, message, Descriptions, Tag, Typography, Tooltip, Card } from 'antd';
-import { CopyOutlined, QuestionCircleOutlined } from '@ant-design/icons';
+import { QuestionCircleOutlined } from '@ant-design/icons';
 
 import StadiumComment from '../../components/StadiumComment';
 import { SELECT_STADIUM_REQUEST } from '../../reducers/stadium';
@@ -12,22 +13,18 @@ import AppLayout2 from '../../components/AppLayout2';
 import Feed from '../../components/Feed';
 import style from '../../SCSS/feedLayout.module.scss';
 import { multipleSpecaility } from '../../util/columns';
+import wrapper from '../../store/configureStore';
 
 const Stadium = () => {
   const router = useRouter();
-  const dispatch = useDispatch();
   const { id } = router.query;
   const lastScrollTop = useRef(0);
   const updownDirection = useRef(false);
-  // const [lastScrollTop, onLastScrollTop] = useState(0);
   const { info, isSelected } = useSelector((state) => state.stadium, (left, right) => { if (left.info.id === right.info.id) { return true; } return false; });
-  const { me, isLoggedIn } = useSelector((state) => state.user, (left, right) => { if (left.me.originalId === right.me.originalId) { return true; } return false; });
 
   const moveToTeam = useCallback(() => {
     Router.push(`/team/${info.teamInfo}`);
   }, [info]);
-
-  useEffect(() => { dispatch({ type: SELECT_STADIUM_REQUEST, data: id }); }, []);
 
   useEffect(() => {
     if (isSelected) {
@@ -190,4 +187,11 @@ const Stadium = () => {
     </AppLayout2>
   );
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
+  context.store.dispatch({ type: SELECT_STADIUM_REQUEST, data: { id } });
+  context.store.dispatch(END);
+  await context.store.sagaTask.toPromise();
+});
+
 export default Stadium;

@@ -1,28 +1,19 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
+import { END } from 'redux-saga';
 import PropTypes from 'prop-types';
 import { Empty } from 'antd';
 
 import PostForm from './PostForm';
 import Post from './Post';
 import { LOAD_POSTS_REQUEST } from '../reducers/post';
+import wrapper from '../store/configureStore';
 
 const Feed = (props) => {
   const { where, req } = props;
   const { me } = useSelector((state) => state.user, shallowEqual);
   const { mainPosts, hasMorePosts, loadPostsLoading } = useSelector((state) => state.post);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch({
-      type: LOAD_POSTS_REQUEST,
-      data: {
-        where,
-        id: req,
-        lastId: mainPosts[mainPosts.length - 1]?.id,
-      },
-    });
-  }, []);
 
   useEffect(() => {
     function onScroll() {
@@ -62,5 +53,13 @@ Feed.propTypes = {
     req: PropTypes.number.isRequired,
   }).isRequired,
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
+  context.store.dispatch({
+    type: LOAD_POSTS_REQUEST,
+  });
+  context.store.dispatch(END);
+  await context.store.sagaTask.toPromise();
+});
 
 export default Feed;
