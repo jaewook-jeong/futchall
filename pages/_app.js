@@ -11,6 +11,7 @@ const FutChall = ({ Component }) => (
       <title>FutChall</title>
       <meta charSet="utf-8" />
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/antd/4.6.2/antd.min.css" />
+      <link rel="icon" type="image/png" href="http://localhost:3000/favicon.png" />
       <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=60712c2e792d545d1241f9c9bc3a1f28&libraries=clusterer,services" />
     </Head>
     <Component />
