@@ -5,15 +5,18 @@ import { END } from 'redux-saga';
 import Router, { useRouter } from 'next/router';
 import { Skeleton, Col, Row, Tabs, Button, message, Descriptions, Tag, Typography, Tooltip, Card } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
+import axios from 'axios';
+import Head from 'next/head';
 
+import wrapper from '../../store/configureStore';
 import StadiumComment from '../../components/StadiumComment';
-import { SELECT_STADIUM_REQUEST } from '../../reducers/stadium';
 import stadiumMapStyles from '../../SCSS/stadium.module.scss';
+import { SELECT_STADIUM_REQUEST } from '../../reducers/stadium';
+import { LOAD_MY_INFO_REQUEST } from '../../reducers/user';
 import AppLayout2 from '../../components/AppLayout2';
 import Feed from '../../components/Feed';
 import style from '../../SCSS/feedLayout.module.scss';
 import { multipleSpecaility } from '../../util/columns';
-import wrapper from '../../store/configureStore';
 
 const Stadium = () => {
   const router = useRouter();
@@ -96,17 +99,27 @@ const Stadium = () => {
   }, []);
   return (
     <AppLayout2>
+      <Head>
+        <title>
+          구장 | {info.title}
+        </title>
+        <meta name="description" content={info.description} />
+        <meta property="og:title" content={`구장 | ${info.title}`} />
+        <meta property="og:description" content={info.description} />
+        <meta property="og:image" content={info.Images[0] ? info.Images[0].src : 'https://futchall.com/favicon.ico'} />
+        <meta property="og:url" content={`https://futchall.com/team/${id}`} />
+      </Head>
       <Row>
         <Col className={style.mainInfo} id="upDiv">
           <Card
             cover={(
               <div
-                style={{ width: '100%', backgroundColor: '#ccc', opacity: '0.3' }}
+                className={style.ImgContainer}
               >
                 <img
                 alt="Main image of Stadium"
-                src="https://via.placeholder.com/500x300/808080"
-                style={{ maxHeight: '100%', maxWidth: '100%', width: 'auto', height: '100%', margin: '0 auto' }}
+                src={isSelected && `http://localhost:3065/${info.Images[0]?.src}`}
+                style={{ maxHeight: '100%', width: 'auto', margin: '0 auto' }}
                 />
               </div>
             )}
@@ -189,7 +202,20 @@ const Stadium = () => {
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
-  context.store.dispatch({ type: SELECT_STADIUM_REQUEST, data: { id } });
+  const cookie = context.req ? context.req.headers.cookie : '';
+  axios.defaults.headers.Cookie = '';
+  if (context.req && cookie) {
+    axios.defaults.headers.Cookie = cookie;
+  }
+  context.store.dispatch({ type: LOAD_MY_INFO_REQUEST });
+  context.store.dispatch({ type: SELECT_STADIUM_REQUEST, data: context.params.id });
+  context.store.dispatch({
+    type: LOAD_POSTS_REQUEST,
+    data: {
+      where: 'stadium',
+      id: context.params.id,
+    },
+  });
   context.store.dispatch(END);
   await context.store.sagaTask.toPromise();
 });

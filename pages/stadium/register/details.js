@@ -4,11 +4,15 @@ import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Col, Row, Typography, Button, Form, Input, TimePicker, Radio, Select, Upload, message, notification } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
+import { END } from 'redux-saga';
+import axios from 'axios';
 
 import { ENROLL_STADIUM_REQUEST } from '../../../reducers/stadium';
 import AppLayout from '../../../components/AppLayout';
 import { multipleSpecaility } from '../../../util/columns';
 import imageUploader from '../../../util/imageUploader';
+import wrapper from '../../../store/configureStore';
+import { LOAD_MY_INFO_REQUEST } from '../../../reducers/user';
 
 const Details = (props) => {
   const [form] = Form.useForm();
@@ -186,5 +190,16 @@ Details.propTypes = {
     }).isRequired,
   }).isRequired,
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
+  const cookie = context.req ? context.req.headers.cookie : '';
+  axios.defaults.headers.Cookie = '';
+  if (context.req && cookie) {
+    axios.defaults.headers.Cookie = cookie;
+  }
+  context.store.dispatch({ type: LOAD_MY_INFO_REQUEST });
+  context.store.dispatch(END);
+  await context.store.sagaTask.toPromise();
+});
 
 export default withRouter(Details);

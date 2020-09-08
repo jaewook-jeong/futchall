@@ -4,8 +4,14 @@ import Router from 'next/router';
 import { useSelector } from 'react-redux';
 import { Col, Row, Typography, Button, Tooltip, Input, message } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
+import { END } from 'redux-saga';
+import axios from 'axios';
+
 import AppLayout from '../../../components/AppLayout';
+import wrapper from '../../../store/configureStore';
+import { LOAD_MY_INFO_REQUEST } from '../../../reducers/user';
 // import {getLocation} from '../../../util/getLocation';
+
 const Apply = () => {
   const { isLoggedIn } = useSelector((state) => state.user);
   const { latitude, longitude } = useSelector((state) => state.location);
@@ -69,14 +75,14 @@ const Apply = () => {
       geocoder.addressSearch(value, (result, status) => {
         if (status === kakao.maps.services.Status.OK) {
           const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-                    kakaoMarker.current?.setMap(null);
-                    setSelected(true); // 새로 검색했을 경우 저장된 주소와 검색위치 마커가 다르기 때문에 못 넘어가게 해주자
-                    document.getElementById('road_address').innerHTML = '';
-                    kakaoMarker.current = new kakao.maps.Marker({
-                      map: kakaoMap.current,
-                      position: coords,
-                    });
-                    kakaoMap.current.setCenter(coords);
+          kakaoMarker.current?.setMap(null);
+          setSelected(true); // 새로 검색했을 경우 저장된 주소와 검색위치 마커가 다르기 때문에 못 넘어가게 해주자
+          document.getElementById('road_address').innerHTML = '';
+          kakaoMarker.current = new kakao.maps.Marker({
+            map: kakaoMap.current,
+            position: coords,
+          });
+          kakaoMap.current.setCenter(coords);
         }
       });
     }
@@ -114,5 +120,16 @@ const Apply = () => {
     </AppLayout>
   );
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
+  const cookie = context.req ? context.req.headers.cookie : '';
+  axios.defaults.headers.Cookie = '';
+  if (context.req && cookie) {
+    axios.defaults.headers.Cookie = cookie;
+  }
+  context.store.dispatch({ type: LOAD_MY_INFO_REQUEST });
+  context.store.dispatch(END);
+  await context.store.sagaTask.toPromise();
+});
 
 export default Apply;

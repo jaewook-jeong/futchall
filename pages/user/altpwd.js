@@ -3,9 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import Router from 'next/router';
 import { Row, Col, Typography, Form, Input, Button, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { END } from 'redux-saga';
+import axios from 'axios';
 
-import { SET_PWD_REQUEST } from '../../reducers/user';
+import { SET_PWD_REQUEST, LOAD_MY_INFO_REQUEST } from '../../reducers/user';
 import AppLayout from '../../components/AppLayout';
+import wrapper from '../../store/configureStore';
 
 const Altpwd = () => {
   const { me, isSettingPwd, isSettedPwd } = useSelector((state) => state.user);
@@ -124,4 +127,16 @@ const Altpwd = () => {
     </AppLayout>
   );
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
+  const cookie = context.req ? context.req.headers.cookie : '';
+  axios.defaults.headers.Cookie = '';
+  if (context.req && cookie) {
+    axios.defaults.headers.Cookie = cookie;
+  }
+  context.store.dispatch({ type: LOAD_MY_INFO_REQUEST });
+  context.store.dispatch(END);
+  await context.store.sagaTask.toPromise();
+});
+
 export default Altpwd;

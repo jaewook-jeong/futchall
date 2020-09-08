@@ -1,20 +1,17 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { Table, Col, Row, Typography } from 'antd';
+import { END } from 'redux-saga';
+import axios from 'axios';
+
 import { LOAD_LIST_REQUEST } from '../../reducers/team';
 import AppLayout from '../../components/AppLayout';
 import { RankingColumns as columns } from '../../util/columns';
+import wrapper from '../../store/configureStore';
+import { LOAD_MY_INFO_REQUEST } from '../../reducers/user';
 
 const Ranking = () => {
-  const dispatch = useDispatch();
   const { rankingList, isLoading } = useSelector((state) => state.team);
-  useEffect(
-    () => {
-      dispatch({
-        type: LOAD_LIST_REQUEST,
-      });
-    }, [],
-  );
   return (
     <AppLayout>
       <Row>
@@ -37,5 +34,17 @@ const Ranking = () => {
     </AppLayout>
   );
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
+  const cookie = context.req ? context.req.headers.cookie : '';
+  axios.defaults.headers.Cookie = '';
+  if (context.req && cookie) {
+    axios.defaults.headers.Cookie = cookie;
+  }
+  context.store.dispatch({ type: LOAD_MY_INFO_REQUEST });
+  context.store.dispatch({ type: LOAD_LIST_REQUEST });
+  context.store.dispatch(END);
+  await context.store.sagaTask.toPromise();
+});
 
 export default Ranking;

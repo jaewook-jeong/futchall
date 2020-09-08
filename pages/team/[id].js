@@ -5,11 +5,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { END } from 'redux-saga';
 import { Skeleton, Col, Row, Tabs, Button, message, Descriptions, Typography, Table, Card, Space, Tag } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
+import axios from 'axios';
+import Head from 'next/head';
 
 import AppLayout2 from '../../components/AppLayout2';
 import Feed from '../../components/Feed';
 import { SELECT_TEAM_REQUEST } from '../../reducers/team';
-import { JOIN_IN_REQUEST } from '../../reducers/user';
+import { LOAD_POSTS_REQUEST } from '../../reducers/post';
+import { JOIN_IN_REQUEST, LOAD_MY_INFO_REQUEST } from '../../reducers/user';
 import style from '../../SCSS/feedLayout.module.scss';
 import { teamMemberColumns as memberColumns, teamRecordColumns as recordColumns } from '../../util/columns';
 import wrapper from '../../store/configureStore';
@@ -94,6 +97,16 @@ const Stadium = () => {
 
   return (
     <AppLayout2>
+      <Head>
+        <title>
+          팀 | {info.title}
+        </title>
+        <meta name="description" content={info.description} />
+        <meta property="og:title" content={`팀 | ${info.title}`} />
+        <meta property="og:description" content={info.description} />
+        <meta property="og:image" content={info.Images[0] ? info.Images[0].src : 'https://futchall.com/favicon.ico'} />
+        <meta property="og:url" content={`https://futchall.com/team/${id}`} />
+      </Head>
       <Row>
         <Col className={style.mainInfo} id="upDiv">
           <Card
@@ -112,7 +125,7 @@ const Stadium = () => {
           >
             <Card.Meta
               title={(
-                <Typography.Title level={3} copyable={isSelected && { text: window.location.pathname }}>
+                <Typography.Title level={3}>
                   <Skeleton loading={!isSelected} active paragraph={false} />
                   {isSelected && info.title}
                 </Typography.Title>
@@ -206,7 +219,20 @@ const Stadium = () => {
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
-  context.store.dispatch({ type: SELECT_TEAM_REQUEST, data: { id } });
+  const cookie = context.req ? context.req.headers.cookie : '';
+  axios.defaults.headers.Cookie = '';
+  if (context.req && cookie) {
+    axios.defaults.headers.Cookie = cookie;
+  }
+  context.store.dispatch({ type: LOAD_MY_INFO_REQUEST });
+  context.store.dispatch({ type: SELECT_TEAM_REQUEST, data: { id: context.params.id } });
+  context.store.dispatch({
+    type: LOAD_POSTS_REQUEST,
+    data: {
+      where: 'team',
+      id: context.params.id,
+    },
+  });
   context.store.dispatch(END);
   await context.store.sagaTask.toPromise();
 });

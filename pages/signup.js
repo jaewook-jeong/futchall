@@ -4,11 +4,14 @@ import axios from 'axios';
 import Router from 'next/router';
 import { Row, Col, Typography, Form, Input, Space, Tooltip, Divider, Select, Button, message, notification, Upload } from 'antd';
 import { UserOutlined, QuestionCircleOutlined, TrophyTwoTone, UploadOutlined } from '@ant-design/icons';
+import { END } from 'redux-saga';
+import axios from 'axios';
 
-import { SIGN_UP_REQUEST } from '../reducers/user';
+import { SIGN_UP_REQUEST, LOAD_MY_INFO_REQUEST } from '../reducers/user';
 import { ageGroup, locations, positions } from '../util/selectOptions';
 import AppLayout from '../components/AppLayout';
 import imageUploader from '../util/imageUploader';
+import wrapper from '../store/configureStore';
 
 const Signup = () => {
   const dispatch = useDispatch();
@@ -203,5 +206,16 @@ const Signup = () => {
     </AppLayout>
   );
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
+  const cookie = context.req ? context.req.headers.cookie : '';
+  axios.defaults.headers.Cookie = '';
+  if (context.req && cookie) {
+    axios.defaults.headers.Cookie = cookie;
+  }
+  context.store.dispatch({ type: LOAD_MY_INFO_REQUEST });
+  context.store.dispatch(END);
+  await context.store.sagaTask.toPromise();
+});
 
 export default Signup;

@@ -4,32 +4,21 @@ import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col, List, Typography, Button, Tag, Tooltip } from 'antd';
 import { LikeOutlined } from '@ant-design/icons';
+import { END } from 'redux-saga';
+import axios from 'axios';
 
 import { SEARCH_TEAMS_REQUEST } from '../../reducers/team';
 import AppLayout from '../../components/AppLayout';
+import wrapper from '../../store/configureStore';
+import { LOAD_MY_INFO_REQUEST } from '../../reducers/user';
 
 const Search = (props) => {
   const dispatch = useDispatch();
   const { teamList, isSearched, query, isSearching } = useSelector((state) => state.team);
-  // const[hashPage, setHashPage] = useState(1);
   useEffect(
     () => {
       dispatch({ type: SEARCH_TEAMS_REQUEST, data: { query: props.router.query.q ?? `지역검색 : ${props.router.query.loc}` } });
     }, [props.router.query]);
-
-  // useCallback(
-  //   ()=>{
-  //     setHashPage(window.location.hash.substr(1));
-  //     console.log(hashPage);
-  //   },[]
-  // )
-
-  // useEffect(
-  //   () => {
-  //   console.log(window.location.hash.substr(1));
-  //   setHashPage(Number(window.location.hash.substr(1)));
-  //   console.log(hashPage,"jaeewook");
-  // },[window.location.hash.substr(1)]);
 
   return (
     <AppLayout>
@@ -42,7 +31,7 @@ const Search = (props) => {
                 : <List
                     loading={isSearching}
                     itemLayout="vertical"
-                    pagination={{onChange:page=>{/*window.location.hash = page*/ console.log(page)}, pageSize: 10,}}
+                    pagination={{ pageSize: 10 }}
                     bordered={false}
                     dataSource={teamList}
                     size="small"
@@ -82,5 +71,16 @@ const Search = (props) => {
     </AppLayout>
   );
 }
+
+export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
+  const cookie = context.req ? context.req.headers.cookie : '';
+  axios.defaults.headers.Cookie = '';
+  if (context.req && cookie) {
+    axios.defaults.headers.Cookie = cookie;
+  }
+  context.store.dispatch({ type: LOAD_MY_INFO_REQUEST });
+  context.store.dispatch(END);
+  await context.store.sagaTask.toPromise();
+});
 
 export default withRouter(Search);
