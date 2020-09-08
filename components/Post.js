@@ -24,7 +24,7 @@ const Post = ({ data }) => {
       type: REMOVE_POST_REQUEST,
       data: {
         id: data.id,
-      }
+      },
     });
   }, [me]);
   return (

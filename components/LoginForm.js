@@ -26,10 +26,10 @@ const LoginForm = (props) => {
       type: LOG_IN_REQUEST,
       data: form.getFieldsValue(['originalId', 'password']),
     });
-    dispatch({
-      type: SET_USER_ID,
-      data: form.getFieldValue('originalId'),
-    });
+    // dispatch({
+    //   type: SET_USER_ID,
+    //   data: form.getFieldValue('originalId'),
+    // });
   }, []);
   useEffect(() => {
     if (visible && logInErrorReason) {

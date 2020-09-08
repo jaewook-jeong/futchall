@@ -201,14 +201,12 @@ const Maps = (props) => {
 };
 Maps.propTypes = {
   props: PropTypes.shape({
-    router: PropTypes.object,
-    list: PropTypes.array,
     onChangeSelected: PropTypes.func.isRequired,
     nowSelected: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number,
     ]).isRequired,
-  }).isRequired,
+  }),
 };
 
 export default withRouter(Maps);
