@@ -1,16 +1,13 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
-import { END } from 'redux-saga';
 import PropTypes from 'prop-types';
 import { Empty } from 'antd';
 
 import PostForm from './PostForm';
 import Post from './Post';
 import { LOAD_POSTS_REQUEST } from '../reducers/post';
-import wrapper from '../store/configureStore';
 
-const Feed = (props) => {
-  const { where, req } = props;
+const Feed = ({ where, req }) => {
   const { me } = useSelector((state) => state.user, shallowEqual);
   const { mainPosts, hasMorePosts, loadPostsLoading } = useSelector((state) => state.post);
   const dispatch = useDispatch();
@@ -48,18 +45,8 @@ const Feed = (props) => {
 };
 
 Feed.propTypes = {
-  props: PropTypes.shape({
-    where: PropTypes.string.isRequired,
-    req: PropTypes.number.isRequired,
-  }).isRequired,
+  where: PropTypes.string.isRequired,
+  req: PropTypes.string.isRequired,
 };
-
-export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
-  context.store.dispatch({
-    type: LOAD_POSTS_REQUEST,
-  });
-  context.store.dispatch(END);
-  await context.store.sagaTask.toPromise();
-});
 
 export default Feed;

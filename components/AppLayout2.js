@@ -2,15 +2,12 @@ import React, { useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Affix, Layout, Row, Col } from 'antd';
 import { useSelector } from 'react-redux';
-import { END } from 'redux-saga';
 import { MessageFilled } from '@ant-design/icons';
 import styled from 'styled-components';
 
 import LoginForm from './LoginForm';
 import Message from './Message';
 import HeaderMenu from './HeaderMenu';
-import { LOAD_MY_INFO_REQUEST } from '../reducers/user';
-import wrapper from '../store/configureStore';
 
 const OutterLayout = styled(Layout)`
     min-height: 100vh;
@@ -80,7 +77,7 @@ const AppLayout = ({ children }) => {
                   </MessageAffix>
                   )}
       {!isLoggedIn && <LoginForm visible={visible} setVisible={setVisible} />}
-      {isLoggedIn && <Message visible={chatVisible} setVisible={setChatVisible} />}
+      {/* {isLoggedIn && <Message visible={chatVisible} setVisible={setChatVisible} />} */}
     </OutterLayout>
   );
 };
@@ -88,11 +85,5 @@ const AppLayout = ({ children }) => {
 AppLayout.propTypes = {
   children: PropTypes.node.isRequired,
 };
-
-export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
-  context.store.dispatch({ type: LOAD_MY_INFO_REQUEST });
-  context.store.dispatch(END);
-  await context.store.sagaTask.toPromise();
-});
 
 export default AppLayout;
