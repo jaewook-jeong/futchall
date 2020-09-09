@@ -41,17 +41,17 @@ const Details = (props) => {
 
   const onSubmitForm = useCallback((values) => {
     console.log(values, dbImage);
-    // dispatch({
-    //   type: ENROLL_STADIUM_REQUEST,
-    //   data: {
-    //     ...values,
-    //     time: `${values.time[0].format('HH:mm')}~${values.time[1].format('HH:mm')}`,
-    //     special: values.special?.join(),
-    //     lat: props.router.query.lat,
-    //     lng: props.router.query.lng,
-    //     image: dbImage,
-    //   },
-    // });
+    dispatch({
+      type: ENROLL_STADIUM_REQUEST,
+      data: {
+        ...values,
+        time: `${values.time[0].format('HH:mm')}~${values.time[1].format('HH:mm')}`,
+        special: values.special?.join(),
+        lat: props.router.query.lat,
+        lng: props.router.query.lng,
+        image: dbImage,
+      },
+    });
   }, [dbImage]);
 
   return (
