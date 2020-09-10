@@ -10,13 +10,14 @@ import Head from 'next/head';
 
 import wrapper from '../../store/configureStore';
 import StadiumComment from '../../components/StadiumComment';
-import stadiumMapStyles from '../../SCSS/stadium.module.scss';
-import { SELECT_STADIUM_REQUEST } from '../../reducers/stadium';
-import { LOAD_MY_INFO_REQUEST } from '../../reducers/user';
 import AppLayout2 from '../../components/AppLayout2';
 import Feed from '../../components/Feed';
-import style from '../../SCSS/feedLayout.module.scss';
+import { SELECT_STADIUM_REQUEST } from '../../reducers/stadium';
+import { LOAD_MY_INFO_REQUEST } from '../../reducers/user';
+import { LOAD_POSTS_REQUEST } from '../../reducers/post';
 import { multipleSpecaility } from '../../util/columns';
+import style from '../../SCSS/feedLayout.module.scss';
+import stadiumMapStyles from '../../SCSS/stadium.module.scss';
 
 const Stadium = () => {
   const router = useRouter();
@@ -45,10 +46,14 @@ const Stadium = () => {
       );
       const overlayFrame = `<div class=${stadiumMapStyles.overlaybox}>
                 <div class=${stadiumMapStyles.boxtitle} id="whatShouldIDo">구장 점령 팀</div>
-                <div class=${stadiumMapStyles.first} >
-                    <img src=${info?.Images[0]?.src}>
-                    <div class=${stadiumMapStyles.triangle}>1</div>
-                    <div class=${stadiumMapStyles.movietitle}>${info.Team.title}</div>
+                <div class=${stadiumMapStyles.first}>
+                  <div class=${stadiumMapStyles.outterImg}>
+                    <div class=${stadiumMapStyles.innerImg}>
+                      <img src="http://localhost:3065/${info?.Images[0]?.src}">
+                    </div>
+                  </div>
+                  <div class=${stadiumMapStyles.triangle}>1</div>
+                  <div class=${stadiumMapStyles.movietitle}>${info.Team.title}</div>
                 </div>
             </div>`;
       const customOverlay = new kakao.maps.CustomOverlay({
@@ -63,6 +68,7 @@ const Stadium = () => {
       document.getElementById('whatShouldIDo').onclick = moveToTeam;
     }
   }, [isSelected]);
+
   useEffect(() => {
     function onScroll() {
       const st = window.pageYOffset;
@@ -127,7 +133,7 @@ const Stadium = () => {
           >
             <Card.Meta
               title={(
-                <Typography.Title level={3} copyable={isSelected && { text: window.location.pathname }}>
+                <Typography.Title level={3}>
                   <Skeleton loading={!isSelected} active paragraph={false} />
                   {isSelected && info.title}
                 </Typography.Title>
@@ -167,7 +173,7 @@ const Stadium = () => {
                   </Descriptions.Item>
                   <Descriptions.Item label="점령 팀" span={2}>
                     <Skeleton loading={!isSelected} active paragraph={false} />
-                    {isSelected && <a onClick={moveToTeam}>{info.team}</a>}
+                    {isSelected && <a onClick={moveToTeam}>{info.Team.title}</a>}
                   </Descriptions.Item>
                   <Descriptions.Item label={<>유효기간 <Tooltip title="점령 후 도전을 받지 않을 시 유지되는 기간입니다."><QuestionCircleOutlined /></Tooltip></>} span={2}>
                     <Skeleton loading={!isSelected} active paragraph={false} />

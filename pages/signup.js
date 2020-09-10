@@ -5,7 +5,6 @@ import Router from 'next/router';
 import { Row, Col, Typography, Form, Input, Space, Tooltip, Divider, Select, Button, message, notification, Upload } from 'antd';
 import { UserOutlined, QuestionCircleOutlined, TrophyTwoTone, UploadOutlined } from '@ant-design/icons';
 import { END } from 'redux-saga';
-import axios from 'axios';
 
 import { SIGN_UP_REQUEST, LOAD_MY_INFO_REQUEST } from '../reducers/user';
 import { ageGroup, locations, positions } from '../util/selectOptions';
