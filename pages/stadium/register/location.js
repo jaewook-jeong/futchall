@@ -3,18 +3,17 @@ import React, { useCallback, useEffect, useState, useRef } from 'react';
 import Router from 'next/router';
 import { useSelector } from 'react-redux';
 import { Col, Row, Typography, Button, Tooltip, Input, message } from 'antd';
-import { QuestionCircleOutlined } from '@ant-design/icons';
+import { QuestionCircleOutlined, LoadingOutlined } from '@ant-design/icons';
 import { END } from 'redux-saga';
 import axios from 'axios';
 
 import AppLayout from '../../../components/AppLayout';
 import wrapper from '../../../store/configureStore';
 import { LOAD_MY_INFO_REQUEST } from '../../../reducers/user';
-// import {getLocation} from '../../../util/getLocation';
+import getLocation from '../../../util/getLocation';
 
 const Apply = () => {
   const { isLoggedIn } = useSelector((state) => state.user);
-  const { latitude, longitude } = useSelector((state) => state.location);
   const [seleted, setSelected] = useState(true);
   const kakaoMap = useRef();
   const kakaoMarker = useRef();
@@ -29,43 +28,6 @@ const Apply = () => {
   const searchDetailAddrFromCoords = useCallback((coords, callback) => {
     const geocoder = new kakao.maps.services.Geocoder();
     geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
-  }, []);
-
-  // 지도 만드는 로직
-  useEffect(() => {
-    if (!isLoggedIn) {
-      message.error('로그인 후 이용하여주세요');
-      Router.push('/stadia');
-    }
-    const options = {
-      center: new kakao.maps.LatLng(latitude, longitude),
-      level: 6,
-    };
-    const temp = new kakao.maps.Map(document.getElementById('register_map'), options);
-    temp.addControl(new kakao.maps.MapTypeControl(), kakao.maps.ControlPosition.TOPRIGHT);
-    const zoomControl = new kakao.maps.ZoomControl();
-    temp.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
-    kakaoMap.current = temp;
-        kakaoMarker.current?.setMap(kakaoMap.current);
-
-        kakao.maps.event.addListener(kakaoMap.current, 'click', (mouseEvent) => {
-          if (kakaoMarker.current === undefined) {
-            kakaoMarker.current = new kakao.maps.Marker({
-              position: mouseEvent.latLng,
-              map: kakaoMap.current,
-            });
-          }
-          kakaoMarker.current.setPosition(mouseEvent.latLng);
-          setSelected(false); // 마커로 위치를 선택했는지 여부
-          searchDetailAddrFromCoords(mouseEvent.latLng, (result, status) => {
-            if (status === kakao.maps.services.Status.OK) {
-              // 주소를 띄우는 로직
-              const address = result[0].road_address ? result[0].road_address.address_name : result[0].address.address_name;
-              document.getElementById('road_address').innerHTML = address;
-            }
-          });
-        });
-        return kakaoMap.current.relayout();
   }, []);
 
   // 검색했을 때 만들어둔 지도만 바뀌는 로직
@@ -87,6 +49,46 @@ const Apply = () => {
       });
     }
   }, []);
+  // 지도 만드는 로직
+  useEffect(() => {
+    if (!isLoggedIn) {
+      message.error('로그인 후 이용하여주세요');
+      Router.push('/stadia');
+    }
+    async function firstLoadMap() {
+      await getLocation().then((result) => {
+        const options = {
+          center: new kakao.maps.LatLng(result[2] ?? 37.5663, result[3] ?? 126.9779),
+          level: 6,
+        };
+        const temp = new kakao.maps.Map(document.getElementById('register_map'), options);
+        temp.addControl(new kakao.maps.MapTypeControl(), kakao.maps.ControlPosition.TOPRIGHT);
+        const zoomControl = new kakao.maps.ZoomControl();
+        temp.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+        kakaoMap.current = temp;
+        // kakaoMarker.current?.setMap(kakaoMap.current);
+        kakao.maps.event.addListener(kakaoMap.current, 'click', (mouseEvent) => {
+          if (kakaoMarker.current === undefined) {
+            kakaoMarker.current = new kakao.maps.Marker({
+              position: mouseEvent.latLng,
+              map: kakaoMap.current,
+            });
+          }
+          kakaoMarker.current.setPosition(mouseEvent.latLng);
+          setSelected(false); // 마커로 위치를 선택했는지 여부
+          searchDetailAddrFromCoords(mouseEvent.latLng, (arr, status) => {
+            if (status === kakao.maps.services.Status.OK) {
+              // 주소를 띄우는 로직
+              const address = arr[0].road_address ? arr[0].road_address.address_name : result[0].address.address_name;
+              document.getElementById('road_address').innerHTML = address;
+            }
+          });
+        });
+      });
+    }
+    firstLoadMap();
+    return kakaoMap.current?.relayout();
+  }, []);
 
   return (
     <AppLayout>
@@ -102,7 +104,9 @@ const Apply = () => {
           </Row>
           <Row gutter={[0, 16]}>
             <Col span={22} offset={1}>
-              <div id="register_map" style={{ width: '100%', height: '60vh' }} />
+              <div id="register_map" style={{ width: '100%', height: '60vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <LoadingOutlined style={{ fontSize: '50px' }} />
+              </div>
             </Col>
           </Row>
           <Row>

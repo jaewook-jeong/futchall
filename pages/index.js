@@ -4,7 +4,7 @@ import { Button, Col, Row, Input, Statistic, Divider, notification, message } fr
 import { SearchOutlined, InfoCircleOutlined, LikeOutlined, ArrowUpOutlined, TrophyTwoTone } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { SET_WHERE_USER } from '../reducers/location';
-import { getLocation } from '../util/getLocation';
+import getLocation from '../util/getLocation';
 
 const Home = () => {
   const {isChangingLocation} = useSelector(state=>state.location);
@@ -34,7 +34,7 @@ const Home = () => {
             data: { latitude: arr[2], longitude: arr[3] },
           });
         }
-        Router.push(`/stadia?arr=${arr.slice(0, 2)}`, '/stadia');
+        Router.push(`/stadia?arr=${arr.slice(0, 2)}`);
       } catch (error) {
         console.log(error);
         message.warn(error);
