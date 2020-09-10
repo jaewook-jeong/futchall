@@ -41,6 +41,30 @@
         width:215px;
         height:136px;
         margin-bottom:8px;
+        .outterImg{
+          position: relative;
+          padding-top: 136px;
+          overflow: hidden;
+          text-align: center;
+          vertical-align: middle;
+          background-color: #28242b;
+          .innerImg{
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            img{
+              position: absolute;
+              top: 0;
+              left: 0;
+              right: 0;
+              bottom: 0;
+              max-width: 100%;
+              height: auto;
+            }
+          }
+        }
         div{
             color:#fff;
             font-weight:bold;

@@ -77,6 +77,24 @@
                 border: 1px solid #ddd;
                 color: #888;
                 overflow: hidden;
+                .bodyImgInner{
+                  position: relative;
+                  padding-top: 100%;
+                  overflow: hidden;
+                  text-align: center;
+                  vertical-align: middle;
+                  background-color: #28242b;
+                  cursor: pointer;
+                  img{
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    max-width: 100%;
+                    height: auto;
+                  }
+                }
             }
         }
     }
