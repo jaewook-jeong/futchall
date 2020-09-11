@@ -53,7 +53,7 @@ const Stadium = () => {
                     </div>
                   </div>
                   <div class=${stadiumMapStyles.triangle}>1</div>
-                  <div class=${stadiumMapStyles.movietitle}>${info.Team.title}</div>
+                  <div class=${stadiumMapStyles.movietitle}>${info.Team?.title ?? '미점령중'}</div>
                 </div>
             </div>`;
       const customOverlay = new kakao.maps.CustomOverlay({
@@ -173,7 +173,7 @@ const Stadium = () => {
                   </Descriptions.Item>
                   <Descriptions.Item label="점령 팀" span={2}>
                     <Skeleton loading={!isSelected} active paragraph={false} />
-                    {isSelected && <a onClick={moveToTeam}>{info.Team.title}</a>}
+                    {(isSelected && info.Team?.title) ? <a onClick={moveToTeam}>{info.Team.title}</a> : <Button type="primary">점령하기</Button>}
                   </Descriptions.Item>
                   <Descriptions.Item label={<>유효기간 <Tooltip title="점령 후 도전을 받지 않을 시 유지되는 기간입니다."><QuestionCircleOutlined /></Tooltip></>} span={2}>
                     <Skeleton loading={!isSelected} active paragraph={false} />
