@@ -33,8 +33,9 @@ const ProfileAvatar = () => {
   return (
     <Space>
       <Avatar
-        src={`http://localhost:3065/${me.Images[0]?.src}`}
+        src={me.Images[0] && `http://localhost:3065/${me.Images[0]?.src}`}
         alt={me.nickname}
+        gap="3"
       >{!me.Images[0]?.src && me.nickname}
       </Avatar>
       <Popover
