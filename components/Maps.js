@@ -5,7 +5,6 @@ import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { LoadingOutlined } from '@ant-design/icons';
 import { notification, message } from 'antd';
-// import { LoadingOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 
 import { REFRESH_STADIUMLIST_REQUEST } from '../reducers/location';
@@ -26,50 +25,55 @@ const Maps = ({ list, onChangeSelected, nowSelected }) => {
   useEffect(
     () => {
       async function firstLoadMap() {
-        await getLocation().then((result) => {
-          const options = {
-            center: new kakao.maps.LatLng(result[2] ?? 37.5663, result[3] ?? 126.9779),
-            level: 7,
-          };
-          kakaoMap.current = new kakao.maps.Map(document.getElementById('mapContainer'), options);
-          kakaoMap.current.addControl(
-            new kakao.maps.MapTypeControl(), kakao.maps.ControlPosition.TOPRIGHT,
-          );
-          const bounds = kakaoMap.current.getBounds();
-          const swLatLng = bounds.getSouthWest();
-          const neLatLng = bounds.getNorthEast();
-          dispatch({
-            type: REFRESH_STADIUMLIST_REQUEST,
-            data: {
-              left: swLatLng.getLat(),
-              right: neLatLng.getLat(),
-              top: neLatLng.getLng(),
-              bottom: swLatLng.getLng(),
-            },
+        try {
+          await getLocation().then((result) => {
+            const options = {
+              center: new kakao.maps.LatLng(result[2] ?? 37.5663, result[3] ?? 126.9779),
+              level: 7,
+            };
+            kakaoMap.current = new kakao.maps.Map(document.getElementById('mapContainer'), options);
+            kakaoMap.current.addControl(
+              new kakao.maps.MapTypeControl(), kakao.maps.ControlPosition.TOPRIGHT,
+            );
+            const bounds = kakaoMap.current.getBounds();
+            const swLatLng = bounds.getSouthWest();
+            const neLatLng = bounds.getNorthEast();
+            dispatch({
+              type: REFRESH_STADIUMLIST_REQUEST,
+              data: {
+                left: swLatLng.getLat(),
+                right: neLatLng.getLat(),
+                top: neLatLng.getLng(),
+                bottom: swLatLng.getLng(),
+              },
+            });
+            kakao.maps.event.addListener(kakaoMap.current, 'dragend', () => {
+              clearTimeout(newRequest.current);
+              const boundery = kakaoMap.current.getBounds();
+              const boundSwLatLng = boundery.getSouthWest();
+              const boundNeLatLng = boundery.getNorthEast();
+              newRequest.current = setTimeout(() => (
+                dispatch({
+                  type: REFRESH_STADIUMLIST_REQUEST,
+                  data: {
+                    left: boundSwLatLng.getLat(),
+                    right: boundNeLatLng.getLat(),
+                    top: boundNeLatLng.getLng(),
+                    bottom: boundSwLatLng.getLng(),
+                  },
+                })
+              ), 1000);
+            });
+            if (result[0] === 'success') {
+              message.success('현재위치에 기반한 구장정보입니다.');
+            } else {
+              notification.destroy();
+              notification.open({ message: '현재위치로 탐색하시려면?', description: '이전에 위치정보 제공을 동의하시지 않은 경우, 주소창 앞 자물쇠 버튼을 클릭하여 수정하여 주세요.(Internet Explorer에서는 사용하실 수 없습니다.)', duration: 0 });
+            }
           });
-          kakao.maps.event.addListener(kakaoMap.current, 'dragend', () => {
-            clearTimeout(newRequest.current);
-            const boundery = kakaoMap.current.getBounds();
-            const boundSwLatLng = boundery.getSouthWest();
-            const boundNeLatLng = boundery.getNorthEast();
-            newRequest.current = setTimeout(() => (
-              dispatch({
-                type: REFRESH_STADIUMLIST_REQUEST,
-                data: {
-                  left: boundSwLatLng.getLat(),
-                  right: boundNeLatLng.getLat(),
-                  top: boundNeLatLng.getLng(),
-                  bottom: boundSwLatLng.getLng(),
-                },
-              })
-            ), 1000);
-          });
-          if (result[0] === 'success') {
-            message.success('현재위치에 기반한 구장정보입니다.');
-          } else {
-            notification.open({ message: '현재위치로 탐색하시려면?', description: '이전에 위치정보 제공을 동의하시지 않은 경우, 주소창 앞 자물쇠 버튼을 클릭하여 수정하여 주세요.(Internet Explorer에서는 사용하실 수 없습니다.)', duration: 0 });
-          }
-        });
+        } catch (error) {
+          console.error(error);
+        }
       }
       firstLoadMap();
     }, [],

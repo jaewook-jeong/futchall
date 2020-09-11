@@ -23,7 +23,7 @@ const Apply = () => {
     const latlng = kakaoMarker.current.getPosition();
     const address = document.getElementById('road_address').innerHTML;
     Router.push(`/stadium/register/details?lat=${latlng.getLat()}&lng=${latlng.getLng()}&address=${address}`, '/stadium/register/details');
-  }, []);
+  }, [kakaoMarker]);
 
   const searchDetailAddrFromCoords = useCallback((coords, callback) => {
     const geocoder = new kakao.maps.services.Geocoder();
@@ -66,7 +66,7 @@ const Apply = () => {
         const zoomControl = new kakao.maps.ZoomControl();
         temp.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
         kakaoMap.current = temp;
-        // kakaoMarker.current?.setMap(kakaoMap.current);
+        kakaoMarker.current?.setMap(kakaoMap.current);
         kakao.maps.event.addListener(kakaoMap.current, 'click', (mouseEvent) => {
           if (kakaoMarker.current === undefined) {
             kakaoMarker.current = new kakao.maps.Marker({
@@ -79,7 +79,7 @@ const Apply = () => {
           searchDetailAddrFromCoords(mouseEvent.latLng, (arr, status) => {
             if (status === kakao.maps.services.Status.OK) {
               // 주소를 띄우는 로직
-              const address = arr[0].road_address ? arr[0].road_address.address_name : result[0].address.address_name;
+              const address = arr[0].road_address ? arr[0].road_address.address_name : arr[0].address.address_name;
               document.getElementById('road_address').innerHTML = address;
             }
           });
