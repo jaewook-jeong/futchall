@@ -3,7 +3,6 @@ import Router from 'next/router';
 import { Button, Col, Row, Input, Statistic, Divider, message } from 'antd';
 import { SearchOutlined, LikeOutlined, ArrowUpOutlined, TrophyTwoTone } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { SET_WHERE_USER } from '../reducers/location';
 
 const Home = () => {
   const { isChangingLocation } = useSelector((state) => state.location);
@@ -13,12 +12,8 @@ const Home = () => {
     const geocoder = new kakao.maps.services.Geocoder();
     geocoder.addressSearch(e, (result, status) => {
       if (status === kakao.maps.services.Status.OK) {
-        dispatch({
-          type: SET_WHERE_USER,
-          data: { latitude: result[0].y, longitude: result[0].x },
-        });
-        message.success(`\'${e}\'지역으로 검색한 결과입니다!`, 5);
-        Router.push(`/stadia`);
+        message.success(`'${e}'지역으로 검색한 결과입니다!`, 5);
+        Router.push(`/stadia?lat=${result[0].y}&lng=${result[0].x}`);
       }
     });
   }, []);

@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 import React, { useEffect, useState, useRef } from 'react';
-import Router, { withRouter } from 'next/router';
+import Router, { withRouter, useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { LoadingOutlined } from '@ant-design/icons';
@@ -19,6 +19,7 @@ const MapContainer = styled.div`
 const Maps = ({ list, onChangeSelected, nowSelected }) => {
   const dispatch = useDispatch();
   const kakaoMap = useRef();
+  const router = useRouter();
   const newRequest = useRef();
   const [overlays, setOverlays] = useState([]);
 
@@ -27,6 +28,10 @@ const Maps = ({ list, onChangeSelected, nowSelected }) => {
       async function firstLoadMap() {
         try {
           await getLocation().then((result) => {
+            if (router.query.lat) {
+              result[2] = router.query.lat;
+              result[3] = router.query.lng;
+            }
             const options = {
               center: new kakao.maps.LatLng(result[2] ?? 37.5663, result[3] ?? 126.9779),
               level: 7,
