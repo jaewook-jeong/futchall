@@ -12,8 +12,7 @@ const Home = () => {
     const geocoder = new kakao.maps.services.Geocoder();
     geocoder.addressSearch(e, (result, status) => {
       if (status === kakao.maps.services.Status.OK) {
-        message.success(`'${e}'지역으로 검색한 결과입니다!`, 5);
-        Router.push(`/stadia?lat=${result[0].y}&lng=${result[0].x}`);
+        Router.push(`/stadia?lat=${result[0].y}&lng=${result[0].x}&loc=${e}`);
       }
     });
   }, []);

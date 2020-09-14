@@ -28,9 +28,10 @@ const Maps = ({ list, onChangeSelected, nowSelected }) => {
       async function firstLoadMap() {
         try {
           await getLocation().then((result) => {
-            if (router.query.lat) {
+            if (router.query.loc) {
               result[2] = router.query.lat;
               result[3] = router.query.lng;
+              message.success(`'${router.query.loc}'지역으로 검색한 결과입니다!`, 5);
             }
             const options = {
               center: new kakao.maps.LatLng(result[2] ?? 37.5663, result[3] ?? 126.9779),
@@ -73,7 +74,9 @@ const Maps = ({ list, onChangeSelected, nowSelected }) => {
               message.success('현재위치에 기반한 구장정보입니다.');
             } else {
               notification.destroy();
-              notification.open({ message: '현재위치로 탐색하시려면?', description: '이전에 위치정보 제공을 동의하시지 않은 경우, 주소창 앞 자물쇠 버튼을 클릭하여 수정하여 주세요.(Internet Explorer에서는 사용하실 수 없습니다.)', duration: 0 });
+              if (!router.query.loc) {
+                notification.open({ message: '현재위치로 탐색하시려면?', description: '이전에 위치정보 제공을 동의하시지 않은 경우, 주소창 앞 자물쇠 버튼을 클릭하여 수정하여 주세요.(Internet Explorer에서는 사용하실 수 없습니다.)', duration: 0 });
+              }
             }
           });
         } catch (error) {
