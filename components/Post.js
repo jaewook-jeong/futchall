@@ -32,8 +32,9 @@ const Post = ({ data }) => {
       <div className={style.writter}>
         <div className={style.avatar}>
           <Avatar
-            src={`http://localhost:3065/${data.User.Images[0]?.src}`}
+            src={data.User.Images[0] && `http://localhost:3065/${data.User.Images[0]?.src}`}
             alt={data.User.nickname}
+            gap={3}
           >{!data.User.Images[0]?.src && data.User.nickname}
           </Avatar>
         </div>
@@ -101,7 +102,7 @@ Post.propTypes = {
     date: PropTypes.any,
     content: PropTypes.string,
     createdAt: PropTypes.object,
-    Comments: PropTypes.arrayOf(PropTypes.any),
+    Comments: PropTypes.array,
     Images: PropTypes.arrayOf(PropTypes.any),
   }).isRequired,
 };

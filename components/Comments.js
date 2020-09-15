@@ -1,15 +1,16 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, shallowEqual } from 'react-redux';
+import { Button, Divider } from 'antd';
+import { MessageOutlined } from '@ant-design/icons';
 
 import CommentForm from './CommentForm';
 import CommentComp from './CommentComp';
-import { Button, Divider } from 'antd';
-import { MessageOutlined } from '@ant-design/icons';
 
 const Comments = (data) => {
   const { me } = useSelector((state) => state.user, shallowEqual);
   const [visiblity, setVisiblity] = useState(false);
+
   const CommentStructure = useCallback(({ comments }) => {
     const result = JSON.parse(JSON.stringify(comments));
     let index = result.length - 1;
@@ -42,7 +43,7 @@ const Comments = (data) => {
           : <Divider />
       }
       {
-        visiblity && (CommentStructure(data).map((v) => <CommentComp data={v} key={v.id} />))
+        visiblity && (CommentStructure(data.comments).map((v) => <CommentComp data={v} key={v.id} />))
       }
       {me && <CommentForm postId={data.postId} />}
     </>
@@ -53,7 +54,7 @@ Comments.propTypes = {
   data: PropTypes.shape({
     postId: PropTypes.number.isRequired,
     comments: PropTypes.array,
-  }),
+  }).isRequired,
 };
 
 export default Comments;
