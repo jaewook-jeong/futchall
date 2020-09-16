@@ -29,6 +29,9 @@ export const initialState = {
   isAddingComment: false, // 구장 평점 등록중
   isAddedComment: false, // 구장 평점 등록 완료
   addedCommentErrorReason: '', // 구장 평점 등록 실패 사유
+  isTakingStadium: false, // 빈 구장 점령중
+  isTakenStadium: false, // 빈 구장 점령 완료
+  takenStadiumErrorReason: '', // 빈 구장 점령 실패 사유
 };
 
 export const SELECT_STADIUM_REQUEST = 'SELECT_STADIUM_REQUSET';
@@ -42,6 +45,10 @@ export const ENROLL_STADIUM_FAILURE = 'ENROLL_STADIUM_FAILURE';
 export const ADD_COMMENT_REQUEST = 'ADD_COMMENT_REQUSET';
 export const ADD_COMMENT_SUCCESS = 'ADD_COMMENT_SUCCESS';
 export const ADD_COMMENT_FAILURE = 'ADD_COMMENT_FAILURE';
+
+export const TAKE_STADIUM_REQUEST = 'TAKE_STADIUM_REQUSET';
+export const TAKE_STADIUM_SUCCESS = 'TAKE_STADIUM_SUCCESS';
+export const TAKE_STADIUM_FAILURE = 'TAKE_STADIUM_FAILURE';
 
 export default (state = initialState, action) => produce(state, (draft) => {
   switch (action.type) {
@@ -86,6 +93,20 @@ export default (state = initialState, action) => produce(state, (draft) => {
     case ADD_COMMENT_FAILURE:
       draft.isAddingComment = false;
       draft.addedCommentErrorReason = action.error;
+      break;
+    case TAKE_STADIUM_REQUEST:
+      draft.isTakingStadium = true;
+      draft.isTakenStadium = false;
+      draft.takenStadiumErrorReason = null;
+      break;
+    case TAKE_STADIUM_SUCCESS:
+      draft.isTakenStadium = true;
+      draft.isTakingStadium = false;
+      draft.info = action.data;
+      break;
+    case TAKE_STADIUM_FAILURE:
+      draft.isTakingStadium = false;
+      draft.takenStadiumErrorReason = action.error;
       break;
     default:
       break;

@@ -1,21 +1,47 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Router from 'next/router';
 import PropTypes from 'prop-types';
-import { Tabs, Button, Descriptions, Tooltip, Typography, Tag } from 'antd';
+import { Tabs, Button, Descriptions, Tooltip, Typography, Tag, notification, message } from 'antd';
 import { HeartTwoTone, QuestionCircleOutlined } from '@ant-design/icons';
 
-import { SELECT_STADIUM_REQUEST } from '../reducers/stadium';
+import { SELECT_STADIUM_REQUEST, TAKE_STADIUM_REQUEST } from '../reducers/stadium';
 import { multipleSpecaility } from '../util/columns';
 
 const StadiumInfo = (props) => {
   const dispatch = useDispatch();
   const { list, nowSelected } = props;
-  const { info, isSelected } = useSelector((state) => state.stadium,
-    (left, right) => { if (left.info.id === right.info.id) { return true; } return false; });
+  const { info, isSelected, isTakingStadium, isTakenStadium, takenStadiumErrorReason } = useSelector((state) => state.stadium);
+
+  const takeStadium = useCallback(() => {
+    dispatch({
+      type: TAKE_STADIUM_REQUEST,
+      data: {
+        id: info.id,
+      },
+    });
+  }, [info.TeamId]);
+
+  useEffect(() => {
+    if (isTakenStadium) {
+      notification.open({
+        message: '점령이 완료되었습니다!',
+        description: '실제 경기가 진행되지 않은 점령은 3일동안 지속됩니다. 점령경기를 통하여 점령 타이틀을 방어하세요!',
+        duration: 0,
+      });
+    }
+  }, [isTakenStadium]);
+
+  useEffect(() => {
+    if (takenStadiumErrorReason) {
+      message.error(takenStadiumErrorReason);
+    }
+  }, [takenStadiumErrorReason]);
+
   useEffect(() => {
     dispatch({ type: SELECT_STADIUM_REQUEST, data: list[nowSelected].id });
   }, [nowSelected]);
+
   return (
     <Tabs
       type="card"
@@ -59,7 +85,7 @@ const StadiumInfo = (props) => {
             )}
           </Descriptions.Item>
           <Descriptions.Item label="점령 팀">
-            {(isSelected && info.Team?.id) ? <a onClick={() => Router.push(`/team/${info.TeamId}`)}>{info.Team.title}</a> : <Button type="primary">점령하기</Button>}
+            {(isSelected && info.Team?.id) ? <a onClick={() => Router.push(`/team/${info.TeamId}`)}>{info.Team.title}</a> : <Button type="primary" onClick={takeStadium} loading={isTakingStadium}>점령하기</Button>}
           </Descriptions.Item>
           <Descriptions.Item label={<>유효기간 <Tooltip title="점령 후 도전을 받지 않을 시 유지되는 기간입니다."><QuestionCircleOutlined /></Tooltip></>}>
             {isSelected && info.valid}

@@ -1,4 +1,4 @@
-import { all, delay, fork, put, takeEvery, call } from 'redux-saga/effects';
+import { all, delay, fork, put, takeEvery, call, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
 import {
   SELECT_STADIUM_FAILURE,
@@ -10,6 +10,9 @@ import {
   ADD_COMMENT_REQUEST,
   ADD_COMMENT_SUCCESS,
   ADD_COMMENT_FAILURE,
+  TAKE_STADIUM_REQUEST,
+  TAKE_STADIUM_SUCCESS,
+  TAKE_STADIUM_FAILURE,
 } from '../reducers/stadium';
 
 function selectAPI(data) {
@@ -59,6 +62,31 @@ function* enroll(action) {
 function* watchEnroll() {
   yield takeEvery(ENROLL_STADIUM_REQUEST, enroll);
 }
+
+function takeAPI(data) {
+  return axios.post(`/stadium/${data.id}/take`);
+}
+
+function* take(action) {
+  try {
+    const result = yield call(takeAPI, action.data);
+    yield put({
+      type: TAKE_STADIUM_SUCCESS,
+      data: result.data,
+    });
+  } catch (e) {
+    console.error(e);
+    yield put({
+      type: TAKE_STADIUM_FAILURE,
+      error: e.response.data,
+    });
+  }
+}
+
+function* watchTake() {
+  yield takeLatest(TAKE_STADIUM_REQUEST, take);
+}
+
 /// ////////////////////////////////////////////////////
 function addCommentAPI(data) {
   return axios.post('/stadium/', data);
@@ -87,5 +115,6 @@ export default function* stadiumSaga() {
     fork(watchSelect),
     fork(watchEnroll),
     fork(watchAddComment),
+    fork(watchTake),
   ]);
 }
