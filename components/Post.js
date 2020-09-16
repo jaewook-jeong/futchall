@@ -83,7 +83,7 @@ const Post = ({ data }) => {
       </div>
       <div className={style.multipart}>
         {
-          data.Images[0]
+          data.Images.length !== 0
           && <PostImages images={data.Images} />
         }
       </div>
@@ -96,7 +96,7 @@ const Post = ({ data }) => {
 
 Post.propTypes = {
   data: PropTypes.shape({
-    id: PropTypes.string,
+    id: PropTypes.number,
     UserId: PropTypes.number,
     User: PropTypes.object,
     date: PropTypes.any,

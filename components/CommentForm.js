@@ -50,7 +50,10 @@ const CommentForm = (props) => {
 };
 
 CommentForm.propTypes = {
-  props: PropTypes.object.isRequired,
+  props: PropTypes.shape({
+    postId: PropTypes.number.isRequired,
+    parentId: PropTypes.number,
+  }).isRequired,
 };
 
 export default CommentForm;
