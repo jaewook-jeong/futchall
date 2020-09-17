@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { Avatar, Tooltip, Popover, Button, Row, Col, Divider } from 'antd';
+import { Avatar, Tooltip, Popover, Button, Row, Col } from 'antd';
 import { EllipsisOutlined } from '@ant-design/icons';
 
 import style from '../SCSS/post.module.scss';
@@ -91,7 +91,7 @@ const Post = ({ data }) => {
         <Comments comments={data.Comments} postId={data.id} />
       </div>
     </div>
-  )
+  );
 };
 
 Post.propTypes = {
@@ -101,7 +101,7 @@ Post.propTypes = {
     User: PropTypes.object,
     date: PropTypes.any,
     content: PropTypes.string,
-    createdAt: PropTypes.object,
+    createdAt: PropTypes.string,
     Comments: PropTypes.array,
     Images: PropTypes.arrayOf(PropTypes.any),
   }).isRequired,

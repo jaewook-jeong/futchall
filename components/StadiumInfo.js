@@ -20,7 +20,7 @@ const StadiumInfo = (props) => {
         id: info.id,
       },
     });
-  }, [info.TeamId]);
+  }, [info]);
 
   useEffect(() => {
     if (isTakenStadium) {

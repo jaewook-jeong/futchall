@@ -3,8 +3,7 @@ import { Modal, Form, DatePicker, TimePicker, Input, Button } from 'antd';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 
-const ReservationMatch = (props) => {
-  const { visible, setVisible, onLoadPost, stadiumReq, setEnrollment } = props;
+const ReservationMatch = ({ visible, setVisible, onLoadPost, stadiumReq, setEnrollment }) => {
   const [form] = Form.useForm();
 
   const onHandleCancel = useCallback(() => {
@@ -67,16 +66,14 @@ const ReservationMatch = (props) => {
 };
 
 ReservationMatch.propTypes = {
-  props: PropTypes.shape({
-    visible: PropTypes.bool.isRequired,
-    setVisible: PropTypes.func.isRequired,
-    onLoadPost: PropTypes.func.isRequired,
-    stadiumReq: PropTypes.oneOfType([
-      PropTypes.bool,
-      PropTypes.number,
-    ]).isRequired,
-    setEnrollment: PropTypes.func.isRequired,
-  }).isRequired,
+  visible: PropTypes.bool.isRequired,
+  setVisible: PropTypes.func.isRequired,
+  onLoadPost: PropTypes.func.isRequired,
+  stadiumReq: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.number,
+  ]).isRequired,
+  setEnrollment: PropTypes.func.isRequired,
 };
 
 export default ReservationMatch;
