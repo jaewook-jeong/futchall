@@ -11,7 +11,7 @@ const Comments = (data) => {
   const { me } = useSelector((state) => state.user, shallowEqual);
   const [visiblity, setVisiblity] = useState(false);
 
-  const CommentStructure = useCallback(({ comments }) => {
+  const CommentStructure = useCallback((comments) => {
     const result = JSON.parse(JSON.stringify(comments));
     let index = result.length - 1;
     while (index >= 0) {

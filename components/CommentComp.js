@@ -18,7 +18,7 @@ const CommentComp = (comment) => {
       <Global />
       <Comment
         key={comment.data.id}
-        actions={me && [<span onClick={setToggleReply}>답글 달기</span>]}
+        actions={me && [<span onClick={setToggleReply}>{toggleReply ? '답글 닫기' : '답글 달기'}</span>]}
         author={<a>{comment.data.User.nickname}</a>}
         datetime={(
           <Tooltip title={moment(comment.data.createdAt.toString()).locale('ko').format('YYYY-MM-DD HH:mm:ss')}>
@@ -40,7 +40,7 @@ const CommentComp = (comment) => {
       >
         {comment.data?.children?.map((v) => <CommentComp data={v} key={v.id} />)}
       </Comment>
-      {toggleReply && <CommentForm postId={comment.data.PostId} parentId={comment.data.id} />}
+      {toggleReply && <CommentForm postId={comment.data.PostId} parentId={comment.data.id} toggleVisible={onToggleRply} />}
     </>
   );
 };

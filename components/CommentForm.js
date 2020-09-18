@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import { LoadingOutlined } from '@ant-design/icons';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { ADD_COMMENT_REQUEST } from '../reducers/post';
+import { ADD_COMMENT_REQUEST, CLEAR_ADD_COMMENT_RESULT } from '../reducers/post';
 
-const CommentForm = (props) => {
+const CommentForm = ({ postId, toggleVisible, parentId }) => {
   const dispatch = useDispatch();
   const { me } = useSelector((state) => state.user);
   const { addCommentDone, addCommentLoading } = useSelector((state) => state.post);
@@ -15,13 +15,17 @@ const CommentForm = (props) => {
   useEffect(() => {
     if (addCommentDone) {
       form.resetFields(['commentText']);
+      if (toggleVisible) {
+        toggleVisible(false);
+      }
+      dispatch({ type: CLEAR_ADD_COMMENT_RESULT });
     }
   }, [addCommentDone]);
 
   const onSubmitComment = useCallback(() => {
     dispatch({
       type: ADD_COMMENT_REQUEST,
-      data: { content: form.getFieldValue('commentText'), postId: props.postId, ParentId: props?.parentId },
+      data: { content: form.getFieldValue('commentText'), postId, parentId },
     });
   }, [me.id]);
 
@@ -50,10 +54,9 @@ const CommentForm = (props) => {
 };
 
 CommentForm.propTypes = {
-  props: PropTypes.shape({
-    postId: PropTypes.number.isRequired,
-    parentId: PropTypes.number,
-  }).isRequired,
+  postId: PropTypes.number.isRequired,
+  toggleVisible: PropTypes.func,
+  parentId: PropTypes.number,
 };
 
 export default CommentForm;
