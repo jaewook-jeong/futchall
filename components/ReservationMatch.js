@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { Modal, Form, DatePicker, TimePicker, Input, Button } from 'antd';
+import { Modal, Form, DatePicker, TimePicker, Input, Button, message } from 'antd';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 
@@ -22,7 +22,7 @@ const ReservationMatch = ({ visible, setVisible, onLoadPost, stadiumReq, setEnro
   }, []);
 
   const disabledDate = useCallback((current) => current && current < moment().endOf('day'), []);
-
+  message.info('점령전은 팀 주장이 신청할 수 있습니다!');
   return (
     <Modal
       title="일정 선택하기"

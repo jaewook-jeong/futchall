@@ -27,7 +27,7 @@ const PostForm = ({ where, req }) => {
   const { addPostLoading, addPostDone } = useSelector((state) => state.post, shallowEqual);
   const [visible, setVisible] = useState(false);
   const [enrollment, setEnrollment] = useState(false);
-  const [matchInfo, setMatchInfo] = useState({ stadiumTitle: null, stadiumReq: null, date: null });
+  const [matchInfo, setMatchInfo] = useState({ stadiumTitle: null, stadiumReq: null, date: null, capture: 'N' });
   const [previewVisible, setPreviewVisible] = useState(false);
   const [uploadImage, setUploadImage] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
