@@ -87,8 +87,8 @@ const StadiumInfo = (props) => {
           <Descriptions.Item label="점령 팀">
             {(isSelected && info.Team?.id) ? <a onClick={() => Router.push(`/team/${info.TeamId}`)}>{info.Team.title}</a> : <Button type="primary" onClick={takeStadium} loading={isTakingStadium}>점령하기</Button>}
           </Descriptions.Item>
-          <Descriptions.Item label={<>유효기간 <Tooltip title="점령 후 도전을 받지 않을 시 유지되는 기간입니다."><QuestionCircleOutlined /></Tooltip></>}>
-            {isSelected && info.valid}
+          <Descriptions.Item label={<>유효기간 <Tooltip title="점령전 방어 경기없이 유지되는 기간입니다.(점령 후 72시간동안 유지됩니다)"><QuestionCircleOutlined /></Tooltip></>}>
+            {isSelected && <Tooltip title={info.valid}>{info.valid.slice(0, 10)}</Tooltip>}
           </Descriptions.Item>
         </Descriptions>
       </Tabs.TabPane>

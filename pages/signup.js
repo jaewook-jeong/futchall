@@ -25,6 +25,7 @@ const Signup = () => {
       type: SIGN_UP_REQUEST,
       data: {
         ...form.getFieldsValue(),
+        image: dbImage,
       },
     });
   }, []);

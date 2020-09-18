@@ -52,7 +52,13 @@ const TeamRegister = () => {
   return (
     <AppLayout>
       <Row>
-        <Col xs={{ span: 22, offset: 1 }} md={{ span: 14, offset: 5 }} xl={{ span: 8, offset: 8 }} xxl={{ span: 6, offset: 9 }} style={{ margin: '0 auto', border: '1px solid #dadce0', borderRadius: '8px', padding: '30px 10px' }}>
+        <Col
+          xs={{ span: 22, offset: 1 }}
+          md={{ span: 14, offset: 5 }}
+          xl={{ span: 8, offset: 8 }}
+          xxl={{ span: 6, offset: 9 }}
+          style={{ margin: '0 auto', border: '1px solid #dadce0', borderRadius: '8px', padding: '30px 10px' }}
+        >
           <Row gutter={[0, 16]}>
             <Col style={{ width: '100%', textAlign: 'center' }}>
               <Typography.Title level={3} style={{ color: '#202124' }}>팀 등록하기</Typography.Title>
@@ -61,8 +67,8 @@ const TeamRegister = () => {
           <Row gutter={[0, 16]}>
             <Col span={22} offset={1}>
               <Form
-                labelCol={10}
-                wrapperCol={14}
+                labelCol={{ span: 5 }}
+                wrapperCol={{ span: 18, offset: 1 }}
                 layout="horizontal"
                 form={form}
                 initialValues={{ recruit: 'N' }}

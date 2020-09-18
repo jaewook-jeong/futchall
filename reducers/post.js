@@ -67,6 +67,8 @@ export const ADD_COMMENT_REQUEST = 'ADD_COMMENT_REQUEST';
 export const ADD_COMMENT_SUCCESS = 'ADD_COMMENT_SUCCESS';
 export const ADD_COMMENT_FAILURE = 'ADD_COMMENT_FAILURE';
 
+export const CLEAR_ADD_COMMENT_RESULT = 'CLEAR_ADD_COMMENT_RESULT';
+
 const dummyPost = (data) => ({
   id: data.id,
   content: data.content,
@@ -161,6 +163,9 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
     case UPLOAD_IMAGES_FAILURE:
       draft.uploadImagesLoading = false;
       draft.uploadImagesError = action.error;
+      break;
+    case CLEAR_ADD_COMMENT_RESULT:
+      draft.addCommentDone = false;
       break;
     default:
       break;
