@@ -1,10 +1,10 @@
 /* eslint-disable no-undef */
-import React, { useEffect, useRef, useCallback } from 'react';
+import React, { useEffect, useRef, useCallback, useState } from 'react';
 import Router, { useRouter } from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
 import { END } from 'redux-saga';
-import { Skeleton, Col, Row, Tabs, Button, message, Descriptions, Typography, Table, Card, Space, Tag } from 'antd';
-import { QuestionCircleOutlined } from '@ant-design/icons';
+import { Skeleton, Col, Row, Tabs, Button, Descriptions, Typography, Table, Card, Space, Tag } from 'antd';
+import { ToolOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import Head from 'next/head';
 
@@ -16,13 +16,15 @@ import { JOIN_IN_REQUEST, LOAD_MY_INFO_REQUEST } from '../../reducers/user';
 import style from '../../SCSS/feedLayout.module.scss';
 import { teamMemberColumns as memberColumns, teamRecordColumns as recordColumns } from '../../util/columns';
 import wrapper from '../../store/configureStore';
+import TeamManagement from '../../components/TeamManagement';
 
-const Stadium = () => {
+const Team = () => {
   const router = useRouter();
   const { id } = router.query;
   const { info, isSelected } = useSelector((state) => state.team, (left, right) => { if (left.info.id === right.info.id) { return true; } return false; });
   const { me, isLoggedIn, isJoinnigIn } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const [managementVisible, setManagementVsible] = useState(false);
   const lastScrollTop = useRef(0);
   const updownDirection = useRef(false);
 
@@ -34,7 +36,9 @@ const Stadium = () => {
       },
     });
   }, []);
-
+  const onClickManagement = useCallback(() => {
+    setManagementVsible(true);
+  }, [me]);
   useEffect(() => {
     if (isSelected && info.Stadia.length !== 0) {
       const points = info.Stadia.map((obj) => new kakao.maps.LatLng(obj.lat, obj.lng));
@@ -46,7 +50,7 @@ const Stadium = () => {
       map.setDraggable(false);
       map.setZoomable(false);
       const bounds = new kakao.maps.LatLngBounds();
-      for (let i = 0; i < points.length; i++) {
+      for (let i = 0; i < points.length; i += 1) {
         // need index for getting req, so don't use forEach etc.
         const marker = new kakao.maps.Marker({ position: points[i], clickable: true });
         marker.setMap(map);
@@ -97,16 +101,20 @@ const Stadium = () => {
 
   return (
     <AppLayout2>
-      <Head>
-        <title>
-          팀 | {info.title}
-        </title>
-        <meta name="description" content={info.description} />
-        <meta property="og:title" content={`팀 | ${info.title}`} />
-        <meta property="og:description" content={info.description} />
-        <meta property="og:image" content={info.Images[0] ? info.Images[0].src : 'https://futchall.com/favicon.ico'} />
-        <meta property="og:url" content={`https://futchall.com/team/${id}`} />
-      </Head>
+      {
+        isSelected && (
+        <Head>
+          <title>
+            팀 | {info.title}
+          </title>
+          <meta name="description" content={info.description} />
+          <meta property="og:title" content={`팀 | ${info.title}`} />
+          <meta property="og:description" content={info.description} />
+          <meta property="og:image" content={info.Images[0] ? info.Images[0].src : 'https://futchall.com/favicon.ico'} />
+          <meta property="og:url" content={`https://futchall.com/team/${id}`} />
+        </Head>
+        )
+      }
       <Row>
         <Col className={style.mainInfo} id="upDiv">
           <Card
@@ -115,9 +123,9 @@ const Stadium = () => {
                 className={style.ImgContainer}
               >
                 <img
-                alt="Main image of Team"
-                src={isSelected && `http://localhost:3065/${info.Images[0]?.src}`}
-                style={{ maxHeight: '100%', width: 'auto', margin: '0 auto' }}
+                  alt="Main image of Team"
+                  src={isSelected && `http://localhost:3065/${info.Images[0]?.src}`}
+                  style={{ maxHeight: '100%', width: 'auto', margin: '0 auto' }}
                 />
               </div>
             )}
@@ -143,7 +151,7 @@ const Stadium = () => {
             <Tabs
               tabBarExtraContent={
                 isSelected && isLoggedIn && (info.id === me?.LeaderId)
-                && <Button onClick={() => { message.warn('준비중입니다.'); }} shape="round"><QuestionCircleOutlined />팀 관리</Button>
+                && <Button onClick={onClickManagement} shape="round"><ToolOutlined />팀 관리</Button>
               }
             >
               <Tabs.TabPane tab="상세정보" key="1">
@@ -214,6 +222,9 @@ const Stadium = () => {
           <Feed where="team" req={id} />
         </Col>
       </Row>
+      {
+        managementVisible && <TeamManagement setVisible={setManagementVsible} teamId={id} visible={managementVisible} />
+      }
     </AppLayout2>
   );
 };
@@ -237,4 +248,4 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
   await context.store.sagaTask.toPromise();
 });
 
-export default Stadium;
+export default Team;
