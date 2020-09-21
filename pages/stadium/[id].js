@@ -204,7 +204,7 @@ const Stadium = () => {
                   </Descriptions.Item>
                   <Descriptions.Item label={<>유효기간 <Tooltip title="점령 후 도전을 받지 않을 시 유지되는 기간입니다."><QuestionCircleOutlined /></Tooltip></>} span={2}>
                     <Skeleton loading={!isSelected} active paragraph={false} />
-                    {isSelected && <Tooltip title={info.valid}>{info.valid.slice(0, 10)}</Tooltip>}
+                    {isSelected && <Tooltip title={info.valid}>{info.valid?.slice(0, 10)}</Tooltip>}
                   </Descriptions.Item>
                 </Descriptions>
                 <div className={style.mapContainer}>
