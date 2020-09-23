@@ -1,51 +1,19 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import useSWR from 'swr';
+import useSWR, { mutate } from 'swr';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 
-import { Drawer, message, Space, Table, Tabs } from 'antd';
-import { LoadingOutlined } from '@ant-design/icons';
+import { Button, Drawer, message, Space, Table, Tabs } from 'antd';
+import { LoadingOutlined, ReloadOutlined } from '@ant-design/icons';
 import MatchManagement from './MatchManagement';
+import JoinInManagement from './JoinInManagement';
 
 const fetcher = (url) => axios.get(url, { withCredentials: true }).then((result) => result.data);
 
-const joinInTeam = [
-  {
-    title: '닉네임',
-    align: 'center',
-    dataIndex: 'nickname',
-  },
-  {
-    title: '포지션',
-    align: 'center',
-    dataIndex: 'positions',
-  },
-  {
-    title: '지역',
-    align: 'center',
-    dataIndex: 'locations',
-  },
-  {
-    title: '나이',
-    align: 'center',
-    dataIndex: 'age',
-  },
-  {
-    title: '처리',
-    align: 'center',
-    dataIndex: 'id',
-    render: (val) => (
-      <Space>
-        <a>승인</a>
-        <a>거절</a>
-      </Space>
-    ),
-  },
-];
 const TeamManagement = ({ setVisible, teamId, visible }) => {
   const [tabkey, setTabKey] = useState('1');
   const { data, error } = useSWR(`http://localhost:3065/team/${teamId}/management/${tabkey}`, fetcher);
-  
+  const [, forceUpdate] = useState();
   const onClose = useCallback(() => {
     setVisible(false);
   }, []);
@@ -63,10 +31,11 @@ const TeamManagement = ({ setVisible, teamId, visible }) => {
       placement="left"
       visible={visible}
       onClose={onClose}
-      width="75%"
+      width="80%"
     >
       <Tabs
         defaultActiveKey={tabkey}
+        tabBarExtraContent={{ left: <Button type="primary" shape="circle" onClick={() => mutate(`http://localhost:3065/team/${teamId}/management/${tabkey}`)} loading={!data && !error} icon={<ReloadOutlined />} style={{ marginRight: '15px' }} /> }}
         type="card"
         onChange={(key) => { setTabKey(key); }}
       >
@@ -74,14 +43,19 @@ const TeamManagement = ({ setVisible, teamId, visible }) => {
           {
             !data && !error && <LoadingOutlined />
           }
-          <MatchManagement matchData={data} />
-          {/* <Table columns={managementMatch} dataSource={data} rowKey={(match) => match.id} /> */}
+          {
+            tabkey === '1'
+            && <MatchManagement matchData={data} />
+          }
         </Tabs.TabPane>
         <Tabs.TabPane key="2" tab="입단신청">
           {
             !data && !error && <LoadingOutlined />
           }
-          <Table columns={joinInTeam} dataSource={data} />
+          {
+            tabkey === '2'
+            && <JoinInManagement joinInData={data} />
+          }
         </Tabs.TabPane>
         <Tabs.TabPane key="3" tab="정보 수정">
           {

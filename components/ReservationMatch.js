@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { Modal, Form, DatePicker, TimePicker, Input, Button, message } from 'antd';
+import { Modal, Form, DatePicker, Input, Button, message } from 'antd';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 
@@ -7,7 +7,6 @@ const ReservationMatch = ({ visible, setVisible, onLoadPost, stadiumReq, setEnro
   const [form] = Form.useForm();
 
   const onHandleCancel = useCallback(() => {
-    form.resetFields(['id', 'password']);
     setVisible(false);
   });
 
