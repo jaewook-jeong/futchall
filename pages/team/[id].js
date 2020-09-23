@@ -62,7 +62,7 @@ const Team = () => {
       map.relayout();
       map.setBounds(bounds);
     }
-  }, [isSelected]);
+  }, [info.Stadia]);
 
   useEffect(() => {
     function onScroll() {
@@ -97,7 +97,7 @@ const Team = () => {
     return () => {
       window.removeEventListener('scroll', onScroll);
     };
-  }, []);
+  }, [info.Stadia]);
 
   return (
     <AppLayout2>

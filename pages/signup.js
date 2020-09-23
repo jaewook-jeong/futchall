@@ -52,7 +52,6 @@ const Signup = () => {
           <Row justify="center">
             <Col span={24}>
               <Typography.Title level={titleSize} ellipsis={{ rows: 1, expandable: false, onEllipsis: (el) => { if (el) { onAlterTitleSize(titleSize != 4 ? titleSize + 1 : titleSize); } } }}><TrophyTwoTone twoToneColor="#e6c71e" style={{ fontSize: '25px', marginBottom: '10px' }} /> 지역 챔피언이 되어보세요!</Typography.Title>
-
             </Col>
           </Row>
           <Row>
