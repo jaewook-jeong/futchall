@@ -13,6 +13,9 @@ import {
   SEARCH_TEAMS_REQUEST,
   SEARCH_TEAMS_SUCCESS,
   SEARCH_TEAMS_FAILURE,
+  EDIT_TEAM_REQUEST,
+  EDIT_TEAM_SUCCESS,
+  EDIT_TEAM_FAILURE,
 } from '../reducers/team';
 import { ENROLL_TEAM_INFO } from '../reducers/user';
 
@@ -38,6 +41,30 @@ function* select(action) {
 
 function* watchSelect() {
   yield takeEvery(SELECT_TEAM_REQUEST, select);
+}
+
+function editAPI(data) {
+  return axios.patch(`/team/${data.id}`, data);
+}
+
+function* edit(action) {
+  try {
+    const team = yield call(editAPI, action.data);
+    yield put({
+      type: EDIT_TEAM_SUCCESS,
+      data: team.data,
+    });
+  } catch (e) {
+    console.error(e);
+    yield put({
+      type: EDIT_TEAM_FAILURE,
+      error: e.response.data,
+    });
+  }
+}
+
+function* watchEdit() {
+  yield takeLatest(EDIT_TEAM_REQUEST, edit);
 }
 
 function enrollAPI(data) {
@@ -118,5 +145,6 @@ export default function* teamSaga() {
     fork(watchEnroll),
     fork(watchLoad),
     fork(watchSearch),
+    fork(watchEdit),
   ]);
 }

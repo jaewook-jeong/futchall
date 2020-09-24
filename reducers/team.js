@@ -127,6 +127,9 @@ export const initialState = {
   isEnrolling: false, // 새 팀 등록중
   isEnrolled: false, // 새 팀 등록 성공
   enrollmentErrorReason: '', // 새 팀 등록 실패 사유
+  isEditting: false, // 팀정보 변경중
+  isEditted: false, // 팀정보 변경 성공
+  editErrorReason: '', // 팀정보 변경 실패 사유
   isSelected: false, // 팀 선택 성공
   isSelecting: false, // 팀 선택중
   selectedErrorReason: '', // 팀 선택 실패 사유
@@ -145,6 +148,10 @@ export const SELECT_TEAM_FAILURE = 'SELECT_TEAM_FAILURE';
 export const ENROLL_TEAM_REQUEST = 'ENROLL_TEAM_REQUSET';
 export const ENROLL_TEAM_SUCCESS = 'ENROLL_TEAM_SUCCESS';
 export const ENROLL_TEAM_FAILURE = 'ENROLL_TEAM_FAILURE';
+
+export const EDIT_TEAM_REQUEST = 'EDIT_TEAM_REQUSET';
+export const EDIT_TEAM_SUCCESS = 'EDIT_TEAM_SUCCESS';
+export const EDIT_TEAM_FAILURE = 'EDIT_TEAM_FAILURE';
 
 export const LOAD_LIST_REQUEST = 'LOAD_LIST_REQUSET';
 export const LOAD_LIST_SUCCESS = 'LOAD_LIST_SUCCESS';
@@ -170,6 +177,21 @@ export default (state = initialState, action) => produce(state, (draft) => {
       draft.selectedErrorReason = action.error;
       draft.info = null;
       draft.isSelected = false;
+      break;
+    case EDIT_TEAM_REQUEST:
+      draft.isEditting = true;
+      draft.editErrorReason = null;
+      break;
+    case EDIT_TEAM_SUCCESS:
+      draft.isEditting = false;
+      draft.isEditted = true;
+      draft.info = action.data;
+      break;
+    case EDIT_TEAM_FAILURE:
+      draft.isEditting = false;
+      draft.editErrorReason = action.error;
+      draft.info = null;
+      draft.isEditted = false;
       break;
     case ENROLL_TEAM_REQUEST:
       draft.isEnrolling = true;
