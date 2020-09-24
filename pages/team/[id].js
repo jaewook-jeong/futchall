@@ -21,7 +21,7 @@ import TeamManagement from '../../components/TeamManagement';
 const Team = () => {
   const router = useRouter();
   const { id } = router.query;
-  const { info, isSelected } = useSelector((state) => state.team, (left, right) => { if (left.info.id === right.info.id) { return true; } return false; });
+  const { info, isSelected } = useSelector((state) => state.team);
   const { me, isLoggedIn, isJoinnigIn } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [managementVisible, setManagementVsible] = useState(false);
@@ -62,7 +62,7 @@ const Team = () => {
       map.relayout();
       map.setBounds(bounds);
     }
-  }, [info.Stadia]);
+  }, [info]);
 
   useEffect(() => {
     function onScroll() {
@@ -97,7 +97,7 @@ const Team = () => {
     return () => {
       window.removeEventListener('scroll', onScroll);
     };
-  }, [info.Stadia]);
+  }, [info]);
 
   return (
     <AppLayout2>

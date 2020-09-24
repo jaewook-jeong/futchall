@@ -7,6 +7,7 @@ import { Button, Drawer, message, Space, Table, Tabs } from 'antd';
 import { LoadingOutlined, ReloadOutlined } from '@ant-design/icons';
 import MatchManagement from './MatchManagement';
 import JoinInManagement from './JoinInManagement';
+import TeamInfoManagement from './TeamInfoManagement';
 
 const fetcher = (url) => axios.get(url, { withCredentials: true }).then((result) => result.data);
 
@@ -24,7 +25,6 @@ const TeamManagement = ({ setVisible, teamId, visible }) => {
     }
   }, [error]);
 
-  console.log(data);
   return (
     <Drawer
       title="팀 관리"
@@ -37,7 +37,11 @@ const TeamManagement = ({ setVisible, teamId, visible }) => {
         defaultActiveKey={tabkey}
         tabBarExtraContent={{ left: <Button type="primary" shape="circle" onClick={() => mutate(`http://localhost:3065/team/${teamId}/management/${tabkey}`)} loading={!data && !error} icon={<ReloadOutlined />} style={{ marginRight: '15px' }} /> }}
         type="card"
-        onChange={(key) => { setTabKey(key); }}
+        onChange={(key) => {
+          if(key !== '3'){
+            setTabKey(key);
+          }
+        }}
       >
         <Tabs.TabPane key="1" tab="경기관리">
           {
@@ -61,6 +65,7 @@ const TeamManagement = ({ setVisible, teamId, visible }) => {
           {
             !data && !error && <LoadingOutlined />
           }
+          <TeamInfoManagement />
         </Tabs.TabPane>
       </Tabs>
     </Drawer>

@@ -15,10 +15,7 @@ const MatchManagement = ({ matchData }) => {
   }, []);
   const onClickWinner = useCallback((data) => () => {
     axios.patch(`http://localhost:3065/match/${data.id}/winner/${data.teamId}`, { withCredentials: true })
-      .then((result) => {
-        message.success('승리팀으로 등록되었습니다!');
-        mutate(`http://localhost:3065/team/${data.teamId}/management/1`);
-      })
+      .then((result) => message.success('승리팀으로 등록되었습니다!'))
       .catch((err) => {
         console.error(err.response.data);
         message.error(err.response.data);
@@ -54,7 +51,7 @@ const MatchManagement = ({ matchData }) => {
       <Table
         dataSource={matchData}
         rowKey={(match) => match.id}
-        pagination={{ responsive: true }}
+        pagination={{ responsive: true, pageSize: 8 }}
         footer={() => (
           <Button type="primary" onClick={setCaptureVisiblity}>점령전 신청</Button>
         )}
