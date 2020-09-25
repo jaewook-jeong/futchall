@@ -1,55 +1,94 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Button, message, Space, Table, Tooltip } from 'antd';
 import Link from 'next/link';
 import moment from 'moment';
-import axios from 'axios';
-import PropTypes from 'prop-types';
-import { mutate } from 'swr';
+import { useDispatch, useSelector } from 'react-redux';
 
 import CaptureMatch from './CaptureMatch';
+import { PATCH_APPROVAL_REQUEST, PATCH_CANCEL_REQUEST, PATCH_LOSER_REQUEST, PATCH_WINNER_REQUEST, SELECT_MATCHES_REQUEST } from '../reducers/matches';
 
-const MatchManagement = ({ matchData }) => {
+const MatchManagement = () => {
+  const dispatch = useDispatch();
+  const teamId = useSelector((state) => state.user.me.LeaderId);
+  const { matches, isPatchingWinner, isPatchedWinner, pacthWinnerErrorReason, isPatchingLoser, isPatchedLoser, pacthLoserErrorReason, isPatchingApproval, isPatchedApproval, pacthApprovalErrorReason, isPatchingCancel, isPatchedCancel, pacthCancelErrorReason } = useSelector((state) => state.matches);
   const [captureVisiblity, onCaptureVisiblity] = useState(false);
+
+
   const setCaptureVisiblity = useCallback(() => {
     onCaptureVisiblity(!captureVisiblity);
   }, []);
   const onClickWinner = useCallback((data) => () => {
-    axios.patch(`http://localhost:3065/match/${data.id}/winner/${data.teamId}`, { withCredentials: true })
-      .then((result) => message.success('승리팀으로 등록되었습니다!'))
-      .catch((err) => {
-        console.error(err.response.data);
-        message.error(err.response.data);
-      });
+    // axios.patch(`http://localhost:3065/match/${data.id}/winner/${data.teamId}`, { withCredentials: true })
+    //   .then((result) => message.success('승리팀으로 등록되었습니다!'))
+    //   .catch((err) => {
+    //     console.error(err.response.data);
+    //     message.error(err.response.data);
+    //   });
+    dispatch({
+      type: PATCH_WINNER_REQUEST,
+      data: {
+        matchId: data.id,
+        teamId: data.teamId,
+      },
+    });
   }, []);
   const onClickLoser = useCallback((data) => () => {
-    axios.patch(`http://localhost:3065/match/${data.id}/loser/${data.teamId}`, { withCredentials: true })
-      .then((result) => message.success('상대팀을 승리팀으로 등록하였습니다.'))
-      .catch((err) => {
-        console.error(err.response.data);
-        message.error(err.response.data);
-      });
+    // axios.patch(`http://localhost:3065/match/${data.id}/loser/${data.teamId}`, { withCredentials: true })
+    //   .then((result) => message.success('상대팀을 승리팀으로 등록하였습니다.'))
+    //   .catch((err) => {
+    //     console.error(err.response.data);
+    //     message.error(err.response.data);
+    //   });
+    dispatch({
+      type: PATCH_LOSER_REQUEST,
+      data: {
+        matchId: data.id,
+        teamId: data.teamId,
+      },
+    });
   }, []);
   const onClickApprove = useCallback((data) => () => {
-    axios.patch(`http://localhost:3065/match/${data}/approve`, { withCredentials: true })
-      .then((result) => message.success('경기를 승인하였습니다!'))
-      .catch((err) => {
-        console.error(err.response.data);
-        message.error(err.response.data);
-      });
+    // axios.patch(`http://localhost:3065/match/${data}/approve`, { withCredentials: true })
+    //   .then((result) => message.success('경기를 승인하였습니다!'))
+    //   .catch((err) => {
+    //     console.error(err.response.data);
+    //     message.error(err.response.data);
+    //   });
+    dispatch({
+      type: PATCH_APPROVAL_REQUEST,
+      data: {
+        matchId: data,
+      },
+    });
   }, []);
   const onClickCancel = useCallback((data) => () => {
-    axios.patch(`http://localhost:3065/match/${data}/cancel`, { withCredentials: true })
-      .then((result) => message.success('경기를 취소하였습니다.'))
-      .catch((err) => {
-        console.error(err.response.data);
-        message.error(err.response.data);
-      });
+    // axios.patch(`http://localhost:3065/match/${data}/cancel`, { withCredentials: true })
+    //   .then((result) => message.success('경기를 취소하였습니다.'))
+    //   .catch((err) => {
+    //     console.error(err.response.data);
+    //     message.error(err.response.data);
+    //   });
+    dispatch({
+      type: PATCH_CANCEL_REQUEST,
+      data: {
+        matchId: data,
+      },
+    });
+  }, []);
+
+  useEffect(() => {
+    dispatch({
+      type: SELECT_MATCHES_REQUEST,
+      data: {
+        teamId,
+      },
+    });
   }, []);
 
   return (
     <>
       <Table
-        dataSource={matchData}
+        dataSource={matches}
         rowKey={(match) => match.id}
         pagination={{ responsive: true, pageSize: 8 }}
         footer={() => (
@@ -58,7 +97,7 @@ const MatchManagement = ({ matchData }) => {
       >
         <Table.Column title="홈팀" dataIndex={['Home', 'title']} align="center"
           render={(value, row) => {
-            if (row.HomeId !== row.TeamId) {
+            if (row.HomeId !== teamId) {
               return (
                 <Link href={`/team/${row.HomeId}`}>
                   <a>{row.capture === 'Y' && <Tooltip title="점령전">*</Tooltip>}{value}</a>
@@ -70,7 +109,7 @@ const MatchManagement = ({ matchData }) => {
         />
         <Table.Column title="신청팀" dataIndex={['Away', 'title']} align="center"
           render={(value, row) => {
-            if (row.AwayId !== row.TeamId) {
+            if (row.AwayId !== teamId) {
               return (
                 <Link href={`/team/${row.AwayId}`}>
                   <a>{value}</a>
@@ -96,8 +135,8 @@ const MatchManagement = ({ matchData }) => {
             if (row.confirm === 'Y') {
               return (
                 <Space>
-                  <Button type="link" size="small" onClick={onClickWinner({ id: row.id, teamId: row.TeamId })}>승리</Button>
-                  <Button type="text" danger size="small" onClick={onClickLoser({ id: row.id, teamId: row.TeamId })}>패배</Button>
+                  <Button type="link" size="small" onClick={onClickWinner({ id: row.id, teamId })} loading={isPatchingWinner}>승리</Button>
+                  <Button type="text" danger size="small" onClick={onClickLoser({ id: row.id, teamId })} loading={isPatchingLoser}>패배</Button>
                 </Space>
               );
             }
@@ -109,22 +148,21 @@ const MatchManagement = ({ matchData }) => {
             if (value) {
               if (value === 'Y') {
                 return '승인';
-              } if (value === 'N') {
+              }
+              if (value === 'N') {
                 return '거절';
               }
-              return '시간 초과';
+              if (value === 'T') {
+                return '시간 초과';
+              }
             }
-            if (moment().diff(moment(row.date.toString()).locale('ko').format('YYYY-MM-DD HH:mm'), 'hours') > -3) {
-              axios.patch(`http://localhost:3065/match/${row.id}/timeout`, { withCredentials: true }).then((result) => result.data);
-              return '시간초과';
-            }
-            if (row.TeamId !== row.HomeId) {
+            if (teamId !== row.HomeId) {
               return '승인 대기중';
             }
             return (
               <Space>
-                <Button type="text" size="small" onClick={onClickApprove(row.id)}>승인</Button>
-                <Button type="text" danger size="small" onClick={onClickCancel(row.id)}>거절</Button>
+                <Button type="text" size="small" onClick={onClickApprove(row.id)} loading={isPatchingApproval}>승인</Button>
+                <Button type="text" danger size="small" onClick={onClickCancel(row.id)} loading={isPatchingCancel}>거절</Button>
               </Space>
             );
           }}
@@ -134,10 +172,6 @@ const MatchManagement = ({ matchData }) => {
         && <CaptureMatch visible={captureVisiblity} setVisible={onCaptureVisiblity} />}
     </>
   );
-};
-
-MatchManagement.propTypes = {
-  matchData: PropTypes.array,
 };
 
 export default MatchManagement;

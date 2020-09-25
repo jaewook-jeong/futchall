@@ -14,7 +14,7 @@ const CaptureMatch = ({ visible, setVisible }) => {
   const onSearch = useCallback((searchText) => {
     clearTimeout(newRequest.current);
     newRequest.current = setTimeout(() => {
-      axios.get(`http://localhost:3065/stadium/search?q=${searchText}`, { withCredentials: true })
+      axios.get(`http://localhost:3065/stadium/istaken?q=${searchText}`, { withCredentials: true })
         .then((result) => result.data.map((v) => ({ label: v.title, value: v.title, id: v.id, teamtitle: v.Team.title, teamid: v.Team.id, valid: v.valid }))).then((data) => {
           setOptions(
             !searchText ? [] : data,
@@ -56,7 +56,7 @@ const CaptureMatch = ({ visible, setVisible }) => {
     notification.destroy();
     notification.info({
       message: '해당 구장을 검색해주세요',
-      description: '점령된 구장이 아니거나 본인 팀이 점령했을 경우 검색되지 않습니다!',
+      description: '점령된 구장이 아니거나 본인 팀이 점령했을 경우, 경기예정인 점령전이 있을 경우 검색되지 않습니다!',
       duration: 0,
     });
   }, []);
@@ -86,6 +86,7 @@ const CaptureMatch = ({ visible, setVisible }) => {
             onSearch={onSearch}
             onSelect={onSelect}
             options={options}
+            autoFocus
           />
         </Form.Item>
         {
