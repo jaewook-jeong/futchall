@@ -4,8 +4,9 @@ import user from './user';
 import location from './location';
 import stadium from './stadium';
 import team from './team';
-import messenger from './messenger';
+// import messenger from './messenger';
 import post from './post';
+import matches from './matches';
 
 const rootReducer = (state, action) => {
   switch (action.type) {
@@ -19,6 +20,7 @@ const rootReducer = (state, action) => {
         stadium,
         team,
         post,
+        matches,
       });
       return combinedReducer(state, action);
     }

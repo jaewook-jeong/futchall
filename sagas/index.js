@@ -4,7 +4,8 @@ import user from './user';
 import location from './location';
 import stadium from './stadium';
 import team from './team';
-import messenger from './messenger';
+// import messenger from './messenger';
+import matches from './matches';
 import post from './post';
 
 axios.defaults.baseURL = 'http://localhost:3065';
@@ -16,7 +17,7 @@ export default function* rootSaga() {
     fork(location),
     fork(stadium),
     fork(team),
-    fork(messenger),
+    fork(matches),
     fork(post),
   ]);
 }
