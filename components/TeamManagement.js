@@ -13,6 +13,7 @@ const TeamManagement = ({ setVisible, teamId, visible }) => {
   const [tabkey, setTabKey] = useState('1');
   const dispatch = useDispatch();
   const { isSelecting } = useSelector((state) => state.matches);
+  const { isSelecting: userListSelecting } = useSelector((state) => state.user);
   const onClose = useCallback(() => {
     setVisible(false);
   }, []);
@@ -55,6 +56,15 @@ const TeamManagement = ({ setVisible, teamId, visible }) => {
           {
             tabkey === '1'
             && <MatchManagement />
+          }
+        </Tabs.TabPane>
+        <Tabs.TabPane key="2" tab="가입관리">
+          {
+            userListSelecting && <LoadingOutlined />
+          }
+          {
+            tabkey === '2'
+            && <JoinInManagement teamId={teamId} />
           }
         </Tabs.TabPane>
       </Tabs>

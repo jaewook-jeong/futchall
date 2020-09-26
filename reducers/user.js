@@ -2,6 +2,13 @@ import produce from '../util/produce';
 
 export const initialState = {
   me: null, // 내 정보
+  userList: null, // 유저 리스트
+  isSelecting: false, // 유저 리스트 가져오는중
+  isSelected: false, // 유저 리스트 가여옴
+  selectErrorReason: null, // 유저 리스트 가져오기 오류
+  isManaging: false, // 유저 가입 처리중
+  isManaged: false, // 유저 가입 처리완료
+  manageErrorReason: null, // 유저 가입 처리 오류 발생
   loadMyInfoLoading: false, // 유저 정보 가져오기 시도중
   loadMyInfoDone: false,
   loadMyInfoError: null,
@@ -31,6 +38,14 @@ export const LOAD_MY_INFO_FAILURE = 'LOAD_MY_INFO_FAILURE';
 export const SIGN_UP_REQUEST = 'SIGN_UP_REQUEST';
 export const SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS';
 export const SIGN_UP_FAILURE = 'SIGN_UP_FAILURE';
+
+export const SELECT_LIST_REQUEST = 'SELECT_LIST_REQUEST';
+export const SELECT_LIST_SUCCESS = 'SELECT_LIST_SUCCESS';
+export const SELECT_LIST_FAILURE = 'SELECT_LIST_FAILURE';
+
+export const JOIN_MANAGE_REQUEST = 'JOIN_MANAGE_REQUEST';
+export const JOIN_MANAGE_SUCCESS = 'JOIN_MANAGE_SUCCESS';
+export const JOIN_MANAGE_FAILURE = 'JOIN_MANAGE_FAILURE';
 
 export const LOG_IN_REQUEST = 'LOG_IN_REQUEST';
 export const LOG_IN_SUCCESS = 'LOG_IN_SUCCESS';
@@ -95,6 +110,36 @@ export default (state = initialState, action) => produce(state, (draft) => {
       draft.isLoggedIn = false;
       draft.logInErrorReason = action.error;
       draft.me = null;
+      break;
+    case SELECT_LIST_REQUEST:
+      draft.isSelecting = true;
+      draft.selectErrorReason = null;
+      break;
+    case SELECT_LIST_SUCCESS:
+      draft.isSelecting = false;
+      draft.isSelected = true;
+      draft.userList = action.data;
+      break;
+    case SELECT_LIST_FAILURE:
+      draft.isSelecting = false;
+      draft.isSelected = false;
+      draft.selectErrorReason = action.error;
+      draft.userList = null;
+      break;
+    case JOIN_MANAGE_REQUEST:
+      draft.isManaging = true;
+      draft.manageErrorReason = null;
+      break;
+    case JOIN_MANAGE_SUCCESS: {
+      draft.isManaging = false;
+      draft.isManaged = true;
+      draft.userList = draft.userList.filter((v) => v.id !== action.data.id);
+      break;
+    }
+    case JOIN_MANAGE_FAILURE:
+      draft.isManaging = false;
+      draft.isManaged = false;
+      draft.manageErrorReason = action.error;
       break;
     case LOG_OUT_REQUEST:
       draft.isLoggingOut = true;

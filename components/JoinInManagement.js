@@ -1,25 +1,35 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Button, message, Space, Table, Tag } from 'antd';
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
 
-const JoinInManagement = ({ joinInData }) => {
+import { SELECT_LIST_REQUEST, JOIN_MANAGE_REQUEST } from '../reducers/user';
+
+const JoinInManagement = ({ teamId }) => {
+  const { userList, isApproving, isCanceling } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
   const onClick = useCallback((data) => () => {
-    console.log('------------------------------------');
-    console.log(data);
-    console.log('------------------------------------');
-    axios.patch('http://localhost:3065/user/joinmanage', data, { withCredentials: true })
-      .then((result) => console.log(result.data))
-      .catch((err) => {
-        console.error(err.response.data);
-        message.error(err.response.data);
-      });
+    dispatch({
+      type: JOIN_MANAGE_REQUEST,
+      data: {
+        userId: data.value,
+        action: data.action,
+      },
+    });
   }, []);
-
+  useEffect(() => {
+    dispatch({
+      type: SELECT_LIST_REQUEST,
+      data: {
+        teamId,
+      },
+    });
+  }, []);
   return (
     <>
       <Table
-        dataSource={joinInData}
+        dataSource={userList}
         rowKey={(user) => user.id}
       >
         <Table.Column
@@ -50,8 +60,8 @@ const JoinInManagement = ({ joinInData }) => {
           dataIndex="id"
           render={(value) => (
             <Space>
-              <Button type="text" size="small" onClick={onClick({ value, action: 'approve' })}>승인</Button>
-              <Button type="text" danger size="small" onClick={onClick({ value, action: 'cancel' })}>거절</Button>
+              <Button type="text" size="small" onClick={onClick({ value, action: 'approve' })} loading={isApproving}>승인</Button>
+              <Button type="text" danger size="small" onClick={onClick({ value, action: 'cancel' })} loading={isCanceling}>거절</Button>
             </Space>
           )}
         />
@@ -61,7 +71,7 @@ const JoinInManagement = ({ joinInData }) => {
 };
 
 JoinInManagement.propTypes = {
-  joinInData: PropTypes.array,
+  teamId: PropTypes.string.isRequired,
 };
 
 export default JoinInManagement;

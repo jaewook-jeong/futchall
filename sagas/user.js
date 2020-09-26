@@ -1,4 +1,4 @@
-import { all, delay, fork, put, takeEvery, takeLatest, call } from 'redux-saga/effects';
+import { all, fork, put, takeEvery, takeLatest, call } from 'redux-saga/effects';
 import axios from 'axios';
 import {
   LOG_IN_REQUEST,
@@ -22,6 +22,12 @@ import {
   SET_PWD_REQUEST,
   SET_PWD_SUCCESS,
   SET_PWD_FAILURE,
+  SELECT_LIST_REQUEST,
+  SELECT_LIST_SUCCESS,
+  SELECT_LIST_FAILURE,
+  JOIN_MANAGE_REQUEST,
+  JOIN_MANAGE_SUCCESS,
+  JOIN_MANAGE_FAILURE,
 } from '../reducers/user';
 
 function loadMyInfoAPI() {
@@ -70,6 +76,54 @@ function* login(action) {
 
 function* watchLogin() {
   yield takeEvery(LOG_IN_REQUEST, login);
+}
+
+function selectListAPI(data) {
+  return axios.get(`/team/${data.teamId}/joinlist`);
+}
+
+function* selectList(action) {
+  try {
+    const result = yield call(selectListAPI, action.data);
+    yield put({
+      type: SELECT_LIST_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: SELECT_LIST_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
+function* watchSelectList() {
+  yield takeLatest(SELECT_LIST_REQUEST, selectList);
+}
+
+function joinManageAPI(data) {
+  return axios.patch('/user/joinmanage', data);
+}
+
+function* joinManage(action) {
+  try {
+    const result = yield call(joinManageAPI, action.data);
+    yield put({
+      type: JOIN_MANAGE_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: JOIN_MANAGE_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
+function* watchJoinManage() {
+  yield takeLatest(JOIN_MANAGE_REQUEST, joinManage);
 }
 
 function signUpAPI(data) {
@@ -195,5 +249,7 @@ export default function* userSaga() {
     fork(watchLogOut),
     fork(watchJoinIN),
     fork(watchSetPwd),
+    fork(watchSelectList),
+    fork(watchJoinManage),
   ]);
 }
