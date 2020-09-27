@@ -2,7 +2,7 @@ import React, { useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Link from 'next/link';
 import { Popover, List, Avatar, Descriptions, Tabs, Button, message, Card, Space } from 'antd';
-import { SettingOutlined, RightOutlined, DeleteOutlined, DownOutlined } from '@ant-design/icons';
+import { RightOutlined, DeleteOutlined, DownOutlined } from '@ant-design/icons';
 import Router from 'next/router';
 
 import { LOG_OUT_REQUEST } from '../reducers/user';
@@ -32,12 +32,6 @@ const ProfileAvatar = () => {
 
   return (
     <Space>
-      <Avatar
-        src={me.Images[0] && `http://localhost:3065/${me.Images[0]?.src}`}
-        alt={me.nickname}
-        gap="3"
-      >{!me.Images[0]?.src && me.nickname}
-      </Avatar>
       <Popover
         placement="rightTop"
         trigger="click"
@@ -78,7 +72,15 @@ const ProfileAvatar = () => {
           </Tabs>
         )}
       >
-        <DownOutlined />
+        <Space>
+          <Avatar
+            src={me.Images[0] && `http://localhost:3065/${me.Images[0]?.src}`}
+            alt={me.nickname}
+            gap="3"
+          >{!me.Images[0]?.src && me.nickname}
+          </Avatar>
+          <DownOutlined />
+        </Space>
       </Popover>
     </Space>
   );
