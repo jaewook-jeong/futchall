@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { Avatar, Tooltip, Popover, Button, Row, Col } from 'antd';
+import { Avatar, Tooltip, Popover, Button, Row, Col, Popconfirm } from 'antd';
 import { EllipsisOutlined } from '@ant-design/icons';
 
 import style from '../SCSS/post.module.scss';
@@ -57,9 +57,15 @@ const Post = ({ data }) => {
                           </Button>
                         </Row>
                         <Row>
-                          <Button type="link" loading={removePostLoading} onClick={deletePost}>
-                            삭제하기
-                          </Button>
+                          <Popconfirm
+                            title="삭제하시겠습니까?"
+                            onConfirm={deletePost}
+                            okText="삭제"
+                            cancelText="취소"
+                            style={{ textAlign: 'center' }}
+                          >
+                            <Button danger type="link"><a href="#">삭제하기</a></Button>
+                          </Popconfirm>
                         </Row>
                       </Col>
                     </Row>
