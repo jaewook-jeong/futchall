@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Button, Drawer, message, Space, Table, Tabs } from 'antd';
+import { Button, Drawer, Tabs } from 'antd';
 import { LoadingOutlined, ReloadOutlined } from '@ant-design/icons';
 import MatchManagement from './MatchManagement';
 import JoinInManagement from './JoinInManagement';
@@ -12,7 +12,8 @@ import { SELECT_MATCHES_REQUEST } from '../reducers/matches';
 const TeamManagement = ({ setVisible, teamId, visible }) => {
   const [tabkey, setTabKey] = useState('1');
   const dispatch = useDispatch();
-  const { isSelecting } = useSelector((state) => state.matches);
+  const { isSelecting: matchesSelecting } = useSelector((state) => state.matches);
+  const { isSelecting: teamInfoSelecting } = useSelector((state) => state.team);
   const { isSelecting: userListSelecting } = useSelector((state) => state.user);
   const onClose = useCallback(() => {
     setVisible(false);
@@ -41,17 +42,13 @@ const TeamManagement = ({ setVisible, teamId, visible }) => {
     >
       <Tabs
         defaultActiveKey={tabkey}
-        tabBarExtraContent={{ right: <Button type="primary" shape="circle" onClick={onReset} loading={isSelecting} icon={<ReloadOutlined />} style={{ marginRight: '15px' }} /> }}
+        tabBarExtraContent={{ right: <Button type="primary" shape="circle" onClick={onReset} loading={matchesSelecting || teamInfoSelecting || userListSelecting} icon={<ReloadOutlined />} style={{ marginRight: '15px' }} /> }}
         type="card"
-        onChange={(key) => {
-          if (key !== '3') {
-            setTabKey(key);
-          }
-        }}
+        onChange={(key) => setTabKey(key)}
       >
         <Tabs.TabPane key="1" tab="경기관리">
           {
-            isSelecting && <LoadingOutlined />
+            matchesSelecting && <LoadingOutlined />
           }
           {
             tabkey === '1'
@@ -65,6 +62,15 @@ const TeamManagement = ({ setVisible, teamId, visible }) => {
           {
             tabkey === '2'
             && <JoinInManagement teamId={teamId} />
+          }
+        </Tabs.TabPane>
+        <Tabs.TabPane key="3" tab="정보수정">
+          {
+            teamInfoSelecting && <LoadingOutlined />
+          }
+          {
+            tabkey === '3'
+            && <TeamInfoManagement />
           }
         </Tabs.TabPane>
       </Tabs>

@@ -18,12 +18,6 @@ const MatchManagement = () => {
     onCaptureVisiblity(!captureVisiblity);
   }, []);
   const onClickWinner = useCallback((data) => () => {
-    // axios.patch(`http://localhost:3065/match/${data.id}/winner/${data.teamId}`, { withCredentials: true })
-    //   .then((result) => message.success('승리팀으로 등록되었습니다!'))
-    //   .catch((err) => {
-    //     console.error(err.response.data);
-    //     message.error(err.response.data);
-    //   });
     dispatch({
       type: PATCH_WINNER_REQUEST,
       data: {
@@ -33,12 +27,6 @@ const MatchManagement = () => {
     });
   }, []);
   const onClickLoser = useCallback((data) => () => {
-    // axios.patch(`http://localhost:3065/match/${data.id}/loser/${data.teamId}`, { withCredentials: true })
-    //   .then((result) => message.success('상대팀을 승리팀으로 등록하였습니다.'))
-    //   .catch((err) => {
-    //     console.error(err.response.data);
-    //     message.error(err.response.data);
-    //   });
     dispatch({
       type: PATCH_LOSER_REQUEST,
       data: {
@@ -48,12 +36,6 @@ const MatchManagement = () => {
     });
   }, []);
   const onClickApprove = useCallback((data) => () => {
-    // axios.patch(`http://localhost:3065/match/${data}/approve`, { withCredentials: true })
-    //   .then((result) => message.success('경기를 승인하였습니다!'))
-    //   .catch((err) => {
-    //     console.error(err.response.data);
-    //     message.error(err.response.data);
-    //   });
     dispatch({
       type: PATCH_APPROVAL_REQUEST,
       data: {
@@ -62,12 +44,6 @@ const MatchManagement = () => {
     });
   }, []);
   const onClickCancel = useCallback((data) => () => {
-    // axios.patch(`http://localhost:3065/match/${data}/cancel`, { withCredentials: true })
-    //   .then((result) => message.success('경기를 취소하였습니다.'))
-    //   .catch((err) => {
-    //     console.error(err.response.data);
-    //     message.error(err.response.data);
-    //   });
     dispatch({
       type: PATCH_CANCEL_REQUEST,
       data: {
