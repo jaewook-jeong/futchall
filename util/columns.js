@@ -1,4 +1,6 @@
-import { Tag, Select } from 'antd';
+import { Tag, Tooltip } from 'antd';
+import Link from 'next/link';
+import moment from 'moment';
 
 export const RankingColumns = [
   {
@@ -119,17 +121,11 @@ export const RankingColumns = [
 
 export const teamMemberColumns = [
   {
-    title: '주장',
-    dataIndex: 'LeaderId',
-    align: 'center',
-    width: 50,
-    render: (val) => <span>{val ? '*' : ''}</span>,
-  },
-  {
     title: '닉네임',
     dataIndex: 'nickname',
     align: 'center',
     width: 100,
+    render: (val, row) => (row.LeaderId ? `*${val}` : val),
     sorter: (a, b) => a.nickname - b.nickname,
   },
   {
@@ -146,54 +142,32 @@ export const teamMemberColumns = [
     ],
     onFilter: (value, rec) => rec.positions.indexOf(value) !== -1,
   },
-  // {
-  //   title: '연락하기',
-  //   dataIndex: 'id',
-  //   align: 'center',
-  //   render: (val) => <div><a onClick={() => console.log(val)}>연락하기</a></div>,
-  // },
 ];
 
 export const teamRecordColumns = [
   {
-    title: 'Home',
-    children: [
-      {
-        title: '점령팀',
-        dataIndex: 'homeTeamName',
-        align: 'center',
-      },
-      {
-        title: '득점',
-        dataIndex: 'homeTeamScore',
-        align: 'center',
-      },
-    ],
+    title: '홈 팀',
+    align: 'center',
+    dataIndex: ['Home', 'title'],
+    render: (value, row) => <Link href={`/team/${row.HomeId}`}><a><Tooltip title={row.WinnerId == row.HomeId ? '승리팀' : '패배팀'}>{row.capture === 'Y' ? '*' : null}{value}</Tooltip></a></Link>
   },
   {
-    title: 'Away',
-    children: [
-      {
-        title: '도전팀',
-        dataIndex: 'awayTeamName',
-        align: 'center',
-      },
-      {
-        title: '득점',
-        dataIndex: 'awayTeamScore',
-        align: 'center',
-      },
-    ],
+    title: '신청팀',
+    align: 'center',
+    dataIndex: ['Away', 'title'],
+    render: (value, row) => <Link href={`/team/${row.AwayId}`}><a><Tooltip title={row.WinnerId == row.AwayId ? '승리팀' : '패배팀'}>{value}</Tooltip></a></Link>
   },
   {
-    title: '일시',
+    title: '경기일자',
+    align: 'center',
     dataIndex: 'date',
-    align: 'center',
+  render: (value) => <Tooltip title={moment(value.toString()).locale('ko').format('YYYY-MM-DD HH:mm')}>{value.slice(0, 10)}</Tooltip> ,
   },
   {
-    title: '장소',
-    dataIndex: 'satdiumName',
+    title: '경기장소',
     align: 'center',
+    dataIndex: ['Stadium', 'title'],
+    render: (value, row) => <Link href={`/stadium/${row.StadiumId}`}><a>{value}</a></Link>
   },
 ];
 
