@@ -4,8 +4,9 @@ import Router, { useRouter } from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
 import { END } from 'redux-saga';
 import { Skeleton, Col, Row, Tabs, Button, Descriptions, Typography, Table, Card, Space, Tag } from 'antd';
-import { ToolOutlined } from '@ant-design/icons';
+import { LoadingOutlined, ToolOutlined } from '@ant-design/icons';
 import axios from 'axios';
+import useSWR from 'swr';
 import Head from 'next/head';
 
 import AppLayout2 from '../../components/AppLayout2';
@@ -18,6 +19,8 @@ import { teamMemberColumns as memberColumns, teamRecordColumns as recordColumns 
 import wrapper from '../../store/configureStore';
 import TeamManagement from '../../components/TeamManagement';
 
+const fetcher = (url) => url.substr(-1, 1) !== '1' && axios.get(url, { withCredentials: true }).then((result) => result.data);
+
 const Team = () => {
   const router = useRouter();
   const { id } = router.query;
@@ -25,8 +28,11 @@ const Team = () => {
   const { me, isLoggedIn, isJoinnigIn } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [managementVisible, setManagementVsible] = useState(false);
+  const [tabKey, setTabKey] = useState('1');
   const lastScrollTop = useRef(0);
   const updownDirection = useRef(false);
+
+  const { data, error } = useSWR(`http://localhost:3065/team/${id}/${tabKey}`, fetcher);
 
   const joinInTeam = useCallback(() => {
     dispatch({
@@ -153,6 +159,8 @@ const Team = () => {
                 isSelected && isLoggedIn && (info.id === me?.LeaderId)
                 && <Button onClick={onClickManagement} shape="round"><ToolOutlined />팀 관리</Button>
               }
+              defaultActiveKey={tabKey}
+              onChange={(key) => setTabKey(key)}
             >
               <Tabs.TabPane tab="상세정보" key="1">
                 <Descriptions
@@ -187,33 +195,52 @@ const Team = () => {
                 }
               </Tabs.TabPane>
               <Tabs.TabPane tab="선수 명단" key="2">
-                <Skeleton active loading={!isSelected} />
-                {isSelected
-                                  && (
-                                  <Table
-                                    showHeader
-                                    tableLayout="fixed"
-                                    columns={memberColumns}
-                                    pagination={{ pageSize: 15 }}
-                                    scroll={{ x: 'max-content', scrollToFirstRowOnChange: true, y: 550 }}
-                                    dataSource={info.Users}
-                                    rowKey={(member) => member.id}
-                                  />
-                                  )}
+                {
+                  !data && !error && <Skeleton active loading />
+                }
+                {
+                  tabKey === '2'
+                  && (
+                    <Table
+                      showHeader
+                      tableLayout="fixed"
+                      columns={memberColumns}
+                      pagination={{ pageSize: 10 }}
+                      scroll={{ x: 'max-content', scrollToFirstRowOnChange: true, y: 550 }}
+                      dataSource={data}
+                      rowKey={(member) => member.id}
+                    />
+                  )
+                }
               </Tabs.TabPane>
               <Tabs.TabPane tab="전적" key="3">
-                <Skeleton active loading={!isSelected} />
-                {isSelected
-                                  && (
-                                  <Table
-                                    showHeader
-                                    columns={recordColumns}
-                                    dataSource={info.record}
-                                  />
-                                  )}
+                {
+                  !data && !error && <Skeleton active loading />
+                }
+                {
+                  tabKey === '3'
+                  && (
+                    <Table
+                      showHeader
+                      columns={recordColumns}
+                      dataSource={data}
+                      rowKey={(v) => v.id}
+                    />
+                  )
+                }
               </Tabs.TabPane>
               <Tabs.TabPane tab="사진" key="4">
-                <Skeleton active />
+                {
+                  !data && !error && <Skeleton active loading />
+                }
+                <Row justify="space-around">
+                  {
+                    tabKey === '4' && data
+                    && (
+                      data.map((v) => <Col xs={{ span: 22 }} sm={{ span: 12 }} md={{ span: 8 }} key={v.Images[0].id} className={style.photoBrick}><div className={style.thumbnail}><div className={style.centered}><img src={`http://localhost:3065/${v.Images[0].src}`} /></div></div></Col>)
+                    )
+                  }
+                </Row>
               </Tabs.TabPane>
             </Tabs>
           </div>
