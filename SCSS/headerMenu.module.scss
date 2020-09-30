@@ -13,7 +13,7 @@ $sm : 576px;
         box-sizing: border-box;
         li{
             display: inline-block;
-            vertical-align: bottom;
+            vertical-align: middle;
             font-size: 14px;
             border-bottom: 2px solid transparent;
             padding: 0 10px;
@@ -78,9 +78,11 @@ $sm : 576px;
                 padding: 0 11px;
                 width: 350px;
                 height: 45px;
-                line-height: 2px;
+                line-height: 45px;
+                // vertical-align: middle;
                 &:hover{
-                    border: 1px solid #1890ff;
+                    // border: 1px solid #1890ff;
+                    box-shadow: 0 0 0 2px rgba(24,144,255,.2);
                 }
                 @media screen and (max-width: $sm){
                     display: none;
@@ -90,6 +92,7 @@ $sm : 576px;
                 }
                 .searchicon{
                     margin-right: 4px;
+                    // vertical-align: -webkit-baseline-middle;
                 }
                 .searchinput{
                     outline: none;
@@ -127,7 +130,7 @@ $sm : 576px;
                 height: 45px;
                 border: 0;
                 box-shadow: 0 1px 1px 0 rgba(65,69,73,0.3), 0 1px 3px 1px rgba(65,69,73,0.15);
-                line-height: 2px;
+                line-height: 45px;
                 z-index: 6;
                 .hiddenout{
                     margin-right: 10px;
