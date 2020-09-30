@@ -79,3 +79,29 @@ export const CommentGlobal = createGlobalStyle`
     padding: 10px 0;
   }
 `;
+
+export const SearchBoxGlobal = createGlobalStyle`
+  .ant-select-selector {
+    margin: 0 !important;
+    border: none !important;
+    background-color: #f1f3f4 !important;
+    height: 45px !important;
+    box-shadow: none !important;
+    width: 300px !important;
+  }
+  .ant-select-selection-search-input {
+    outline: none !important;
+    border: none !important;
+    margin: 0 !important;
+    width: 285px !important;
+    background-color: #f1f3f4 !important;
+    height: 45px !important;
+    font-size: 16px !important;
+  }
+  .ant-select {
+    vertical-align: bottom !important;
+  }
+  .ant-select-selection-placeholder {
+    line-height: 45px !important;
+  }
+`;
