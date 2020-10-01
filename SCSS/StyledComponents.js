@@ -85,9 +85,12 @@ export const SearchBoxGlobal = createGlobalStyle`
     margin: 0 !important;
     border: none !important;
     background-color: #f1f3f4 !important;
-    height: 45px !important;
+    height: 100% !important;
     box-shadow: none !important;
     width: 300px !important;
+    @media (max-width: 576px){
+      width: 220px !important;
+    }
   }
   .ant-select-selection-search-input {
     outline: none !important;
@@ -95,11 +98,15 @@ export const SearchBoxGlobal = createGlobalStyle`
     margin: 0 !important;
     width: 285px !important;
     background-color: #f1f3f4 !important;
-    height: 45px !important;
+    height: 100% !important;
     font-size: 16px !important;
+    @media (max-width: 576px){
+      width: 150px !important;
+    }
   }
   .ant-select {
     vertical-align: bottom !important;
+    height: 100% !important;
   }
   .ant-select-selection-placeholder {
     line-height: 45px !important;
