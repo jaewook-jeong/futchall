@@ -121,6 +121,11 @@ const HeaderSearchBox = () => {
           allowClear
           value={searchQ}
           onChange={setSearchQ}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              Router.push(`/search?q=${searchQ}`);
+            }
+          }}
           placeholder="팀과 구장을 검색해보세요!"
           onSearch={onSearch}
           onSelect={onSelect}
