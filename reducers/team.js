@@ -229,7 +229,7 @@ export default (state = initialState, action) => produce(state, (draft) => {
     case SEARCH_TEAMS_SUCCESS:
       draft.isSearching = false;
       draft.isSearched = true;
-      draft.teamList = dummyList;
+      draft.teamList = action.data;
       break;
     case SEARCH_TEAMS_FAILURE:
       draft.isSearching = false;

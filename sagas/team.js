@@ -75,6 +75,9 @@ function enrollAPI(data) {
 function* enroll(action) {
   try {
     const teamInfo = yield call(enrollAPI, action.data);
+    console.log('------------------------------------');
+    console.log(teamInfo);
+    console.log('------------------------------------');
     yield put({
       type: ENROLL_TEAM_SUCCESS,
     });
@@ -116,23 +119,21 @@ function* watchLoad() {
   yield takeEvery(LOAD_LIST_REQUEST, load);
 }
 
-function searchAPI(query) {
-  if (query.indexOf('지역검색 :') === 0) {
-    return axios.get(`team/search?loc=${query}`);
-  }
-  return axios.get(`team/search?q=${query}`);
+function searchAPI(action) {
+  return axios.post('/team/search', action.data);
 }
 function* search(action) {
   try {
-    // yield call(searchAPI(action.data..query));
-    yield delay(1000);
+    const result = yield call(searchAPI, action);
     yield put({
       type: SEARCH_TEAMS_SUCCESS,
+      data: result.data,
     });
   } catch (e) {
+    console.error(e);
     yield put({
       type: SEARCH_TEAMS_FAILURE,
-      error: e,
+      error: e.response.data,
     });
   }
 }
