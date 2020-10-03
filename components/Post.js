@@ -64,7 +64,7 @@ const Post = ({ data }) => {
                             cancelText="취소"
                             style={{ textAlign: 'center' }}
                           >
-                            <Button danger type="link"><a href="#">삭제하기</a></Button>
+                            <Button danger type="link" loading={removePostLoading}><a href="#">삭제하기</a></Button>
                           </Popconfirm>
                         </Row>
                       </Col>

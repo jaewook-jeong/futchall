@@ -1,8 +1,6 @@
 import React from 'react';
-import Router from 'next/router';
 import { useSelector } from 'react-redux';
-import { Row, Col, List, Typography, Button, Tag, Tooltip } from 'antd';
-import { LikeOutlined } from '@ant-design/icons';
+import { Row, Col, Typography } from 'antd';
 import { END } from 'redux-saga';
 import axios from 'axios';
 
@@ -12,55 +10,13 @@ import wrapper from '../store/configureStore';
 import { LOAD_MY_INFO_REQUEST } from '../reducers/user';
 
 const Search = () => {
-  const { teamList, isSearched, query, isSearching } = useSelector((state) => state.team);
-  console.log(teamList);
+  const { teamList, query } = useSelector((state) => state.team);
+  console.log(teamList, query);
   return (
     <AppLayout>
       <Row>
         <Col xs={{ span: 22, offset: 1 }} md={{ span: 20, offset: 2 }}>
           <Typography.Title level={4}>"{query}"에 대한 검색 결과입니다.</Typography.Title>
-          {/* {
-              !isSearched
-                ? <List loading />
-                : (
-                  <List
-                    loading={isSearching}
-                    itemLayout="vertical"
-                    pagination={{ pageSize: 10 }}
-                    bordered={false}
-                    dataSource={teamList}
-                    size="small"
-                    footer={(
-                      <div>
-                        <b>{teamList.length}건</b>의 검색결과
-                      </div>
-                    )}
-                    renderItem={(item) => (
-                      <List.Item
-                        key={item.id}
-                        actions={[
-                          <Tooltip title="현재 점령중인 구장 수" key={item.occupation}><LikeOutlined />{item.occupation}</Tooltip>,
-                          <Tag key={item.location}>#{item.location}</Tag>,
-                          <Tag key={item.recruit} hidden={item.recruit !== 'Y'}>#모집중</Tag>,
-                        ]}
-                        extra={(
-                          <img
-                            width={172}
-                            alt="logo"
-                            src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-                          />
-                          )}
-                      >
-                        <List.Item.Meta
-                          title={<Button type="link" onClick={() => Router.push(`/team/${item.id}`)}>{item.name}</Button>}
-                          // title={<Link href={`/team/${item.id}`} as={`/team/${item.id}`}><a>{item.name}</a></Link>}
-                          description={item.description}
-                        />
-                      </List.Item>
-                    )}
-                  />
-                )
-            } */}
         </Col>
       </Row>
     </AppLayout>
