@@ -8,6 +8,7 @@ $sm : 576px;
     text-align: center;
     .ImgContainer{
       width: 100%;
+      margin-top: 10px;
       &::before {
         background-color: black;
         content: '';
