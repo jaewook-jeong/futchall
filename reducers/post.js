@@ -6,6 +6,10 @@ import produce from '../util/produce';
 export const initialState = {
   mainPosts: [],
   imagePaths: [],
+  post: null,
+  selectPostLoading: false,
+  selectPostDone: false,
+  selectPostError: null,
   hasMorePosts: true,
   loadPostsLoading: false,
   loadPostsDone: false,
@@ -58,6 +62,10 @@ export const LOAD_POSTS_FAILURE = 'LOAD_POSTS_FAILURE';
 export const ADD_POST_REQUEST = 'ADD_POST_REQUEST';
 export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS';
 export const ADD_POST_FAILURE = 'ADD_POST_FAILURE';
+
+export const SELECT_POST_REQUEST = 'SELECT_POST_REQUEST';
+export const SELECT_POST_SUCCESS = 'SELECT_POST_SUCCESS';
+export const SELECT_POST_FAILURE = 'SELECT_POST_FAILURE';
 
 export const REMOVE_POST_REQUEST = 'REMOVE_POST_REQUEST';
 export const REMOVE_POST_SUCCESS = 'REMOVE_POST_SUCCESS';
@@ -149,6 +157,20 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
     case ADD_COMMENT_FAILURE:
       draft.addCommentLoading = false;
       draft.addCommentError = action.error;
+      break;
+    case SELECT_POST_REQUEST:
+      draft.selectPostLoading = true;
+      draft.selectPostDone = false;
+      draft.selectPostError = null;
+      break;
+    case SELECT_POST_SUCCESS:
+      draft.post = action.data;
+      draft.selectPostLoading = false;
+      draft.selectPostDone = true;
+      break;
+    case SELECT_POST_FAILURE:
+      draft.selectPostLoading = false;
+      draft.selectPostError = action.error;
       break;
     case UPLOAD_IMAGES_REQUEST:
       draft.uploadImagesLoading = true;

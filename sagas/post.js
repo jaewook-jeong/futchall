@@ -1,6 +1,6 @@
 import axios from 'axios';
 import shortId from 'shortid';
-import { all, delay, fork, put, call, takeLatest, throttle } from 'redux-saga/effects';
+import { all, fork, put, call, takeLatest, throttle } from 'redux-saga/effects';
 
 import {
   ADD_COMMENT_FAILURE,
@@ -18,6 +18,9 @@ import {
   UPLOAD_IMAGES_REQUEST,
   UPLOAD_IMAGES_SUCCESS,
   UPLOAD_IMAGES_FAILURE,
+  SELECT_POST_REQUEST,
+  SELECT_POST_SUCCESS,
+  SELECT_POST_FAILURE
 } from '../reducers/post';
 import { ADD_POST_TO_ME, REMOVE_POST_OF_ME } from '../reducers/user';
 
@@ -116,6 +119,30 @@ function* addComment(action) {
   }
 }
 
+function selectPostAPI(data) {
+  return axios.get(`/post/${data.id}`);
+}
+
+function* selectPost(action) {
+  try {
+    const result = yield call(selectPostAPI, action.data);
+    yield put({
+      type: SELECT_POST_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: SELECT_POST_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
+function* watchSelectPost() {
+  yield takeLatest(SELECT_POST_REQUEST, selectPost);
+}
+
 function uploadImagesAPI(data) {
   return axios.post('/post/images', data);
 }
@@ -163,5 +190,6 @@ export default function* postSaga() {
     fork(watchRemovePost),
     fork(watchAddComment),
     fork(watchUploadImages),
+    fork(watchSelectPost),
   ]);
 }
