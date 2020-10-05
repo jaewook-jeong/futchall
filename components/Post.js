@@ -10,7 +10,7 @@ import PostImages from './PostImages';
 import Comments from './Comments';
 import { REMOVE_POST_REQUEST } from '../reducers/post';
 
-const Post = ({ data }) => {
+const PostComponent = ({ data }) => {
   const dispatch = useDispatch();
   const me = useSelector((state) => state.user?.me);
   const { removePostLoading } = useSelector((state) => state.post);
@@ -100,7 +100,7 @@ const Post = ({ data }) => {
   );
 };
 
-Post.propTypes = {
+PostComponent.propTypes = {
   data: PropTypes.shape({
     id: PropTypes.number,
     UserId: PropTypes.number,
@@ -113,4 +113,4 @@ Post.propTypes = {
   }).isRequired,
 };
 
-export default Post;
+export default PostComponent;

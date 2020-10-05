@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Empty } from 'antd';
 
 import PostForm from './PostForm';
-import Post from './Post';
+import PostComponent from './Post';
 import { LOAD_POSTS_REQUEST } from '../reducers/post';
 
 const Feed = ({ where, req }) => {
@@ -37,7 +37,7 @@ const Feed = ({ where, req }) => {
     <>
       {me && <PostForm where={where} req={req} />}
       {mainPosts.map((v) => (
-        <Post key={v.id} data={v} />
+        <PostComponent key={v.id} data={v} />
       ))}
       {mainPosts.length === 0 && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />}
     </>
