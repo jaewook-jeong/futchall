@@ -66,12 +66,12 @@ const CaptureMatch = ({ visible, setVisible }) => {
       visible={visible}
       onCancel={onHandleCancel}
       centered
-      width="330px"
+      width="430px"
       footer={null}
     >
       <Form
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 18, offset: 1 }}
+        labelCol={{ span: 4 }}
+        wrapperCol={{ span: 14 }}
         layout="horizontal"
         form={form}
         onFinish={onFinishCapture}
@@ -102,6 +102,8 @@ const CaptureMatch = ({ visible, setVisible }) => {
         }
         <Form.Item name="date" label="일시" colon={false}>
           <DatePicker
+            style={{ width: '300px' }}
+            size="large"
             format="YYYY-MM-DD HH:mm"
             disabledDate={disabledDate}
             showTime={{ defaultValue: moment('00:00', 'HH:mm') }}

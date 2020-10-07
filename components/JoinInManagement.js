@@ -1,12 +1,13 @@
 import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Button, message, Space, Table, Tag } from 'antd';
+import { Button, Space, Table, Tag } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { SELECT_LIST_REQUEST, JOIN_MANAGE_REQUEST } from '../reducers/user';
 
 const JoinInManagement = ({ teamId }) => {
   const { userList, isApproving, isCanceling } = useSelector((state) => state.user);
+  const { isSelecting: userListSelecting } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   const onClick = useCallback((data) => () => {
@@ -29,8 +30,10 @@ const JoinInManagement = ({ teamId }) => {
   return (
     <>
       <Table
+        scroll={{ x: 'max-content' }}
         dataSource={userList}
         rowKey={(user) => user.id}
+        loading={userListSelecting}
       >
         <Table.Column
           title="닉네임"

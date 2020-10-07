@@ -12,6 +12,7 @@ const MatchManagement = () => {
   const teamId = useSelector((state) => state.user.me.LeaderId);
   const { matches, isPatchingWinner, isPatchedWinner, pacthWinnerErrorReason, isPatchingLoser, isPatchedLoser, pacthLoserErrorReason, isPatchingApproval, isPatchedApproval, pacthApprovalErrorReason, isPatchingCancel, isPatchedCancel, pacthCancelErrorReason } = useSelector((state) => state.matches);
   const [captureVisiblity, onCaptureVisiblity] = useState(false);
+  const { isSelecting: matchesSelecting } = useSelector((state) => state.matches);
 
 
   const setCaptureVisiblity = useCallback(() => {
@@ -64,6 +65,9 @@ const MatchManagement = () => {
   return (
     <>
       <Table
+        scroll={{ x: 'max-content' }}
+        tableLayout="auto"
+        loading={matchesSelecting}
         dataSource={matches}
         rowKey={(match) => match.id}
         pagination={{ responsive: true, pageSize: 8 }}

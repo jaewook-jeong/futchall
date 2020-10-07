@@ -8,13 +8,11 @@ import MatchManagement from './MatchManagement';
 import JoinInManagement from './JoinInManagement';
 import TeamInfoManagement from './TeamInfoManagement';
 import { SELECT_MATCHES_REQUEST } from '../reducers/matches';
+import { SELECT_LIST_REQUEST } from '../reducers/user';
 
 const TeamManagement = ({ setVisible, teamId, visible }) => {
   const [tabkey, setTabKey] = useState('1');
   const dispatch = useDispatch();
-  const { isSelecting: matchesSelecting } = useSelector((state) => state.matches);
-  const { isSelecting: teamInfoSelecting } = useSelector((state) => state.team);
-  const { isSelecting: userListSelecting } = useSelector((state) => state.user);
   const onClose = useCallback(() => {
     setVisible(false);
   }, []);
@@ -29,6 +27,12 @@ const TeamManagement = ({ setVisible, teamId, visible }) => {
       });
     } else if (tabkey === '2') {
       // 유저정보
+      dispatch({
+        type: SELECT_LIST_REQUEST,
+        data: {
+          teamId,
+        },
+      });
     }
   }, []);
 
@@ -42,14 +46,11 @@ const TeamManagement = ({ setVisible, teamId, visible }) => {
     >
       <Tabs
         defaultActiveKey={tabkey}
-        tabBarExtraContent={{ right: <Button type="primary" shape="circle" onClick={onReset} loading={matchesSelecting || teamInfoSelecting || userListSelecting} icon={<ReloadOutlined />} style={{ marginRight: '15px' }} /> }}
+        tabBarExtraContent={{ right: <Button type="primary" shape="circle" onClick={onReset} icon={<ReloadOutlined />} style={{ marginRight: '15px' }} /> }}
         type="card"
         onChange={(key) => setTabKey(key)}
       >
         <Tabs.TabPane key="1" tab="경기관리">
-          {
-            matchesSelecting && <LoadingOutlined />
-          }
           {
             tabkey === '1'
             && <MatchManagement />
@@ -57,17 +58,11 @@ const TeamManagement = ({ setVisible, teamId, visible }) => {
         </Tabs.TabPane>
         <Tabs.TabPane key="2" tab="가입관리">
           {
-            userListSelecting && <LoadingOutlined />
-          }
-          {
             tabkey === '2'
             && <JoinInManagement teamId={teamId} />
           }
         </Tabs.TabPane>
         <Tabs.TabPane key="3" tab="정보수정">
-          {
-            teamInfoSelecting && <LoadingOutlined />
-          }
           {
             tabkey === '3'
             && <TeamInfoManagement />

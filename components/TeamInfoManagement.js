@@ -86,7 +86,7 @@ const TeamInfoManagement = () => {
                 loading={isEditting}
                 disabled={form.getFieldsError().filter(({ errors }) => errors.length).length}
               >
-                등록하기
+                수정하기
               </Button>
             )}
           </Form.Item>
