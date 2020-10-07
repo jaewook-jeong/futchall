@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useCallback, useState } from 'react';
 import Router, { useRouter } from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
 import { END } from 'redux-saga';
-import { Skeleton, Col, Row, Tabs, Button, Descriptions, Typography, Table, Card, Space, Tag } from 'antd';
+import { Skeleton, Col, Row, Tabs, Button, Descriptions, Typography, Table, Card, Space, Tag, List } from 'antd';
 import { LoadingOutlined, ToolOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import useSWR from 'swr';
@@ -18,6 +18,7 @@ import style from '../../SCSS/feedLayout.module.scss';
 import { teamMemberColumns as memberColumns, teamRecordColumns as recordColumns } from '../../util/columns';
 import wrapper from '../../store/configureStore';
 import TeamManagement from '../../components/TeamManagement';
+import MatchCard from '../../components/MatchCard';
 
 const fetcher = (url) => url.substr(-1, 1) !== '1' && axios.get(url, { withCredentials: true }).then((result) => result.data);
 
@@ -217,7 +218,7 @@ const Team = () => {
                 {
                   !data && !error && <Skeleton active loading />
                 }
-                {
+                {/* {
                   tabKey === '3'
                   && (
                     <Table
@@ -225,6 +226,29 @@ const Team = () => {
                       columns={recordColumns}
                       dataSource={data}
                       rowKey={(v) => v.id}
+                    />
+                  )
+                } */}
+                {
+                  tabKey === '3'
+                  && (
+                    <List
+                      grid={{
+                        xs: 1,
+                        sm: 1,
+                        md: 1,
+                        lg: 1,
+                        xl: 2,
+                        xxl: 3,
+                      }}
+                      pagination
+                      rowKey={(item) => item.id}
+                      dataSource={data}
+                      renderItem={(item) => (
+                        <List.Item>
+                          <MatchCard match={item} />
+                        </List.Item>
+                      )}
                     />
                   )
                 }
