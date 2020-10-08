@@ -3,8 +3,8 @@ import React, { useEffect, useRef, useCallback, useState } from 'react';
 import Router, { useRouter } from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
 import { END } from 'redux-saga';
-import { Skeleton, Col, Row, Tabs, Button, Descriptions, Typography, Table, Card, Space, Tag, List } from 'antd';
-import { LoadingOutlined, ToolOutlined } from '@ant-design/icons';
+import { Skeleton, Col, Row, Tabs, Button, Descriptions, Typography, Table, Card, Space, Tag, List, Empty } from 'antd';
+import { ToolOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import useSWR from 'swr';
 import Head from 'next/head';
@@ -238,10 +238,10 @@ const Team = () => {
                         sm: 1,
                         md: 1,
                         lg: 1,
-                        xl: 2,
-                        xxl: 3,
+                        xl: 1,
+                        xxl: 2,
                       }}
-                      pagination
+                      pagination={{ pageSize: 6 }}
                       rowKey={(item) => item.id}
                       dataSource={data}
                       renderItem={(item) => (
@@ -259,10 +259,11 @@ const Team = () => {
                 }
                 <Row justify="space-around">
                   {
-                    tabKey === '4' && data
-                    && (
-                      data.map((v) => <Col xs={{ span: 22 }} sm={{ span: 12 }} md={{ span: 8 }} key={v.Images[0].id} className={style.photoBrick}><div className={style.thumbnail}><div className={style.centered}><img src={`http://localhost:3065/${v.Images[0].src}`} /></div></div></Col>)
-                    )
+                    (tabKey === '4' && data?.length)
+                      ? (
+                        data.map((v) => <Col xs={{ span: 22 }} sm={{ span: 12 }} md={{ span: 8 }} key={v.Images[0].id} className={style.photoBrick}><div className={style.thumbnail}><div className={style.centered}><img src={`http://localhost:3065/${v.Images[0].src}`} /></div></div></Col>)
+                      )
+                      : <Empty />
                   }
                 </Row>
               </Tabs.TabPane>

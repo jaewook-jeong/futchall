@@ -1,12 +1,14 @@
 /* eslint-disable no-undef */
-import React, { useEffect, useCallback, useRef } from 'react';
+import React, { useEffect, useCallback, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { END } from 'redux-saga';
 import Router, { useRouter } from 'next/router';
-import { Skeleton, Col, Row, Tabs, Button, message, Descriptions, Tag, Typography, Tooltip, Card, notification } from 'antd';
+import { Skeleton, Col, Row, Tabs, Button, message, Descriptions, Tag, Typography, Tooltip, Card, notification, List, Empty } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import Head from 'next/head';
+import Link from 'next/link';
+import useSWR from 'swr';
 
 import wrapper from '../../store/configureStore';
 import StadiumComment from '../../components/StadiumComment';
@@ -18,14 +20,20 @@ import { LOAD_POSTS_REQUEST } from '../../reducers/post';
 import { multipleSpecaility } from '../../util/columns';
 import style from '../../SCSS/feedLayout.module.scss';
 import stadiumMapStyles from '../../SCSS/stadium.module.scss';
+import MatchCard from '../../components/MatchCard';
+
+const fetcher = (url) => url.substr(-1, 1) !== '1' && axios.get(url, { withCredentials: true }).then((result) => result.data);
 
 const Stadium = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const { id } = router.query;
   const lastScrollTop = useRef(0);
+  const [tabKey, setTabKey] = useState('1');
   const updownDirection = useRef(false);
   const { info, isSelected, isTakingStadium, isTakenStadium, takenStadiumErrorReason } = useSelector((state) => state.stadium);
+
+  const { data, error } = useSWR(`http://localhost:3065/stadium/${id}/${tabKey}`, fetcher);
 
   const moveToTeam = useCallback(() => {
     Router.push(`/team/${info.TeamId}`);
@@ -93,7 +101,7 @@ const Stadium = () => {
       // 오버레이 클릭시 팀으로 이동하고 싶은데 위에 overlayFrame에 그대로 넣으면 대부분의 방식에서 "function" 이런식으로 해석되어 버림
       document.getElementById('whatShouldIDo').onclick = moveToTeam;
     }
-  }, [isSelected]);
+  }, [info]);
 
   useEffect(() => {
     function onScroll() {
@@ -128,7 +136,7 @@ const Stadium = () => {
     return () => {
       window.removeEventListener('scroll', onScroll);
     };
-  }, []);
+  }, [info]);
 
   return (
     <AppLayout2>
@@ -175,7 +183,11 @@ const Stadium = () => {
         <Col xs={{ span: 24 }} sm={{ span: 24 }} md={{ span: 10 }}>
           <div id="facebookFake" />
           <div className={style.fixedInfo} id="facebookFlow">
-            <Tabs tabBarExtraContent={<Button onClick={() => { message.warn('준비중입니다.'); }} shape="round"><QuestionCircleOutlined />정보수정</Button>}>
+            <Tabs
+              tabBarExtraContent={<Button onClick={() => { message.warn('준비중입니다.'); }} shape="round"><QuestionCircleOutlined />정보수정</Button>}
+              defaultActiveKey={tabKey}
+              onChange={(key) => setTabKey(key)}
+            >
               <Tabs.TabPane tab="상세정보" key="1">
                 <Descriptions
                   column={{ xxl: 4, xl: 2, lg: 2, md: 2, sm: 2, xs: 2 }}
@@ -200,7 +212,7 @@ const Stadium = () => {
                   </Descriptions.Item>
                   <Descriptions.Item label="점령 팀" span={2}>
                     <Skeleton loading={!isSelected} active paragraph={false} />
-                    {(isSelected && info.Team?.title) ? <a onClick={moveToTeam}>{info.Team.title}</a> : <Button type="primary" onClick={takeStadium} loading={isTakingStadium}>점령하기</Button>}
+                    {(isSelected && info.Team?.title) ? <Link href={`/team/${info.TeamId}`}><a>{info.Team.title}</a></Link> : <Button type="primary" onClick={takeStadium} loading={isTakingStadium}>점령하기</Button>}
                   </Descriptions.Item>
                   <Descriptions.Item label={<>유효기간 <Tooltip title="점령 후 도전을 받지 않을 시 유지되는 기간입니다."><QuestionCircleOutlined /></Tooltip></>} span={2}>
                     <Skeleton loading={!isSelected} active paragraph={false} />
@@ -211,12 +223,59 @@ const Stadium = () => {
                   <div id="stadiumAddress" className={style.occupyMap} />
                 </div>
               </Tabs.TabPane>
-              <Tabs.TabPane tab="후기" key="2">
-                <Skeleton active loading={!isSelected} />
-                {isSelected && <StadiumComment />}
+              <Tabs.TabPane tab="경기기록" key="2">
+                {
+                  !data && !error && <Skeleton active loading />
+                }
+                {
+                  tabKey === '2'
+                  && (
+                    <List
+                      grid={{
+                        xs: 1,
+                        sm: 1,
+                        md: 1,
+                        lg: 1,
+                        xl: 1,
+                        xxl: 2,
+                      }}
+                      pagination={{ pageSize: 6 }}
+                      rowKey={(item) => item.id}
+                      dataSource={data}
+                      renderItem={(item) => (
+                        <List.Item>
+                          <MatchCard match={item} />
+                        </List.Item>
+                      )}
+                    />
+                  )
+                }
               </Tabs.TabPane>
               <Tabs.TabPane tab="사진" key="3">
-                <Skeleton active />
+                {
+                  !data && !error && <Skeleton active loading />
+                }
+                <Row justify="space-around">
+                  {
+                    (tabKey === '3' && data?.length)
+                      ? (
+                        data.map((v) => (
+                          <Col xs={{ span: 22 }} sm={{ span: 12 }} md={{ span: 8 }} key={v.Images[0].id} className={style.photoBrick}>
+                            <div className={style.thumbnail}>
+                              <div className={style.centered}>
+                                <img src={`http://localhost:3065/${v.Images[0].src}`} />
+                              </div>
+                            </div>
+                          </Col>
+                        ))
+                      )
+                      : <Empty />
+                  }
+                </Row>
+              </Tabs.TabPane>
+              <Tabs.TabPane tab="후기" key="4">
+                <Skeleton active loading />
+                <StadiumComment />
               </Tabs.TabPane>
             </Tabs>
           </div>
