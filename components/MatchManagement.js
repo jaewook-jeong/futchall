@@ -5,18 +5,23 @@ import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 
 import CaptureMatch from './CaptureMatch';
+import ReserveMatch from './ReserveMatch';
 import { PATCH_APPROVAL_REQUEST, PATCH_CANCEL_REQUEST, PATCH_LOSER_REQUEST, PATCH_WINNER_REQUEST, SELECT_MATCHES_REQUEST } from '../reducers/matches';
 
 const MatchManagement = () => {
   const dispatch = useDispatch();
   const teamId = useSelector((state) => state.user.me.LeaderId);
-  const { matches, isPatchingWinner, isPatchedWinner, pacthWinnerErrorReason, isPatchingLoser, isPatchedLoser, pacthLoserErrorReason, isPatchingApproval, isPatchedApproval, pacthApprovalErrorReason, isPatchingCancel, isPatchedCancel, pacthCancelErrorReason } = useSelector((state) => state.matches);
+  const { matches, isPatchingWinner, pacthWinnerErrorReason, isPatchingLoser, pacthLoserErrorReason, isPatchingApproval, pacthApprovalErrorReason, isPatchingCancel, pacthCancelErrorReason } = useSelector((state) => state.matches);
   const [captureVisiblity, onCaptureVisiblity] = useState(false);
+  const [matchVisiblity, onMatchVisiblity] = useState(false);
   const { isSelecting: matchesSelecting } = useSelector((state) => state.matches);
 
 
   const setCaptureVisiblity = useCallback(() => {
     onCaptureVisiblity(!captureVisiblity);
+  }, []);
+  const setMatchVisiblity = useCallback(() => {
+    onMatchVisiblity(!matchVisiblity);
   }, []);
   const onClickWinner = useCallback((data) => () => {
     dispatch({
@@ -62,6 +67,11 @@ const MatchManagement = () => {
     });
   }, []);
 
+  useEffect(() => {
+    if (pacthWinnerErrorReason || pacthApprovalErrorReason || pacthCancelErrorReason || pacthLoserErrorReason) {
+      message.error(pacthWinnerErrorReason || pacthApprovalErrorReason || pacthCancelErrorReason || pacthLoserErrorReason);
+    }
+  }, [pacthWinnerErrorReason, pacthApprovalErrorReason, pacthCancelErrorReason, pacthLoserErrorReason]);
   return (
     <>
       <Table
@@ -72,7 +82,10 @@ const MatchManagement = () => {
         rowKey={(match) => match.id}
         pagination={{ responsive: true, pageSize: 8 }}
         footer={() => (
-          <Button type="primary" onClick={setCaptureVisiblity}>점령전 신청</Button>
+          <Space>
+            <Button type="primary" onClick={setCaptureVisiblity}>점령전 신청</Button>
+            <Button type="default" onClick={setMatchVisiblity}>경기 신청</Button>
+          </Space>
         )}
       >
         <Table.Column title="홈팀" dataIndex={['Home', 'title']} align="center"
@@ -148,8 +161,14 @@ const MatchManagement = () => {
           }}
         />
       </Table>
-      {captureVisiblity
-        && <CaptureMatch visible={captureVisiblity} setVisible={onCaptureVisiblity} />}
+      {
+        captureVisiblity
+        && <CaptureMatch visible={captureVisiblity} setVisible={onCaptureVisiblity} />
+      }
+      {
+        matchVisiblity
+        && <ReserveMatch visible={matchVisiblity} setVisible={onMatchVisiblity} />
+      }
     </>
   );
 };
