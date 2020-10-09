@@ -3,10 +3,10 @@ import Router, { useRouter } from 'next/router';
 import { SearchOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { AutoComplete, Button } from 'antd';
+import Link from 'next/link';
 
 import styles from '../SCSS/headerMenu.module.scss';
 import { SearchBoxGlobal } from '../SCSS/StyledComponents';
-import Link from 'next/link';
 
 const HeaderSearchBox = () => {
   // const useTeamSearching = useCallback(() => {
@@ -126,7 +126,7 @@ const HeaderSearchBox = () => {
               Router.push(`/search?q=${searchQ}`);
             }
           }}
-          placeholder="팀과 구장을 검색해보세요!"
+          placeholder="검색어를 입력하세요!"
           onSearch={onSearch}
           onSelect={onSelect}
           options={options}
@@ -166,7 +166,7 @@ const HeaderSearchBox = () => {
           allowClear
           value={searchQ}
           onChange={setSearchQ}
-          placeholder="팀과 구장을 검색해보세요!"
+          placeholder="검색어를 입력하세요!"
           onSearch={onSearch}
           onSelect={onSelect}
           options={options}

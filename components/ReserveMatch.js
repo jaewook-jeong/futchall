@@ -66,7 +66,7 @@ const ReserveMatch = ({ visible, setVisible }) => {
       HomeId: matchInfo.teamId,
       StadiumId: matchInfo.stadiumId,
     };
-    axios.post('http://localhost:3065/match/reserve', data, { withCredentials: true })
+    axios.post('http://localhost:3065/match/reservation', data, { withCredentials: true })
       .then((result) => {
         message.success(result.data);
         setVisible(false);

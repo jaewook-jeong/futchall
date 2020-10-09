@@ -121,7 +121,6 @@ const CaptureMatch = ({ visible, setVisible }) => {
           </Button>
         </Form.Item>
       </Form>
-
     </Modal>
   );
 };
