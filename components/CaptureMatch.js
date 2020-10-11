@@ -74,6 +74,7 @@ const CaptureMatch = ({ visible, setVisible }) => {
         wrapperCol={{ span: 14 }}
         layout="horizontal"
         form={form}
+        size="large"
         onFinish={onFinishCapture}
       >
         <Form.Item

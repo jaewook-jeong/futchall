@@ -8,7 +8,8 @@ const ReserveMatch = ({ visible, setVisible }) => {
   const [form] = Form.useForm();
   const [stadiumOptions, setStadiumOptions] = useState([]);
   const [teamOptions, setTeamOptions] = useState([]);
-  const [matchInfo, setMatchInfo] = useState({ teamId: null, title: null, stadiumId: null });
+  const [teamId, setTeamId] = useState(0);
+  const [stadiumId, setStadiumId] = useState(0);
   const newStadiumRequest = useRef();
   const newTeamRequest = useRef();
 
@@ -25,7 +26,7 @@ const ReserveMatch = ({ visible, setVisible }) => {
     }, 300);
   }, []);
 
-  const disabledDate = useCallback((current) => current && current < moment().endOf('day'), [matchInfo.valid]);
+  const disabledDate = useCallback((current) => current && current < moment().endOf('day'), []);
 
   const onTeamSearch = useCallback((searchText) => {
     clearTimeout(newTeamRequest.current);
@@ -43,28 +44,16 @@ const ReserveMatch = ({ visible, setVisible }) => {
     setVisible(false);
   });
   const onTeamSelect = useCallback((data, allData) => {
-    console.log('------------------------------------');
-    console.log(data, allData);
-    console.log('------------------------------------');
-    setMatchInfo({
-      ...matchInfo,
-      teamId: allData.id,
-    });
+    setTeamId(allData.id);
   }, []);
   const onStadiumSelect = useCallback((data, allData) => {
-    console.log('------------------------------------');
-    console.log(data, allData);
-    console.log('------------------------------------');
-    setMatchInfo({
-      ...matchInfo,
-      stadiumId: allData.id,
-    });
+    setStadiumId(allData.id);
   }, []);
   const onFinishMatch = useCallback(() => {
     const data = {
       date: form.getFieldValue('date').format('YYYY-MM-DD HH:mm:00'),
-      HomeId: matchInfo.teamId,
-      StadiumId: matchInfo.stadiumId,
+      HomeId: teamId,
+      StadiumId: stadiumId,
     };
     axios.post('http://localhost:3065/match/reservation', data, { withCredentials: true })
       .then((result) => {
@@ -75,7 +64,7 @@ const ReserveMatch = ({ visible, setVisible }) => {
         console.error(error);
         message.error(error);
       });
-  }, [matchInfo]);
+  }, [stadiumId, teamId]);
   return (
     <Modal
       title="경기 신청하기"
@@ -89,6 +78,7 @@ const ReserveMatch = ({ visible, setVisible }) => {
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 14 }}
         layout="horizontal"
+        size="large"
         form={form}
         onFinish={onFinishMatch}
       >
