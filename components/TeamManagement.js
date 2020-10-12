@@ -1,9 +1,9 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { Button, Drawer, Tabs } from 'antd';
-import { LoadingOutlined, ReloadOutlined } from '@ant-design/icons';
+import { ReloadOutlined } from '@ant-design/icons';
 import MatchManagement from './MatchManagement';
 import JoinInManagement from './JoinInManagement';
 import TeamInfoManagement from './TeamInfoManagement';
