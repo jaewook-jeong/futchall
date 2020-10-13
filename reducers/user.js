@@ -71,7 +71,6 @@ export const JOIN_IN_REQUEST = 'JOIN_IN_REQUEST';
 export const JOIN_IN_SUCCESS = 'JOIN_IN_SUCCESS';
 export const JOIN_IN_FAILURE = 'JOIN_IN_FAILURE';
 
-export const ENROLL_TEAM_INFO = 'ENROLL_TEAM_INFO';
 export const ADD_POST_TO_ME = 'ADD_POST_TO_ME';
 export const REMOVE_POST_OF_ME = 'REMOVE_POST_OF_ME';
 
@@ -182,11 +181,6 @@ export default (state = initialState, action) => produce(state, (draft) => {
     case CHANGE_TO_FAILURE:
       draft.isChangingTo = false;
       draft.changedToErrorReason = action.error;
-      break;
-    case ENROLL_TEAM_INFO:
-      draft.me.LeaderId = action.data.id;
-      draft.me.TeamId = action.data.id;
-      draft.me.Team = action.data;
       break;
     case ADD_POST_TO_ME:
       draft.me.Posts.unshift({ id: action.data });

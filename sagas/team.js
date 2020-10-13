@@ -17,7 +17,6 @@ import {
   EDIT_TEAM_SUCCESS,
   EDIT_TEAM_FAILURE,
 } from '../reducers/team';
-import { ENROLL_TEAM_INFO } from '../reducers/user';
 
 function selectAPI(data) {
   return axios.get(`/team/${data.id}`);
@@ -74,16 +73,9 @@ function enrollAPI(data) {
 
 function* enroll(action) {
   try {
-    const teamInfo = yield call(enrollAPI, action.data);
-    console.log('------------------------------------');
-    console.log(teamInfo);
-    console.log('------------------------------------');
+    yield call(enrollAPI, action.data);
     yield put({
       type: ENROLL_TEAM_SUCCESS,
-    });
-    yield put({
-      type: ENROLL_TEAM_INFO,
-      data: teamInfo,
     });
   } catch (e) {
     console.error(e);
