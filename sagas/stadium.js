@@ -14,6 +14,7 @@ import {
   TAKE_STADIUM_SUCCESS,
   TAKE_STADIUM_FAILURE,
 } from '../reducers/stadium';
+import { EXPIRE_VALID_STADIUM } from '../reducers/location';
 
 function selectAPI(data) {
   // 서버에 요청을 보내는 부분
@@ -22,10 +23,16 @@ function selectAPI(data) {
 
 function* select(action) {
   try {
-    const result = yield call(selectAPI, action.data);
+    const stadium = yield call(selectAPI, action.data);
+    if (stadium.data.expired) {
+      yield put({
+        type: EXPIRE_VALID_STADIUM,
+        data: stadium.data.data,
+      });
+    }
     yield put({
       type: SELECT_STADIUM_SUCCESS,
-      data: result.data,
+      data: stadium.data.data,
     });
   } catch (e) {
     console.error(e);

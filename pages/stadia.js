@@ -12,7 +12,7 @@ import wrapper from '../store/configureStore';
 import { LOAD_MY_INFO_REQUEST } from '../reducers/user';
 
 const Stadia = () => {
-  const stadiumList = useSelector((state) => state.location.stadiumList, (left, right) => { const array1 = left.map((v) => v.id); const array2 = right.map((v) => v.id); if (array1.length === array2.length && array1.sort().every((value, index) => value === array2.sort()[index])) { return true; } return false; });
+  const stadiumList = useSelector((state) => state.location.stadiumList);
   const [nowSelected, setNowSeleted] = useState(-1);
   const onChangeSelected = useCallback((req) => {
     setNowSeleted(req);
