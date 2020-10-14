@@ -123,6 +123,7 @@ export const initialState = {
   info: null, // 팀 정보
   teamList: null, // 검색했을 때
   rankingList: null, // 순위 리스트
+  calendar: null, //달력 리스트
   query: '', // 검색 내용
   isEnrolling: false, // 새 팀 등록중
   isEnrolled: false, // 새 팀 등록 성공
@@ -139,6 +140,9 @@ export const initialState = {
   isSearching: false, // 팀 검색
   isSearched: false,
   searchedErrorReason: '',
+  isGettingCalendar: false, // 스케쥴표 가지요기
+  isGettedCalendar: false, // 스케줄표 가져옴
+  getCalendarErrorReason: '',
 };
 
 export const SELECT_TEAM_REQUEST = 'SELECT_TEAM_REQUSET';
@@ -160,6 +164,10 @@ export const LOAD_LIST_FAILURE = 'LOAD_LIST_FAILURE';
 export const SEARCH_TEAMS_REQUEST = 'SEARCH_TEAMS_REQUSET';
 export const SEARCH_TEAMS_SUCCESS = 'SEARCH_TEAMS_SUCCESS';
 export const SEARCH_TEAMS_FAILURE = 'SEARCH_TEAMS_FAILURE';
+
+export const GET_CALENDAR_REQUEST = 'GET_CALENDAR_REQUSET';
+export const GET_CALENDAR_SUCCESS = 'GET_CALENDAR_SUCCESS';
+export const GET_CALENDAR_FAILURE = 'GET_CALENDAR_FAILURE';
 
 export default (state = initialState, action) => produce(state, (draft) => {
   switch (action.type) {
@@ -234,6 +242,20 @@ export default (state = initialState, action) => produce(state, (draft) => {
     case SEARCH_TEAMS_FAILURE:
       draft.isSearching = false;
       draft.searchedErrorReason = action.error;
+      break;
+    case GET_CALENDAR_REQUEST:
+      draft.isGettingCalendar = true;
+      draft.isGettedCalendar = false;
+      draft.getCalendarErrorReason = null;
+      break;
+    case GET_CALENDAR_SUCCESS:
+      draft.isGettingCalendar = false;
+      draft.isGettedCalendar = true;
+      draft.calendar = action.data;
+      break;
+    case GET_CALENDAR_FAILURE:
+      draft.isGettingCalendar = false;
+      draft.getCalendarErrorReason = action.error;
       break;
     default:
       break;

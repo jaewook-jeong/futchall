@@ -1,88 +1,44 @@
 import React, { useCallback, useEffect } from 'react';
-import { Button, Calendar, Col, Drawer, Row, Select } from 'antd';
+import { Button, Calendar, Col, Drawer, Popconfirm, Row, Select } from 'antd';
 import moment from 'moment';
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { CheckSquareOutlined } from '@ant-design/icons';
+
+import { GET_CALENDAR_REQUEST } from '../reducers/team';
 
 const TeamCalendar = ({ setVisible, teamId, visible }) => {
+  const { calendar } = useSelector((state) => state.team);
+  const dispatch = useDispatch();
   const onClose = useCallback(() => {
     setVisible(false);
   }, []);
   const dateCellRender = useCallback((value) => {
-    console.log(value);
-    return null;
+    console.log(calendar);
+    return (
+      null
+      // <Popconfirm
+      // title="참석하시겠습니까?"
+      // okText="참석"
+      // cancelText="취소"
+      // >
+      //   <CheckSquareOutlined />
+      // </Popconfirm>
+    );
   }, []);
   const onSelectDate = useCallback((date) => {
-    console.log(date);
+    console.log(date.format('YYYY-MM-DD'));
   });
-  // const onPanelChange = useCallback((date) => {
-  //   console.log(date);
-  // })
   const disabledDate = useCallback((current) => current && current < moment().endOf('day'), []);
-  const makeData = useCallback(({ value, type, onChange }) => {
-    const start = 0;
-    const end = 12;
-    const monthOptions = [];
-    const current = value.clone();
-    const localeData = value.localeData();
-    console.log(localeData, current);
-    const months = [];
-    for (let i = 0; i < 12; i++) {
-      current.month(i);
-      months.push(localeData.monthsShort(current));
-    }
-
-    for (let index = start; index < end; index++) {
-      monthOptions.push(
-        <Select.Option className="month-item" key={`${index}`}>
-          {months[index]}
-        </Select.Option>,
-      );
-    }
-    const month = value.month();
-
-    const year = value.year();
-    const options = [];
-    for (let i = year - 10; i < year + 10; i += 1) {
-      options.push(
-        <Select.Option key={i} value={i} className="year-item">
-          {i}
-        </Select.Option>,
-      );
-    }
-    return (
-      <div style={{ padding: 8 }}>
-        <Row gutter={8}>
-          <Col>
-            <Select
-              size="small"
-              dropdownMatchSelectWidth={false}
-              className="my-year-select"
-              onChange={(newYear) => {
-                const now = value.clone().year(newYear);
-                onChange(now);
-              }}
-              value={String(year)}
-            >
-              {options}
-            </Select>
-          </Col>
-          <Col>
-            <Select
-              size="small"
-              dropdownMatchSelectWidth={false}
-              value={String(month)}
-              onChange={(selectedMonth) => {
-                const newValue = value.clone();
-                newValue.month(parseInt(selectedMonth, 10));
-                onChange(newValue);
-              }}
-            >
-              {monthOptions}
-            </Select>
-          </Col>
-        </Row>
-      </div>
-    );
+  useEffect(() => {
+    dispatch({
+      type: GET_CALENDAR_REQUEST,
+      data: {
+        teamId,
+        startDate: moment().startOf('month').format('YYYY-MM-DD'),
+        endDate: moment().endOf('month').format('YYYY-MM-DD'),
+      },
+    });
   }, []);
   return (
     <Drawer
@@ -96,15 +52,8 @@ const TeamCalendar = ({ setVisible, teamId, visible }) => {
       <Calendar
         locale={{ lang: { locale: 'ko', month: '월', year: '년' }, dateFormat: 'YYYY-MM-DD' }}
         dateCellRender={dateCellRender}
-        // onPanelChange={onPanelChange}
-      />
-      {/* <Calendar
-        locale={{ lang: { locale: 'ko', month: '월', year: '년' }, dateFormat: 'YYYY-MM-DD' }}
-        headerRender={makeData}
-        disabledDate={disabledDate}
         onSelect={onSelectDate}
-        // onPanelChange={onPanelChange}
-      /> */}
+      />
     </Drawer>
   );
 };

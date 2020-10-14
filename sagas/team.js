@@ -16,6 +16,9 @@ import {
   EDIT_TEAM_REQUEST,
   EDIT_TEAM_SUCCESS,
   EDIT_TEAM_FAILURE,
+  GET_CALENDAR_REQUEST,
+  GET_CALENDAR_SUCCESS,
+  GET_CALENDAR_FAILURE,
 } from '../reducers/team';
 
 function selectAPI(data) {
@@ -40,6 +43,30 @@ function* select(action) {
 
 function* watchSelect() {
   yield takeEvery(SELECT_TEAM_REQUEST, select);
+}
+
+function getCalendarAPI(data) {
+  return axios.post(`/team/${data.teamId}/calendar`, data);
+}
+
+function* getCalendar(action) {
+  try {
+    const calendar = yield call(getCalendarAPI, action.data);
+    yield put({
+      type: GET_CALENDAR_SUCCESS,
+      data: calendar.data,
+    });
+  } catch (e) {
+    console.error(e);
+    yield put({
+      type: GET_CALENDAR_FAILURE,
+      error: e.response.data,
+    });
+  }
+}
+
+function* watchGetCalendar() {
+  yield takeLatest(GET_CALENDAR_REQUEST, getCalendar);
 }
 
 function editAPI(data) {
@@ -139,5 +166,6 @@ export default function* teamSaga() {
     fork(watchLoad),
     fork(watchSearch),
     fork(watchEdit),
+    fork(watchGetCalendar),
   ]);
 }
