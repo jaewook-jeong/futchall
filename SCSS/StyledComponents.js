@@ -81,27 +81,32 @@ export const CommentGlobal = createGlobalStyle`
 `;
 
 export const SearchBoxGlobal = createGlobalStyle`
-  .ant-select-selector {
-    margin: 0 !important;
-    border: none !important;
-    background-color: #f1f3f4 !important;
-    height: 100% !important;
-    box-shadow: none !important;
-    width: 300px !important;
-    @media (max-width: 576px){
-      width: 220px !important;
-    }
-  }
-  .ant-select-selection-search-input {
-    outline: none !important;
-    border: none !important;
-    margin: 0 !important;
-    width: 285px !important;
-    background-color: #f1f3f4 !important;
-    height: 100% !important;
-    font-size: 16px !important;
-    @media (max-width: 576px){
-      width: 150px !important;
+  
+  .ant-select-auto-complete {
+    .ant-select-selector {
+      margin: 0 !important;
+      border: none !important;
+      background-color: #f1f3f4 !important;
+      height: 100% !important;
+      box-shadow: none !important;
+      width: 300px !important;
+      @media (max-width: 576px){
+        width: 220px !important;
+      }
+      .ant-select-selection-search{
+        .ant-select-selection-search-input {
+          outline: none !important;
+          border: none !important;
+          margin: 0 !important;
+          width: 285px !important;
+          background-color: #f1f3f4 !important;
+          height: 100% !important;
+          font-size: 16px !important;
+          @media (max-width: 576px){
+            width: 150px !important;
+          }
+        }
+      }
     }
   }
   .ant-select {
