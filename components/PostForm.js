@@ -1,15 +1,14 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Form, Avatar, Input, Button, Divider, Space, Tag, Upload, Modal } from 'antd';
+import { Form, Avatar, Input, Button, Divider, Space, Upload, Modal } from 'antd';
 import styled from 'styled-components';
-import { FileImageOutlined, CalendarOutlined, PlusOutlined } from '@ant-design/icons';
+import { FileImageOutlined, PlusOutlined } from '@ant-design/icons';
 
 import ReservationMatch from './ReservationMatch';
 import { ADD_POST_REQUEST } from '../reducers/post';
 import imageUploader from '../util/imageUploader';
 import getBase64 from '../util/getBase64';
-
 
 const PostFormDiv = styled.div`
   border-radius: 15px;
@@ -20,13 +19,11 @@ const PostFormDiv = styled.div`
   background-color: #fff;
 `;
 const PostForm = ({ where, req }) => {
-  // const { where, req } = props;
   const dispatch = useDispatch();
   const [form] = Form.useForm();
   const { me } = useSelector((state) => state.user, shallowEqual);
   const { addPostLoading, addPostDone } = useSelector((state) => state.post, shallowEqual);
   const [visible, setVisible] = useState(false);
-  const [enrollment, setEnrollment] = useState(false);
   const [matchInfo, setMatchInfo] = useState({ stadiumTitle: null, stadiumReq: null, date: null, capture: 'N' });
   const [previewVisible, setPreviewVisible] = useState(false);
   const [uploadImage, setUploadImage] = useState(false);
@@ -47,9 +44,6 @@ const PostForm = ({ where, req }) => {
     });
   }, [matchInfo, dbImage]);
 
-  const onAdjustMatch = useCallback(() => {
-    setVisible(true);
-  }, []);
   const handlePreview = async (file) => {
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj);
@@ -131,27 +125,12 @@ const PostForm = ({ where, req }) => {
             </Modal>
           </Form.Item>
           )}
-        {
-          enrollment && (
-          <div>
-            <span>경기 일정</span>
-            <Tag
-              closable
-              onClose={() => { setEnrollment(false); }}
-              color="#1890ff"
-            >
-              {matchInfo.stadiumTitle + ' ' + matchInfo.date}
-            </Tag>
-          </div>
-          )
-        }
         <Divider />
         <Form.Item
           style={{ marginBottom: 0, textAlign: 'right' }}
         >
           <Space>
             <Button type="default" htmlType="button" shape="round" onClick={() => setUploadImage(true)}><FileImageOutlined />사진</Button>
-            {!enrollment && <Button type="default" htmlType="button" shape="round" onClick={onAdjustMatch}><CalendarOutlined />경기 일정</Button>}
             <Button type="primary" htmlType="submit" shape="round" loading={addPostLoading}>게시하기</Button>
           </Space>
         </Form.Item>
