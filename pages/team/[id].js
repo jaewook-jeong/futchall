@@ -4,7 +4,7 @@ import Router, { useRouter } from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
 import { END } from 'redux-saga';
 import { Skeleton, Col, Row, Tabs, Button, Descriptions, Typography, Table, Card, Space, Tag, List, Empty } from 'antd';
-import { ToolOutlined } from '@ant-design/icons';
+import { CalendarOutlined, ToolOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import useSWR from 'swr';
 import Head from 'next/head';
@@ -15,10 +15,11 @@ import { SELECT_TEAM_REQUEST } from '../../reducers/team';
 import { LOAD_POSTS_REQUEST } from '../../reducers/post';
 import { JOIN_IN_REQUEST, LOAD_MY_INFO_REQUEST } from '../../reducers/user';
 import style from '../../SCSS/feedLayout.module.scss';
-import { teamMemberColumns as memberColumns, teamRecordColumns as recordColumns } from '../../util/columns';
+import { teamMemberColumns as memberColumns } from '../../util/columns';
 import wrapper from '../../store/configureStore';
 import TeamManagement from '../../components/TeamManagement';
 import MatchCard from '../../components/MatchCard';
+import TeamCalendar from '../../components/TeamCalendar';
 
 const fetcher = (url) => url.substr(-1, 1) !== '1' && axios.get(url, { withCredentials: true }).then((result) => result.data);
 
@@ -29,6 +30,7 @@ const Team = () => {
   const { me, isLoggedIn, isJoinnigIn } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [managementVisible, setManagementVsible] = useState(false);
+  const [calendarVisible, setCalendarVsible] = useState(false);
   const [tabKey, setTabKey] = useState('1');
   const lastScrollTop = useRef(0);
   const updownDirection = useRef(false);
@@ -45,6 +47,9 @@ const Team = () => {
   }, []);
   const onClickManagement = useCallback(() => {
     setManagementVsible(true);
+  }, [me]);
+  const onClickCalendar = useCallback(() => {
+    setCalendarVsible(true);
   }, [me]);
   useEffect(() => {
     if (isSelected && info.Stadia.length !== 0) {
@@ -131,7 +136,7 @@ const Team = () => {
               >
                 <img
                   alt="Main image of Team"
-                  src={isSelected && `http://localhost:3065/${info.Images[0]?.src}`}
+                  src={(isSelected && info.Images[0]) ? `http://localhost:3065/${info.Images[0].src}` : undefined }
                   style={{ maxHeight: '100%', width: 'auto', margin: '0 auto' }}
                 />
               </div>
@@ -169,6 +174,12 @@ const Team = () => {
                   bordered
                   title={isSelected && info.title}
                   size="middle"
+                  extra={
+                    isSelected && info.id === me?.TeamId
+                    && (
+                      <Button icon={<CalendarOutlined />} shape="round" onClick={onClickCalendar}>스케줄</Button>
+                    )
+                  }
                 >
                   <Descriptions.Item label="활동 지역" span={2}>
                     <Skeleton loading={!isSelected} active paragraph={false} />
@@ -218,17 +229,6 @@ const Team = () => {
                 {
                   !data && !error && <Skeleton active loading />
                 }
-                {/* {
-                  tabKey === '3'
-                  && (
-                    <Table
-                      showHeader
-                      columns={recordColumns}
-                      dataSource={data}
-                      rowKey={(v) => v.id}
-                    />
-                  )
-                } */}
                 {
                   tabKey === '3'
                   && (
@@ -276,6 +276,9 @@ const Team = () => {
       </Row>
       {
         managementVisible && <TeamManagement setVisible={setManagementVsible} teamId={id} visible={managementVisible} />
+      }
+      {
+        calendarVisible && <TeamCalendar visible={calendarVisible} setVisible={setCalendarVsible} teamId={id} />
       }
     </AppLayout2>
   );
