@@ -143,6 +143,9 @@ export const initialState = {
   isGettingCalendar: false, // 스케쥴표 가지요기
   isGettedCalendar: false, // 스케줄표 가져옴
   getCalendarErrorReason: '',
+  isSettingCalendar: false, // 스케쥴표 입력중
+  isSettedCalendar: false, // 스케줄표 입력완료
+  setCalendarErrorReason: '',
 };
 
 export const SELECT_TEAM_REQUEST = 'SELECT_TEAM_REQUSET';
@@ -168,6 +171,10 @@ export const SEARCH_TEAMS_FAILURE = 'SEARCH_TEAMS_FAILURE';
 export const GET_CALENDAR_REQUEST = 'GET_CALENDAR_REQUSET';
 export const GET_CALENDAR_SUCCESS = 'GET_CALENDAR_SUCCESS';
 export const GET_CALENDAR_FAILURE = 'GET_CALENDAR_FAILURE';
+
+export const SET_CALENDAR_REQUEST = 'SET_CALENDAR_REQUSET';
+export const SET_CALENDAR_SUCCESS = 'SET_CALENDAR_SUCCESS';
+export const SET_CALENDAR_FAILURE = 'SET_CALENDAR_FAILURE';
 
 export default (state = initialState, action) => produce(state, (draft) => {
   switch (action.type) {
@@ -256,6 +263,20 @@ export default (state = initialState, action) => produce(state, (draft) => {
     case GET_CALENDAR_FAILURE:
       draft.isGettingCalendar = false;
       draft.getCalendarErrorReason = action.error;
+      break;
+    case SET_CALENDAR_REQUEST:
+      draft.isSettingCalendar = true;
+      draft.isSettedCalendar = false;
+      draft.setCalendarErrorReason = null;
+      break;
+    case SET_CALENDAR_SUCCESS:
+      draft.isSettingCalendar = false;
+      draft.isSettedCalendar = true;
+      draft.calendar = action.data;
+      break;
+    case SET_CALENDAR_FAILURE:
+      draft.isSettingCalendar = false;
+      draft.setCalendarErrorReason = action.error;
       break;
     default:
       break;
