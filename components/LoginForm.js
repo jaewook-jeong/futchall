@@ -24,7 +24,7 @@ const LoginForm = (props) => {
   const onSubmitForm = useCallback(() => {
     dispatch({
       type: LOG_IN_REQUEST,
-      data: form.getFieldsValue(['originalId', 'password']),
+      data: form.getFieldsValue(['originalId', 'password', 'remember']),
     });
     // dispatch({
     //   type: SET_USER_ID,
@@ -70,7 +70,7 @@ const LoginForm = (props) => {
             valuePropName="checked"
             noStyle
           >
-            <Checkbox>아이디 기억하기</Checkbox>
+            <Checkbox value="Y">아이디 기억하기</Checkbox>
           </Form.Item>
           <Link href=""><a style={FloatRight}>비밀번호 찾기</a></Link>
         </Form.Item>
