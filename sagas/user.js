@@ -31,7 +31,7 @@ import {
 } from '../reducers/user';
 
 function loadMyInfoAPI() {
-  return axios.get('/user');
+  return axios.get('/auth/myinfo');
 }
 
 function* loadMyInfo() {
@@ -55,7 +55,7 @@ function* watchLoadMyInfo() {
 }
 
 function loginAPI(data) {
-  return axios.post('/user/login', data);
+  return axios.post('/auth/login', data);
 }
 
 function* login(action) {
