@@ -13,7 +13,7 @@ import AppLayout2 from '../../components/AppLayout2';
 import Feed from '../../components/Feed';
 import { SELECT_TEAM_REQUEST } from '../../reducers/team';
 import { LOAD_POSTS_REQUEST } from '../../reducers/post';
-import { JOIN_IN_REQUEST, LOAD_MY_INFO_REQUEST } from '../../reducers/user';
+import { JOIN_IN_REQUEST, LOAD_MY_INFO_REQUEST, SET_MY_TOKEN } from '../../reducers/user';
 import style from '../../SCSS/feedLayout.module.scss';
 import { teamMemberColumns as memberColumns } from '../../util/columns';
 import wrapper from '../../store/configureStore';
@@ -286,9 +286,16 @@ const Team = () => {
 
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
   const cookie = context.req ? context.req.headers.cookie : '';
-  axios.defaults.headers.Cookie = '';
+  axios.defaults.headers.common.Authorization = '';
+  let token = '';
   if (context.req && cookie) {
-    axios.defaults.headers.Cookie = cookie;
+    if (cookie.indexOf(';') !== -1) {
+      const index = cookie.indexOf('AuthToken');
+      token = cookie.slice(index + 10, cookie.indexOf(';', index));
+    } else {
+      token = cookie.slice(10);
+    }
+    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
   }
   context.store.dispatch({ type: LOAD_MY_INFO_REQUEST });
   context.store.dispatch({ type: SELECT_TEAM_REQUEST, data: { id: context.params.id } });
@@ -298,6 +305,10 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
       where: 'team',
       id: context.params.id,
     },
+  });
+  context.store.dispatch({
+    type: SET_MY_TOKEN,
+    data: token,
   });
   context.store.dispatch(END);
   await context.store.sagaTask.toPromise();

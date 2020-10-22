@@ -127,9 +127,16 @@ const Apply = () => {
 
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
   const cookie = context.req ? context.req.headers.cookie : '';
-  axios.defaults.headers.Cookie = '';
+  axios.defaults.headers.common.Authorization = '';
+  let token = '';
   if (context.req && cookie) {
-    axios.defaults.headers.Cookie = cookie;
+    if (cookie.indexOf(';') !== -1) {
+      const index = cookie.indexOf('AuthToken');
+      token = cookie.slice(index + 10, cookie.indexOf(';', index));
+    } else {
+      token = cookie.slice(10);
+    }
+    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
   }
   context.store.dispatch({ type: LOAD_MY_INFO_REQUEST });
   context.store.dispatch(END);

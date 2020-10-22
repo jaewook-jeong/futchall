@@ -15,7 +15,7 @@ import StadiumComment from '../../components/StadiumComment';
 import AppLayout2 from '../../components/AppLayout2';
 import Feed from '../../components/Feed';
 import { SELECT_STADIUM_REQUEST, TAKE_STADIUM_REQUEST } from '../../reducers/stadium';
-import { LOAD_MY_INFO_REQUEST } from '../../reducers/user';
+import { LOAD_MY_INFO_REQUEST, SET_MY_TOKEN } from '../../reducers/user';
 import { LOAD_POSTS_REQUEST } from '../../reducers/post';
 import { multipleSpecaility } from '../../util/columns';
 import style from '../../SCSS/feedLayout.module.scss';
@@ -295,9 +295,16 @@ const Stadium = () => {
 
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
   const cookie = context.req ? context.req.headers.cookie : '';
-  axios.defaults.headers.Cookie = '';
+  axios.defaults.headers.common.Authorization = '';
+  let token = '';
   if (context.req && cookie) {
-    axios.defaults.headers.Cookie = cookie;
+    if (cookie.indexOf(';') !== -1) {
+      const index = cookie.indexOf('AuthToken');
+      token = cookie.slice(index + 10, cookie.indexOf(';', index));
+    } else {
+      token = cookie.slice(10);
+    }
+    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
   }
   context.store.dispatch({ type: LOAD_MY_INFO_REQUEST });
   context.store.dispatch({ type: SELECT_STADIUM_REQUEST, data: context.params.id });
@@ -307,6 +314,10 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
       where: 'stadium',
       id: context.params.id,
     },
+  });
+  context.store.dispatch({
+    type: SET_MY_TOKEN,
+    data: token,
   });
   context.store.dispatch(END);
   await context.store.sagaTask.toPromise();

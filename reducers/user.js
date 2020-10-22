@@ -2,6 +2,7 @@ import produce from '../util/produce';
 
 export const initialState = {
   me: null, // 내 정보
+  token: null, // 토큰정보
   userList: null, // 유저 리스트
   isSelecting: false, // 유저 리스트 가져오는중
   isSelected: false, // 유저 리스트 가여옴
@@ -31,6 +32,8 @@ export const initialState = {
   isJoinedIn: false, // 팀 가입 신청완료
   joininErrorReason: null, // 팀 가입 신청 실패 사유
 };
+export const SET_MY_TOKEN = 'SET_MY_TOKEN';
+
 export const LOAD_MY_INFO_REQUEST = 'LOAD_MY_INFO_REQUEST';
 export const LOAD_MY_INFO_SUCCESS = 'LOAD_MY_INFO_SUCCESS';
 export const LOAD_MY_INFO_FAILURE = 'LOAD_MY_INFO_FAILURE';
@@ -76,6 +79,9 @@ export const REMOVE_POST_OF_ME = 'REMOVE_POST_OF_ME';
 
 export default (state = initialState, action) => produce(state, (draft) => {
   switch (action.type) {
+    case SET_MY_TOKEN:
+      draft.token = action.data;
+      break;
     case LOAD_MY_INFO_REQUEST:
       draft.loadMyInfoLoading = true;
       draft.loadMyInfoError = null;

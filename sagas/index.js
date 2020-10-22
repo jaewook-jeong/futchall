@@ -9,7 +9,7 @@ import matches from './matches';
 import post from './post';
 
 axios.defaults.baseURL = 'http://localhost:3065';
-axios.defaults.withCredentials = true;
+// axios.defaults.withCredentials = true;
 
 export default function* rootSaga() {
   yield all([

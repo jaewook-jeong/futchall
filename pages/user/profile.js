@@ -7,7 +7,7 @@ import { END } from 'redux-saga';
 import axios from 'axios';
 
 import { ageGroup, locations, positions } from '../../util/selectOptions';
-import { CHANGE_TO_REQUEST, LOAD_MY_INFO_REQUEST } from '../../reducers/user';
+import { CHANGE_TO_REQUEST, LOAD_MY_INFO_REQUEST, SET_MY_TOKEN } from '../../reducers/user';
 import AppLayout from '../../components/AppLayout';
 import wrapper from '../../store/configureStore';
 
@@ -153,11 +153,22 @@ const Profile = () => {
 
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
   const cookie = context.req ? context.req.headers.cookie : '';
-  axios.defaults.headers.Cookie = '';
+  axios.defaults.headers.common.Authorization = '';
+  let token = '';
   if (context.req && cookie) {
-    axios.defaults.headers.Cookie = cookie;
+    if (cookie.indexOf(';') !== -1) {
+      const index = cookie.indexOf('AuthToken');
+      token = cookie.slice(index + 10, cookie.indexOf(';', index));
+    } else {
+      token = cookie.slice(10);
+    }
+    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
   }
   context.store.dispatch({ type: LOAD_MY_INFO_REQUEST });
+  context.store.dispatch({
+    type: SET_MY_TOKEN,
+    data: token,
+  });
   context.store.dispatch(END);
   await context.store.sagaTask.toPromise();
 });

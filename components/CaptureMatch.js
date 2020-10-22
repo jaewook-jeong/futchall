@@ -14,7 +14,7 @@ const CaptureMatch = ({ visible, setVisible }) => {
   const onSearch = useCallback((searchText) => {
     clearTimeout(newRequest.current);
     newRequest.current = setTimeout(() => {
-      axios.get(`http://localhost:3065/stadium/istaken?q=${searchText}`, { withCredentials: true })
+      axios.get(`http://localhost:3065/stadium/istaken?q=${searchText}`)
         .then((result) => result.data.map((v) => ({ label: v.title, value: v.title, id: v.id, teamtitle: v.Team.title, teamid: v.Team.id, valid: v.valid }))).then((data) => {
           setOptions(
             !searchText ? [] : data,

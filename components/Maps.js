@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import React, { useEffect, useState, useRef } from 'react';
 import Router, { withRouter, useRouter } from 'next/router';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { LoadingOutlined } from '@ant-design/icons';
 import { notification, message } from 'antd';
@@ -22,6 +22,7 @@ const Maps = ({ list, onChangeSelected, nowSelected }) => {
   const router = useRouter();
   const newRequest = useRef();
   const [overlays, setOverlays] = useState([]);
+  const token = useSelector((state) => state.user.token);
 
   useEffect(
     () => {
@@ -52,6 +53,7 @@ const Maps = ({ list, onChangeSelected, nowSelected }) => {
                 top: neLatLng.getLng(),
                 bottom: swLatLng.getLng(),
               },
+              token,
             });
             kakao.maps.event.addListener(kakaoMap.current, 'dragend', () => {
               clearTimeout(newRequest.current);
