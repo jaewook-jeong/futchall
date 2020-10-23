@@ -12,7 +12,7 @@ import AppLayout from '../../components/AppLayout';
 import wrapper from '../../store/configureStore';
 
 const Profile = () => {
-  const { me, isChangingTo, isChangedTo, changedToErrorReason } = useSelector((state) => state.user);
+  const { me, isChangingTo, isChangedTo, changedToErrorReason, token } = useSelector((state) => state.user);
   const [form] = Form.useForm();
   const dipatch = useDispatch();
 
@@ -27,6 +27,7 @@ const Profile = () => {
         age: form.getFieldValue('age'),
         locations: form.getFieldValue('selectedLocations'),
       },
+      token,
     });
   }, []);
   useEffect(() => {

@@ -18,7 +18,7 @@ const Details = (props) => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const { isEnrolling, isEnrolled } = useSelector((state) => state.stadium);
-  const { isLoggedIn } = useSelector((state) => state.user);
+  const { isLoggedIn, token } = useSelector((state) => state.user);
   const [dbImage, setDbImage] = useState('');
 
   useEffect(() => {
@@ -51,6 +51,7 @@ const Details = (props) => {
         lng: props.router.query.lng,
         image: dbImage,
       },
+      token,
     });
   }, [dbImage]);
 
@@ -140,7 +141,7 @@ const Details = (props) => {
                 >
                   <Upload
                     listType="text"
-                    action={(file) => imageUploader('http://localhost:3065/stadium/image', file).then((response) => setDbImage(response.data))}
+                    action={(file) => imageUploader('http://localhost:3065/stadium/image', file, token).then((response) => setDbImage(response.data))}
                     onRemove={() => setDbImage('')}
                   >
                     { !dbImage

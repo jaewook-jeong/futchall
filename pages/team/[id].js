@@ -21,13 +21,13 @@ import TeamManagement from '../../components/TeamManagement';
 import MatchCard from '../../components/MatchCard';
 import TeamCalendar from '../../components/TeamCalendar';
 
-const fetcher = (url) => url.substr(-1, 1) !== '1' && axios.get(url, { withCredentials: true }).then((result) => result.data);
+const fetcher = (url) => url.substr(-1, 1) !== '1' && axios.get(url).then((result) => result.data);
 
 const Team = () => {
   const router = useRouter();
   const { id } = router.query;
   const { info, isSelected } = useSelector((state) => state.team);
-  const { me, isLoggedIn, isJoinnigIn } = useSelector((state) => state.user);
+  const { me, isLoggedIn, isJoinnigIn, token } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [managementVisible, setManagementVsible] = useState(false);
   const [calendarVisible, setCalendarVsible] = useState(false);
@@ -43,6 +43,7 @@ const Team = () => {
       data: {
         id,
       },
+      token,
     });
   }, []);
   const onClickManagement = useCallback(() => {

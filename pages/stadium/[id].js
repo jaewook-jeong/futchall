@@ -22,7 +22,7 @@ import style from '../../SCSS/feedLayout.module.scss';
 import stadiumMapStyles from '../../SCSS/stadium.module.scss';
 import MatchCard from '../../components/MatchCard';
 
-const fetcher = (url) => url.substr(-1, 1) !== '1' && axios.get(url, { withCredentials: true }).then((result) => result.data);
+const fetcher = (url) => url.substr(-1, 1) !== '1' && axios.get(url).then((result) => result.data);
 
 const Stadium = () => {
   const router = useRouter();
@@ -32,6 +32,7 @@ const Stadium = () => {
   const [tabKey, setTabKey] = useState('1');
   const updownDirection = useRef(false);
   const { info, isSelected, isTakingStadium, isTakenStadium, takenStadiumErrorReason } = useSelector((state) => state.stadium);
+  const token = useSelector((state) => state.user.token);
 
   const { data, error } = useSWR(`http://localhost:3065/stadium/${id}/${tabKey}`, fetcher);
 
@@ -45,6 +46,7 @@ const Stadium = () => {
       data: {
         id,
       },
+      token,
     });
   }, [info.TeamId]);
 

@@ -11,7 +11,7 @@ import AppLayout from '../../components/AppLayout';
 import wrapper from '../../store/configureStore';
 
 const Altpwd = () => {
-  const { me, isSettingPwd, isSettedPwd } = useSelector((state) => state.user);
+  const { me, isSettingPwd, isSettedPwd, token } = useSelector((state) => state.user);
   const [form] = Form.useForm();
   const dipatch = useDispatch();
 
@@ -22,6 +22,7 @@ const Altpwd = () => {
         password: form.getFieldValue('password'),
         prevpwd: form.getFieldValue('prevpwd'),
       },
+      token,
     });
   }, []);
   useEffect(() => {

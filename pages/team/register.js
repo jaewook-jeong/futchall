@@ -17,7 +17,7 @@ const TeamRegister = () => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const { isEnrolling, isEnrolled } = useSelector((state) => state.team);
-  const { isLoggedIn } = useSelector((state) => state.user);
+  const { isLoggedIn, token } = useSelector((state) => state.user);
   const [dbImage, setDbImage] = useState('');
 
   useEffect(() => {
@@ -34,6 +34,7 @@ const TeamRegister = () => {
         ...values,
         image: dbImage,
       },
+      token,
     });
   }, [dbImage]);
   useEffect(() => {
@@ -116,7 +117,7 @@ const TeamRegister = () => {
                 >
                   <Upload
                     listType="picture-card"
-                    action={(file) => imageUploader('http://localhost:3065/team/image', file).then((response) => setDbImage(response.data))}
+                    action={(file) => imageUploader('http://localhost:3065/team/image', file, token).then((response) => setDbImage(response.data))}
                     onRemove={() => setDbImage('')}
                   >
                     { !dbImage
