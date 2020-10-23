@@ -12,13 +12,14 @@ const StadiumInfo = (props) => {
   const dispatch = useDispatch();
   const { list, nowSelected } = props;
   const { info, isSelected, isTakingStadium, isTakenStadium, takenStadiumErrorReason } = useSelector((state) => state.stadium);
-
+  const token = useSelector((state) => state.user?.token);
   const takeStadium = useCallback(() => {
     dispatch({
       type: TAKE_STADIUM_REQUEST,
       data: {
         id: info.id,
       },
+      token,
     });
   }, [info]);
 

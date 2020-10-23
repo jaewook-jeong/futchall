@@ -11,6 +11,7 @@ import { PATCH_APPROVAL_REQUEST, PATCH_CANCEL_REQUEST, PATCH_LOSER_REQUEST, PATC
 const MatchManagement = () => {
   const dispatch = useDispatch();
   const teamId = useSelector((state) => state.user.me.LeaderId);
+  const token = useSelector((state) => state.user.token);
   const { matches, isPatchingWinner, pacthWinnerErrorReason, isPatchingLoser, pacthLoserErrorReason, isPatchingApproval, pacthApprovalErrorReason, isPatchingCancel, pacthCancelErrorReason } = useSelector((state) => state.matches);
   const [captureVisiblity, onCaptureVisiblity] = useState(false);
   const [matchVisiblity, onMatchVisiblity] = useState(false);
@@ -30,6 +31,7 @@ const MatchManagement = () => {
         matchId: data.id,
         teamId: data.teamId,
       },
+      token,
     });
   }, []);
   const onClickLoser = useCallback((data) => () => {
@@ -39,6 +41,7 @@ const MatchManagement = () => {
         matchId: data.id,
         teamId: data.teamId,
       },
+      token,
     });
   }, []);
   const onClickApprove = useCallback((data) => () => {
@@ -47,6 +50,7 @@ const MatchManagement = () => {
       data: {
         matchId: data,
       },
+      token,
     });
   }, []);
   const onClickCancel = useCallback((data) => () => {
@@ -55,6 +59,7 @@ const MatchManagement = () => {
       data: {
         matchId: data,
       },
+      token,
     });
   }, []);
 
@@ -64,6 +69,7 @@ const MatchManagement = () => {
       data: {
         teamId,
       },
+      token,
     });
   }, []);
 

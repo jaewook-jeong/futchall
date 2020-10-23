@@ -8,14 +8,11 @@ import Router from 'next/router';
 import { LOG_OUT_REQUEST } from '../reducers/user';
 
 const ProfileAvatar = () => {
-  const { me } = useSelector(
-    (state) => state.user,
-    (left, right) => { if (left.me.originalId === right.me.originalId) { return true; } return false; },
-  );
+  const { me, token } = useSelector((state) => state.user,);
   const { isLoggingOut, isLoggedOut, logOutErrorReason} = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const onLogOut = useCallback(() => {
-    dispatch({ type: LOG_OUT_REQUEST });
+    dispatch({ type: LOG_OUT_REQUEST, token });
   }, []);
 
   useEffect(() => {

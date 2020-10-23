@@ -6,8 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { SELECT_LIST_REQUEST, JOIN_MANAGE_REQUEST } from '../reducers/user';
 
 const JoinInManagement = ({ teamId }) => {
-  const { userList, isApproving, isCanceling } = useSelector((state) => state.user);
-  const { isSelecting: userListSelecting } = useSelector((state) => state.user);
+  const { userList, isApproving, isCanceling, isSelecting: userListSelecting, token } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   const onClick = useCallback((data) => () => {
@@ -17,6 +16,7 @@ const JoinInManagement = ({ teamId }) => {
         userId: data.value,
         action: data.action,
       },
+      token,
     });
   }, []);
   useEffect(() => {
@@ -25,6 +25,7 @@ const JoinInManagement = ({ teamId }) => {
       data: {
         teamId,
       },
+      token,
     });
   }, []);
   return (

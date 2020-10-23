@@ -8,7 +8,7 @@ import { GET_CALENDAR_REQUEST, SET_CALENDAR_REQUEST } from '../reducers/team';
 
 const TeamCalendar = ({ setVisible, teamId, visible }) => {
   const { calendar, isGettedCalendar } = useSelector((state) => state.team);
-  const { me } = useSelector((state) => state.user);
+  const { me, token } = useSelector((state) => state.user);
   const [yearMonth, setYearMonth] = useState(moment().format('YYYY-MM-01'));
   const dispatch = useDispatch();
   const onClose = useCallback(() => {
@@ -28,8 +28,7 @@ const TeamCalendar = ({ setVisible, teamId, visible }) => {
     return sortedData;
   };
   const sortedDate = useMemo(() => SortingData(calendar), [calendar]);
-  const disabledDate = useCallback((current) => current && current < moment().endOf('day'), []);
-  
+
   const dateCellRender = (value) => {
     const data = sortedDate[value.format('YYYY-MM-DD')];
     const morning = data?.filter((v) => v.possible === '0');
@@ -49,12 +48,10 @@ const TeamCalendar = ({ setVisible, teamId, visible }) => {
           date: selectedDate,
           possible: checkedList,
         },
+        token,
       });
       setCheckedList([]);
     }, [checkedList, selectedDate]);
-    const onCancel = useCallback(() => {
-      setCheckedList([]);
-    }, []);
     const defaultValue = [];
     if (morning?.filter((v) => v.UserId === me.id).length === 1) defaultValue.push('0');
     if (afternoon?.filter((v) => v.UserId === me.id).length === 1) defaultValue.push('1');
@@ -84,7 +81,6 @@ const TeamCalendar = ({ setVisible, teamId, visible }) => {
                   </Checkbox.Group>
                 )}
                 icon={null}
-                // onVisibleChange={onCancel}
                 onConfirm={onConfirm}
                 okText="참석"
                 cancelText="취소"
@@ -138,6 +134,7 @@ const TeamCalendar = ({ setVisible, teamId, visible }) => {
         startDate: yearMonth,
         endDate: moment(yearMonth, 'YYYY-MM-DD').endOf('month').format('YYYY-MM-DD'),
       },
+      token,
     });
   }, [yearMonth]);
   return (

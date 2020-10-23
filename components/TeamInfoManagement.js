@@ -5,6 +5,7 @@ import { EDIT_TEAM_REQUEST } from '../reducers/team';
 
 const TeamInfoManagement = () => {
   const { info, isEditting, editErrorReason } = useSelector((state) => state.team);
+  const token = useSelector((state) => state.user.token);
   const [form] = Form.useForm();
   const dispatch = useDispatch();
 
@@ -16,6 +17,7 @@ const TeamInfoManagement = () => {
         ...values,
         id: info.id,
       },
+      token,
     });
   }, []);
 

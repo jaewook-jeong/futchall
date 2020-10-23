@@ -13,20 +13,17 @@ import { REMOVE_POST_REQUEST } from '../reducers/post';
 const PostComponent = ({ data }) => {
   const dispatch = useDispatch();
   const me = useSelector((state) => state.user?.me);
+  const token = useSelector((state) => state.user?.token);
   const { removePostLoading } = useSelector((state) => state.post);
-  // const editPost = useCallback(() => {
-  //   dispatch({
-  //     type: 
-  //   })
-  // }, []);
   const deletePost = useCallback(() => {
     dispatch({
       type: REMOVE_POST_REQUEST,
       data: {
         id: data.id,
       },
+      token,
     });
-  }, [me]);
+  }, [me, token]);
   return (
     <div className={style.postOutter}>
       <div className={style.writter}>

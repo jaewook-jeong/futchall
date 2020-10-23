@@ -8,7 +8,7 @@ import { ADD_COMMENT_REQUEST, CLEAR_ADD_COMMENT_RESULT } from '../reducers/post'
 
 const CommentForm = ({ postId, toggleVisible, parentId }) => {
   const dispatch = useDispatch();
-  const { me } = useSelector((state) => state.user);
+  const { me, token } = useSelector((state) => state.user);
   const { addCommentDone, addCommentLoading } = useSelector((state) => state.post);
   const [form] = Form.useForm();
 
@@ -26,6 +26,7 @@ const CommentForm = ({ postId, toggleVisible, parentId }) => {
     dispatch({
       type: ADD_COMMENT_REQUEST,
       data: { content: form.getFieldValue('commentText'), postId, parentId },
+      token,
     });
   }, [me.id]);
 

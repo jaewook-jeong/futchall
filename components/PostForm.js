@@ -5,7 +5,6 @@ import { Form, Avatar, Input, Button, Divider, Space, Upload, Modal } from 'antd
 import styled from 'styled-components';
 import { FileImageOutlined, PlusOutlined } from '@ant-design/icons';
 
-import ReservationMatch from './ReservationMatch';
 import { ADD_POST_REQUEST } from '../reducers/post';
 import imageUploader from '../util/imageUploader';
 import getBase64 from '../util/getBase64';
@@ -21,10 +20,8 @@ const PostFormDiv = styled.div`
 const PostForm = ({ where, req }) => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
-  const { me } = useSelector((state) => state.user, shallowEqual);
+  const { me, token } = useSelector((state) => state.user, shallowEqual);
   const { addPostLoading, addPostDone } = useSelector((state) => state.post, shallowEqual);
-  const [visible, setVisible] = useState(false);
-  const [matchInfo, setMatchInfo] = useState({ stadiumTitle: null, stadiumReq: null, date: null, capture: 'N' });
   const [previewVisible, setPreviewVisible] = useState(false);
   const [uploadImage, setUploadImage] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
@@ -38,11 +35,11 @@ const PostForm = ({ where, req }) => {
         content: form.getFieldValue('content'),
         where,
         req,
-        matchInfo,
         image: dbImage,
       },
+      token,
     });
-  }, [matchInfo, dbImage]);
+  }, [dbImage]);
 
   const handlePreview = async (file) => {
     if (!file.url && !file.preview) {
@@ -54,10 +51,6 @@ const PostForm = ({ where, req }) => {
   useEffect(() => {
     if (addPostDone) {
       form.resetFields(['content']);
-      setMatchInfo({
-        stadiumTitle: null,
-        date: null,
-      });
       setUploadImage(false);
       setDbImage([]);
       setImagelist([]);
@@ -95,7 +88,7 @@ const PostForm = ({ where, req }) => {
           <Form.Item>
             <Upload
               listType="picture-card"
-              action={(file) => imageUploader('http://localhost:3065/post/images', file).then((response) => setDbImage(dbImage.concat(response.data[0])))}
+              action={(file) => imageUploader('http://localhost:3065/post/images', file, token).then((response) => setDbImage(dbImage.concat(response.data[0])))}
               onChange={({ fileList }) => setImagelist(fileList)}
               fileList={imageList}
               onPreview={(file) => handlePreview(file)}
@@ -135,7 +128,6 @@ const PostForm = ({ where, req }) => {
           </Space>
         </Form.Item>
       </Form>
-      {visible && <ReservationMatch visible={visible} setVisible={setVisible} onLoadPost={setMatchInfo} stadiumReq={where === 'stadium' && req} setEnrollment={setEnrollment}/>}
     </PostFormDiv>
   );
 };
