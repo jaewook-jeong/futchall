@@ -47,13 +47,13 @@ function* watchSelect() {
   yield takeEvery(SELECT_STADIUM_REQUEST, select);
 }
 
-function enrollAPI(data) {
-  return axios.post('/stadium/register', data);
+function enrollAPI(action) {
+  return axios.post('/stadium/register', action.data, { headers: { Authorization: `Bearer ${action.token}` } });
 }
 
 function* enroll(action) {
   try {
-    yield call(enrollAPI, action.data);
+    yield call(enrollAPI, action);
     yield put({
       type: ENROLL_STADIUM_SUCCESS,
     });
@@ -70,13 +70,13 @@ function* watchEnroll() {
   yield takeEvery(ENROLL_STADIUM_REQUEST, enroll);
 }
 
-function takeAPI(data) {
-  return axios.post(`/stadium/${data.id}/take`);
+function takeAPI(action) {
+  return axios.post(`/stadium/${action.data.id}/take`, null, { headers: { Authorization: `Bearer ${action.token}` } });
 }
 
 function* take(action) {
   try {
-    const result = yield call(takeAPI, action.data);
+    const result = yield call(takeAPI, action);
     yield put({
       type: TAKE_STADIUM_SUCCESS,
       data: result.data,

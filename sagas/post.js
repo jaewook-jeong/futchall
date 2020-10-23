@@ -24,8 +24,6 @@ import {
 } from '../reducers/post';
 import { ADD_POST_TO_ME, REMOVE_POST_OF_ME } from '../reducers/user';
 
-// import { ADD_POST_TO_ME, REMOVE_POST_OF_ME } from '../reducers/user';
-
 function loadPostsAPI(data) {
   return axios.get(`/posts?where=${data.where}&id=${data.id}&lastId=${data.lastId || 0}`);
 }
@@ -46,19 +44,16 @@ function* loadPosts(action) {
   }
 }
 
-function addPostAPI(data) {
-  if (data.matchInfo.stadiumReq) {
-    return axios.post('/post', data);
-  }
+function addPostAPI(action) {
   if (data.where === 'team') {
-    return axios.post('/post/team', data);
+    return axios.post('/post/team', action.data, { headers: { Authorization: `Bearer ${action.token}` } });
   }
-  return axios.post('/post/stadium', data);
+  return axios.post('/post/stadium', action.data, { headers: { Authorization: `Bearer ${action.token}` } });
 }
 
 function* addPost(action) {
   try {
-    const result = yield call(addPostAPI, action.data);
+    const result = yield call(addPostAPI, action);
     yield put({
       type: ADD_POST_SUCCESS,
       data: result.data,
@@ -76,13 +71,13 @@ function* addPost(action) {
   }
 }
 
-function removePostAPI(data) {
-  return axios.delete(`/post/${data.id}`);
+function removePostAPI(action) {
+  return axios.delete(`/post/${action.data.id}`, { headers: { Authorization: `Bearer ${action.token}` } });
 }
 
 function* removePost(action) {
   try {
-    const result = yield call(removePostAPI, action.data);
+    const result = yield call(removePostAPI, action);
     yield put({
       type: REMOVE_POST_SUCCESS,
       data: result.data.PostId,
@@ -100,13 +95,13 @@ function* removePost(action) {
   }
 }
 
-function addCommentAPI(data) {
-  return axios.post(`/post/${data.postId}/comment`, data);
+function addCommentAPI(action) {
+  return axios.post(`/post/${action.data.postId}/comment`, action.data, { headers: { Authorization: `Bearer ${action.token}` }});
 }
 
 function* addComment(action) {
   try {
-    const result = yield call(addCommentAPI, action.data);
+    const result = yield call(addCommentAPI, action);
     yield put({
       type: ADD_COMMENT_SUCCESS,
       data: result.data,

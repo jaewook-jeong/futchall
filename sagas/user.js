@@ -78,13 +78,13 @@ function* watchLogin() {
   yield takeEvery(LOG_IN_REQUEST, login);
 }
 
-function selectListAPI(data) {
-  return axios.get(`/team/${data.teamId}/joinlist`);
+function selectListAPI(action) {
+  return axios.get(`/team/${action.data.teamId}/joinlist`, { headers: { Authorization: `Bearer ${action.token}` } });
 }
 
 function* selectList(action) {
   try {
-    const result = yield call(selectListAPI, action.data);
+    const result = yield call(selectListAPI, action);
     yield put({
       type: SELECT_LIST_SUCCESS,
       data: result.data,
@@ -102,13 +102,13 @@ function* watchSelectList() {
   yield takeLatest(SELECT_LIST_REQUEST, selectList);
 }
 
-function joinManageAPI(data) {
-  return axios.patch('/user/joinmanage', data);
+function joinManageAPI(action) {
+  return axios.patch('/user/joinmanage', action.data, { headers: { Authorization: `Bearer ${action.token}` } });
 }
 
 function* joinManage(action) {
   try {
-    const result = yield call(joinManageAPI, action.data);
+    const result = yield call(joinManageAPI, action);
     yield put({
       type: JOIN_MANAGE_SUCCESS,
       data: result.data,
@@ -154,12 +154,12 @@ function* watchSignUp() {
   yield takeEvery(SIGN_UP_REQUEST, signUp);
 }
 
-function changeToAPI(data) {
-  return axios.patch('/user/modify', data);
+function changeToAPI(action) {
+  return axios.patch('/user/modify', action.data, { headers: { Authorization: `Bearer ${action.token}` } });
 }
 function* changeTo(action) {
   try {
-    const result = yield call(changeToAPI, action.data);
+    const result = yield call(changeToAPI, action);
     yield put({
       type: CHANGE_TO_SUCCESS,
       data: result.data,
@@ -175,12 +175,12 @@ function* watchChangeTo() {
   yield takeLatest(CHANGE_TO_REQUEST, changeTo);
 }
 
-function setPwdAPI(data) {
-  return axios.patch('/user/pwd', data);
+function setPwdAPI(action) {
+  return axios.patch('/user/pwd', action.data, { headers: { Authorization: `Bearer ${action.token}` } });
 }
 function* setPwd(action) {
   try {
-    yield call(setPwdAPI, action.data);
+    yield call(setPwdAPI, action);
     yield put({
       type: SET_PWD_SUCCESS,
     });
@@ -195,13 +195,13 @@ function* watchSetPwd() {
   yield takeLatest(SET_PWD_REQUEST, setPwd);
 }
 
-function logOutAPI() {
-  return axios.post('/user/logout');
+function logOutAPI(token) {
+  return axios.post('/user/logout', null, { headers: { Authorization: `Bearer ${token}` } });
 }
 
-function* logOut() {
+function* logOut(action) {
   try {
-    yield call(logOutAPI);
+    yield call(logOutAPI, action.token);
     yield put({
       type: LOG_OUT_SUCCESS,
     });
@@ -217,13 +217,13 @@ function* watchLogOut() {
   yield takeLatest(LOG_OUT_REQUEST, logOut);
 }
 
-function joinInAPI(data) {
-  return axios.patch('/user/join', data);
+function joinInAPI(action) {
+  return axios.patch('/user/join', action.data, { headers: { Authorization: `Bearer ${action.token}` } });
 }
 
 function* joinIn(action) {
   try {
-    const result = yield call(joinInAPI, action.data);
+    const result = yield call(joinInAPI, action);
     yield put({
       type: JOIN_IN_SUCCESS,
       data: result.data,

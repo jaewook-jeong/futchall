@@ -19,13 +19,13 @@ import {
   PATCH_WINNER_FAILURE,
 } from '../reducers/matches';
 
-function loadMatchesAPI(data) {
-  return axios.get(`/match/team/${data.teamId}`, data);
+function loadMatchesAPI(action) {
+  return axios.get(`/match/team/${action.data.teamId}`, null, { headers: { Authorization: `Bearer ${action.token}` } });
 }
 
 function* loadMatches(action) {
   try {
-    const result = yield call(loadMatchesAPI, action.data);
+    const result = yield call(loadMatchesAPI, action);
     yield put({
       type: SELECT_MATCHES_SUCCESS,
       data: result.data,
@@ -43,13 +43,13 @@ function* watchLoadMatches() {
   yield takeLatest(SELECT_MATCHES_REQUEST, loadMatches);
 }
 
-function patchWinnerAPI(data) {
-  return axios.patch(`/match/${data.matchId}/winner/${data.teamId}`);
+function patchWinnerAPI(action) {
+  return axios.patch(`/match/${action.data.matchId}/winner/${action.data.teamId}`, null, { headers: { Authorization: `Bearer ${action.token}` } });
 }
 
 function* patchWinner(action) {
   try {
-    const result = yield call(patchWinnerAPI, action.data);
+    const result = yield call(patchWinnerAPI, action);
     yield put({
       type: PATCH_WINNER_SUCCESS,
       data: result.data,
@@ -67,13 +67,13 @@ function* watchPatchWinner() {
   yield takeLatest(PATCH_WINNER_REQUEST, patchWinner);
 }
 
-function patchLoserAPI(data) {
-  return axios.patch(`/match/${data.matchId}/loser/${data.teamId}`);
+function patchLoserAPI(action) {
+  return axios.patch(`/match/${action.data.matchId}/loser/${action.data.teamId}`, null, { headers: { Authorization: `Bearer ${action.token}` } });
 }
 
 function* patchLoser(action) {
   try {
-    const result = yield call(patchLoserAPI, action.data);
+    const result = yield call(patchLoserAPI, action);
     yield put({
       type: PATCH_LOSER_SUCCESS,
       data: result.data,
@@ -91,13 +91,13 @@ function* watchPatchLoser() {
   yield takeLatest(PATCH_LOSER_REQUEST, patchLoser);
 }
 
-function patchApprovalAPI(data) {
-  return axios.patch(`/match/${data.matchId}/approve`);
+function patchApprovalAPI(action) {
+  return axios.patch(`/match/${action.data.matchId}/approve`, null, { headers: { Authorization: `Bearer ${action.token}` } });
 }
 
 function* patchApproval(action) {
   try {
-    const result = yield call(patchApprovalAPI, action.data);
+    const result = yield call(patchApprovalAPI, action);
     yield put({
       type: PATCH_APPROVAL_SUCCESS,
       data: result.data,
@@ -115,13 +115,13 @@ function* watchPatchApproval() {
   yield takeLatest(PATCH_APPROVAL_REQUEST, patchApproval);
 }
 
-function patchCancelAPI(data) {
-  return axios.patch(`/match/${data.matchId}/cancel`);
+function patchCancelAPI(action) {
+  return axios.patch(`/match/${action.data.matchId}/cancel`, null, { headers: { Authorization: `Bearer ${action.token}` } });
 }
 
 function* patchCancel(action) {
   try {
-    const result = yield call(patchCancelAPI, action.data);
+    const result = yield call(patchCancelAPI, action);
     yield put({
       type: PATCH_CANCEL_SUCCESS,
       data: result.data,

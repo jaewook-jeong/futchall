@@ -48,13 +48,13 @@ function* watchSelect() {
   yield takeEvery(SELECT_TEAM_REQUEST, select);
 }
 
-function getCalendarAPI(data) {
-  return axios.post(`/team/${data.teamId}/calendar`, data);
+function getCalendarAPI(action) {
+  return axios.post(`/team/${action.data.teamId}/calendar`, action.data, { headers: { Authorization: `Bearer ${action.token}` } });
 }
 
 function* getCalendar(action) {
   try {
-    const calendar = yield call(getCalendarAPI, action.data);
+    const calendar = yield call(getCalendarAPI, action);
     yield put({
       type: GET_CALENDAR_SUCCESS,
       data: calendar.data,
@@ -72,13 +72,13 @@ function* watchGetCalendar() {
   yield takeLatest(GET_CALENDAR_REQUEST, getCalendar);
 }
 
-function setCalendarAPI(data) {
-  return axios.post('/team/calendar', data);
+function setCalendarAPI(action) {
+  return axios.post('/team/calendar', action.data, { headers: { Authorization: `Bearer ${action.token}` } });
 }
 
 function* setCalendar(action) {
   try {
-    const calendar = yield call(setCalendarAPI, action.data);
+    const calendar = yield call(setCalendarAPI, action);
     yield put({
       type: SET_CALENDAR_SUCCESS,
       data: calendar.data,
@@ -96,13 +96,13 @@ function* watchSetCalendar() {
   yield takeLatest(SET_CALENDAR_REQUEST, setCalendar);
 }
 
-function editAPI(data) {
-  return axios.patch(`/team/${data.id}`, data);
+function editAPI(action) {
+  return axios.patch(`/team/${action.data.id}`, action.data, { headers: { Authorization: `Bearer ${action.token}` } });
 }
 
 function* edit(action) {
   try {
-    const team = yield call(editAPI, action.data);
+    const team = yield call(editAPI, action);
     yield put({
       type: EDIT_TEAM_SUCCESS,
       data: team.data,
@@ -120,14 +120,14 @@ function* watchEdit() {
   yield takeLatest(EDIT_TEAM_REQUEST, edit);
 }
 
-function enrollAPI(data) {
+function enrollAPI(action) {
   // 서버에 요청을 보내는 부분
-  return axios.post('/team/register', data);
+  return axios.post('/team/register', action.data, { headers: { Authorization: `Bearer ${action.token}` } });
 }
 
 function* enroll(action) {
   try {
-    yield call(enrollAPI, action.data);
+    yield call(enrollAPI, action);
     yield put({
       type: ENROLL_TEAM_SUCCESS,
     });

@@ -6,16 +6,13 @@ import {
   REFRESH_STADIUMLIST_FAILURE,
 } from '../reducers/location';
 
-function refreshStadiumListAPI(action) {
-  return axios.patch('/stadia', action.data, { headers: { Authorization: `Bearer ${action.token}` } });
+function refreshStadiumListAPI(data) {
+  return axios.patch('/stadia', data);
 }
 
 function* refreshStadiumList(action) {
   try {
-    console.log('------------------------------------');
-    console.log(action);
-    console.log('------------------------------------');
-    const result = yield call(refreshStadiumListAPI, action);
+    const result = yield call(refreshStadiumListAPI, action.data);
     yield put({
       type: REFRESH_STADIUMLIST_SUCCESS,
       data: result.data,
