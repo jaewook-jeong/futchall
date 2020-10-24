@@ -69,16 +69,28 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
     } else {
       token = cookie.slice(10);
     }
-    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+    if (token) {
+      const decodedToken = JWTdecode(token);
+      axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+      if (decodedToken.exp > Date.now() / 1000 && decodedToken.exp - Date.now() / 1000 < 60 * 60 * 24) {
+        axios.get('http://localhost:3065/auth/token/refresh')
+          .then((data) => {
+            context.store.dispatch({
+              type: SET_MY_TOKEN,
+              data: data.token,
+            });
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      } else {
+        context.store.dispatch({
+          type: SET_MY_TOKEN,
+          data: token,
+        });
+      }
+    }
   }
-  const decodedToken = JWTdecode(token);
-  if (decodedToken.exp - Date.now() / 1000 < 60 * 60 * 24) {
-    axios.get('http://localhost:3065/auth/token/refresh');
-  }
-  context.store.dispatch({
-    type: SET_MY_TOKEN,
-    data: token,
-  });
   context.store.dispatch(END);
   await context.store.sagaTask.toPromise();
 });

@@ -10,7 +10,7 @@ import StadiumList from '../components/StadiumList';
 import StadiumInfo from '../components/StadiumInfo';
 import AppLayout from '../components/AppLayout';
 import wrapper from '../store/configureStore';
-import { LOAD_MY_INFO_REQUEST, SET_MY_TOKEN } from '../reducers/user';
+import { LOAD_MY_INFO_REQUEST, LOAD_MY_INFO_SUCCESS, SET_MY_TOKEN } from '../reducers/user';
 
 const Stadia = () => {
   const stadiumList = useSelector((state) => state.location.stadiumList);
@@ -60,17 +60,33 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
     } else {
       token = cookie.slice(10);
     }
-    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+    if (token) {
+      const decodedToken = JWTdecode(token);
+      axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+      if (decodedToken.exp > Date.now() / 1000 && decodedToken.exp - Date.now() / 1000 < 60 * 60 * 24) {
+        axios.get('http://localhost:3065/auth/token/refresh')
+          .then((data) => {
+            context.store.dispatch({
+              type: SET_MY_TOKEN,
+              data: data.token,
+            });
+            context.store.dispatch({
+              type: LOAD_MY_INFO_SUCCESS,
+              data: data.me,
+            });
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      } else {
+        context.store.dispatch({ type: LOAD_MY_INFO_REQUEST });
+        context.store.dispatch({
+          type: SET_MY_TOKEN,
+          data: token,
+        });
+      }
+    }
   }
-  const decodedToken = JWTdecode(token);
-  if (decodedToken.exp - Date.now() / 1000 < 60 * 60 * 24) {
-    axios.get('http://localhost:3065/auth/token/refresh');
-  }
-  context.store.dispatch({ type: LOAD_MY_INFO_REQUEST });
-  context.store.dispatch({
-    type: SET_MY_TOKEN,
-    data: token,
-  });
   context.store.dispatch(END);
   await context.store.sagaTask.toPromise();
 });
