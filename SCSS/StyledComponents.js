@@ -90,6 +90,9 @@ export const SearchBoxGlobal = createGlobalStyle`
       height: 100% !important;
       box-shadow: none !important;
       width: 300px !important;
+      @media (max-width: 700px){
+        width: 250px !important;
+      }
       @media (max-width: 576px){
         width: 220px !important;
       }
@@ -102,6 +105,9 @@ export const SearchBoxGlobal = createGlobalStyle`
           background-color: #f1f3f4 !important;
           height: 100% !important;
           font-size: 16px !important;
+          @media (max-width: 700px){
+            width: 250px !important;
+          }
           @media (max-width: 576px){
             width: 150px !important;
           }
