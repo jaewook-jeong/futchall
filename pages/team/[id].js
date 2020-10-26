@@ -33,7 +33,6 @@ const Team = () => {
   const [calendarVisible, setCalendarVsible] = useState(false);
   const [tabKey, setTabKey] = useState('1');
   const lastScrollTop = useRef(0);
-  const updownDirection = useRef(false);
 
   const { data, error } = useSWR(`http://localhost:3065/team/${id}/${tabKey}`, fetcher);
 
@@ -79,32 +78,36 @@ const Team = () => {
 
   useEffect(() => {
     function onScroll() {
-      const st = window.pageYOffset;
+      const st = window.pageYOffset; // 문서가 수직으로 얼마나 스크롤 되었는가?
       const targetDiv = document.getElementById('facebookFlow');
       const fakeDiv = document.getElementById('facebookFake');
-      const upDivHeight = document.getElementById('upDiv').offsetHeight + 66;
-      const vh = window.innerHeight;
-      if (st <= upDivHeight) {
-        fakeDiv.style.cssText = 'height: 0px';
-        updownDirection.current = false;
-      }
-
-      if (st > lastScrollTop.current) {
-        // down
-        targetDiv.style.cssText = `top: ${vh - targetDiv.offsetHeight - 10}px`;
-        if (updownDirection.current && st > upDivHeight) {
-          fakeDiv.style.cssText = `height: ${st - targetDiv.offsetHeight}px`;
-          updownDirection.current = false;
+      const upDivHeight = document.getElementById('upDiv').offsetHeight + 66; // 위에정보 높이
+      const vh = window.innerHeight; // 창 높이
+      const vw = window.innerWidth; // 창 너비
+      if (vw > 576 && targetDiv.offsetHeight + 76 > vh) {
+        if (st >= lastScrollTop.current) {
+          // down
+          fakeDiv.style.cssText = 'height: 0px';
+          targetDiv.style.cssText = `top: ${vh - targetDiv.offsetHeight - 18}px`;
+        } else {
+          // up
+          if (upDivHeight + targetDiv.offsetHeight <= st + vh) {
+            // 왼쪽 정보의 총 높이값 보다 스크롤이 더 내려갔을 떼
+            console.log(st, fakeDiv.offsetHeight);
+            if (fakeDiv.offsetHeight === 0) {
+              fakeDiv.style.cssText = `height: ${st + vh - upDivHeight - targetDiv.offsetHeight}px`;
+            }
+          } else {
+            if (fakeDiv.offsetHeight === 0) {
+              fakeDiv.style.cssText = 'height: 0px';
+            }
+          }
+          targetDiv.style.cssText = `bottom: ${vh - targetDiv.offsetHeight - 80}px`;
         }
-      } else if (st < lastScrollTop.current) {
-        // up
-        targetDiv.style.cssText = `bottom: ${vh - targetDiv.offsetHeight - 70}px`;
-        if (!updownDirection.current) {
-          fakeDiv.style.cssText = `height: ${st}px`;
-          updownDirection.current = true;
-        }
+        lastScrollTop.current = st;
+      } else {
+        targetDiv.style.cssText = 'top: 76px';
       }
-      lastScrollTop.current = st <= 0 ? 0 : st;
     }
     window.addEventListener('scroll', onScroll);
     return () => {
