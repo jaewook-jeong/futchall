@@ -45,7 +45,7 @@ function* loadPosts(action) {
 }
 
 function addPostAPI(action) {
-  if (data.where === 'team') {
+  if (action.data.where === 'team') {
     return axios.post('/post/team', action.data, { headers: { Authorization: `Bearer ${action.token}` } });
   }
   return axios.post('/post/stadium', action.data, { headers: { Authorization: `Bearer ${action.token}` } });
@@ -53,6 +53,7 @@ function addPostAPI(action) {
 
 function* addPost(action) {
   try {
+    console.log(action);
     const result = yield call(addPostAPI, action);
     yield put({
       type: ADD_POST_SUCCESS,
