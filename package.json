@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "next",
     "build": "ANALYZE=true NODE_ENV=production next build",
-    "start": "next start"
+    "start": "next start",
+    "jest": "jest"
   },
   "keywords": [],
   "author": "Woogi",
@@ -36,14 +37,19 @@
     "swr": "^0.3.2"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.12.1",
+    "@babel/preset-react": "^7.12.1",
     "babel-eslint": "^10.1.0",
+    "babel-jest": "^26.6.1",
     "eslint": "^7.4.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^4.0.8",
+    "jest": "^26.6.1",
     "nodemon": "^2.0.2",
+    "react-test-renderer": "^17.0.1",
     "webpack": "^4.42.1"
   }
 }
