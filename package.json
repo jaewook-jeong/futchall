@@ -41,6 +41,8 @@
     "@babel/preset-react": "^7.12.1",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.6.1",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.5",
     "eslint": "^7.4.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-plugin-import": "^2.22.0",
