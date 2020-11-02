@@ -7,7 +7,22 @@
     "dev": "next",
     "build": "ANALYZE=true NODE_ENV=production next build",
     "start": "next start",
-    "jest": "jest"
+    "jest": "jest",
+    "testwatch": "jest --watchAll"
+  },
+  "jset": {
+    "setupFiles": [
+      "./setupTest.js"
+    ],
+    "moduleNameMapper": {
+      "\\.(css|less|scss|sass)$": "identity-obj-proxy"
+    },
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ]
   },
   "keywords": [],
   "author": "Woogi",
@@ -43,12 +58,14 @@
     "babel-jest": "^26.6.1",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.5",
+    "enzyme-to-json": "^3.6.1",
     "eslint": "^7.4.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^4.0.8",
+    "identity-obj-proxy": "^3.0.0",
     "jest": "^26.6.1",
     "nodemon": "^2.0.2",
     "react-test-renderer": "^17.0.1",
