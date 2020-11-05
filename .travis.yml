@@ -1,3 +1,8 @@
 language: node_js
 node_js:
-- "lts/*"
+  - 14
+before_install:
+  - npm install jest -g
+branches:
+  only:
+    - master
