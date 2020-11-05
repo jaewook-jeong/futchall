@@ -7,7 +7,7 @@
     "dev": "next",
     "build": "ANALYZE=true NODE_ENV=production next build",
     "start": "next start",
-    "jest": "jest",
+    "test": "jest",
     "test:watch": "jest --watchAll"
   },
   "keywords": [],
