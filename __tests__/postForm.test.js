@@ -9,7 +9,6 @@ import {configureStore} from '../store/configureStore'
 import PostForm from '../components/PostForm';
 import { LOAD_MY_INFO_SUCCESS, SET_MY_TOKEN } from '../reducers/user';
 import { ADD_POST_SUCCESS } from '../reducers/post';
-import { Input } from 'antd';
 
 describe('Post', () => {
   const store = configureStore();

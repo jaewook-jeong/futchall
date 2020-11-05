@@ -17,10 +17,7 @@ describe('Stadia', () => {
     );
   });
 
-  it('stadia snapshot', () => {
-    console.log('------------------------------------');
-    console.log(component);
-    console.log('------------------------------------');
-    expect(component).toMatchSnapshot();
-  });
+  // it('stadia snapshot', () => {
+  //   expect(component).toMatchSnapshot();
+  // });
 });
