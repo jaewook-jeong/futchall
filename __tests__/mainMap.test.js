@@ -1,12 +1,9 @@
 import React from 'react';
-import { configure, mount, shallow } from 'enzyme';
-import { Provider } from 'react-redux';
+import { shallow } from 'enzyme';
 
-import TeamManagement from '../components/TeamManagement';
 import  Stadia from '../pages/stadia';
+import { Provider } from 'react-redux';
 import {configureStore} from '../store/configureStore'
-
-
 
 describe('Stadia', () => {
   let component = null;
@@ -20,7 +17,10 @@ describe('Stadia', () => {
     );
   });
 
-  it('matches snapshot', () => {
+  it('stadia snapshot', () => {
+    console.log('------------------------------------');
+    console.log(component);
+    console.log('------------------------------------');
     expect(component).toMatchSnapshot();
   });
 });
