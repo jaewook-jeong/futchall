@@ -133,13 +133,12 @@ function signUpAPI(data) {
 
 function* signUp(action) {
   try {
-    const result = yield call(signUpAPI, action.data);
+    yield call(signUpAPI, action.data);
     yield put({
       type: SIGN_UP_SUCCESS,
     });
     yield put({
       type: LOG_IN_SUCCESS,
-      data: result.data,
     });
   } catch (e) { // loginAPI 실패
     console.error(e);
