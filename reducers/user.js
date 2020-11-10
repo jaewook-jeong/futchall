@@ -32,7 +32,6 @@ export const initialState = {
   isJoinedIn: false, // 팀 가입 신청완료
   joininErrorReason: null, // 팀 가입 신청 실패 사유
 };
-export const SET_MY_TOKEN = 'SET_MY_TOKEN';
 
 export const LOAD_MY_INFO_REQUEST = 'LOAD_MY_INFO_REQUEST';
 export const LOAD_MY_INFO_SUCCESS = 'LOAD_MY_INFO_SUCCESS';
@@ -79,9 +78,6 @@ export const REMOVE_POST_OF_ME = 'REMOVE_POST_OF_ME';
 
 export default (state = initialState, action) => produce(state, (draft) => {
   switch (action.type) {
-    case SET_MY_TOKEN:
-      draft.token = action.data;
-      break;
     case LOAD_MY_INFO_REQUEST:
       draft.loadMyInfoLoading = true;
       draft.loadMyInfoError = null;
@@ -90,10 +86,9 @@ export default (state = initialState, action) => produce(state, (draft) => {
     case LOAD_MY_INFO_SUCCESS:
       draft.loadMyInfoLoading = false;
       draft.loadMyInfoDone = true;
-      if (action.data) {
-        draft.isLoggedIn = true;
-      }
-      draft.me = action.data;
+      draft.isLoggedIn = true;
+      draft.me = action.data.me;
+      draft.token = action.data.token;
       break;
     case LOAD_MY_INFO_FAILURE:
       draft.loadMyInfoLoading = false;
@@ -107,7 +102,8 @@ export default (state = initialState, action) => produce(state, (draft) => {
       draft.isLoggingIn = false;
       draft.isLoggedIn = true;
       draft.isLoggedOut = false;
-      draft.me = action.data;
+      draft.me = action.data.me;
+      draft.token = action.data.token;
       draft.logInErrorReason = null;
       break;
     case LOG_IN_FAILURE:
@@ -115,6 +111,7 @@ export default (state = initialState, action) => produce(state, (draft) => {
       draft.isLoggedIn = false;
       draft.logInErrorReason = action.error;
       draft.me = null;
+      draft.token = null;
       break;
     case SELECT_LIST_REQUEST:
       draft.isSelecting = true;
@@ -156,6 +153,7 @@ export default (state = initialState, action) => produce(state, (draft) => {
       draft.isLoggingOut = false;
       draft.isLoggedIn = false;
       draft.me = null;
+      draft.token = null;
       break;
     case LOG_OUT_FAILURE:
       draft.isLoggingOut = false;
