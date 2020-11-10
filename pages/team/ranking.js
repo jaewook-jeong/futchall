@@ -41,10 +41,10 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
   let token = '';
   if (context.req && cookie) {
     if (cookie.indexOf(';') !== -1) {
-      const index = cookie.indexOf('AuthToken');
-      token = cookie.slice(index + 10, cookie.indexOf(';', index));
+      const index = cookie.indexOf('RefreshToken');
+      token = cookie.slice(index + 13, cookie.indexOf(';', index));
     } else {
-      token = cookie.slice(10);
+      token = cookie.slice(13);
     }
     axios.defaults.headers.common.Authorization = `Bearer ${token}`;
   }

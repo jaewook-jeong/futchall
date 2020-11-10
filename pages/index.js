@@ -2,13 +2,11 @@ import React, { useCallback } from 'react';
 import Router from 'next/router';
 import { Button, Col, Row, Input, Statistic, Divider } from 'antd';
 import { SearchOutlined, LikeOutlined, ArrowUpOutlined, TrophyTwoTone } from '@ant-design/icons';
-import { useDispatch, useSelector } from 'react-redux';
+import {  useSelector } from 'react-redux';
 import axios from 'axios';
-import JWTdecode from 'jwt-decode';
 import { END } from 'redux-saga';
 
 import wrapper from '../store/configureStore';
-import { SET_MY_TOKEN } from '../reducers/user';
 
 const Home = () => {
   const { isChangingLocation } = useSelector((state) => state.location);
@@ -62,35 +60,7 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
   const cookie = context.req ? context.req.headers.cookie : '';
   axios.defaults.headers.common.Authorization = '';
   let token = '';
-  if (context.req && cookie) {
-    if (cookie.indexOf(';') !== -1) {
-      const index = cookie.indexOf('AuthToken');
-      token = cookie.slice(index + 10, cookie.indexOf(';', index));
-    } else {
-      token = cookie.slice(10);
-    }
-    if (token) {
-      const decodedToken = JWTdecode(token);
-      axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-      if (decodedToken.exp > Date.now() / 1000 && decodedToken.exp - Date.now() / 1000 < 60 * 60 * 24) {
-        axios.get('http://localhost:3065/auth/token/refresh')
-          .then((data) => {
-            context.store.dispatch({
-              type: SET_MY_TOKEN,
-              data: data.token,
-            });
-          })
-          .catch((err) => {
-            console.error(err);
-          });
-      } else {
-        context.store.dispatch({
-          type: SET_MY_TOKEN,
-          data: token,
-        });
-      }
-    }
-  }
+  // TODO 첫페이지 데이터 가져와야 해
   context.store.dispatch(END);
   await context.store.sagaTask.toPromise();
 });
