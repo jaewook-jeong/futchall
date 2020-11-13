@@ -7,7 +7,7 @@ import configureMockStore from 'redux-mock-store'
 import { Provider } from 'react-redux';
 import {configureStore} from '../store/configureStore'
 import PostForm from '../components/PostForm';
-import { LOAD_MY_INFO_SUCCESS, SET_MY_TOKEN } from '../reducers/user';
+import { LOAD_MY_INFO_SUCCESS } from '../reducers/user';
 import { ADD_POST_SUCCESS } from '../reducers/post';
 
 describe('Post', () => {
@@ -19,14 +19,13 @@ describe('Post', () => {
   };
   it('Mock Store', async() => {
     await store.dispatch({
-      type: SET_MY_TOKEN,
-      data: 'aaa.bbb.ccc'
-    });
-    await store.dispatch({
       type: LOAD_MY_INFO_SUCCESS,
       data: {
-        Images: [],
-        nickname: '우기',
+        me: {
+          Images: [],
+          nickname: '우기',
+        },
+        token: 'aaa.bbb.ccc'
       }
     });
   });
