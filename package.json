@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next",
     "build": "ANALYZE=true NODE_ENV=production next build",
-    "start": "next start",
+    "start": "NODE_ENV=production next start",
     "test": "jest",
     "test:watch": "jest --watchAll"
   },
