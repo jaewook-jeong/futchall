@@ -8,12 +8,13 @@ import { CalendarOutlined, ToolOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import useSWR from 'swr';
 import Head from 'next/head';
+import jwtDecode from 'jwt-decode';
 
 import AppLayout2 from '../../components/AppLayout2';
 import Feed from '../../components/Feed';
 import { SELECT_TEAM_REQUEST } from '../../reducers/team';
 import { LOAD_POSTS_REQUEST } from '../../reducers/post';
-import { JOIN_IN_REQUEST, LOAD_MY_INFO_REQUEST, SET_MY_TOKEN } from '../../reducers/user';
+import { JOIN_IN_REQUEST, LOAD_MY_INFO_SUCCESS } from '../../reducers/user';
 import style from '../../SCSS/feedLayout.module.scss';
 import { teamMemberColumns as memberColumns } from '../../util/columns';
 import wrapper from '../../store/configureStore';
@@ -294,14 +295,35 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
   let token = '';
   if (context.req && cookie) {
     if (cookie.indexOf(';') !== -1) {
-      const index = cookie.indexOf('AuthToken');
-      token = cookie.slice(index + 10, cookie.indexOf(';', index));
+      const index = cookie.indexOf('RefreshToken');
+      token = cookie.slice(index + 13, cookie.indexOf(';', index));
     } else {
-      token = cookie.slice(10);
+      token = cookie.slice(13);
     }
-    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+    if (token) {
+      axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+      axios.get('http://localhost:3065/auth/myinfo')
+        .then((data) => {
+          context.store.dispatch({
+            type: LOAD_MY_INFO_SUCCESS,
+            data: data.data
+          });
+          setTimeout(() => {
+          // access토큰 재발급
+          axios.get('http://localhost:3065/auth/token/expired')
+            .then((data) => {
+              context.store.dispatch({
+                type: LOAD_MY_INFO_SUCCESS,
+                data: data.data
+              });
+            })
+          }, 30 * 60 * 1000);
+        })
+        .catch((err) => {
+          console.error(err);
+        })
+    }
   }
-  context.store.dispatch({ type: LOAD_MY_INFO_REQUEST });
   context.store.dispatch({ type: SELECT_TEAM_REQUEST, data: { id: context.params.id } });
   context.store.dispatch({
     type: LOAD_POSTS_REQUEST,
@@ -309,10 +331,6 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
       where: 'team',
       id: context.params.id,
     },
-  });
-  context.store.dispatch({
-    type: SET_MY_TOKEN,
-    data: token,
   });
   context.store.dispatch(END);
   await context.store.sagaTask.toPromise();
