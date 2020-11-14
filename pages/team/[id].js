@@ -21,6 +21,7 @@ import wrapper from '../../store/configureStore';
 import TeamManagement from '../../components/TeamManagement';
 import MatchCard from '../../components/MatchCard';
 import TeamCalendar from '../../components/TeamCalendar';
+import { backUrl } from '../../config/config';
 
 const fetcher = (url) => url.substr(-1, 1) !== '1' && axios.get(url).then((result) => result.data);
 
@@ -35,7 +36,7 @@ const Team = () => {
   const [tabKey, setTabKey] = useState('1');
   const lastScrollTop = useRef(0);
 
-  const { data, error } = useSWR(`http://localhost:3065/team/${id}/${tabKey}`, fetcher);
+  const { data, error } = useSWR(`${backUrl}/team/${id}/${tabKey}`, fetcher);
 
   const joinInTeam = useCallback(() => {
     dispatch({
@@ -127,8 +128,8 @@ const Team = () => {
           <meta name="description" content={info.description} />
           <meta property="og:title" content={`팀 | ${info.title}`} />
           <meta property="og:description" content={info.description} />
-          <meta property="og:image" content={info.Images[0] ? info.Images[0].src : 'https://futchall.com/favicon.ico'} />
-          <meta property="og:url" content={`https://futchall.com/team/${id}`} />
+          <meta property="og:image" content={info.Images[0] ? info.Images[0].src : `${backUrl}/favicon.ico`} />
+          <meta property="og:url" content={`${backUrl}/team/${id}`} />
         </Head>
         )
       }
@@ -141,7 +142,7 @@ const Team = () => {
               >
                 <img
                   alt="Main image of Team"
-                  src={(isSelected && info.Images[0]) ? `http://localhost:3065/${info.Images[0].src}` : undefined }
+                  src={(isSelected && info.Images[0]) ? `${backUrl}/${info.Images[0].src}` : undefined }
                   style={{ maxHeight: '100%', width: 'auto', margin: '0 auto' }}
                 />
               </div>
@@ -266,7 +267,7 @@ const Team = () => {
                   {
                     (tabKey === '4' && data?.length)
                       ? (
-                        data.map((v) => <Col xs={{ span: 22 }} sm={{ span: 12 }} md={{ span: 8 }} key={v.Images[0].id} className={style.photoBrick}><div className={style.thumbnail}><div className={style.centered}><img src={`http://localhost:3065/${v.Images[0].src}`} /></div></div></Col>)
+                        data.map((v) => <Col xs={{ span: 22 }} sm={{ span: 12 }} md={{ span: 8 }} key={v.Images[0].id} className={style.photoBrick}><div className={style.thumbnail}><div className={style.centered}><img src={`${backUrl}/${v.Images[0].src}`} /></div></div></Col>)
                       )
                       : <Empty />
                   }
@@ -302,7 +303,7 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
     }
     if (token) {
       axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-      axios.get('http://localhost:3065/auth/myinfo')
+      axios.get(`${backUrl}/auth/myinfo`)
         .then((data) => {
           context.store.dispatch({
             type: LOAD_MY_INFO_SUCCESS,
@@ -310,7 +311,7 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
           });
           setTimeout(() => {
           // access토큰 재발급
-          axios.get('http://localhost:3065/auth/token/expired')
+          axios.get(`${backUrl}/auth/token/expired`)
             .then((data) => {
               context.store.dispatch({
                 type: LOAD_MY_INFO_SUCCESS,

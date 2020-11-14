@@ -13,6 +13,7 @@ import { multipleSpecaility } from '../../../util/columns';
 import imageUploader from '../../../util/imageUploader';
 import wrapper from '../../../store/configureStore';
 import { LOAD_MY_INFO_REQUEST } from '../../../reducers/user';
+import { backUrl } from '../../../config/config';
 
 const Details = (props) => {
   const [form] = Form.useForm();
@@ -141,7 +142,7 @@ const Details = (props) => {
                 >
                   <Upload
                     listType="text"
-                    action={(file) => imageUploader('http://localhost:3065/stadium/image', file, token).then((response) => setDbImage(response.data))}
+                    action={(file) => imageUploader(`${backUrl}/stadium/image`, file, token).then((response) => setDbImage(response.data))}
                     onRemove={() => setDbImage('')}
                   >
                     { !dbImage

@@ -8,6 +8,7 @@ import { FileImageOutlined, PlusOutlined } from '@ant-design/icons';
 import { ADD_POST_REQUEST } from '../reducers/post';
 import imageUploader from '../util/imageUploader';
 import getBase64 from '../util/getBase64';
+import { backUrl } from '../config/config';
 
 const PostFormDiv = styled.div`
   border-radius: 15px;
@@ -67,7 +68,7 @@ const PostForm = ({ where, req }) => {
         <Form.Item
           label={(
             <Avatar
-              src={me.Images[0] && `http://localhost:3065/${me.Images[0]?.src}`}
+              src={me.Images[0] && `${backUrl}/${me.Images[0]?.src}`}
               alt={me.nickname}
             >{!me.Images[0]?.src && me.nickname}
             </Avatar>
@@ -88,7 +89,7 @@ const PostForm = ({ where, req }) => {
           <Form.Item>
             <Upload
               listType="picture-card"
-              action={(file) => imageUploader('http://localhost:3065/post/images', file, token).then((response) => setDbImage(dbImage.concat(response.data[0])))}
+              action={(file) => imageUploader(`${backUrl}/post/images`, file, token).then((response) => setDbImage(dbImage.concat(response.data[0])))}
               onChange={({ fileList }) => setImagelist(fileList)}
               fileList={imageList}
               onPreview={(file) => handlePreview(file)}

@@ -3,6 +3,7 @@ import axios from 'axios';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import { AutoComplete, Button, DatePicker, Form, message, Modal } from 'antd';
+import { backUrl } from '../config/config';
 
 const ReserveMatch = ({ visible, setVisible }) => {
   const [form] = Form.useForm();
@@ -16,7 +17,7 @@ const ReserveMatch = ({ visible, setVisible }) => {
   const onStadiumSearch = useCallback((searchText) => {
     clearTimeout(newStadiumRequest.current);
     newStadiumRequest.current = setTimeout(() => {
-      axios.get(`http://localhost:3065/stadium/search?q=${searchText}`, { withCredentials: true })
+      axios.get(`${backUrl}/stadium/search?q=${searchText}`, { withCredentials: true })
         .then((result) => result.data.map((v) => ({ label: v.title, value: v.title, id: v.id }))).then((data) => {
           setStadiumOptions(
             !searchText ? [] : data,
@@ -31,7 +32,7 @@ const ReserveMatch = ({ visible, setVisible }) => {
   const onTeamSearch = useCallback((searchText) => {
     clearTimeout(newTeamRequest.current);
     newTeamRequest.current = setTimeout(() => {
-      axios.get(`http://localhost:3065/team/search?q=${searchText}`, { withCredentials: true })
+      axios.get(`${backUrl}/team/search?q=${searchText}`, { withCredentials: true })
         .then((result) => result.data.map((v) => ({ label: v.title, value: v.title, id: v.id }))).then((data) => {
           setTeamOptions(
             !searchText ? [] : data,
@@ -55,7 +56,7 @@ const ReserveMatch = ({ visible, setVisible }) => {
       HomeId: teamId,
       StadiumId: stadiumId,
     };
-    axios.post('http://localhost:3065/match/reservation', data, { withCredentials: true })
+    axios.post(`${backUrl}/match/reservation`, data, { withCredentials: true })
       .then((result) => {
         message.success(result.data);
         setVisible(false);

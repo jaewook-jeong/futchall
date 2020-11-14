@@ -11,6 +11,7 @@ import AppLayout from '../../components/AppLayout';
 import imageUploader from '../../util/imageUploader';
 import wrapper from '../../store/configureStore';
 import { LOAD_MY_INFO_REQUEST } from '../../reducers/user';
+import { backUrl } from '../../config/config';
 
 const TeamRegister = () => {
   // const [, forceUpdate] = useState(); // when you com back to this page, to delete previous data
@@ -117,7 +118,7 @@ const TeamRegister = () => {
                 >
                   <Upload
                     listType="picture-card"
-                    action={(file) => imageUploader('http://localhost:3065/team/image', file, token).then((response) => setDbImage(response.data))}
+                    action={(file) => imageUploader(`${backUrl}/team/image`, file, token).then((response) => setDbImage(response.data))}
                     onRemove={() => setDbImage('')}
                   >
                     { !dbImage

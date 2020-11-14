@@ -9,6 +9,7 @@ import style from '../SCSS/post.module.scss';
 import PostImages from './PostImages';
 import Comments from './Comments';
 import { REMOVE_POST_REQUEST } from '../reducers/post';
+import { backUrl } from '../config/config';
 
 const PostComponent = ({ data }) => {
   const dispatch = useDispatch();
@@ -29,7 +30,7 @@ const PostComponent = ({ data }) => {
       <div className={style.writter}>
         <div className={style.avatar}>
           <Avatar
-            src={data.User.Images[0] && `http://localhost:3065/${data.User.Images[0]?.src}`}
+            src={data.User.Images[0] && `${backUrl}/${data.User.Images[0]?.src}`}
             alt={data.User.nickname}
             gap={3}
           >{!data.User.Images[0]?.src && data.User.nickname}

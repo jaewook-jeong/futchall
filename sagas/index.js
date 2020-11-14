@@ -7,8 +7,9 @@ import team from './team';
 // import messenger from './messenger';
 import matches from './matches';
 import post from './post';
+import { backUrl } from '../config/config';
 
-axios.defaults.baseURL = 'http://localhost:3065';
+axios.defaults.baseURL = backUrl;
 axios.defaults.withCredentials = true;
 
 export default function* rootSaga() {

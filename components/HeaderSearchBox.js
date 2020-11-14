@@ -6,6 +6,7 @@ import { AutoComplete, Button } from 'antd';
 
 import styles from '../SCSS/headerMenu.module.scss';
 import { SearchBoxGlobal } from '../SCSS/StyledComponents';
+import { backUrl } from '../config/config';
 
 const HeaderSearchBox = () => {
   const newRequest = useRef();
@@ -25,7 +26,7 @@ const HeaderSearchBox = () => {
   const onSearch = useCallback((searchText) => {
     clearTimeout(newRequest.current);
     newRequest.current = setTimeout(() => {
-      axios.get(`http://localhost:3065/team/autocomplete?q=${searchText}`)
+      axios.get(`${backUrl}/team/autocomplete?q=${searchText}`)
         .then((result) => ([result?.data[0]?.map((v) => ({ value: v.title,
           id: v.id,
           where: 'stadium',

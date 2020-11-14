@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Carousel, Tooltip } from 'antd';
 import { Thumnail, Centered, ImageTag, CloseBtn, PhotoSliderGlobal as Global } from '../SCSS/StyledComponents';
+import { backUrl } from '../config/config';
 
 const PhotoSlider = ({ images, handler, visible }) => {
   const closeBtn = useCallback(() => {
@@ -31,7 +32,7 @@ const PhotoSlider = ({ images, handler, visible }) => {
           <div key={v.src}>
             <Thumnail>
               <Centered>
-                <ImageTag src={`http://localhost:3065/${v.src}`} alt={`http://localhost:3065/${v.src}`} />
+                <ImageTag src={`${backUrl}/${v.src}`} alt={`${backUrl}/${v.src}`} />
               </Centered>
             </Thumnail>
           </div>

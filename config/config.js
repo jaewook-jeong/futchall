@@ -1,0 +1,1 @@
+export const backUrl = 'httl://52.79.115.224';

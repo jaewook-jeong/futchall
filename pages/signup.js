@@ -11,6 +11,7 @@ import { ageGroup, locations, positions } from '../util/selectOptions';
 import AppLayout from '../components/AppLayout';
 import imageUploader from '../util/imageUploader';
 import wrapper from '../store/configureStore';
+import { backUrl } from '../config/config';
 
 const Signup = () => {
   const dispatch = useDispatch();
@@ -74,7 +75,7 @@ const Signup = () => {
                   () => ({
                     async validator(rule, value) {
                       if (value.length >= 5) {
-                        const isTaken = await axios.post('http://localhost:3065/user/isTaken', { originalId: value });
+                        const isTaken = await axios.post(`${backUrl}/user/isTaken`, { originalId: value });
                         if (isTaken.data) {
                           return Promise.reject('이미 사용중인 아이디입니다.');
                         }
@@ -139,7 +140,7 @@ const Signup = () => {
               <Form.Item label="프로필 사진">
                 <Upload
                   listType="picture"
-                  action={(file) => imageUploader('http://localhost:3065/user/image', file).then((response) => setDbImage(response.data))}
+                  action={(file) => imageUploader(`${backUrl}/user/image`, file).then((response) => setDbImage(response.data))}
                   onRemove={() => setDbImage('')}
                 >
                   { !dbImage

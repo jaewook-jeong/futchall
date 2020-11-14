@@ -21,6 +21,7 @@ import { multipleSpecaility } from '../../util/columns';
 import style from '../../SCSS/feedLayout.module.scss';
 import stadiumMapStyles from '../../SCSS/stadium.module.scss';
 import MatchCard from '../../components/MatchCard';
+import { backUrl } from '../../config/config';
 
 const fetcher = (url) => url.substr(-1, 1) !== '1' && axios.get(url).then((result) => result.data);
 
@@ -33,7 +34,7 @@ const Stadium = () => {
   const { info, isSelected, isTakingStadium, isTakenStadium, takenStadiumErrorReason } = useSelector((state) => state.stadium);
   const token = useSelector((state) => state.user.token);
 
-  const { data, error } = useSWR(`http://localhost:3065/stadium/${id}/${tabKey}`, fetcher);
+  const { data, error } = useSWR(`${backUrl}/stadium/${id}/${tabKey}`, fetcher);
 
   const moveToTeam = useCallback(() => {
     Router.push(`/team/${info.TeamId}`);
@@ -84,7 +85,7 @@ const Stadium = () => {
                 <div class=${stadiumMapStyles.first}>
                   <div class=${stadiumMapStyles.outterImg}>
                     <div class=${stadiumMapStyles.innerImg}>
-                      <img src="http://localhost:3065/${info?.Images[0]?.src}">
+                      <img src="${backUrl}/${info?.Images[0]?.src}">
                     </div>
                   </div>
                   <div class=${stadiumMapStyles.triangle}>1</div>
@@ -164,7 +165,7 @@ const Stadium = () => {
               >
                 <img
                 alt="Main image of Stadium"
-                src={isSelected && `http://localhost:3065/${info.Images[0]?.src}`}
+                src={isSelected && `${backUrl}/${info.Images[0]?.src}`}
                 style={{ maxHeight: '100%', width: 'auto', margin: '0 auto' }}
                 />
               </div>
@@ -268,7 +269,7 @@ const Stadium = () => {
                           <Col xs={{ span: 22 }} sm={{ span: 12 }} md={{ span: 8 }} key={v.Images[0].id} className={style.photoBrick}>
                             <div className={style.thumbnail}>
                               <div className={style.centered}>
-                                <img src={`http://localhost:3065/${v.Images[0].src}`} />
+                                <img src={`${backUrl}/${v.Images[0].src}`} />
                               </div>
                             </div>
                           </Col>
