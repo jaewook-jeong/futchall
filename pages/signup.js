@@ -28,7 +28,7 @@ const Signup = () => {
         image: dbImage,
       },
     });
-  }, []);
+  }, [dbImage]);
   useEffect(() => {
     if (isSignedUp && !isSigningUp) {
       notification.success({

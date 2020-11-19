@@ -6,7 +6,6 @@ import { RightOutlined, DeleteOutlined, DownOutlined } from '@ant-design/icons';
 import Router from 'next/router';
 
 import { LOG_OUT_REQUEST } from '../reducers/user';
-import { backUrl } from '../config/config';
 
 const ProfileAvatar = () => {
   const { me, token } = useSelector((state) => state.user,);
@@ -72,7 +71,7 @@ const ProfileAvatar = () => {
       >
         <Space>
           <Avatar
-            src={me.Images[0] && `${backUrl}/${me.Images[0]?.src}`}
+            src={me.Images[0] && `${me.Images[0]?.src}`}
             alt={me.nickname}
             gap="3"
           >{!me.Images[0]?.src && me.nickname}

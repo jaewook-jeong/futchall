@@ -2,7 +2,6 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Carousel, Tooltip } from 'antd';
 import { Thumnail, Centered, ImageTag, CloseBtn, PhotoSliderGlobal as Global } from '../SCSS/StyledComponents';
-import { backUrl } from '../config/config';
 
 const PhotoSlider = ({ images, handler, visible }) => {
   const closeBtn = useCallback(() => {

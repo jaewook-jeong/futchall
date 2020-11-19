@@ -5,7 +5,6 @@ import { LoadingOutlined } from '@ant-design/icons';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { ADD_COMMENT_REQUEST, CLEAR_ADD_COMMENT_RESULT } from '../reducers/post';
-import { backUrl } from '../config/config';
 
 const CommentForm = ({ postId, toggleVisible, parentId }) => {
   const dispatch = useDispatch();
@@ -39,7 +38,7 @@ const CommentForm = ({ postId, toggleVisible, parentId }) => {
       onFinish={onSubmitComment}
     >
       <Form.Item
-        label={<Avatar shape="circle" src={`${backUrl}/${me?.Images[0]?.src}`}>{!me.Images[0]?.src && me.nickname}</Avatar>}
+        label={<Avatar shape="circle" src={`${me?.Images[0]?.src}`}>{!me.Images[0]?.src && me.nickname}</Avatar>}
         colon={false}
         name="commentText"
         required

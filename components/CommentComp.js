@@ -6,7 +6,6 @@ import { Comment, Avatar, Tooltip } from 'antd';
 
 import CommentForm from './CommentForm';
 import { CommentGlobal as Global } from '../SCSS/StyledComponents';
-import { backUrl } from '../config/config';
 
 const CommentComp = (comment) => {
   const [toggleReply, onToggleRply] = useState(false);
@@ -28,7 +27,7 @@ const CommentComp = (comment) => {
         )}
         avatar={(
           <Avatar
-            src={`${backUrl}/${comment.data.User.Images[0]?.src}`}
+            src={`${comment.data.User.Images[0]?.src}`}
             alt={comment.data.User.nickname}
           >{!comment.data.User.Images[0]?.src && comment.data.User.nickname}
           </Avatar>

@@ -10,7 +10,6 @@ import styled from 'styled-components';
 import { REFRESH_STADIUMLIST_REQUEST } from '../reducers/location';
 import styles from '../SCSS/map.module.scss';
 import getLocation from '../util/getLocation';
-import { backUrl } from '../config/config';
 
 const MapContainer = styled.div`
     height: 70vh;
@@ -151,7 +150,7 @@ const Maps = ({ list, onChangeSelected, nowSelected }) => {
       bodyImgInner.className = `${styles.bodyImgInner}`;
 
       const img = document.createElement('img');
-      img.setAttribute('src', `${backUrl}/${stadiumInfo.Images[0].src}`);
+      img.setAttribute('src', `${stadiumInfo.Images[0].src}`);
       bodyImgInner.appendChild(img);
       bodyImgOutter.appendChild(bodyImgInner);
 

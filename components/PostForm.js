@@ -68,7 +68,7 @@ const PostForm = ({ where, req }) => {
         <Form.Item
           label={(
             <Avatar
-              src={me.Images[0] && `${backUrl}/${me.Images[0]?.src}`}
+              src={me.Images[0] && `${me.Images[0]?.src}`}
               alt={me.nickname}
             >{!me.Images[0]?.src && me.nickname}
             </Avatar>
