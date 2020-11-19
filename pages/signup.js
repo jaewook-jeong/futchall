@@ -139,8 +139,18 @@ const Signup = () => {
               <Form.Item label="프로필 사진">
                 <Upload
                   listType="picture"
-                  action={(file) => imageUploader(`${backUrl}/user/image`, file).then((response) => setDbImage(response.data))}
                   onRemove={() => setDbImage('')}
+                  customRequest={(data) => {
+                    imageUploader(`${backUrl}/user/image`, data.file)
+                    .then(response => {
+                      setDbImage(response.data);
+                      data.onSuccess();
+                    })
+                    .catch(error => {
+                      console.log('Error fetching profile ' + error)
+                      data.onError("Error uploading image")
+                    })
+                  }}
                 >
                   { !dbImage
                       && (
