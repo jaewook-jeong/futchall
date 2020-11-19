@@ -137,9 +137,6 @@ function* signUp(action) {
     yield put({
       type: SIGN_UP_SUCCESS,
     });
-    yield put({
-      type: LOG_IN_SUCCESS,
-    });
   } catch (e) { // loginAPI 실패
     console.error(e);
     yield put({
@@ -150,7 +147,7 @@ function* signUp(action) {
 }
 
 function* watchSignUp() {
-  yield takeEvery(SIGN_UP_REQUEST, signUp);
+  yield takeLatest(SIGN_UP_REQUEST, signUp);
 }
 
 function changeToAPI(action) {

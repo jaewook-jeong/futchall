@@ -87,6 +87,7 @@ export default (state = initialState, action) => produce(state, (draft) => {
       draft.loadMyInfoLoading = false;
       draft.loadMyInfoDone = true;
       draft.isLoggedIn = true;
+      draft.isLoggedOut = false;
       draft.me = action.data.me;
       draft.token = action.data.token;
       break;
