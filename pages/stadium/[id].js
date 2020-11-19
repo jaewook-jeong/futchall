@@ -85,7 +85,7 @@ const Stadium = () => {
                 <div class=${stadiumMapStyles.first}>
                   <div class=${stadiumMapStyles.outterImg}>
                     <div class=${stadiumMapStyles.innerImg}>
-                      <img src="${backUrl}/${info?.Images[0]?.src}">
+                      <img src="${info?.Images[0]?.src}">
                     </div>
                   </div>
                   <div class=${stadiumMapStyles.triangle}>1</div>
@@ -165,7 +165,7 @@ const Stadium = () => {
               >
                 <img
                 alt="Main image of Stadium"
-                src={isSelected && `${backUrl}/${info.Images[0]?.src}`}
+                src={isSelected && `${info.Images[0]?.src}`}
                 style={{ maxHeight: '100%', width: 'auto', margin: '0 auto' }}
                 />
               </div>
@@ -269,7 +269,7 @@ const Stadium = () => {
                           <Col xs={{ span: 22 }} sm={{ span: 12 }} md={{ span: 8 }} key={v.Images[0].id} className={style.photoBrick}>
                             <div className={style.thumbnail}>
                               <div className={style.centered}>
-                                <img src={`${backUrl}/${v.Images[0].src}`} />
+                                <img src={`${v.Images[0].src}`} />
                               </div>
                             </div>
                           </Col>

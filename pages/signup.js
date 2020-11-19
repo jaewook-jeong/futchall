@@ -21,7 +21,6 @@ const Signup = () => {
   const { isSigningUp, me, isSignedUp } = useSelector((state) => state.user);
 
   const submitSignupData = useCallback(() => {
-    console.log(form.getFieldsValue());
     dispatch({
       type: SIGN_UP_REQUEST,
       data: {

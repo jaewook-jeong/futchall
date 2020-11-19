@@ -10,7 +10,6 @@ import { SEARCH_TEAMS_REQUEST } from '../reducers/team';
 import AppLayout from '../components/AppLayout';
 import wrapper from '../store/configureStore';
 import { LOAD_MY_INFO_REQUEST } from '../reducers/user';
-import { backUrl } from '../config/config';
 
 const Search = () => {
   const { teamList, query, isSearched } = useSelector((state) => state.team);
@@ -36,7 +35,7 @@ const Search = () => {
                       <img
                         height="150"
                         alt="first post image"
-                        src={`${backUrl}/${item.src}`}
+                        src={`${item.src}`}
                       />
                     )
                   }
@@ -67,7 +66,7 @@ const Search = () => {
                       <img
                         height="150"
                         alt="first post image"
-                        src={`${backUrl}/${item.src}`}
+                        src={`${item.src}`}
                       />
                     )
                   }
@@ -98,7 +97,7 @@ const Search = () => {
                       <img
                         height="150"
                         alt="first post image"
-                        src={`${backUrl}/${item.src}`}
+                        src={`${item.src}`}
                       />
                     )
                   }

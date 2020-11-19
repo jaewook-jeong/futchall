@@ -128,7 +128,7 @@ const Team = () => {
           <meta name="description" content={info.description} />
           <meta property="og:title" content={`팀 | ${info.title}`} />
           <meta property="og:description" content={info.description} />
-          <meta property="og:image" content={info.Images[0] ? info.Images[0].src : `${backUrl}/favicon.ico`} />
+          <meta property="og:image" content={info.Images[0] ? info.Images[0].src : `/favicon.png`} />
           <meta property="og:url" content={`${backUrl}/team/${id}`} />
         </Head>
         )
@@ -142,7 +142,7 @@ const Team = () => {
               >
                 <img
                   alt="Main image of Team"
-                  src={(isSelected && info.Images[0]) ? `${backUrl}/${info.Images[0].src}` : undefined }
+                  src={(isSelected && info.Images[0]) ? `${info.Images[0].src}` : undefined }
                   style={{ maxHeight: '100%', width: 'auto', margin: '0 auto' }}
                 />
               </div>
@@ -267,7 +267,7 @@ const Team = () => {
                   {
                     (tabKey === '4' && data?.length)
                       ? (
-                        data.map((v) => <Col xs={{ span: 22 }} sm={{ span: 12 }} md={{ span: 8 }} key={v.Images[0].id} className={style.photoBrick}><div className={style.thumbnail}><div className={style.centered}><img src={`${backUrl}/${v.Images[0].src}`} /></div></div></Col>)
+                        data.map((v) => <Col xs={{ span: 22 }} sm={{ span: 12 }} md={{ span: 8 }} key={v.Images[0].id} className={style.photoBrick}><div className={style.thumbnail}><div className={style.centered}><img src={`${v.Images[0].src}`} /></div></div></Col>)
                       )
                       : <Empty />
                   }

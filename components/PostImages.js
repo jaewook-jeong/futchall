@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import PhotoSlider from './PhotoSlider';
 import { Thumnail, Centered, ImageTag } from '../SCSS/StyledComponents';
-import { backUrl } from '../config/config';
 
 const PostImages = ({ images }) => {
   const [modalImage, setModalImage] = useState(false);
@@ -17,7 +16,7 @@ const PostImages = ({ images }) => {
       <div style={{ width: '100%' }}>
         <Thumnail>
           <Centered>
-            <ImageTag role="presentation" src={`${backUrl}/${images[0].src}`} alt={`${backUrl}/${images[0].src}`} onClick={onZoom} />
+            <ImageTag role="presentation" src={`${images[0].src}`} alt={`${images[0].src}`} onClick={onZoom} />
           </Centered>
         </Thumnail>
         {modalImage && <PhotoSlider images={images} handler={setModalImage} visible={modalImage} />}
@@ -30,14 +29,14 @@ const PostImages = ({ images }) => {
         <div style={{ width: '50%', display: 'inline-block', borderRight: '1px solid #ddd' }}>
           <Thumnail>
             <Centered>
-              <ImageTag role="presentation" src={`${backUrl}/${images[0].src}`} alt={`${backUrl}/${images[0].src}`} onClick={onZoom} />
+              <ImageTag role="presentation" src={`${images[0].src}`} alt={`${images[0].src}`} onClick={onZoom} />
             </Centered>
           </Thumnail>
         </div>
         <div style={{ width: '50%', display: 'inline-block', borderLeft: '1px solid #ddd' }}>
           <Thumnail>
             <Centered>
-              <ImageTag role="presentation" src={`${backUrl}/${images[1].src}`} alt={`${backUrl}/${images[1].src}`} onClick={onZoom} />
+              <ImageTag role="presentation" src={`${images[1].src}`} alt={`${images[1].src}`} onClick={onZoom} />
             </Centered>
           </Thumnail>
         </div>
@@ -50,19 +49,19 @@ const PostImages = ({ images }) => {
       <div style={{ width: '66.66666%', display: 'inline-block', borderRight: '1px solid #ddd' }}>
         <Thumnail>
           <Centered>
-            <ImageTag role="presentation" src={`${backUrl}/${images[0].src}`} alt={`${backUrl}/${images[0].src}`} onClick={onZoom} />
+            <ImageTag role="presentation" src={`$${images[0].src}`} alt={`$${images[0].src}`} onClick={onZoom} />
           </Centered>
         </Thumnail>
       </div>
       <div style={{ width: '33.33333%', display: 'inline-block', borderLeft: '1px solid #ddd' }}>
         <Thumnail style={{ borderBottom: '1px solid #ddd' }}>
           <Centered>
-            <ImageTag role="presentation" src={`${backUrl}/${images[1].src}`} alt={`${backUrl}/${images[1].src}`} onClick={onZoom} />
+            <ImageTag role="presentation" src={`$${images[1].src}`} alt={`$${images[1].src}`} onClick={onZoom} />
           </Centered>
         </Thumnail>
         <Thumnail style={{ borderTop: '1px solid #ddd' }} onClick={onZoom}>
           <Centered>
-            <ImageTag role="presentation" src={`${backUrl}/${images[2].src}`} alt={`${backUrl}/${images[2].src}`} />
+            <ImageTag role="presentation" src={`${images[2].src}`} alt={`${images[2].src}`} />
           </Centered>
           {images[3]
           && (
