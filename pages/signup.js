@@ -139,13 +139,7 @@ const Signup = () => {
               <Form.Item label="프로필 사진">
                 <Upload
                   listType="picture"
-                  action={(file) => imageUploader(`${backUrl}/user/image`, file)}
-                  onChange={(info) => {
-                    console.log(info);
-                    if(info.file.response) {
-                      setDbImage(info.file.response);
-                    }
-                  }}
+                  action={(file) => imageUploader(`${backUrl}/user/image`, file).then((response) => setDbImage(response.data))}
                   onRemove={() => setDbImage('')}
                 >
                   { !dbImage
