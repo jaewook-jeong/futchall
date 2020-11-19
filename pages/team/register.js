@@ -118,7 +118,17 @@ const TeamRegister = () => {
                 >
                   <Upload
                     listType="picture-card"
-                    action={(file) => imageUploader(`${backUrl}/team/image`, file, token).then((response) => setDbImage(response.data))}
+                    customRequest={(data) => {
+                      imageUploader(`${backUrl}/team/image`, data.file, token)
+                      .then(response => {
+                        setDbImage(response.data);
+                        data.onSuccess();
+                      })
+                      .catch(error => {
+                        console.log('Error fetching profile ' + error)
+                        data.onError("Error uploading image")
+                      })
+                    }}
                     onRemove={() => setDbImage('')}
                   >
                     { !dbImage

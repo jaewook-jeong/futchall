@@ -142,7 +142,17 @@ const Details = (props) => {
                 >
                   <Upload
                     listType="text"
-                    action={(file) => imageUploader(`${backUrl}/stadium/image`, file, token).then((response) => setDbImage(response.data))}
+                    customRequest={(data) => {
+                      imageUploader(`${backUrl}/stadium/image`, data.file, token)
+                      .then(response => {
+                        setDbImage(response.data);
+                        data.onSuccess();
+                      })
+                      .catch(error => {
+                        console.log('Error fetching profile ' + error)
+                        data.onError("Error uploading image")
+                      })
+                    }}
                     onRemove={() => setDbImage('')}
                   >
                     { !dbImage

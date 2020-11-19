@@ -89,7 +89,17 @@ const PostForm = ({ where, req }) => {
           <Form.Item>
             <Upload
               listType="picture-card"
-              action={(file) => imageUploader(`${backUrl}/post/images`, file, token).then((response) => setDbImage(dbImage.concat(response.data[0])))}
+              customRequest={(data) => {
+                imageUploader(`${backUrl}/post/images`, data.file, token)
+                .then(response => {
+                  setDbImage(dbImage.concat(response.data[0]));
+                  data.onSuccess();
+                })
+                .catch(error => {
+                  console.log('Error fetching profile ' + error)
+                  data.onError("Error uploading image")
+                })
+              }}
               onChange={({ fileList }) => setImagelist(fileList)}
               fileList={imageList}
               onPreview={(file) => handlePreview(file)}
