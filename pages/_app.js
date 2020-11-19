@@ -8,13 +8,6 @@ import wrapper from '../store/configureStore';
 const FutChall = ({ Component }) => (
   <>
     <Head>
-      <script async src="https://www.googletagmanager.com/gtag/js?id=G-7P8J27ZSHP"></script>
-      <script >
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments)}
-        gtag('js', new Date());
-        gtag('config', 'G-7P8J27ZSHP');
-      </script>
       <title>FutChall</title>
       <meta charSet="utf-8" />
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/antd/4.6.2/antd.min.css" />
