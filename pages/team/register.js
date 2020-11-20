@@ -20,6 +20,7 @@ const TeamRegister = () => {
   const { isEnrolling, isEnrolled } = useSelector((state) => state.team);
   const { isLoggedIn, token } = useSelector((state) => state.user);
   const [dbImage, setDbImage] = useState('');
+  const [imageList, setImageList] = useState([]);
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -118,10 +119,12 @@ const TeamRegister = () => {
                 >
                   <Upload
                     listType="picture-card"
+                    fileList={imageList}
                     customRequest={(data) => {
                       imageUploader(`${backUrl}/team/image`, data.file, token)
                       .then(response => {
                         setDbImage(response.data);
+                        setImageList(response.data.replace(/\/thumb\//, '/original/'));
                         data.onSuccess();
                       })
                       .catch(error => {
@@ -129,7 +132,10 @@ const TeamRegister = () => {
                         data.onError("Error uploading image")
                       })
                     }}
-                    onRemove={() => setDbImage('')}
+                    onRemove={() => {
+                      setDbImage('');
+                      setImageList([]);
+                    }}
                   >
                     { !dbImage
                       && (

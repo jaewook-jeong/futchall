@@ -100,7 +100,9 @@ const PostForm = ({ where, req }) => {
                   data.onError("Error uploading image")
                 })
               }}
-              onChange={({ fileList }) => setImagelist(fileList)}
+              onChange={({ fileList }) => setImagelist(fileList.map((v) => {
+                return {...v, url: v.url.replace(/\/thumb\//, '/original/')};
+              }))}
               fileList={imageList}
               onPreview={(file) => handlePreview(file)}
               onRemove={(file) => {

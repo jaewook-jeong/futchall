@@ -17,6 +17,7 @@ const Signup = () => {
   const dispatch = useDispatch();
   const [titleSize, onAlterTitleSize] = useState(2);
   const [dbImage, setDbImage] = useState('');
+  const [imageList, setImageList] = useState([]);
   const [form] = Form.useForm();
   const { isSigningUp, me, isSignedUp } = useSelector((state) => state.user);
 
@@ -139,11 +140,16 @@ const Signup = () => {
               <Form.Item label="프로필 사진">
                 <Upload
                   listType="picture"
-                  onRemove={() => setDbImage('')}
+                  onRemove={() => {
+                    setDbImage('');
+                    setImageList([]);
+                  }}
+                  fileList={imageList}
                   customRequest={(data) => {
                     imageUploader(`${backUrl}/user/image`, data.file)
                     .then(response => {
                       setDbImage(response.data);
+                      setImageList(response.data.replace(/\/thumb\//, '/original/'));
                       data.onSuccess();
                     })
                     .catch(error => {

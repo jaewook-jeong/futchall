@@ -21,6 +21,7 @@ const Details = (props) => {
   const { isEnrolling, isEnrolled } = useSelector((state) => state.stadium);
   const { isLoggedIn, token } = useSelector((state) => state.user);
   const [dbImage, setDbImage] = useState('');
+  const [imageList, setImageList] = useState([]);
 
   useEffect(() => {
     if (!props.router.query || !isLoggedIn) {
@@ -146,6 +147,7 @@ const Details = (props) => {
                       imageUploader(`${backUrl}/stadium/image`, data.file, token)
                       .then(response => {
                         setDbImage(response.data);
+                        setImageList(response.data.replace(/\/thumb\//, '/original/'));
                         data.onSuccess();
                       })
                       .catch(error => {
@@ -153,7 +155,11 @@ const Details = (props) => {
                         data.onError("Error uploading image")
                       })
                     }}
-                    onRemove={() => setDbImage('')}
+                    fileList={imageList}
+                    onRemove={() => {
+                      setDbImage('');
+                      setImageList([]);
+                    }}
                   >
                     { !dbImage
                       && (
