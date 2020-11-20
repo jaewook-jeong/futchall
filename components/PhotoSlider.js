@@ -31,7 +31,7 @@ const PhotoSlider = ({ images, handler, visible }) => {
           <div key={v.src}>
             <Thumnail>
               <Centered>
-                <ImageTag src={`${v.src}`} alt={`${v.src}`} />
+                <ImageTag src={`${v.src.replace(/\/thumb\//, '/original/')}`} alt={`${v.src}`} />
               </Centered>
             </Thumnail>
           </div>
