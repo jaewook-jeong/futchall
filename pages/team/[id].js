@@ -8,7 +8,6 @@ import { CalendarOutlined, ToolOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import useSWR from 'swr';
 import Head from 'next/head';
-import jwtDecode from 'jwt-decode';
 
 import AppLayout2 from '../../components/AppLayout2';
 import Feed from '../../components/Feed';
@@ -119,20 +118,16 @@ const Team = () => {
 
   return (
     <AppLayout2>
-      {
-        isSelected && (
-        <Head>
-          <title>
-            팀 | {info.title}
-          </title>
-          <meta name="description" content={info.description} />
-          <meta property="og:title" content={`팀 | ${info.title}`} />
-          <meta property="og:description" content={info.description} />
-          <meta property="og:image" content={info.Images[0] ? info.Images[0].src : `/favicon.png`} />
-          <meta property="og:url" content={`${backUrl}/team/${id}`} />
-        </Head>
-        )
-      }
+      <Head>
+        <title>
+          팀 | {info.title}
+        </title>
+        <meta name="description" content={info.description} />
+        <meta property="og:title" content={`팀 | ${info.title}`} />
+        <meta property="og:description" content={info.description} />
+        <meta property="og:image" content={info.Images[0] ? info.Images[0].src : `/favicon.png`} />
+        <meta property="og:url" content={`${backUrl}/team/${id}`} />
+      </Head>
       <Row>
         <Col className={style.mainInfo} id="upDiv">
           <Card
@@ -142,7 +137,7 @@ const Team = () => {
               >
                 <img
                   alt="Main image of Team"
-                  src={(isSelected && info.Images[0]) ? `${info.Images[0].src}` : undefined }
+                  src={(isSelected && info.Images[0]) ? `${info.Images[0].src.replace(/\/thumb\//, '/original/')}` : undefined }
                   style={{ maxHeight: '100%', width: 'auto', margin: '0 auto' }}
                 />
               </div>

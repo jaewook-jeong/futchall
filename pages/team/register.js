@@ -56,7 +56,8 @@ const TeamRegister = () => {
       <Row>
         <Col
           xs={{ span: 22, offset: 1 }}
-          md={{ span: 14, offset: 5 }}
+          md={{ span: 16, offset: 4 }}
+          lg={{ span: 12, offset: 6 }}
           xl={{ span: 8, offset: 8 }}
           xxl={{ span: 6, offset: 9 }}
           style={{ margin: '0 auto', border: '1px solid #dadce0', borderRadius: '8px', padding: '30px 10px' }}
