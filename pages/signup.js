@@ -17,7 +17,6 @@ const Signup = () => {
   const dispatch = useDispatch();
   const [titleSize, onAlterTitleSize] = useState(2);
   const [dbImage, setDbImage] = useState('');
-  const [imageList, setImageList] = useState([]);
   const [form] = Form.useForm();
   const { isSigningUp, me, isSignedUp } = useSelector((state) => state.user);
 
