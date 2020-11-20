@@ -145,11 +145,13 @@ const Signup = () => {
                     setImageList([]);
                   }}
                   fileList={imageList}
+                  onChange={({ fileList }) => setImagelist(fileList.map((v) => {
+                    return {...v, url: v.url.replace(/\/thumb\//, '/original/')};
+                  }))}
                   customRequest={(data) => {
                     imageUploader(`${backUrl}/user/image`, data.file)
                     .then(response => {
                       setDbImage(response.data);
-                      setImageList(response.data.replace(/\/thumb\//, '/original/'));
                       data.onSuccess();
                     })
                     .catch(error => {
