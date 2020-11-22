@@ -138,7 +138,7 @@ const Team = () => {
                 <img
                   alt="Main image of Team"
                   src={(isSelected && info.Images[0]) ? `${info.Images[0].src.replace(/\/thumb\//, '/original/')}` : undefined }
-                  style={{ maxHeight: '100%', width: 'auto', margin: '0 auto' }}
+                  style={{ height: 'auto', width: '100%', margin: '0 auto' }}
                 />
               </div>
             )}
