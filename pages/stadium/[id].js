@@ -166,7 +166,7 @@ const Stadium = () => {
                 <img
                 alt="Main image of Stadium"
                 src={isSelected && `${info.Images[0]?.src}`}
-                style={{ height: 'auto', width: '100%', margin: '0 auto' }}
+                style={{ height: 'auto', width: 'auto', margin: '0 auto', maxHeight: '400px', maxWidth: '100%' }}
                 />
               </div>
             )}
