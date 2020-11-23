@@ -24,7 +24,7 @@ const Maps = ({ list, onChangeSelected, nowSelected }) => {
   const [overlays, setOverlays] = useState([]);
 
   useEffect(
-    () => {
+    async () => {
       async function firstLoadMap() {
         try {
           await getLocation().then((result) => {
@@ -83,7 +83,7 @@ const Maps = ({ list, onChangeSelected, nowSelected }) => {
           console.error(error);
         }
       }
-      firstLoadMap();
+      await firstLoadMap();
     }, [],
   );
   useEffect(() => {

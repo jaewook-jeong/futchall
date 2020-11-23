@@ -68,7 +68,7 @@ const LoginForm = (props) => {
           >
             <Checkbox value="Y">아이디 기억하기</Checkbox>
           </Form.Item>
-          <Link href=""><a style={FloatRight}>비밀번호 찾기</a></Link>
+          <Link href=""><a style={FloatRight}>비밀번호 찾기</a></Link>
         </Form.Item>
 
         <Form.Item shouldUpdate style={MarginBottomZero}>
