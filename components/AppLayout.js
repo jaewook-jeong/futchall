@@ -41,6 +41,7 @@ const AppLayout = ({ children }) => {
   const Router = useRouter();
 
   const showModal = useCallback(() => setVisible(!visible), []);
+  const goRanking = useCallback(() => Router.push('/team/ranking'), []);
   const popRightMessage = useCallback(() => setChatVisible(!chatVisible), []);
   const onApply = useCallback(() => {
     isLoggedIn ? Router.push('/stadium/register/location') : message.info('로그인 후 등록할 수 있습니다.');
@@ -59,7 +60,7 @@ const AppLayout = ({ children }) => {
         <Layout.Sider breakpoint="sm" theme="light" collapsedWidth={0} zeroWidthTriggerStyle={{ zIndex: 10 }}>
           <Menu mode="inline" theme="light">
             <Menu.Item key="stadia" icon={<CompassOutlined />} onClick={() => Router.push('/stadia')}>구장찾기</Menu.Item>
-            <Menu.Item key="ranking" icon={<LineChartOutlined />} onClick={() => Router.push('/team/ranking')}>순위보기</Menu.Item>
+            <Menu.Item key="ranking" icon={<LineChartOutlined />} onClick={goRanking}>순위보기</Menu.Item>
             <Menu.Item onClick={onApply} key="applyStadium" icon={<PlusSquareOutlined />}>신규구장 등록하기</Menu.Item>
             {isLoggedIn && !me?.TeamId && <Menu.Item key="makeTeam" icon={<TeamOutlined />}><Link href="/team/register" prefetch={false} ><a>팀 생성하기</a></Link></Menu.Item>}
             {isLoggedIn && me?.TeamId && <Menu.Item key="Team" icon={<TeamOutlined />} onClick={() => Router.push('/team/[id]', `/team/${me.TeamId}`)}>{me.Team.title}</Menu.Item>}
