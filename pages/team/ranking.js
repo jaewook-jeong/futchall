@@ -36,6 +36,9 @@ const Ranking = () => {
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
+  console.log('------------------------------------');
+  console.log("SSR start");
+  console.log('------------------------------------');
   const cookie = context.req ? context.req.headers.cookie : '';
   axios.defaults.headers.common.Authorization = '';
   let token = '';
@@ -52,6 +55,9 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
   context.store.dispatch({ type: LOAD_LIST_REQUEST });
   context.store.dispatch(END);
   await context.store.sagaTask.toPromise();
+  console.log('------------------------------------');
+  console.log("SSR end");
+  console.log('------------------------------------');
 });
 
 export default Ranking;
