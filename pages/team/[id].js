@@ -118,16 +118,20 @@ const Team = () => {
 
   return (
     <AppLayout2>
-      <Head>
-        <title>
-          팀 | {info.title}
-        </title>
-        <meta name="description" content={info.description} />
-        <meta property="og:title" content={`팀 | ${info.title}`} />
-        <meta property="og:description" content={info.description} />
-        <meta property="og:image" content={info.Images[0] ? info.Images[0].src : `/favicon.png`} />
-        <meta property="og:url" content={`${backUrl}/team/${id}`} />
-      </Head>
+      {
+        isSelected && (
+          <Head>
+            <title>
+              팀 | {info.title}
+            </title>
+            <meta name="description" content={info.description} />
+            <meta property="og:title" content={`팀 | ${info.title}`} />
+            <meta property="og:description" content={info.description} />
+            <meta property="og:image" content={info.Images[0] ? info.Images[0].src : `/favicon.png`} />
+            <meta property="og:url" content={`${backUrl}/team/${id}`} />
+          </Head>
+        )
+      }
       <Row>
         <Col className={style.mainInfo} id="upDiv">
           <Card
