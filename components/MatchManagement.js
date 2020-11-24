@@ -98,7 +98,7 @@ const MatchManagement = () => {
           render={(value, row) => {
             if (row.HomeId !== teamId) {
               return (
-                <Link href={`/team/${row.HomeId}`}>
+                <Link href={`/team/${row.HomeId}`} prefetch={false}>
                   <a>{row.capture === 'Y' && <Tooltip title="점령전">*</Tooltip>}{value}</a>
                 </Link>
               );
@@ -110,7 +110,7 @@ const MatchManagement = () => {
           render={(value, row) => {
             if (row.AwayId !== teamId) {
               return (
-                <Link href={`/team/${row.AwayId}`}>
+                <Link href={`/team/${row.AwayId}`} prefetch={false}>
                   <a>{value}</a>
                 </Link>
               );
@@ -122,7 +122,7 @@ const MatchManagement = () => {
           render={(value) => moment(value.toString()).locale('ko').format('YYYY-MM-DD HH:mm')}
         />
         <Table.Column title="장소" dataIndex={['Stadium', 'title']} align="center"
-          render={(value, row) => <Link href={`/stadium/${row.StadiumId}`}><a>{value}</a></Link>}
+          render={(value, row) => <Link href={`/stadium/${row.StadiumId}`} prefetch={false}><a>{value}</a></Link>}
         />
         <Table.Column title="승리팀" dataIndex={['Winner', 'title']} align="center"
           render={(value, row) => {

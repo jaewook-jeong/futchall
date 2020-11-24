@@ -41,7 +41,7 @@ const Search = () => {
                   }
                 >
                   <List.Item.Meta
-                    title={<Link href={`/post/${item.id}`}><a>{item.nickname}님의 게시글</a></Link>}
+                    title={<Link href={`/post/${item.id}`} prefetch={false}><a>{item.nickname}님의 게시글</a></Link>}
                     description={moment(item.createdAt.toString()).locale('ko').fromNow()}
                   />
                   {item.content}
@@ -72,7 +72,7 @@ const Search = () => {
                   }
                 >
                   <List.Item.Meta
-                    title={<Link href={`/stadium/${item.id}`}><a>{item.title}</a></Link>}
+                    title={<Link href={`/stadium/${item.id}`} prefetch={false}><a>{item.title}</a></Link>}
                     description={item.address}
                   />
                   {item.description}
@@ -103,7 +103,7 @@ const Search = () => {
                   }
                 >
                   <List.Item.Meta
-                    title={<Link href={`/team/${item.id}`}><a>{item.title}</a></Link>}
+                    title={<Link href={`/team/${item.id}`} prefetch={false}><a>{item.title}</a></Link>}
                     description={item.location}
                   />
                   {item.description}

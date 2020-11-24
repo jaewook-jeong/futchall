@@ -218,7 +218,7 @@ const Stadium = () => {
                   </Descriptions.Item>
                   <Descriptions.Item label="점령 팀" span={2}>
                     <Skeleton loading={!isSelected} active paragraph={false} />
-                    {(isSelected && info.Team?.title) ? <Link href={`/team/${info.TeamId}`}><a>{info.Team.title}</a></Link> : <Button type="primary" onClick={takeStadium} loading={isTakingStadium}>점령하기</Button>}
+                    {(isSelected && info.Team?.title) ? <Link href={`/team/${info.TeamId}`} prefetch={false}><a>{info.Team.title}</a></Link> : <Button type="primary" onClick={takeStadium} loading={isTakingStadium}>점령하기</Button>}
                   </Descriptions.Item>
                   <Descriptions.Item label={<>유효기간 <Tooltip title="점령 후 도전을 받지 않을 시 유지되는 기간입니다."><QuestionCircleOutlined /></Tooltip></>} span={2}>
                     <Skeleton loading={!isSelected} active paragraph={false} />

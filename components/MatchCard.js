@@ -34,7 +34,7 @@ const MatchCard = ({ match }) => (
           }
         </Row>
         <Row>
-          <Link href={`/stadium/${match.StadiumId}`}><a>{match.Stadium.title}</a></Link>
+          <Link href={`/stadium/${match.StadiumId}`} prefetch={false}><a>{match.Stadium.title}</a></Link>
         </Row>
       </Col>
     </Row>

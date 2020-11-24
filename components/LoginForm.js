@@ -68,7 +68,7 @@ const LoginForm = (props) => {
           >
             <Checkbox value="Y">아이디 기억하기</Checkbox>
           </Form.Item>
-          <Link href=""><a style={FloatRight}>비밀번호 찾기</a></Link>
+          <Link href="" prefetch={false} ><a style={FloatRight}>비밀번호 찾기</a></Link>
         </Form.Item>
 
         <Form.Item shouldUpdate style={MarginBottomZero}>
@@ -85,7 +85,7 @@ const LoginForm = (props) => {
             </Button>
           )}
         </Form.Item>
-        또는 <Link href="/signup"><a>회원가입하기</a></Link>
+        또는 <Link href="/signup" prefetch={false}><a>회원가입하기</a></Link>
       </Form>
     </Modal>
   );

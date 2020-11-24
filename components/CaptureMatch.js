@@ -98,7 +98,7 @@ const CaptureMatch = ({ visible, setVisible }) => {
               label="점령팀"
               colon={false}
             >
-              <Link href={`/team/${matchInfo.teamId}`}><a>{matchInfo.title}</a></Link>
+              <Link href={`/team/${matchInfo.teamId}`} prefetch={false} ><a>{matchInfo.title}</a></Link>
             </Form.Item>
           )
         }

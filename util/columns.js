@@ -149,13 +149,13 @@ export const teamRecordColumns = [
     title: '홈 팀',
     align: 'center',
     dataIndex: ['Home', 'title'],
-    render: (value, row) => <Link href={`/team/${row.HomeId}`}><a><Tooltip title={row.WinnerId == row.HomeId ? '승리팀' : '패배팀'}>{row.capture === 'Y' ? '*' : null}{value}</Tooltip></a></Link>
+    render: (value, row) => <Link href={`/team/${row.HomeId}`} prefetch={false}><a><Tooltip title={row.WinnerId == row.HomeId ? '승리팀' : '패배팀'}>{row.capture === 'Y' ? '*' : null}{value}</Tooltip></a></Link>
   },
   {
     title: '신청팀',
     align: 'center',
     dataIndex: ['Away', 'title'],
-    render: (value, row) => <Link href={`/team/${row.AwayId}`}><a><Tooltip title={row.WinnerId == row.AwayId ? '승리팀' : '패배팀'}>{value}</Tooltip></a></Link>
+    render: (value, row) => <Link href={`/team/${row.AwayId}`} prefetch={false}><a><Tooltip title={row.WinnerId == row.AwayId ? '승리팀' : '패배팀'}>{value}</Tooltip></a></Link>
   },
   {
     title: '경기일자',
@@ -167,7 +167,7 @@ export const teamRecordColumns = [
     title: '경기장소',
     align: 'center',
     dataIndex: ['Stadium', 'title'],
-    render: (value, row) => <Link href={`/stadium/${row.StadiumId}`}><a>{value}</a></Link>
+    render: (value, row) => <Link href={`/stadium/${row.StadiumId}`} prefetch={false}><a>{value}</a></Link>
   },
 ];
 
