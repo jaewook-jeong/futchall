@@ -11,7 +11,25 @@ import wrapper from '../../store/configureStore';
 import { LOAD_MY_INFO_REQUEST } from '../../reducers/user';
 
 const Ranking = () => {
-  const { rankingList, isLoading } = useSelector((state) => state.team);
+  // const { rankingList, isLoading } = useSelector((state) => state.team);
+  const rankingList = [
+    {
+      title: '잔디FC',
+      rank: 1,
+      location: '서울',
+      occupation: 3,
+      recruit: 'Y',
+      leader: 'everest88',
+    },
+    {
+      title: 'FC벌',
+      rank: 2,
+      location: '서울',
+      occupation: 1,
+      recruit: 'N',
+      leader: 'leese',
+    },
+  ];
   return (
     <AppLayout>
       <Row>
@@ -20,7 +38,6 @@ const Ranking = () => {
             구장깨기 순위
           </Typography.Title>
           <Table
-            loading={isLoading}
             showHeader
             rowKey={(record) => record.id}
             columns={columns}
