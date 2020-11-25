@@ -49,9 +49,11 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
     } else {
       token = cookie.slice(13);
     }
-    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+    if (token) {
+      axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+      context.store.dispatch({ type: LOAD_MY_INFO_REQUEST });
+    }
   }
-  context.store.dispatch({ type: LOAD_MY_INFO_REQUEST });
   context.store.dispatch({ type: LOAD_LIST_REQUEST });
   context.store.dispatch(END);
   await context.store.sagaTask.toPromise();
