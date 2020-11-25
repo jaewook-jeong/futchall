@@ -149,10 +149,10 @@ function loadAPI() {
 }
 function* load() {
   try {
-    // yield call(loadAPI);
-    yield delay(1000);
+    const result = call(loadAPI);
     yield put({
       type: LOAD_LIST_SUCCESS,
+      data: result.data,
     });
   } catch (e) {
     yield put({

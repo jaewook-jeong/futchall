@@ -229,7 +229,7 @@ export default (state = initialState, action) => produce(state, (draft) => {
     case LOAD_LIST_SUCCESS:
       draft.isLoaded = true;
       draft.isLoading = false;
-      draft.rankingList = dummyRanking;
+      draft.rankingList = action.data;
       break;
     case LOAD_LIST_FAILURE:
       draft.isLoading = false;

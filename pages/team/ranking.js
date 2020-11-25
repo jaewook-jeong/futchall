@@ -19,10 +19,10 @@ const Ranking = () => {
           <Typography.Title level={3}>
             구장깨기 순위
           </Typography.Title>
-
           <Table
             loading={isLoading}
             showHeader
+            rowKey={(record) => record.id}
             columns={columns}
             scroll={{ x: 'max-content', scrollToFirstRowOnChange: true }}
             pagination={{ pageSize: 50 }}
@@ -54,7 +54,7 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
       context.store.dispatch({ type: LOAD_MY_INFO_REQUEST });
     }
   }
-  // context.store.dispatch({ type: LOAD_LIST_REQUEST });
+  context.store.dispatch({ type: LOAD_LIST_REQUEST });
   context.store.dispatch(END);
   await context.store.sagaTask.toPromise();
   console.log('------------------------------------');
