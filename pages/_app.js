@@ -5,7 +5,7 @@ import 'antd/dist/antd.css';
 
 import wrapper from '../store/configureStore';
 
-const FutChall = ({ Component }) => (
+const FutChall = ({ Component, pageProps }) => (
   <>
     <Head>
       <title>FutChall</title>
@@ -14,7 +14,7 @@ const FutChall = ({ Component }) => (
       <link rel="icon" type="image/png" href={`/favicon.png`} />
       <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=60712c2e792d545d1241f9c9bc3a1f28&libraries=clusterer,services" />
     </Head>
-    <Component />
+    <Component {...pageProps} />
   </>
 );
 
