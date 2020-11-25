@@ -9,9 +9,6 @@ module.exports = withBundleAnalyzer({
     return {
       ...config,
       mode: prod ? 'production' : 'development',
-      optimization : {
-        minimize: false
-      },
       devtool: prod ? 'hidden-source-map' : 'eval',
       plugins: [
         ...config.plugins,
