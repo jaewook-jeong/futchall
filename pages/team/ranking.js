@@ -42,24 +42,24 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
   const cookie = context.req ? context.req.headers.cookie : '';
   axios.defaults.headers.common.Authorization = '';
   let token = '';
-  if (context.req && cookie) {
-    if (cookie.indexOf(';') !== -1) {
-      const index = cookie.indexOf('RefreshToken');
-      token = cookie.slice(index + 13, cookie.indexOf(';', index));
-    } else {
-      token = cookie.slice(13);
-    }
-    if (token) {
-      axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-      context.store.dispatch({ type: LOAD_MY_INFO_REQUEST });
-    }
-  }
+  // if (context.req && cookie) {
+  //   if (cookie.indexOf(';') !== -1) {
+  //     const index = cookie.indexOf('RefreshToken');
+  //     token = cookie.slice(index + 13, cookie.indexOf(';', index));
+  //   } else {
+  //     token = cookie.slice(13);
+  //   }
+  //   if (token) {
+  //     axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+  //     context.store.dispatch({ type: LOAD_MY_INFO_REQUEST });
+  //   }
+  // }
   context.store.dispatch({ type: LOAD_LIST_REQUEST });
   context.store.dispatch(END);
-  await context.store.sagaTask.toPromise();
   console.log('------------------------------------');
   console.log("SSR end");
   console.log('------------------------------------');
+  await context.store.sagaTask.toPromise();
 });
 
 export default Ranking;
