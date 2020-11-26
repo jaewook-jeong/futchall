@@ -32,6 +32,7 @@ const Stadium = () => {
   const lastScrollTop = useRef(0);
   const [tabKey, setTabKey] = useState('1');
   const { info, isSelected, isTakingStadium, isTakenStadium, takenStadiumErrorReason } = useSelector((state) => state.stadium);
+  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const token = useSelector((state) => state.user.token);
 
   const { data, error } = useSWR(`${backUrl}/stadium/${id}/${tabKey}`, fetcher);
@@ -41,14 +42,18 @@ const Stadium = () => {
   }, [info]);
 
   const takeStadium = useCallback(() => {
-    dispatch({
-      type: TAKE_STADIUM_REQUEST,
-      data: {
-        id,
-      },
-      token,
-    });
-  }, [info]);
+    if (isLoggedIn) {
+      dispatch({
+        type: TAKE_STADIUM_REQUEST,
+        data: {
+          id,
+        },
+        token,
+      });
+    } else {
+      message.warn('먼저 로그인을 해주세요.');
+    }
+  }, [info, isLoggedIn]);
 
   useEffect(() => {
     if (isTakenStadium) {
@@ -146,16 +151,20 @@ const Stadium = () => {
 
   return (
     <AppLayout2>
-      <Head>
-        <title>
-          구장 | {info.title}
-        </title>
-        <meta name="description" content={info.description} />
-        <meta property="og:title" content={`구장 | ${info.title}`} />
-        <meta property="og:description" content={info.description} />
-        <meta property="og:image" content={info.Images[0] ? info.Images[0].src : 'https://futchall.com/favicon.ico'} />
-        <meta property="og:url" content={`https://futchall.com/team/${id}`} />
-      </Head>
+      {
+        isSelected && (
+          <Head>
+            <title>
+              구장 | {info.title}
+            </title>
+            <meta name="description" content={info.description} />
+            <meta property="og:title" content={`구장 | ${info.title}`} />
+            <meta property="og:description" content={info.description} />
+            <meta property="og:image" content={info.Images[0] ? info.Images[0].src : 'https://futchall.com/favicon.ico'} />
+            <meta property="og:url" content={`https://futchall.com/team/${id}`} />
+          </Head>
+        )
+      }
       <Row>
         <Col className={style.mainInfo} id="upDiv">
           <Card
@@ -315,14 +324,16 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
       context.store.dispatch({ type: LOAD_MY_INFO_REQUEST });
     }
   }
-  context.store.dispatch({ type: SELECT_STADIUM_REQUEST, data: context.params.id });
-  context.store.dispatch({
-    type: LOAD_POSTS_REQUEST,
-    data: {
-      where: 'stadium',
-      id: context.params.id,
-    },
-  });
+  if (!isNaN(context.params.id)) {
+    context.store.dispatch({ type: SELECT_STADIUM_REQUEST, data: context.params.id });
+    context.store.dispatch({
+      type: LOAD_POSTS_REQUEST,
+      data: {
+        where: 'stadium',
+        id: context.params.id,
+      },
+    });
+  }
   context.store.dispatch(END);
   await context.store.sagaTask.toPromise();
 });
