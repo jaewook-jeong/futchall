@@ -25,7 +25,7 @@ function* select(action) {
     const stadium = yield call(selectAPI, action.data);
     yield put({
       type: SELECT_STADIUM_SUCCESS,
-      data: stadium.data.data,
+      data: stadium.data,
     });
   } catch (e) {
     console.error(e);
