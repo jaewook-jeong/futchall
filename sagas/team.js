@@ -25,7 +25,7 @@ import {
 } from '../reducers/team';
 
 function selectAPI(data) {
-  return axios.get(`/team/${data.id}`);
+  return axios.get(`/team/${data}`);
 }
 
 function* select(action) {

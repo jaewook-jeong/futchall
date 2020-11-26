@@ -180,6 +180,7 @@ export default (state = initialState, action) => produce(state, (draft) => {
   switch (action.type) {
     case SELECT_TEAM_REQUEST:
       draft.isSelecting = true;
+      draft.isSelected = false;
       draft.selectedErrorReason = null;
       break;
     case SELECT_TEAM_SUCCESS:

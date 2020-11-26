@@ -324,14 +324,16 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
         })
     }
   }
-  context.store.dispatch({ type: SELECT_TEAM_REQUEST, data: { id: context.params.id } });
-  context.store.dispatch({
-    type: LOAD_POSTS_REQUEST,
-    data: {
-      where: 'team',
-      id: context.params.id,
-    },
-  });
+  if (!isNaN(context.params.id)) {
+    context.store.dispatch({ type: SELECT_TEAM_REQUEST, data: context.params.id });
+    context.store.dispatch({
+      type: LOAD_POSTS_REQUEST,
+      data: {
+        where: 'team',
+        id: context.params.id,
+      },
+    });
+  }
   context.store.dispatch(END);
   await context.store.sagaTask.toPromise();
 });
