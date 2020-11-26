@@ -149,7 +149,7 @@ function loadAPI() {
 }
 function* load() {
   try {
-    const result = call(loadAPI);
+    const result = yield call(loadAPI);
     yield put({
       type: LOAD_LIST_SUCCESS,
       data: result.data,
@@ -162,7 +162,7 @@ function* load() {
   }
 }
 function* watchLoad() {
-  yield takeEvery(LOAD_LIST_REQUEST, load);
+  yield takeLatest(LOAD_LIST_REQUEST, load);
 }
 
 function searchAPI(action) {
