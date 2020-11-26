@@ -3,15 +3,15 @@ import Link from 'next/link';
 import moment from 'moment';
 
 export const RankingColumns = [
-  // {
-  //   title: '순위',
-  //   width: 60,
-  //   dataIndex: 'rank',
-  //   fixed: 'left',
-  //   align: 'center',
-  //   ellipsis: true,
-  //   sorter: (a, b) => a.rank - b.rank,
-  // },
+  {
+    title: '순위',
+    width: 50,
+    dataIndex: 'rank',
+    fixed: 'left',
+    align: 'center',
+    ellipsis: true,
+    sorter: (a, b) => a.rank - b.rank,
+  },
   {
     title: '팀 명',
     width: 100,
@@ -29,7 +29,7 @@ export const RankingColumns = [
   {
     title: '점령 구장 수',
     dataIndex: 'occupation',
-    width: 80,
+    width: 100,
     align: 'center',
     sorter: (a, b) => a.occupation - b.occupation,
   },
