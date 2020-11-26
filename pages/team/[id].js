@@ -60,8 +60,8 @@ const Team = () => {
         level: 5,
       };
       const map = new kakao.maps.Map(document.getElementById('stadiumAddress'), options);
-      map.setDraggable(false);
-      map.setZoomable(false);
+      map.setDraggable(true);
+      map.setZoomable(true);
       const bounds = new kakao.maps.LatLngBounds();
       for (let i = 0; i < points.length; i += 1) {
         // need index for getting req, so don't use forEach etc.
