@@ -12,7 +12,6 @@ import Head from 'next/head';
 import AppLayout2 from '../../components/AppLayout2';
 import Feed from '../../components/Feed';
 import { SELECT_TEAM_REQUEST } from '../../reducers/team';
-import { LOAD_POSTS_REQUEST } from '../../reducers/post';
 import { JOIN_IN_REQUEST, LOAD_MY_INFO_SUCCESS } from '../../reducers/user';
 import style from '../../SCSS/feedLayout.module.scss';
 import { teamMemberColumns as memberColumns } from '../../util/columns';
@@ -21,6 +20,7 @@ import TeamManagement from '../../components/TeamManagement';
 import MatchCard from '../../components/MatchCard';
 import TeamCalendar from '../../components/TeamCalendar';
 import { backUrl } from '../../config/config';
+import getAccessToken from '../../util/getAccessToken';
 
 const fetcher = (url) => url.substr(-1, 1) !== '1' && axios.get(url).then((result) => result.data);
 
@@ -302,28 +302,9 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
     }
     if (token) {
       axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-      axios.get(`${backUrl}/auth/myinfo`)
-        .then((data) => {
-          context.store.dispatch({
-            type: LOAD_MY_INFO_SUCCESS,
-            data: data.data
-          });
-          setTimeout(() => {
-          // access토큰 재발급
-          axios.get(`${backUrl}/auth/token/expired`)
-            .then((data) => {
-              context.store.dispatch({
-                type: LOAD_MY_INFO_SUCCESS,
-                data: data.data
-              });
-            })
-          }, 30 * 60 * 1000);
-        })
-        .catch((err) => {
-          console.error(err);
-        })
+      context.store.dispatch({ type: LOAD_MY_INFO_REQUEST });
+      getAccessToken(token);
     }
-  }
   if (!isNaN(context.params.id)) {
     context.store.dispatch({ type: SELECT_TEAM_REQUEST, data: context.params.id });
   }

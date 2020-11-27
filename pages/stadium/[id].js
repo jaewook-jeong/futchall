@@ -16,7 +16,6 @@ import AppLayout2 from '../../components/AppLayout2';
 import Feed from '../../components/Feed';
 import { SELECT_STADIUM_REQUEST, TAKE_STADIUM_REQUEST } from '../../reducers/stadium';
 import { LOAD_MY_INFO_REQUEST } from '../../reducers/user';
-import { LOAD_POSTS_REQUEST } from '../../reducers/post';
 import { multipleSpecaility } from '../../util/columns';
 import style from '../../SCSS/feedLayout.module.scss';
 import stadiumMapStyles from '../../SCSS/stadium.module.scss';
