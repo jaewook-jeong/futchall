@@ -1,7 +1,7 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Form, Avatar, Input, Button, Divider, Space, Upload, Modal } from 'antd';
+import { Form, Avatar, Input, Button, Divider, Space, Upload, Modal, message } from 'antd';
 import styled from 'styled-components';
 import { FileImageOutlined, PlusOutlined } from '@ant-design/icons';
 
@@ -12,7 +12,7 @@ import { backUrl } from '../config/config';
 
 const PostFormDiv = styled.div`
   border-radius: 15px;
-  padding: 10px;
+  padding: 15px;
   border: 1px solid #f0f0f0;
   height: auto;
   margin-bottom: 10px;
@@ -30,16 +30,20 @@ const PostForm = ({ where, req }) => {
   const [dbImage, setDbImage] = useState([]);
 
   const onSubmit = useCallback(() => {
-    dispatch({
-      type: ADD_POST_REQUEST,
-      data: {
-        content: form.getFieldValue('content'),
-        where,
-        req,
-        image: dbImage,
-      },
-      token,
-    });
+    if (dbImage || form.getFieldValue('content')) {
+      dispatch({
+        type: ADD_POST_REQUEST,
+        data: {
+          content: form.getFieldValue('content'),
+          where,
+          req,
+          image: dbImage,
+        },
+        token,
+      });
+    } else {
+      message.info('글을 작성하시거나 사진을 등록해주세요!');
+    }
   }, [dbImage]);
 
   const handlePreview = async (file) => {
@@ -73,7 +77,7 @@ const PostForm = ({ where, req }) => {
             >{!me.Images[0]?.src && me.nickname}
             </Avatar>
           )}
-          labelCol={{flex: '47px'}}
+          labelCol={{flex: '42px'}}
           wrapperCol={{flex: 'auto'}}
           colon={false}
           name="content"
