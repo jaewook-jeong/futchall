@@ -38,7 +38,7 @@ const CommentForm = ({ postId, toggleVisible, parentId }) => {
       onFinish={onSubmitComment}
     >
       <Form.Item
-        label={<Avatar shape="circle" src={`${me?.Images[0]?.src}`}>{!me.Images[0]?.src && me.nickname}</Avatar>}
+        label={<Avatar shape="circle" src={me.Images[0] && `${me.Images[0]?.src}`}>{!me.Images[0]?.src && me.nickname}</Avatar>}
         colon={false}
         name="commentText"
         required
