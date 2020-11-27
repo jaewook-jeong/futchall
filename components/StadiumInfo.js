@@ -22,7 +22,6 @@ const StadiumInfo = (props) => {
       token,
     });
   }, [info]);
-
   useEffect(() => {
     if (isTakenStadium) {
       notification.open({
@@ -41,6 +40,18 @@ const StadiumInfo = (props) => {
 
   useEffect(() => {
     dispatch({ type: SELECT_STADIUM_REQUEST, data: list[nowSelected].id });
+    const visitedId = list[nowSelected].id.toString();
+    if (document.cookie.includes('Visited')) {
+      const visitedArr = document.cookie.slice(8).split(',');
+      const visitedIndex = visitedArr.indexOf(visitedId);
+      if (visitedIndex !== -1) {
+        visitedArr.splice(visitedIndex, 1);
+      }
+      visitedArr.push(visitedId);
+      document.cookie =  `Visited=${visitedArr.join()}`;
+    } else {
+      document.cookie = `Visited=${visitedId}`;
+    }
   }, [nowSelected]);
 
   return (

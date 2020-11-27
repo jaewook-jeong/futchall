@@ -33,7 +33,19 @@ const Stadium = () => {
   const { info, isSelected, isTakingStadium, isTakenStadium, takenStadiumErrorReason } = useSelector((state) => state.stadium);
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const token = useSelector((state) => state.user.token);
-
+  useEffect(() => {
+    if (document.cookie.includes('Visited')) {
+      const visitedArr = document.cookie.slice(8).split(',');
+      const visitedIndex = visitedArr.indexOf(id);
+      if (visitedIndex !== -1) {
+        visitedArr.splice(visitedIndex, 1);
+      }
+      visitedArr.push(id);
+      document.cookie =  `Visited=${visitedArr.join()}`;
+    } else {
+      document.cookie = `Visited=${id}`;
+    }
+  }, []);
   const { data, error } = useSWR(`${backUrl}/stadium/${id}/${tabKey}`, fetcher);
 
   const moveToTeam = useCallback(() => {
