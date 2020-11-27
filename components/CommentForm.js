@@ -41,6 +41,8 @@ const CommentForm = ({ postId, toggleVisible, parentId }) => {
         label={<Avatar shape="circle" src={me.Images[0] && `${me.Images[0]?.src}`}>{!me.Images[0]?.src && me.nickname}</Avatar>}
         colon={false}
         name="commentText"
+        labelCol={{flex: '47px'}}
+        wrapperCol={{flex: 'auto'}}
         required
       >
         <Input

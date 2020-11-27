@@ -73,7 +73,7 @@ const PostForm = ({ where, req }) => {
             >{!me.Images[0]?.src && me.nickname}
             </Avatar>
           )}
-          labelCol={{flex: '32px'}}
+          labelCol={{flex: '47px'}}
           wrapperCol={{flex: 'auto'}}
           colon={false}
           name="content"
