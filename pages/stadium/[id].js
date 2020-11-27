@@ -127,7 +127,6 @@ const Stadium = () => {
           // up
           if (upDivHeight + targetDiv.offsetHeight <= st + vh) {
             // 왼쪽 정보의 총 높이값 보다 스크롤이 더 내려갔을 떼
-            console.log(st, fakeDiv.offsetHeight);
             if (fakeDiv.offsetHeight === 0) {
               fakeDiv.style.cssText = `height: ${st + vh - upDivHeight - targetDiv.offsetHeight}px`;
             }
@@ -326,13 +325,6 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
   }
   if (!isNaN(context.params.id)) {
     context.store.dispatch({ type: SELECT_STADIUM_REQUEST, data: context.params.id });
-    context.store.dispatch({
-      type: LOAD_POSTS_REQUEST,
-      data: {
-        where: 'stadium',
-        id: context.params.id,
-      },
-    });
   }
   context.store.dispatch(END);
   await context.store.sagaTask.toPromise();

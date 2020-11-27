@@ -264,9 +264,6 @@ const Team = () => {
                 }
                 <Row justify="space-around">
                   {
-                    tabKey === '4' && console.log(data)
-                  }
-                  {
                     (tabKey === '4' && data && data[0].Images.length !== 0)
                       ? (
                         data.map((v) => <Col xs={{ span: 22 }} sm={{ span: 12 }} md={{ span: 8 }} key={v.Images[0].id} className={style.photoBrick}><div className={style.thumbnail}><div className={style.centered}><img src={`${v.Images[0].src}`} /></div></div></Col>)
@@ -329,13 +326,6 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
   }
   if (!isNaN(context.params.id)) {
     context.store.dispatch({ type: SELECT_TEAM_REQUEST, data: context.params.id });
-    context.store.dispatch({
-      type: LOAD_POSTS_REQUEST,
-      data: {
-        where: 'team',
-        id: context.params.id,
-      },
-    });
   }
   context.store.dispatch(END);
   await context.store.sagaTask.toPromise();
