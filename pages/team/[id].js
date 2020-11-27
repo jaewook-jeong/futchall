@@ -12,7 +12,7 @@ import Head from 'next/head';
 import AppLayout2 from '../../components/AppLayout2';
 import Feed from '../../components/Feed';
 import { SELECT_TEAM_REQUEST } from '../../reducers/team';
-import { JOIN_IN_REQUEST, LOAD_MY_INFO_REQUEST, LOAD_MY_INFO_SUCCESS } from '../../reducers/user';
+import { JOIN_IN_REQUEST, LOAD_MY_INFO_REQUEST } from '../../reducers/user';
 import style from '../../SCSS/feedLayout.module.scss';
 import { teamMemberColumns as memberColumns } from '../../util/columns';
 import wrapper from '../../store/configureStore';
@@ -303,7 +303,6 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
     if (token) {
       axios.defaults.headers.common.Authorization = `Bearer ${token}`;
       context.store.dispatch({ type: LOAD_MY_INFO_REQUEST });
-      getAccessToken(token);
     }
   }
   if (!isNaN(context.params.id)) {
