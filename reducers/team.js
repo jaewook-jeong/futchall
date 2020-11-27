@@ -176,6 +176,8 @@ export const SET_CALENDAR_REQUEST = 'SET_CALENDAR_REQUSET';
 export const SET_CALENDAR_SUCCESS = 'SET_CALENDAR_SUCCESS';
 export const SET_CALENDAR_FAILURE = 'SET_CALENDAR_FAILURE';
 
+export const RESET_EDIT_TEAM = 'RESET_EDIT_TEAM';
+
 export default (state = initialState, action) => produce(state, (draft) => {
   switch (action.type) {
     case SELECT_TEAM_REQUEST:
@@ -196,6 +198,7 @@ export default (state = initialState, action) => produce(state, (draft) => {
       break;
     case EDIT_TEAM_REQUEST:
       draft.isEditting = true;
+      draft.isEditted = false;
       draft.editErrorReason = null;
       break;
     case EDIT_TEAM_SUCCESS:
@@ -207,6 +210,9 @@ export default (state = initialState, action) => produce(state, (draft) => {
       draft.isEditting = false;
       draft.editErrorReason = action.error;
       draft.info = null;
+      draft.isEditted = false;
+      break;
+    case RESET_EDIT_TEAM:
       draft.isEditted = false;
       break;
     case ENROLL_TEAM_REQUEST:

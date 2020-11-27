@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Col, Form, Input, message, Radio, Row } from 'antd';
-import { EDIT_TEAM_REQUEST } from '../reducers/team';
+import { EDIT_TEAM_REQUEST, RESET_EDIT_TEAM } from '../reducers/team';
 
 const TeamInfoManagement = () => {
-  const { info, isEditting, editErrorReason } = useSelector((state) => state.team);
+  const { info, isEditting, editErrorReason, isEditted } = useSelector((state) => state.team);
   const token = useSelector((state) => state.user.token);
   const [form] = Form.useForm();
   const dispatch = useDispatch();
@@ -26,13 +26,20 @@ const TeamInfoManagement = () => {
       message.error(editErrorReason);
     }
   }, [editErrorReason]);
-
+  useEffect(() => {
+    if (isEditted) {
+      message.success('성공적으로 변경되었습니다.');
+      dispatch({
+        type: RESET_EDIT_TEAM,
+      });
+    }
+  }, [isEditted])
   return (
     <Row>
-      <Col xs={{ sapn: 22, offset: 1 }} sm={{ span: 16, offset: 4 }} md={{ span: 12, offset: 6 }} xl={{ span: 10, offset: 7 }} xxl={{ span: 6, offset: 9 }} style={{ margin: '0 auto', padding: '30px 10px 20px 10px', textAlign: 'center' }}>
+      <Col xs={{ sapn: 22, offset: 1 }} sm={{ span: 18, offset: 3 }} md={{ span: 14, offset: 5 }} xl={{ span: 10, offset: 7 }} xxl={{ span: 6, offset: 9 }} style={{ margin: '0 auto', padding: '30px 10px 20px 10px', textAlign: 'center' }}>
         <Form
-          labelCol={{ span: 5 }}
-          wrapperCol={{ span: 18, offset: 1 }}
+          labelCol={{ flex: '100px' }}
+          wrapperCol={{ flex: 'auto' }}
           form={form}
           onFinish={editTeamInfo}
           scrollToFirstError
