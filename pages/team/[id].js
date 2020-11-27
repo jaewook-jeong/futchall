@@ -263,15 +263,12 @@ const Team = () => {
                   !data && !error && <Skeleton active loading />
                 }
                 <Row justify="space-around">
-                  {/* {
-                    (tabKey === '4' && data?.length !== 0)
+                  {
+                    (tabKey === '4' && data[0].Images !== 0)
                       ? (
                         data.map((v) => <Col xs={{ span: 22 }} sm={{ span: 12 }} md={{ span: 8 }} key={v.Images[0].id} className={style.photoBrick}><div className={style.thumbnail}><div className={style.centered}><img src={`${v.Images[0].src}`} /></div></div></Col>)
                       )
                       : <Empty />
-                  } */}
-                  {
-                    (tabKey === "4" && console.log(data))
                   }
                 </Row>
               </Tabs.TabPane>
