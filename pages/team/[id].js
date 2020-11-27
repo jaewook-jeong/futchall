@@ -305,6 +305,7 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
       context.store.dispatch({ type: LOAD_MY_INFO_REQUEST });
       getAccessToken(token);
     }
+  }
   if (!isNaN(context.params.id)) {
     context.store.dispatch({ type: SELECT_TEAM_REQUEST, data: context.params.id });
   }
