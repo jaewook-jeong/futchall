@@ -4,6 +4,7 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import { AutoComplete, Button, DatePicker, Form, message, Modal } from 'antd';
 import { backUrl } from '../config/config';
+import { useSelector } from 'react-redux';
 
 const ReserveMatch = ({ visible, setVisible }) => {
   const [form] = Form.useForm();
@@ -13,11 +14,12 @@ const ReserveMatch = ({ visible, setVisible }) => {
   const [stadiumId, setStadiumId] = useState(0);
   const newStadiumRequest = useRef();
   const newTeamRequest = useRef();
+  const token = useSelector((state) => state.user.token);
 
   const onStadiumSearch = useCallback((searchText) => {
     clearTimeout(newStadiumRequest.current);
     newStadiumRequest.current = setTimeout(() => {
-      axios.get(`${backUrl}/stadium/search?q=${searchText}`, { withCredentials: true })
+      axios.get(`${backUrl}/stadium/search?q=${searchText}`, { headers: { Authorization: `Bearer ${action.token}` } })
         .then((result) => result.data.map((v) => ({ label: v.title, value: v.title, id: v.id }))).then((data) => {
           setStadiumOptions(
             !searchText ? [] : data,
