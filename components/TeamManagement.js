@@ -13,6 +13,7 @@ import { SELECT_LIST_REQUEST } from '../reducers/user';
 const TeamManagement = ({ setVisible, teamId, visible }) => {
   const [tabkey, setTabKey] = useState('1');
   const dispatch = useDispatch();
+  const token = useSelector((state) => state.user.toekn);
   const onClose = useCallback(() => {
     setVisible(false);
   }, []);
@@ -24,6 +25,7 @@ const TeamManagement = ({ setVisible, teamId, visible }) => {
         data: {
           teamId,
         },
+        token,
       });
     } else if (tabkey === '2') {
       // 유저정보
@@ -32,6 +34,7 @@ const TeamManagement = ({ setVisible, teamId, visible }) => {
         data: {
           teamId,
         },
+        token,
       });
     }
   }, []);
