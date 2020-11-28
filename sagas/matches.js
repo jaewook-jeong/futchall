@@ -20,7 +20,7 @@ import {
 } from '../reducers/matches';
 
 function loadMatchesAPI(action) {
-  return axios.get(`/match/team/${action.data.teamId}`, null, { headers: { Authorization: `Bearer ${action.token}` } });
+  return axios.get(`/match/team/${action.data.teamId}`, { headers: { Authorization: `Bearer ${action.token}` } });
 }
 
 function* loadMatches(action) {
