@@ -20,7 +20,7 @@ const ProfileAvatar = () => {
     dispatch({ type: LOG_OUT_REQUEST, token });
   }, []);
 
-  const { data, error } = useSWR(`${backUrl}/stadium/visited/${document.cookie}`, fetcher);
+  const { data, error } = useSWR(`${backUrl}/stadium/visited/${ document ? document?.cookie : null}`, fetcher);
 
   useEffect(() => {
     if (isLoggedOut) {
