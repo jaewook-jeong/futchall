@@ -10,7 +10,7 @@ import useSWR from 'swr';
 import { LOG_OUT_REQUEST } from '../reducers/user';
 import { backUrl } from '../config/config';
 
-const fetcher = (url) => url.substr(-1, 1) !== '/' && axios.get(url).then((result) => result.data);
+const fetcher = (url) => axios.get(url).then((result) => result.data);
 
 const ProfileAvatar = () => {
   const { me, token } = useSelector((state) => state.user);
@@ -20,7 +20,7 @@ const ProfileAvatar = () => {
     dispatch({ type: LOG_OUT_REQUEST, token });
   }, []);
 
-  const { data, error } = useSWR(`${backUrl}/stadium/visited/${ document ? document?.cookie : null}`, fetcher);
+  const { data, error } = useSWR(`${backUrl}/stadium/visited`, fetcher);
 
   useEffect(() => {
     if (isLoggedOut) {
