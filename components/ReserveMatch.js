@@ -26,7 +26,7 @@ const ReserveMatch = ({ visible, setVisible }) => {
           );
         })
         .catch((err) => console.error(err));
-    }, 300);
+    }, 400);
   }, []);
 
   const disabledDate = useCallback((current) => current && current < moment().endOf('day'), []);
