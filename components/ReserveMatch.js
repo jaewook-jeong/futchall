@@ -18,9 +18,6 @@ const ReserveMatch = ({ visible, setVisible }) => {
 
   const onStadiumSearch = useCallback((searchText) => {
     clearTimeout(newStadiumRequest.current);
-    console.log('------------------------------------');
-    console.log(token);
-    console.log('------------------------------------');
     newStadiumRequest.current = setTimeout(() => {
       axios.get(`${backUrl}/stadium/search?q=${searchText}`, { headers: { Authorization: `Bearer ${token}` } })
         .then((result) => result.data.map((v) => ({ label: v.title, value: v.title, id: v.id }))).then((data) => {
@@ -37,7 +34,7 @@ const ReserveMatch = ({ visible, setVisible }) => {
   const onTeamSearch = useCallback((searchText) => {
     clearTimeout(newTeamRequest.current);
     newTeamRequest.current = setTimeout(() => {
-      axios.get(`${backUrl}/team/search?q=${searchText}`, { withCredentials: true })
+      axios.get(`${backUrl}/team/search?q=${searchText}`, { headers: { Authorization: `Bearer ${token}` } })
         .then((result) => result.data.map((v) => ({ label: v.title, value: v.title, id: v.id }))).then((data) => {
           setTeamOptions(
             !searchText ? [] : data,
