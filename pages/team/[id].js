@@ -35,7 +35,7 @@ const Team = () => {
   const [tabKey, setTabKey] = useState('1');
   const lastScrollTop = useRef(0);
 
-  const { data, error } = useSWR(`${backUrl}/team/${id}/${tabKey}`, fetcher);
+  const { data, error } = useSWR(`${backUrl}/team/${id}/${tabKey}`, fetcher, { revalidateOnFocus: false });
 
   const joinInTeam = useCallback(() => {
     dispatch({

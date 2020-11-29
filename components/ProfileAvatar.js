@@ -20,7 +20,7 @@ const ProfileAvatar = () => {
     dispatch({ type: LOG_OUT_REQUEST, token });
   }, []);
 
-  const { data, error } = useSWR(`${backUrl}/stadium/visited`, fetcher);
+  const { data, error } = useSWR(`${backUrl}/stadium/visited`, fetcher, { revalidateOnFocus: false });
 
   useEffect(() => {
     if (isLoggedOut) {
@@ -46,7 +46,7 @@ const ProfileAvatar = () => {
                 !data && !error && <LoadingOutlined />
               }
               {
-                (!error && data && data.length === 0) ?
+                (!error && data && data?.length === 0) ?
                 <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /> :
                 <List
                   footer={<Button size="small" shape="round" onClick={() => console.log('삭제')} block><DeleteOutlined />최근 본 구장 삭제하기</Button>}

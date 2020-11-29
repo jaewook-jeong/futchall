@@ -46,7 +46,7 @@ const Stadium = () => {
       document.cookie = `Visited=${id}`;
     }
   }, []);
-  const { data, error } = useSWR(`${backUrl}/stadium/${id}/${tabKey}`, fetcher);
+  const { data, error } = useSWR(`${backUrl}/stadium/${id}/${tabKey}`, fetcher, { revalidateOnFocus: false });
 
   const moveToTeam = useCallback(() => {
     Router.push(`/team/${info.TeamId}`);
