@@ -42,9 +42,9 @@ const Stadium = () => {
         visitedArr.splice(visitedIndex, 1);
       }
       visitedArr.push(id);
-      document.cookie =  `Visited=${visitedArr.join()}`;
+      document.cookie =  `Visited=${visitedArr.join()};path=/`;
     } else {
-      document.cookie = `Visited=${id}`;
+      document.cookie = `Visited=${id};path=/`;
     }
   }, []);
   const { data, error } = useSWR(`${backUrl}/stadium/${id}/${tabKey}`, fetcher, { revalidateOnFocus: false });

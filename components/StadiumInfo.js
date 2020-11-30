@@ -48,9 +48,9 @@ const StadiumInfo = (props) => {
         visitedArr.splice(visitedIndex, 1);
       }
       visitedArr.push(visitedId);
-      document.cookie =  `Visited=${visitedArr.join()}`;
+      document.cookie =  `Visited=${visitedArr.join()};path=/`;
     } else {
-      document.cookie = `Visited=${visitedId}`;
+      document.cookie = `Visited=${visitedId};path=/`;
     }
   }, [nowSelected]);
 
