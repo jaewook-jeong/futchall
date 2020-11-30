@@ -24,7 +24,7 @@ const ProfileAvatar = () => {
   const { data, error } = useSWR(`${backUrl}/stadium/visited/${visitedCookie}`, fetcher);
   useEffect(() => {
     setVisitedCookie(document.cookie.slice(8));
-  }, [document.cookie]);
+  }, []);
   useEffect(() => {
     if (isLoggedOut) {
       message.info('정상적으로 로그아웃되었습니다.');
