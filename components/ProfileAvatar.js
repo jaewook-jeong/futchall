@@ -17,14 +17,19 @@ const ProfileAvatar = () => {
   const { isLoggingOut, isLoggedOut, logOutErrorReason} = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [visitedCookie, setVisitedCookie] = useState('');
+  const [deleteCheck, setDeleteCheck] = useState(false);
   const onLogOut = useCallback(() => {
     dispatch({ type: LOG_OUT_REQUEST, token });
   }, []);
-
+  const deleteVisitedCookie = useCallback(() => {
+    document.cookie = "Visited=; Max-Age=0; path=/;";
+    setDeleteCheck(true);
+  }, []);
   const { data, error } = useSWR(`${backUrl}/stadium/visited/${visitedCookie}`, fetcher);
   useEffect(() => {
     setVisitedCookie(document.cookie.slice(8));
-  }, []);
+    setDeleteCheck(false);
+  }, [deleteCheck]);
   useEffect(() => {
     if (isLoggedOut) {
       message.info('정상적으로 로그아웃되었습니다.');
@@ -48,7 +53,7 @@ const ProfileAvatar = () => {
               {
                 (!error && data && data?.length !== 0) ?
                 <List
-                  footer={<Button size="small" shape="round" onClick={() => console.log('삭제')} block><DeleteOutlined />최근 본 구장 삭제하기</Button>}
+                  footer={<Button size="small" shape="round" onClick={deleteVisitedCookie} block><DeleteOutlined />최근 본 구장 삭제하기</Button>}
                   // itemLayout="vertical"
                   pagination={{ pageSize: 3 }}
                   dataSource={data}
