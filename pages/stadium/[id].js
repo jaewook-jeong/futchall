@@ -33,6 +33,7 @@ const Stadium = () => {
   const { info, isSelected, isTakingStadium, isTakenStadium, takenStadiumErrorReason } = useSelector((state) => state.stadium);
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const token = useSelector((state) => state.user.token);
+
   useEffect(() => {
     if (document.cookie.includes('Visited')) {
       const visitedArr = document.cookie.slice(8).split(',');
@@ -43,6 +44,9 @@ const Stadium = () => {
       visitedArr.push(id);
       document.cookie =  `Visited=${visitedArr.join()}`;
     } else {
+      console.log('------------------------------------');
+      console.log("cookie");
+      console.log('------------------------------------');
       document.cookie = `Visited=${id}`;
     }
   }, []);
