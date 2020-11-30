@@ -60,6 +60,9 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
       token = cookie.slice(13);
     }
     if (token) {
+      console.log('------------------------------------');
+      console.log(token, "stadia");
+      console.log('------------------------------------');
       axios.defaults.headers.common.Authorization = `Bearer ${token}`;
       context.store.dispatch({ type: LOAD_MY_INFO_REQUEST });
     }
