@@ -31,7 +31,7 @@ import {
 } from '../reducers/user';
 
 function loadMyInfoAPI() {
-  return axios.get('/auth/myinfo');
+  return axios.get('/auth/myinfo', { withCredentials: true });
 }
 
 function* loadMyInfo() {
