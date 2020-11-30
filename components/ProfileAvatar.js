@@ -10,7 +10,7 @@ import useSWR from 'swr';
 import { LOG_OUT_REQUEST } from '../reducers/user';
 import { backUrl } from '../config/config';
 
-const fetcher = (url) => axios.get(url).then((result) => result.data);
+const fetcher = (url) => axios.get(url, { withCredentials: true }).then((result) => result.data);
 
 const ProfileAvatar = () => {
   const { me, token } = useSelector((state) => state.user);

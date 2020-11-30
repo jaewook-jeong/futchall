@@ -44,9 +44,6 @@ const Stadium = () => {
       visitedArr.push(id);
       document.cookie =  `Visited=${visitedArr.join()}`;
     } else {
-      console.log('------------------------------------');
-      console.log("cookie");
-      console.log('------------------------------------');
       document.cookie = `Visited=${id}`;
     }
   }, []);
