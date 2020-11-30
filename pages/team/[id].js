@@ -296,7 +296,7 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
   if (context.req && cookie) {
     if (cookie.indexOf(';') !== -1) {
       const index = cookie.indexOf('RefreshToken');
-      token = cookie.slice(index + 13, cookie.indexOf(';', index));
+      token = cookie.indexOf(';', index) !== -1 ? cookie.slice(index + 13, cookie.indexOf(';', index)) : cookie.slice(index + 13);
     } else {
       token = cookie.slice(13);
     }
