@@ -14,7 +14,7 @@ const HeaderMenu = (props) => {
   const { isLoggedIn, me } = useSelector((state) => state.user, shallowEqual);
   const floatRight = useMemo(() => ({ float: 'right' }), []);
   const HomeButton = useCallback(() => {
-    Router.push('/');
+    Router.push('/stadia');
   }, []);
   const StadiaButton = useCallback(() => {
     Router.push('/stadia');
