@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Link from 'next/link';
 import axios from 'axios';
@@ -10,18 +10,21 @@ import useSWR from 'swr';
 import { LOG_OUT_REQUEST } from '../reducers/user';
 import { backUrl } from '../config/config';
 
-const fetcher = (url) => axios.get(url, { withCredentials: true }).then((result) => result.data);
+const fetcher = (url) => url.substr(-1, 1) !== '/' && axios.get(url, { withCredentials: true }).then((result) => result.data);
 
 const ProfileAvatar = () => {
   const { me, token } = useSelector((state) => state.user);
   const { isLoggingOut, isLoggedOut, logOutErrorReason} = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const [visitedCookie, setVisitedCookie] = useState('');
   const onLogOut = useCallback(() => {
     dispatch({ type: LOG_OUT_REQUEST, token });
   }, []);
 
-  const { data, error } = useSWR(`${backUrl}/stadium/visited`, fetcher, { revalidateOnFocus: false });
-
+  const { data, error } = useSWR(`${backUrl}/stadium/visited/${visitedCookie}`, fetcher);
+  useEffect(() => {
+    setVisitedCookie(document.cookie.slice(8));
+  }, [document.cookie]);
   useEffect(() => {
     if (isLoggedOut) {
       message.info('정상적으로 로그아웃되었습니다.');
@@ -43,11 +46,7 @@ const ProfileAvatar = () => {
           <Tabs type="card" size="small" defaultActiveKey="2" style={{ width: '250px' }}>
             <Tabs.TabPane tab="최근 본 구장" key="1">
               {
-                !data && !error && <LoadingOutlined />
-              }
-              {
-                (!error && data && data?.length === 0) ?
-                <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /> :
+                (!error && data && data?.length !== 0) ?
                 <List
                   footer={<Button size="small" shape="round" onClick={() => console.log('삭제')} block><DeleteOutlined />최근 본 구장 삭제하기</Button>}
                   // itemLayout="vertical"
@@ -64,9 +63,8 @@ const ProfileAvatar = () => {
                       </Card>
                     </List.Item>
                   )}
-                />
+                /> : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
               }
-              
             </Tabs.TabPane>
             <Tabs.TabPane tab="회원정보" key="2">
               <Descriptions layout="horizontal" column={1} style={{ width: '200px' }} colon={false}>
