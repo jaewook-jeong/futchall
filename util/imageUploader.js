@@ -7,7 +7,7 @@ const imageUploader = (url, file, token) => {
   console.log(file, formdata);
   console.log('------------------------------------');
   const config = {
-    headers: { 'content-type': 'multipart/form-data', Authorization: `Bearer ${token}` },
+    headers: { 'content-type': 'multipart/form-data', Authorization: `Bearer ${token}`, 'Access-Control-Allow-Origin': "*" },
   };
   return (
     post(url, formdata, config)
