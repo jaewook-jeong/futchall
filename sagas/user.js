@@ -48,13 +48,16 @@ function* loadMyInfo() {
       error: err.response.data,
     });
     if (err.response.status === 403) {
-      const str = err.request._header;
-      const index = str.indexOf('Bearer')+7;
-      const token = str.slice(index, str.indexOf('\r', index));
-      yield put({
-        type: LOG_OUT_REQUEST,
-        token,
-      });
+      console.error('---------------------------------');
+      console.error(err.response.headers['set-cookie']);
+      console.error('---------------------------------');
+      // const str = err.request._header;
+      // const index = str.indexOf('Bearer')+7;
+      // const token = str.slice(index, str.indexOf('\r', index));
+      // yield put({
+      //   type: LOG_OUT_REQUEST,
+      //   token,
+      // });
     }
   }
 }
