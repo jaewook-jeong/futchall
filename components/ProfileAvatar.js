@@ -13,13 +13,13 @@ import { backUrl } from '../config/config';
 const fetcher = (url) => url.substr(-1, 1) !== '/' && axios.get(url, { withCredentials: true }).then((result) => result.data);
 
 const ProfileAvatar = () => {
-  const { me, token } = useSelector((state) => state.user);
+  const { me } = useSelector((state) => state.user);
   const { isLoggingOut, isLoggedOut, logOutErrorReason} = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [visitedCookie, setVisitedCookie] = useState('');
   const [deleteCheck, setDeleteCheck] = useState(false);
   const onLogOut = useCallback(() => {
-    dispatch({ type: LOG_OUT_REQUEST, token });
+    dispatch({ type: LOG_OUT_REQUEST });
   }, []);
   const deleteVisitedCookie = useCallback(() => {
     document.cookie = "Visited=; Max-Age=0; path=/;";

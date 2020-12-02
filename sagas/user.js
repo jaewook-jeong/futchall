@@ -48,10 +48,7 @@ function* loadMyInfo() {
       error: err.response.data,
     });
     if (err.response.status === 403) {
-      const str = err.request._header;
-      const index = str.indexOf('Bearer')+7;
-      const token = str.slice(index, str.indexOf('\r', index));
-      axios.post('/user/logout', null, { headers: { Authorization: `Bearer ${token}` } });
+      axios.post('/user/logout', null);
     }
   }
 }
@@ -197,13 +194,13 @@ function* watchSetPwd() {
   yield takeLatest(SET_PWD_REQUEST, setPwd);
 }
 
-function logOutAPI(token) {
-  return axios.post('/user/logout', null, { headers: { Authorization: `Bearer ${token}` } });
+function logOutAPI() {
+  return axios.post('/user/logout', null);
 }
 
-function* logOut(action) {
+function* logOut() {
   try {
-    yield call(logOutAPI, action.token);
+    yield call(logOutAPI);
     yield put({
       type: LOG_OUT_SUCCESS,
     });
