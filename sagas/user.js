@@ -31,7 +31,7 @@ import {
 } from '../reducers/user';
 
 function loadMyInfoAPI() {
-  return axios.get('/auth/myinfo', { withCredentials: true });
+  return axios.get('/auth/myinfo');
 }
 
 function* loadMyInfo() {
@@ -47,6 +47,11 @@ function* loadMyInfo() {
       type: LOAD_MY_INFO_FAILURE,
       error: err.response.data,
     });
+    if (err.response.status === 403) {
+      console.log('------------------------------------');
+      console.log(err.request._header.Authorization);
+      console.log('------------------------------------');
+    }
   }
 }
 
