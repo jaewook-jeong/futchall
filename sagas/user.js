@@ -47,10 +47,15 @@ function* loadMyInfo() {
       type: LOAD_MY_INFO_FAILURE,
       error: err.response.data,
     });
+    console.log('------------------------------------');
+    console.error('------------------------------------', err.response.status);
     if (err.response.status === 403) {
       console.log('------------------------------------');
       console.log(err.request._header.Authorization);
       console.log('------------------------------------');
+      console.error('------------------------------------');
+      console.error(err.request._header.Authorization);
+      console.error('------------------------------------');
     }
   }
 }
