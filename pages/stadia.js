@@ -51,7 +51,6 @@ const Stadia = () => {
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
   const cookie = context.req ? context.req.headers.cookie : '';
   axios.defaults.headers.common.Authorization = '';
-  axios.defaults.withCredentials = 'include';
   let token = '';
   if (context.req && cookie) {
     if (cookie.indexOf(';') !== -1) {
@@ -61,6 +60,7 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
       token = cookie.slice(13);
     }
     if (token) {
+      axios.defaults.headers.Cookie = `RefreshToken=${token}`;
       axios.defaults.headers.common.Authorization = `Bearer ${token}`;
       context.store.dispatch({ type: LOAD_MY_INFO_REQUEST });
     }
