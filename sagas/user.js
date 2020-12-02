@@ -50,10 +50,8 @@ function* loadMyInfo() {
     if (err.response.status === 403) {
       const str = err.request._header;
       const index = str.indexOf('Bearer')+7;
-      yield put({
-        type: LOG_OUT_REQUEST,
-        token: str.slice(index, str.indexOf('\r', index)),
-      });
+      const token = str.slice(index, str.indexOf('\r', index));
+      axios.post('/user/logout', null, { headers: { Authorization: `Bearer ${token}` } });
     }
   }
 }
