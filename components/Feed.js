@@ -12,6 +12,16 @@ const Feed = ({ where, req }) => {
   const { me } = useSelector((state) => state.user, shallowEqual);
   const { mainPosts, hasMorePosts, loadPostsLoading } = useSelector((state) => state.post);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch({
+      type: LOAD_POSTS_REQUEST,
+      data: {
+        where,
+        id: req,
+      },
+    });
+  }, []);
   useEffect(() => {
     function onScroll() {
       if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 300) {

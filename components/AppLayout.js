@@ -59,7 +59,7 @@ const AppLayout = ({ children }) => {
       <InnerLayout hasSider>
         <Layout.Sider breakpoint="sm" theme="light" collapsedWidth={0} zeroWidthTriggerStyle={{ zIndex: 10 }}>
           <Menu mode="inline" theme="light">
-            <Menu.Item key="stadia" icon={<CompassOutlined />} onClick={() => Router.push('/stadia')}>구장찾기</Menu.Item>
+            <Menu.Item key="stadia" icon={<CompassOutlined />} onClick={() => Router.push('/stadia', undefined, {shallow:true})}>구장찾기</Menu.Item>
             <Menu.Item key="ranking" icon={<LineChartOutlined />}><Link href="/team/ranking" prefetch={false}>순위보기</Link></Menu.Item>
             <Menu.Item onClick={onApply} key="applyStadium" icon={<PlusSquareOutlined />}>신규구장 등록하기</Menu.Item>
             {isLoggedIn && !me?.TeamId && <Menu.Item key="makeTeam" icon={<TeamOutlined />}><Link href="/team/register" prefetch={false} ><a>팀 생성하기</a></Link></Menu.Item>}

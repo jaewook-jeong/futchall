@@ -14,14 +14,14 @@ const HeaderMenu = (props) => {
   const { isLoggedIn, me } = useSelector((state) => state.user, shallowEqual);
   const floatRight = useMemo(() => ({ float: 'right' }), []);
   const HomeButton = useCallback(() => {
-    Router.push('/stadia');
+    Router.push('/stadia', undefined, { shallow: false });
   }, []);
   const StadiaButton = useCallback(() => {
-    Router.push('/stadia');
+    Router.push('/stadia', undefined, { shallow: false });
   }, []);
   const TeamButton = useCallback(() => {
     if (me?.TeamId) {
-      Router.push('/team/[id]', `/team/${me.TeamId}`);
+      Router.push('/team/[id]', `/team/${me.TeamId}`, { shallow: true });
     } else {
       Router.push('/team/register');
     }

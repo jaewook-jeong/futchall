@@ -21,7 +21,6 @@ import MatchCard from '../../components/MatchCard';
 import TeamCalendar from '../../components/TeamCalendar';
 import { backUrl } from '../../config/config';
 import getAccessToken from '../../util/getAccessToken';
-import { LOAD_POSTS_REQUEST } from '../../reducers/post';
 
 const fetcher = (url) => url.substr(-1, 1) !== '1' && axios.get(url).then((result) => result.data);
 
@@ -37,15 +36,7 @@ const Team = () => {
   const lastScrollTop = useRef(0);
 
   const { data, error } = useSWR(`${backUrl}/team/${id}/${tabKey}`, fetcher, { revalidateOnFocus: false });
-  useEffect(() => {
-    dispatch({
-      type: LOAD_POSTS_REQUEST,
-      data: {
-        where: 'team',
-        id,
-      },
-    });
-  }, []);
+
   const joinInTeam = useCallback(() => {
     dispatch({
       type: JOIN_IN_REQUEST,

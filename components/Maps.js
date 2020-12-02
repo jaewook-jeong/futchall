@@ -24,67 +24,66 @@ const Maps = ({ list, onChangeSelected, nowSelected }) => {
   const [overlays, setOverlays] = useState([]);
 
   useEffect(() => {
-      const firstLoadMap = async () => {
-        try {
-          await getLocation().then((result) => {
-            if (router.query.loc) {
-              result[2] = router.query.lat;
-              result[3] = router.query.lng;
-              message.success(`'${router.query.loc}'지역으로 검색한 결과입니다!`, 5);
-            }
-            const options = {
-              center: new kakao.maps.LatLng(result[2] ?? 37.5663, result[3] ?? 126.9779),
-              level: 7,
-            };
-            kakaoMap.current = new kakao.maps.Map(document.getElementById('mapContainer'), options);
-            kakaoMap.current.addControl(
-              new kakao.maps.MapTypeControl(), kakao.maps.ControlPosition.TOPRIGHT,
-            );
-            const bounds = kakaoMap.current.getBounds();
-            const swLatLng = bounds.getSouthWest();
-            const neLatLng = bounds.getNorthEast();
-            dispatch({
-              type: REFRESH_STADIUMLIST_REQUEST,
-              data: {
-                left: swLatLng.getLat(),
-                right: neLatLng.getLat(),
-                top: neLatLng.getLng(),
-                bottom: swLatLng.getLng(),
-              },
-            });
-            kakao.maps.event.addListener(kakaoMap.current, 'dragend', () => {
-              clearTimeout(newRequest.current);
-              const boundery = kakaoMap.current.getBounds();
-              const boundSwLatLng = boundery.getSouthWest();
-              const boundNeLatLng = boundery.getNorthEast();
-              newRequest.current = setTimeout(() => (
-                dispatch({
-                  type: REFRESH_STADIUMLIST_REQUEST,
-                  data: {
-                    left: boundSwLatLng.getLat(),
-                    right: boundNeLatLng.getLat(),
-                    top: boundNeLatLng.getLng(),
-                    bottom: boundSwLatLng.getLng(),
-                  },
-                })
-              ), 1000);
-            });
-            if (result[0] === 'success') {
-              message.success('현재위치에 기반한 구장정보입니다.');
-            } else {
-              notification.destroy();
-              if (!router.query.loc) {
-                notification.open({ message: '현재위치로 탐색하시려면?', description: '이전에 위치정보 제공을 동의하시지 않은 경우, 주소창 앞 자물쇠 버튼을 클릭하여 수정하여 주세요.(Internet Explorer에서는 사용하실 수 없습니다.)', duration: 0 });
-              }
-            }
+    const firstLoadMap = async () => {
+      try {
+        await getLocation().then((result) => {
+          if (router.query.loc) {
+            result[2] = router.query.lat;
+            result[3] = router.query.lng;
+            message.success(`'${router.query.loc}'지역으로 검색한 결과입니다!`, 5);
+          }
+          const options = {
+            center: new kakao.maps.LatLng(result[2] ?? 37.5663, result[3] ?? 126.9779),
+            level: 7,
+          };
+          kakaoMap.current = new kakao.maps.Map(document.getElementById('mapContainer'), options);
+          kakaoMap.current.addControl(
+            new kakao.maps.MapTypeControl(), kakao.maps.ControlPosition.TOPRIGHT,
+          );
+          const bounds = kakaoMap.current.getBounds();
+          const swLatLng = bounds.getSouthWest();
+          const neLatLng = bounds.getNorthEast();
+          dispatch({
+            type: REFRESH_STADIUMLIST_REQUEST,
+            data: {
+              left: swLatLng.getLat(),
+              right: neLatLng.getLat(),
+              top: neLatLng.getLng(),
+              bottom: swLatLng.getLng(),
+            },
           });
-        } catch (error) {
-          console.error(error);
-        }
+          kakao.maps.event.addListener(kakaoMap.current, 'dragend', () => {
+            clearTimeout(newRequest.current);
+            const boundery = kakaoMap.current.getBounds();
+            const boundSwLatLng = boundery.getSouthWest();
+            const boundNeLatLng = boundery.getNorthEast();
+            newRequest.current = setTimeout(() => (
+              dispatch({
+                type: REFRESH_STADIUMLIST_REQUEST,
+                data: {
+                  left: boundSwLatLng.getLat(),
+                  right: boundNeLatLng.getLat(),
+                  top: boundNeLatLng.getLng(),
+                  bottom: boundSwLatLng.getLng(),
+                },
+              })
+            ), 1000);
+          });
+          if (result[0] === 'success') {
+            message.success('현재위치에 기반한 구장정보입니다.');
+          } else {
+            notification.destroy();
+            if (!router.query.loc) {
+              notification.open({ message: '현재위치로 탐색하시려면?', description: '이전에 위치정보 제공을 동의하시지 않은 경우, 주소창 앞 자물쇠 버튼을 클릭하여 수정하여 주세요.(Internet Explorer에서는 사용하실 수 없습니다.)', duration: 0 });
+            }
+          }
+        });
+      } catch (error) {
+        console.error(error);
       }
-      firstLoadMap();
-    }, [],
-  );
+    }
+    firstLoadMap();
+  }, []);
   useEffect(() => {
     const tempOverlays = [];
     list.forEach((stadiumInfo, index) => {
