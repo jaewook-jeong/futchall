@@ -107,7 +107,11 @@ const PostForm = ({ where, req }) => {
                 })
               }}
               onChange={({ fileList }) => setImagelist(fileList.map((v) => {
-                return {...v, url: v.url.replace(/\/thumb\//, '/original/')};
+                let url = '';
+                if (v.url) {
+                  url = v.url.replace(/\/thumb\//, '/original/');
+                }
+                return {...v, url};
               }))}
               fileList={imageList}
               onPreview={(file) => handlePreview(file)}
