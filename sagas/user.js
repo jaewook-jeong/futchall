@@ -49,11 +49,11 @@ function* loadMyInfo() {
     });
     if (err.response.status === 403) {
       const str = err.request._header;
-      console.error('------------------------------------');
-      console.error(str);
       const index = str.indexOf('Bearer')+7;
-      console.error(str.slice(index, str.indexOf('\r', index)));
-      console.error('------------------------------------');
+      yield put({
+        type: LOG_OUT_REQUEST,
+        token: str.slice(index, str.indexOf('\r', index)),
+      });
     }
   }
 }
