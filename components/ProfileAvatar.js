@@ -25,7 +25,7 @@ const ProfileAvatar = () => {
     document.cookie = "Visited=; Max-Age=0; path=/;";
     setDeleteCheck(true);
   }, []);
-  const { data, error } = useSWR(`${backUrl}/stadium/visited/${visitedCookie}`, fetcher);
+  const { data, error } = useSWR(`${backUrl}/stadium/visited/${visitedCookie}`, fetcher, {revalidateOnFocus: false});
   useEffect(() => {
     setVisitedCookie(document.cookie.slice(8));
     setDeleteCheck(false);
