@@ -47,14 +47,12 @@ function* loadMyInfo() {
       type: LOAD_MY_INFO_FAILURE,
       error: err.response.data,
     });
-    console.log('------------------------------------');
-    console.error('------------------------------------', err.response.status);
     if (err.response.status === 403) {
-      console.log('------------------------------------');
-      console.log(err.request._header.Authorization);
-      console.log('------------------------------------');
+      const str = err.request._header;
       console.error('------------------------------------');
-      console.error(err.request._header.Authorization);
+      console.error(str);
+      const index = str.indexOf('Bearer')+7;
+      console.error(str.slice(index, str.indexOf('\r', index)));
       console.error('------------------------------------');
     }
   }
