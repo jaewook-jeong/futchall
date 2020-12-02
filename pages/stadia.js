@@ -51,7 +51,7 @@ const Stadia = () => {
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
   const cookie = context.req ? context.req.headers.cookie : '';
   axios.defaults.headers.common.Authorization = '';
-  axios.defaults.withCredentials = true;
+  axios.defaults.withCredentials = 'include';
   let token = '';
   if (context.req && cookie) {
     if (cookie.indexOf(';') !== -1) {
