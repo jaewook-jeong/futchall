@@ -13,7 +13,7 @@ import { SELECT_LIST_REQUEST } from '../reducers/user';
 const TeamManagement = ({ setVisible, teamId, visible }) => {
   const [tabkey, setTabKey] = useState('1');
   const dispatch = useDispatch();
-  const token = useSelector((state) => state.user.toekn);
+  const token = useSelector((state) => state.user.token);
   const onClose = useCallback(() => {
     setVisible(false);
   }, []);
