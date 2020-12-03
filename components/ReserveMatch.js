@@ -58,7 +58,7 @@ const ReserveMatch = ({ visible, setVisible }) => {
       HomeId: teamId,
       StadiumId: stadiumId,
     };
-    axios.post(`${backUrl}/match/reservation`, data, { withCredentials: true })
+    axios.post(`${backUrl}/match/reservation`, data, { headers: { Authorization: `Bearer ${token}` } })
       .then((result) => {
         message.success(result.data);
         setVisible(false);
