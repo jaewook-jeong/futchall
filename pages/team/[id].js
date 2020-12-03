@@ -266,7 +266,17 @@ const Team = () => {
                   {
                     (tabKey === '4' && data && data[0]?.Images?.length !== 0)
                       ? (
-                        data.map((v) => <Col xs={{ span: 22 }} sm={{ span: 12 }} md={{ span: 8 }} key={v.Images[0].id} className={style.photoBrick}><div className={style.thumbnail}><div className={style.centered}><img src={`${v.Images[0].src}`} /></div></div></Col>)
+                        data.map((v) => {
+                          v.Images.length !== 0 && v.Images.map((c) => {
+                            <Col xs={{ span: 22 }} sm={{ span: 12 }} md={{ span: 8 }} key={c.id} className={style.photoBrick}>
+                              <div className={style.thumbnail}>
+                                <div className={style.centered}>
+                                  <img src={`${c.src}`} />
+                                </div>
+                              </div>
+                            </Col>
+                          })
+                        })
                       )
                       : <Empty />
                   }
