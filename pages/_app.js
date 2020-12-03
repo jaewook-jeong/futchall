@@ -1,9 +1,13 @@
 import React from 'react';
 import Head from 'next/head';
 import PropTypes from 'prop-types';
+import Router from 'next/router'
 import 'antd/dist/antd.css';
 
+import * as gtag from '../util/gtag';
 import wrapper from '../store/configureStore';
+
+Router.events.on('routeChangeComplete', (url) => gtag.pageview(url))
 
 const FutChall = ({ Component, pageProps }) => (
   <>
