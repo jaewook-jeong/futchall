@@ -7,9 +7,7 @@ const imageUploader = (url, file, token) => {
     headers: {
               'content-type': 'multipart/form-data',
               Authorization: `Bearer ${token}`,
-              Host: "api.futchall.com",
-              Origin: "https://futchall.com"
-              },
+            },
   };
   return (
     post(url, formdata, config)
