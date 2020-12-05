@@ -262,13 +262,13 @@ const Team = () => {
                 {
                   !data && !error && <Skeleton active loading />
                 }
-                <Row justify="space-around">
+                <Row justify="space-around" gutter={[5, 10]}>
                   {
                     (tabKey === '4' && data && data[0]?.Images?.length !== 0)
                       ? (
                         data.map((v) => {
                           return (v.Images.length !== 0 && v.Images.map((c) => (
-                            <Col xs={{ span: 22 }} sm={{ span: 12 }} md={{ span: 8 }} key={c.id} className={style.photoBrick}>
+                            <Col xs={{ span: 11 }} sm={{ span: 11 }} md={{ span: 11 }} xl={{ span: 8 }} key={c.id} className={style.photoBrick}>
                               <div className={style.thumbnail}>
                                 <div className={style.centered}>
                                   <img src={`${c.src}`} />
