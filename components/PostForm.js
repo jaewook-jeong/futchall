@@ -47,7 +47,7 @@ const PostForm = ({ where, req }) => {
     } else {
       message.info('글을 작성하시거나 사진을 등록해주세요!');
     }
-  }, [dbImage]);
+  }, [req, where, dbImage]);
 
   const handlePreview = async (file) => {
     if (!file.url && !file.preview) {
