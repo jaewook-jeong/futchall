@@ -20,7 +20,7 @@ const Feed = ({ where, req }) => {
         id: req,
       },
     });
-  }, []);
+  }, [where, req]);
   useEffect(() => {
     function onScroll() {
       if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 300) {
