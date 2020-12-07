@@ -8,7 +8,6 @@ import { MessageFilled, UserAddOutlined, PlusSquareOutlined, LineChartOutlined, 
 import styled from 'styled-components';
 
 import LoginForm from './LoginForm';
-import Message from './Message';
 import HeaderMenu from './HeaderMenu';
 
 const OutterLayout = styled(Layout)`
@@ -41,7 +40,6 @@ const AppLayout = ({ children }) => {
   const Router = useRouter();
 
   const showModal = useCallback(() => setVisible(!visible), []);
-  const goRanking = useCallback(() => Router.push('/team/ranking'), []);
   const popRightMessage = useCallback(() => setChatVisible(!chatVisible), []);
   const onApply = useCallback(() => {
     isLoggedIn ? Router.push('/stadium/register/location') : message.info('로그인 후 등록할 수 있습니다.');

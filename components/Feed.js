@@ -2,17 +2,16 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Empty } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 
 import PostForm from './PostForm';
 import PostComponent from './Post';
 import { LOAD_POSTS_REQUEST } from '../reducers/post';
-import { LoadingOutlined } from '@ant-design/icons';
 
 const Feed = ({ where, req }) => {
   const { me } = useSelector((state) => state.user, shallowEqual);
   const { mainPosts, hasMorePosts, loadPostsLoading } = useSelector((state) => state.post);
   const dispatch = useDispatch();
-
   useEffect(() => {
     dispatch({
       type: LOAD_POSTS_REQUEST,

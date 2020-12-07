@@ -6,7 +6,6 @@ import { MessageFilled } from '@ant-design/icons';
 import styled from 'styled-components';
 
 import LoginForm from './LoginForm';
-import Message from './Message';
 import HeaderMenu from './HeaderMenu';
 
 const OutterLayout = styled(Layout)`

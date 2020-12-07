@@ -3,7 +3,7 @@ import { useSelector, shallowEqual } from 'react-redux';
 import Router from 'next/router';
 import PropTypes from 'prop-types';
 import { KeyOutlined, HomeOutlined, TeamOutlined } from '@ant-design/icons';
-import { Popover } from 'antd';
+import { message, Popover } from 'antd';
 
 import ProfileAvatar from './ProfileAvatar';
 import styles from '../SCSS/headerMenu.module.scss';
@@ -14,14 +14,22 @@ const HeaderMenu = (props) => {
   const { isLoggedIn, me } = useSelector((state) => state.user, shallowEqual);
   const floatRight = useMemo(() => ({ float: 'right' }), []);
   const HomeButton = useCallback(() => {
-    Router.push('/stadia', undefined, { shallow: false });
+    if (Router.asPath !== '/stadia') {
+      Router.push('/stadia');
+    }
   }, []);
   const StadiaButton = useCallback(() => {
-    Router.push('/stadia', undefined, { shallow: false });
+    if (Router.asPath !== '/stadia') {
+      Router.push('/stadia');
+    }
   }, []);
   const TeamButton = useCallback(() => {
     if (me?.TeamId) {
-      Router.push('/team/[id]', `/team/${me.TeamId}`, { shallow: true });
+      if (Router.asPath !== `/team/${me.TeamId}`) {
+        Router.push('/team/[id]', `/team/${me.TeamId}`);
+      } else {
+        message.info(`현재 '${me.Team.title}'팀의 페이지입니다.`);
+      }
     } else {
       Router.push('/team/register');
     }

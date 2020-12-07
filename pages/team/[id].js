@@ -20,7 +20,6 @@ import TeamManagement from '../../components/TeamManagement';
 import MatchCard from '../../components/MatchCard';
 import TeamCalendar from '../../components/TeamCalendar';
 import { backUrl } from '../../config/config';
-import getAccessToken from '../../util/getAccessToken';
 
 const fetcher = (url) => url.substr(-1, 1) !== '1' && axios.get(url).then((result) => result.data);
 
@@ -311,9 +310,6 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
       token = cookie.slice(13);
     }
     if (token) {
-      console.log('------------------------------------');
-      console.log(token, "team");
-      console.log('------------------------------------');
       axios.defaults.headers.common.Authorization = `Bearer ${token}`;
       context.store.dispatch({ type: LOAD_MY_INFO_REQUEST });
     }
