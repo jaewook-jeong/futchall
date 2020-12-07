@@ -13,14 +13,13 @@ const HeaderSearchBox = () => {
   const router = useRouter();
   const [searchQ, onSearchQ] = useState(router.query?.q);
   const [options, setOptions] = useState([]);
+  const [autocompleteOpen, setAutocompleteOpen] = useState(false);
 
   const setSearchQ = useCallback((value) => {
     onSearchQ(value);
   }, []);
-  const goPage = useCallback((where, id) => () => {
-    Router.push(`/${where}/${id}`);
-  }, []);
   const onSelect = useCallback((data, allData) => {
+    setAutocompleteOpen(false);
     Router.push(`/search?q=${allData.value}`);
   }, []);
   const onSearch = useCallback((searchText) => {
@@ -38,7 +37,7 @@ const HeaderSearchBox = () => {
               }}
             >
               {v.title}
-              <Button type="link" size="small" onClick={(e) => { e.stopPropagation(); Router.push(`/stadium/${v.id}`); }}>바로가기</Button>
+              <Button type="link" size="small" onClick={(e) => { e.stopPropagation(); Router.push(`/stadium/${v.id}`); setAutocompleteOpen(false); }}>바로가기</Button>
             </div>
           ) })),
           result?.data[1]?.map((v) => ({ value: v.title,
@@ -52,7 +51,7 @@ const HeaderSearchBox = () => {
                 }}
               >
                 {v.title}
-                <Button type="link" size="small" htmlType="submit" onClick={(e) => { e.stopPropagation(); Router.push(`/team/${v.id}`); }}>바로가기</Button>
+                <Button type="link" size="small" htmlType="submit" onClick={(e) => { e.stopPropagation(); Router.push(`/team/${v.id}`); setAutocompleteOpen(false); }}>바로가기</Button>
               </div>
             ) }))]))
         .then((data) => {
@@ -65,6 +64,7 @@ const HeaderSearchBox = () => {
           }]);
         })
         .catch((err) => console.error(err));
+        setAutocompleteOpen(true);
     }, 300);
   }, []);
   return (
@@ -79,6 +79,8 @@ const HeaderSearchBox = () => {
         <SearchBoxGlobal />
         <AutoComplete
           allowClear
+          onBlur={() => setAutocompleteOpen(false)}
+          open={autocompleteOpen}
           value={searchQ}
           onChange={setSearchQ}
           onKeyDown={(e) => {
@@ -103,6 +105,7 @@ const HeaderSearchBox = () => {
         <AutoComplete
           className={styles.hiddeninput}
           allowClear
+          open={autocompleteOpen}
           value={searchQ}
           onChange={setSearchQ}
           placeholder="검색어를 입력하세요!"
