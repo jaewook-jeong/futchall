@@ -6,11 +6,9 @@ import { Menu, Button, Affix, message, Layout } from 'antd';
 import { useSelector } from 'react-redux';
 import { MessageFilled, UserAddOutlined, PlusSquareOutlined, LineChartOutlined, CompassOutlined, TeamOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
-import axios from 'axios';
 
 import LoginForm from './LoginForm';
 import HeaderMenu from './HeaderMenu';
-import { backUrl } from '../config/config';
 
 const OutterLayout = styled(Layout)`
     min-height: 100vh;
@@ -66,9 +64,6 @@ const AppLayout = ({ children }) => {
             {isLoggedIn && me?.TeamId && <Menu.Item key="Team" icon={<TeamOutlined />} onClick={() => Router.push('/team/[id]', `/team/${me.TeamId}`)}>{me.Team.title}</Menu.Item>}
             {!isLoggedIn && <Menu.Item key="signup" icon={<UserAddOutlined />} onClick={() => Router.push('/signup')}>회원가입</Menu.Item>}
           </Menu>
-          <Button onClick={() => {
-            axios.post(`${backUrl}/auth/delete`);
-          }}>쿠키삭제</Button>
         </Layout.Sider>
         <MainLayout>
           {children}
