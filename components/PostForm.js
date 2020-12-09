@@ -105,8 +105,8 @@ const PostForm = ({ where, req }) => {
                   data.onSuccess();
                 })
                 .catch(error => {
-                  console.log('Error fetching profile ' + error)
-                  data.onError("Error uploading image")
+                  console.error(error);
+                  data.onError("Error uploading image");
                 })
               }}
               onChange={({ fileList }) => setImagelist(fileList.map((v) => {
