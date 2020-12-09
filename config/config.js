@@ -1,1 +1,1 @@
-export const backUrl = 'https://api.futchall.com';
+export const backUrl = '/';
