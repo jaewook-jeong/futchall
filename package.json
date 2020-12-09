@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "proxy": "https://api.futchall.com",
   "scripts": {
     "dev": "next",
     "build": "ANALYZE=true NODE_ENV=production next build",
