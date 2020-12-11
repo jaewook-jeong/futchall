@@ -11,6 +11,7 @@ import { ENROLL_STADIUM_REQUEST } from '../../../reducers/stadium';
 import AppLayout from '../../../components/AppLayout';
 import { multipleSpecaility } from '../../../util/columns';
 import imageUploader from '../../../util/imageUploader';
+import beforeImageUploading from '../../../util/beforeImageUploading';
 import wrapper from '../../../store/configureStore';
 import { LOAD_MY_INFO_REQUEST } from '../../../reducers/user';
 import { backUrl } from '../../../config/config';
@@ -142,6 +143,7 @@ const Details = (props) => {
                 >
                   <Upload
                     listType="text"
+                    beforeUpload={beforeImageUploading}
                     customRequest={(data) => {
                       imageUploader(`${backUrl}/stadium/image`, data.file, token)
                       .then(response => {

@@ -12,6 +12,7 @@ import imageUploader from '../../util/imageUploader';
 import wrapper from '../../store/configureStore';
 import { LOAD_MY_INFO_REQUEST } from '../../reducers/user';
 import { backUrl } from '../../config/config';
+import beforeImageUploading from '../../util/beforeImageUploading';
 
 const TeamRegister = () => {
   // const [, forceUpdate] = useState(); // when you com back to this page, to delete previous data
@@ -119,6 +120,7 @@ const TeamRegister = () => {
                 >
                   <Upload
                     listType="picture-card"
+                    beforeUpload={beforeImageUploading}
                     customRequest={(data) => {
                       imageUploader(`${backUrl}/team/image`, data.file, token)
                       .then(response => {

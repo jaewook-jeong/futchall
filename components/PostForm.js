@@ -9,6 +9,7 @@ import { ADD_POST_REQUEST } from '../reducers/post';
 import imageUploader from '../util/imageUploader';
 import getBase64 from '../util/getBase64';
 import { backUrl } from '../config/config';
+import beforeImageUploading from '../util/beforeImageUploading';
 
 const PostFormDiv = styled.div`
   border-radius: 15px;
@@ -98,6 +99,7 @@ const PostForm = ({ where, req }) => {
           <Form.Item>
             <Upload
               listType="picture-card"
+              beforeUpload={beforeImageUploading}
               customRequest={(data) => {
                 imageUploader(`${backUrl}/post/images`, data.file, token)
                 .then(response => {

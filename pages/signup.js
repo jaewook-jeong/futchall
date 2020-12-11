@@ -12,6 +12,7 @@ import AppLayout from '../components/AppLayout';
 import imageUploader from '../util/imageUploader';
 import wrapper from '../store/configureStore';
 import { backUrl } from '../config/config';
+import beforeImageUploading from '../util/beforeImageUploading';
 
 const Signup = () => {
   const dispatch = useDispatch();
@@ -142,6 +143,7 @@ const Signup = () => {
                   onRemove={() => {
                     setDbImage('');
                   }}
+                  beforeUpload={beforeImageUploading}
                   customRequest={(data) => {
                     imageUploader(`${backUrl}/user/image`, data.file)
                     .then(response => {
