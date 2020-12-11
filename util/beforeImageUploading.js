@@ -1,3 +1,5 @@
+import { message } from 'antd';
+
 const beforeImageUploading = (file) => {
   const imageType = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif'];
   const isImage = imageType.includes(file.type);
