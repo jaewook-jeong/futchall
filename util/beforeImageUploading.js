@@ -5,6 +5,7 @@ const beforeImageUploading = (file) => {
   const isImage = imageType.includes(file.type);
   if (!isImage) {
     message.error('사진파일만 업로드할 수 있습니다.');
+    return isImage;
   }
   const isLt20M = (file.size / 1024 / 1024) < 20;
   if (!isLt20M) {
