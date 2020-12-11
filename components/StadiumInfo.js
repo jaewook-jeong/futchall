@@ -48,9 +48,9 @@ const StadiumInfo = (props) => {
         visitedArr.splice(visitedIndex, 1);
       }
       visitedArr.push(visitedId);
-      document.cookie =  `Visited=${visitedArr.join()};path=/`;
+      document.cookie =  `Visited=${visitedArr.join()}; path=/; domain=.futchall.com`;
     } else {
-      document.cookie = `Visited=${visitedId};path=/`;
+      document.cookie = `Visited=${visitedId}; path=/; domain=.futchall.com`;
     }
   }, [nowSelected]);
 
