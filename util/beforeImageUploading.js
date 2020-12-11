@@ -6,13 +6,11 @@ const beforeImageUploading = (file) => {
   if (!isImage) {
     message.error('사진파일만 업로드할 수 있습니다.');
   }
-  console.log(file.size / 1024 / 1024);
   const isLt20M = (file.size / 1024 / 1024) < 20;
-  console.log(isLt20M);
   if (!isLt20M) {
     message.error('사진은 20MB를 초과할 수 없습니다.');
   }
-  return isImage && isLt2M;
+  return isImage && isLt20M;
 }
 
 export default beforeImageUploading;
