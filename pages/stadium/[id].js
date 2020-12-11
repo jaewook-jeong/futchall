@@ -38,6 +38,9 @@ const Stadium = () => {
     if (document.cookie.includes('Visited')) {
       const visitedArr = document.cookie.slice(8).split(',');
       const visitedIndex = visitedArr.indexOf(id);
+      console.log('------------------------------------');
+      console.log(visitedArr, visitedIndex);
+      console.log('------------------------------------');
       if (visitedIndex !== -1) {
         visitedArr.splice(visitedIndex, 1);
       }
