@@ -36,18 +36,23 @@ const Stadium = () => {
 
   useEffect(() => {
     if (document.cookie.includes('Visited')) {
-      const visitedArr = document.cookie.slice(8).split(',');
-      const visitedIndex = visitedArr.indexOf(id);
-      console.log('------------------------------------');
-      console.log(visitedArr, visitedIndex);
-      console.log('------------------------------------');
+      let visitedArr;
+      if (document.cookie.includes(';')) {
+        // cookie more than 1
+        const startIndex = document.cookie.indexOf("Visited")+8;
+        const visitedArr = document.cookie.substr(startIndex, document.cookie.indexOf(';', startIndex)).split(',');
+        visitedIndex = visitedArr.indexOf(visitedId);
+      } else {
+        // cookie only one
+        visitedArr = document.cookie.substring(8).split(',');
+      }
       if (visitedIndex !== -1) {
         visitedArr.splice(visitedIndex, 1);
       }
-      visitedArr.push(id);
-      document.cookie = `Visited=${visitedArr.join()}; path=/; domain=.futchall.com`;
+      visitedArr.push(visitedId);
+      document.cookie =  `Visited=${visitedArr.join()}; path=/; domain=.futchall.com`;
     } else {
-      document.cookie = `Visited=${id}; path=/; domain=.futchall.com`;
+      document.cookie = `Visited=${visitedId}; path=/; domain=.futchall.com`;
     }
   }, []);
   const { data, error } = useSWR(`${backUrl}/stadium/${id}/${tabKey}`, fetcher, { revalidateOnFocus: false });

@@ -42,8 +42,16 @@ const StadiumInfo = (props) => {
     dispatch({ type: SELECT_STADIUM_REQUEST, data: list[nowSelected].id });
     const visitedId = list[nowSelected].id.toString();
     if (document.cookie.includes('Visited')) {
-      const visitedArr = document.cookie.slice(8).split(',');
-      const visitedIndex = visitedArr.indexOf(visitedId);
+      let visitedArr;
+      if (document.cookie.includes(';')) {
+        // cookie more than 1
+        const startIndex = document.cookie.indexOf("Visited")+8;
+        const visitedArr = document.cookie.substr(startIndex, document.cookie.indexOf(';', startIndex)).split(',');
+        visitedIndex = visitedArr.indexOf(visitedId);
+      } else {
+        // cookie only one
+        visitedArr = document.cookie.substring(8).split(',');
+      }
       if (visitedIndex !== -1) {
         visitedArr.splice(visitedIndex, 1);
       }
