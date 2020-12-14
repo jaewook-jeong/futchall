@@ -41,7 +41,7 @@ const Stadium = () => {
         // cookie more than 1
         const startIndex = document.cookie.indexOf("Visited")+8;
         const visitedArr = document.cookie.substr(startIndex, document.cookie.indexOf(';', startIndex)).split(',');
-        visitedIndex = visitedArr.indexOf(visitedId);
+        visitedIndex = visitedArr.indexOf(id);
       } else {
         // cookie only one
         visitedArr = document.cookie.substring(8).split(',');
@@ -49,10 +49,10 @@ const Stadium = () => {
       if (visitedIndex !== -1) {
         visitedArr.splice(visitedIndex, 1);
       }
-      visitedArr.push(visitedId);
+      visitedArr.push(id);
       document.cookie =  `Visited=${visitedArr.join()}; path=/; domain=.futchall.com`;
     } else {
-      document.cookie = `Visited=${visitedId}; path=/; domain=.futchall.com`;
+      document.cookie = `Visited=${id}; path=/; domain=.futchall.com`;
     }
   }, []);
   const { data, error } = useSWR(`${backUrl}/stadium/${id}/${tabKey}`, fetcher, { revalidateOnFocus: false });
