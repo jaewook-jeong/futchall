@@ -37,15 +37,16 @@ const Stadium = () => {
   useEffect(() => {
     if (document.cookie.includes('Visited')) {
       let visitedArr;
+      let visitedIndex;
       if (document.cookie.includes(';')) {
         // cookie more than 1
         const startIndex = document.cookie.indexOf("Visited")+8;
-        const visitedArr = document.cookie.substr(startIndex, document.cookie.indexOf(';', startIndex)).split(',');
-        visitedIndex = visitedArr.indexOf(id);
+        visitedArr = document.cookie.substr(startIndex, document.cookie.indexOf(';', startIndex)).split(',');
       } else {
         // cookie only one
         visitedArr = document.cookie.substring(8).split(',');
       }
+      visitedIndex = visitedArr.indexOf(id);
       if (visitedIndex !== -1) {
         visitedArr.splice(visitedIndex, 1);
       }
