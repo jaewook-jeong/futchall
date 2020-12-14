@@ -139,7 +139,7 @@ const Stadium = () => {
       const upDivHeight = document.getElementById('upDiv').offsetHeight + 66; // 위에정보 높이
       const vh = window.innerHeight; // 창 높이
       const vw = window.innerWidth; // 창 너비
-      if (vw > 576 && targetDiv.offsetHeight + 76 > vh) {
+      if (vw > 768 && targetDiv.offsetHeight + 76 > vh) {
         if (st >= lastScrollTop.current) {
           // down
           fakeDiv.style.cssText = 'height: 0px';
