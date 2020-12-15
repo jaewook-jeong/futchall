@@ -93,7 +93,6 @@ const Team = () => {
           // up
           if (upDivHeight + targetDiv.offsetHeight <= st + vh) {
             // 왼쪽 정보의 총 높이값 보다 스크롤이 더 내려갔을 떼
-            console.log(st, fakeDiv.offsetHeight);
             if (fakeDiv.offsetHeight === 0) {
               fakeDiv.style.cssText = `height: ${st + vh - upDivHeight - targetDiv.offsetHeight}px`;
             }

@@ -151,7 +151,7 @@ const Signup = () => {
                       data.onSuccess();
                     })
                     .catch(error => {
-                      console.log('Error fetching profile ' + error)
+                      console.log(error)
                       data.onError("Error uploading image")
                     })
                   }}

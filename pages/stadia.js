@@ -61,7 +61,6 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
     }
     if (token) {
       axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-      axios.defaults.headers.cookie = context.req.headers.cookie;
       context.store.dispatch({ type: LOAD_MY_INFO_REQUEST });
     }
   }

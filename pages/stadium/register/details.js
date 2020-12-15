@@ -42,7 +42,6 @@ const Details = (props) => {
   }, [isEnrolled]);
 
   const onSubmitForm = useCallback((values) => {
-    console.log(values, dbImage);
     dispatch({
       type: ENROLL_STADIUM_REQUEST,
       data: {
@@ -151,7 +150,7 @@ const Details = (props) => {
                         data.onSuccess();
                       })
                       .catch(error => {
-                        console.log('Error fetching profile ' + error)
+                        console.log(error)
                         data.onError("Error uploading image")
                       })
                     }}

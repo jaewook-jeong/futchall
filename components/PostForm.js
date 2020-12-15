@@ -31,9 +31,6 @@ const PostForm = ({ where, req }) => {
   const [dbImage, setDbImage] = useState([]);
 
   const onSubmit = useCallback(() => {
-    console.log('------------------------------------');
-    console.log(req, "req");
-    console.log('------------------------------------');
     if (dbImage || form.getFieldValue('content')) {
       dispatch({
         type: ADD_POST_REQUEST,

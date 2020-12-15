@@ -25,7 +25,6 @@ const CaptureMatch = ({ visible, setVisible }) => {
     }, 300);
   }, []);
   const onSelect = useCallback((data, allData) => {
-    console.log('onSelect', allData);
     setMatchInfo({
       teamId: allData.teamid,
       title: allData.teamtitle,

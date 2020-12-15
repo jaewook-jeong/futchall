@@ -10,7 +10,6 @@ const TeamInfoManagement = () => {
   const dispatch = useDispatch();
 
   const editTeamInfo = useCallback((values) => {
-    console.log(values);
     dispatch({
       type: EDIT_TEAM_REQUEST,
       data: {

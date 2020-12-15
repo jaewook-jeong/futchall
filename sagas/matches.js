@@ -25,9 +25,6 @@ function loadMatchesAPI(action) {
 
 function* loadMatches(action) {
   try {
-    console.log('------------------------------------');
-    console.log(action);
-    console.log('------------------------------------');
     const result = yield call(loadMatchesAPI, action);
     yield put({
       type: SELECT_MATCHES_SUCCESS,

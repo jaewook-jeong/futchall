@@ -17,7 +17,6 @@ const Profile = () => {
   const dipatch = useDispatch();
 
   const submitAlterUserData = useCallback(() => {
-    console.log(form.getFieldsValue(['selectedLocations', 'nickname', 'prevpwd', 'selectedPositions', 'age']));
     dipatch({
       type: CHANGE_TO_REQUEST,
       data: {

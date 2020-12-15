@@ -41,7 +41,6 @@ const TeamCalendar = ({ setVisible, teamId, visible }) => {
       setCheckedList(list);
     }, []);
     const onConfirm = useCallback(() => {
-      console.log(checkedList, selectedDate);
       dispatch({
         type: SET_CALENDAR_REQUEST,
         data: {

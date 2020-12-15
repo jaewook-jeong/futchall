@@ -29,7 +29,6 @@ const TeamRegister = () => {
     }
   }, []);
   const onSubmitForm = useCallback((values) => {
-    console.log(values, dbImage);
     dispatch({
       type: ENROLL_TEAM_REQUEST,
       data: {
@@ -128,7 +127,7 @@ const TeamRegister = () => {
                         data.onSuccess();
                       })
                       .catch(error => {
-                        console.log('Error fetching profile ' + error)
+                        console.log(error)
                         data.onError("Error uploading image")
                       })
                     }}
