@@ -119,7 +119,7 @@ const StadiumInfo = (props) => {
       >
         <Image
           width="70%"
-          src={isSelected && info?.Images[0]?.src}
+          src={isSelected && info?.Images[0]?.src.replace(/\/thumb\//, '/original/')}
         />
       </Tabs.TabPane>
     </Tabs>
