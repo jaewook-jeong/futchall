@@ -27,7 +27,16 @@ const ProfileAvatar = () => {
   }, []);
   const { data, error } = useSWR(`${backUrl}/stadium/visited/${visitedCookie}`, fetcher, {revalidateOnFocus: false});
   useEffect(() => {
-    setVisitedCookie(document.cookie.slice(8));
+    let cookies = '';
+    if (document.cookie.includes('Visited')) {
+      if (document.cookie.includes(';')) {
+        const startIndex = document.cookie.indexOf("Visited")+8;
+        cookies = document.cookie.substr(startIndex, document.cookie.indexOf(';', startIndex));
+      } else {
+        cookies = document.cookie.substring(8);
+      }
+    }
+    setVisitedCookie(cookies);
     setDeleteCheck(false);
   }, [deleteCheck]);
   useEffect(() => {
