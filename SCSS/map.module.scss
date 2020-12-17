@@ -84,15 +84,28 @@
                   text-align: center;
                   vertical-align: middle;
                   background-color: #28242b;
-                  cursor: pointer;
-                  img{
+                  .imgCenter{
                     position: absolute;
                     top: 0;
                     left: 0;
                     right: 0;
                     bottom: 0;
-                    max-width: 100%;
-                    height: auto;
+                    -webkit-transform: translate(50%,50%);
+                    -ms-transform: translate(50%,50%);
+                    transform: translate(50%,50%);
+                    img{
+                      position: absolute;
+                      top: 0;
+                      left: 0;
+                      right: 0;
+                      bottom: 0;
+                      max-width: 100%;
+                      height: auto;
+                      -webkit-transform: translate(-50%,-50%);
+                      -ms-transform: translate(-50%,-50%);
+                      transform: translate(-50%,-50%);
+                      transition: all 0.3s ease-out;
+                    }
                   }
                 }
             }

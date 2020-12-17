@@ -90,15 +90,6 @@ const Maps = ({ list, onChangeSelected, nowSelected }) => {
       const position = new kakao.maps.LatLng(stadiumInfo.lat, stadiumInfo.lng);
       let icon;
       if (stadiumInfo.TeamId) {
-        if (stadiumInfo.Team.Images[0]){
-          icon = new kakao.maps.MarkerImage(
-            stadiumInfo.Team.Images[0].src,
-            new kakao.maps.Size(40,40),
-            {
-              offset: new kakao.maps.Point(18, 42),
-            }
-          )
-        } else {
           icon = new kakao.maps.MarkerImage(
             '/markerY.png',
             new kakao.maps.Size(32, 32),
@@ -109,7 +100,6 @@ const Maps = ({ list, onChangeSelected, nowSelected }) => {
               coords: '1,20,1,9,5,2,10,0,21,0,27,3,30,9,30,20,17,33,14,33'
             },
           );
-        }
       } else {
         icon = new kakao.maps.MarkerImage(
           '/markerN.png',
@@ -146,7 +136,7 @@ const Maps = ({ list, onChangeSelected, nowSelected }) => {
       btnClose.setAttribute('title', '닫기');
       btnClose.onclick = () => { customOverlay.setMap(null); onChangeSelected(-1); };
 
-      contentTitle.appendChild(document.createTextNode(stadiumInfo.title));
+      contentTitle.appendChild(document.createTextNode(`${stadiumInfo.title} ${stadiumInfo.TeamId ? ": "+ stadiumInfo.Team.title + "  점령중" : ''} `));
       contentTitle.appendChild(btnClose);
 
       const contentBody = document.createElement('div');
@@ -156,14 +146,24 @@ const Maps = ({ list, onChangeSelected, nowSelected }) => {
       bodyImgOutter.className = `${styles.bodyImg}`;
       const bodyImgInner = document.createElement('div');
       bodyImgInner.className = `${styles.bodyImgInner}`;
+      const imgCenter = document.createElement('div');
+      imgCenter.className = `${styles.imgCenter}`;
 
       const img = document.createElement('img');
-      img.setAttribute('src', `${stadiumInfo.Images[0].src}`);
-      bodyImgInner.appendChild(img);
+      img.setAttribute('src', `${stadiumInfo?.Team?.Images[0]?.src ? stadiumInfo?.Team?.Images[0]?.src : stadiumInfo.Images[0].src}`);
+      imgCenter.appendChild(img);
+      bodyImgInner.appendChild(imgCenter);
       bodyImgOutter.appendChild(bodyImgInner);
 
       const bodyInfo = document.createElement('div');
       bodyInfo.className = `${styles.bodyInfo}`;
+      const infoOccupyTeam = document.createElement('div');
+      infoOccupyTeam.className = `${styles.bodyAddress}`;
+      if (stadiumInfo?.Team?.title) {
+        infoOccupyTeam.appendChild(document.createTextNode(`"${stadiumInfo.Team?.title}"팀이 점령중입니다.`));
+      } else {
+        infoOccupyTeam.appendChild(document.createTextNode("현재 점령중인 팀이 없습니다."));
+      }
       const infoAddress = document.createElement('div');
       infoAddress.className = `${styles.bodyAddress}`;
       infoAddress.appendChild(document.createTextNode(stadiumInfo.address));
@@ -173,6 +173,7 @@ const Maps = ({ list, onChangeSelected, nowSelected }) => {
       hrefAnchor.onclick = () => { Router.push(`/stadium/${stadiumInfo.id}`); };
       infoHref.appendChild(hrefAnchor);
 
+      bodyInfo.appendChild(infoOccupyTeam);
       bodyInfo.appendChild(infoAddress);
       bodyInfo.appendChild(infoHref);
       contentBody.appendChild(bodyImgOutter);

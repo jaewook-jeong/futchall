@@ -2,7 +2,7 @@ import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Router from 'next/router';
 import PropTypes from 'prop-types';
-import { Tabs, Button, Descriptions, Tooltip, Typography, Tag, notification, message } from 'antd';
+import { Tabs, Button, Descriptions, Tooltip, Typography, Tag, notification, message, Image } from 'antd';
 import { HeartTwoTone, QuestionCircleOutlined } from '@ant-design/icons';
 
 import { SELECT_STADIUM_REQUEST, TAKE_STADIUM_REQUEST } from '../reducers/stadium';
@@ -113,11 +113,20 @@ const StadiumInfo = (props) => {
           </Descriptions.Item>
         </Descriptions>
       </Tabs.TabPane>
+      <Tabs.TabPane
+        tab="구장사진"
+        key="2"
+      >
+        <Image
+          width="70%"
+          src={isSelected && info?.Images[0]?.src}
+        />
+      </Tabs.TabPane>
     </Tabs>
   );
 };
 StadiumInfo.propTypes = {
-  list : PropTypes.array,
+  list: PropTypes.array,
   nowSelected: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
