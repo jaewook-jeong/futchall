@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import Router from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
-import { Col, Row, Typography, Button, Form, Input, Radio, Upload, notification, message } from 'antd';
+import { Col, Row, Typography, Button, Form, Input, Radio, Upload, notification, message, Tooltip } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { END } from 'redux-saga';
 import axios from 'axios';
@@ -115,7 +115,7 @@ const TeamRegister = () => {
                   </Radio.Group>
                 </Form.Item>
                 <Form.Item
-                  label="팀 메인사진"
+                  label={<Tooltip title="팀 페이지의 메인사진이며, 점령한 구장에서 해당 사진으로 표시됩니다.">팀 마크</Tooltip>}
                 >
                   <Upload
                     listType="picture-card"
