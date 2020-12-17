@@ -90,16 +90,26 @@ const Maps = ({ list, onChangeSelected, nowSelected }) => {
       const position = new kakao.maps.LatLng(stadiumInfo.lat, stadiumInfo.lng);
       let icon;
       if (stadiumInfo.TeamId) {
-        icon = new kakao.maps.MarkerImage(
-          '/markerY.png',
-          new kakao.maps.Size(32, 32),
-          {
-            offset: new kakao.maps.Point(18, 42),
-            alt: '점령중',
-            shape: 'poly',
-            coords: '1,20,1,9,5,2,10,0,21,0,27,3,30,9,30,20,17,33,14,33'
-          },
-        );
+        if (stadiumInfo.Team.Images[0]){
+          icon = new kakao.maps.MarkerImage(
+            stadiumInfo.Team.Images[0].src,
+            new kakao.maps.Size(40,40),
+            {
+              offset: new kakao.maps.Point(18, 42),
+            }
+          )
+        } else {
+          icon = new kakao.maps.MarkerImage(
+            '/markerY.png',
+            new kakao.maps.Size(32, 32),
+            {
+              offset: new kakao.maps.Point(18, 42),
+              alt: '점령중',
+              shape: 'poly',
+              coords: '1,20,1,9,5,2,10,0,21,0,27,3,30,9,30,20,17,33,14,33'
+            },
+          );
+        }
       } else {
         icon = new kakao.maps.MarkerImage(
           '/markerN.png',
