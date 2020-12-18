@@ -14,7 +14,7 @@ const CommentForm = ({ postId, toggleVisible, parentId }) => {
 
   useEffect(() => {
     if (addCommentDone) {
-      form.resetFields(['commentText']);
+      form.resetFields([`commentText${postId+"-"+parentId}`]);
       if (toggleVisible) {
         toggleVisible(false);
       }
@@ -25,7 +25,7 @@ const CommentForm = ({ postId, toggleVisible, parentId }) => {
   const onSubmitComment = useCallback(() => {
     dispatch({
       type: ADD_COMMENT_REQUEST,
-      data: { content: form.getFieldValue('commentText'), postId, parentId },
+      data: { content: form.getFieldValue(`commentText${postId+"-"+parentId}`), postId, parentId },
       token,
     });
   }, [me.id]);
@@ -40,7 +40,7 @@ const CommentForm = ({ postId, toggleVisible, parentId }) => {
       <Form.Item
         label={<Avatar shape="circle" src={me.Images[0] && `${me.Images[0]?.src}`}>{!me.Images[0]?.src && me.nickname}</Avatar>}
         colon={false}
-        name="commentText"
+        name={`commentText${postId+"-"+parentId}`}
         labelCol={{flex: '42px'}}
         wrapperCol={{flex: 'auto'}}
         required
