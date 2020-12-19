@@ -178,7 +178,7 @@ export const SET_CALENDAR_FAILURE = 'SET_CALENDAR_FAILURE';
 
 export const RESET_EDIT_TEAM = 'RESET_EDIT_TEAM';
 
-export default (state = initialState, action) => produce(state, (draft) => {
+const teamReducer = (state = initialState, action) => produce(state, (draft) => {
   switch (action.type) {
     case SELECT_TEAM_REQUEST:
       draft.isSelecting = true;
@@ -289,3 +289,5 @@ export default (state = initialState, action) => produce(state, (draft) => {
       break;
   }
 });
+
+export default teamReducer;

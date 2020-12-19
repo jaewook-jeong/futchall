@@ -50,7 +50,7 @@ export const TAKE_STADIUM_REQUEST = 'TAKE_STADIUM_REQUSET';
 export const TAKE_STADIUM_SUCCESS = 'TAKE_STADIUM_SUCCESS';
 export const TAKE_STADIUM_FAILURE = 'TAKE_STADIUM_FAILURE';
 
-export default (state = initialState, action) => produce(state, (draft) => {
+const stadiumReducer = (state = initialState, action) => produce(state, (draft) => {
   switch (action.type) {
     case SELECT_STADIUM_REQUEST:
       draft.isSelecting = true;
@@ -112,3 +112,5 @@ export default (state = initialState, action) => produce(state, (draft) => {
       break;
   }
 });
+
+export default stadiumReducer;

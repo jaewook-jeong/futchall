@@ -14,7 +14,7 @@ export const REFRESH_STADIUMLIST_FAILURE = 'REFRESH_STADIUMLIST_FAILURE';
 
 export const SET_WHERE_USER = 'SET_WHERE_USER';
 
-export default (state = initialState, action) => produce(state, (draft) => {
+const locationReducer = (state = initialState, action) => produce(state, (draft) => {
   switch (action.type) {
     case SET_WHERE_USER:
       draft.latitude = action.data.latitude;
@@ -39,3 +39,5 @@ export default (state = initialState, action) => produce(state, (draft) => {
       break;
   }
 });
+
+export default locationReducer;

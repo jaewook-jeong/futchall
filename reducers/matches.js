@@ -39,7 +39,7 @@ export const PATCH_CANCEL_REQUEST = 'PATCH_CANCEL_REQUSET';
 export const PATCH_CANCEL_SUCCESS = 'PATCH_CANCEL_SUCCESS';
 export const PATCH_CANCEL_FAILURE = 'PATCH_CANCEL_FAILURE';
 
-const reducer = (state = initialState, action) => produce(state, (draft) => {
+const matchesReducer = (state = initialState, action) => produce(state, (draft) => {
   switch (action.type) {
     case SELECT_MATCHES_REQUEST:
       draft.isSelecting = true;
@@ -127,4 +127,4 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
   }
 });
 
-export default reducer;
+export default matchesReducer;

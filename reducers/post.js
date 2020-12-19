@@ -52,7 +52,7 @@ export const ADD_COMMENT_FAILURE = 'ADD_COMMENT_FAILURE';
 export const CLEAR_ADD_COMMENT_RESULT = 'CLEAR_ADD_COMMENT_RESULT';
 
 // 이전 상태를 액션을 통해 다음 상태로 만들어내는 함수(불변성은 지키면서)
-const reducer = (state = initialState, action) => produce(state, (draft) => {
+const postReducer = (state = initialState, action) => produce(state, (draft) => {
   switch (action.type) {
     case LOAD_POSTS_REQUEST:
       draft.loadPostsLoading = true;
@@ -149,4 +149,4 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
   }
 });
 
-export default reducer;
+export default postReducer;

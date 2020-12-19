@@ -76,7 +76,7 @@ export const JOIN_IN_FAILURE = 'JOIN_IN_FAILURE';
 export const ADD_POST_TO_ME = 'ADD_POST_TO_ME';
 export const REMOVE_POST_OF_ME = 'REMOVE_POST_OF_ME';
 
-export default (state = initialState, action) => produce(state, (draft) => {
+const userReducer = (state = initialState, action) => produce(state, (draft) => {
   switch (action.type) {
     case LOAD_MY_INFO_REQUEST:
       draft.loadMyInfoLoading = true;
@@ -224,3 +224,5 @@ export default (state = initialState, action) => produce(state, (draft) => {
       break;
   }
 });
+
+export default userReducer;
