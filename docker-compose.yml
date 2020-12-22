@@ -13,3 +13,5 @@ services:
         - letsencrypt:/etc/letsencrypt
   nextjs: 
       build: ./
+volumes:
+    letsencrypt:
