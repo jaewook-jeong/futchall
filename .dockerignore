@@ -1,0 +1,10 @@
+.git/
+.gitignore
+.next/
+.ssh/
+_tests_/
+_mocks_/
+.dockerignore
+Dockerfile
+docker-compose.yml
+node_modules/
