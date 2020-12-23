@@ -3,16 +3,7 @@ services:
   nextjs: 
       build: ./
       restart: unless-stopped
-  proxy:
-      restart: unless-stopped
-      image: staticfloat/nginx-certbot
       ports:
-          - 80:80
-          - 443:443
-      environment:
-          CERTBOT_EMAIL: dnrlwo11@gmail.com
-      volumes:
-        - ./docker/conf.d:/etc/nginx/user.conf.d:ro
-        - letsencrypt:/etc/letsencrypt
+        -"3001:3001"
 volumes:
     letsencrypt:
