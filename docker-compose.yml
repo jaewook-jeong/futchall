@@ -1,10 +1,5 @@
 version: '3'
 services:
-  nextjs: 
-      build: ./
-      restart: unless-stopped
-      ports:
-        - "3002:3000"
   proxy:
       restart: unless-stopped
       image: staticfloat/nginx-certbot
@@ -16,5 +11,8 @@ services:
       volumes:
         - ./docker/conf.d:/etc/nginx/user.conf.d:ro
         - letsencrypt:/etc/letsencrypt
+  nextjs: 
+      build: ./
+      restart: unless-stopped
 volumes:
     letsencrypt:
