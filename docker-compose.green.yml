@@ -3,6 +3,8 @@ services:
   nextjs: 
       build: ./
       restart: unless-stopped
+      ports:
+        - "3002:3000"
   proxy:
       restart: unless-stopped
       image: staticfloat/nginx-certbot
