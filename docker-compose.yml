@@ -3,5 +3,5 @@ services:
   nextjs: 
       build: ./
       restart: unless-stopped
-volumes:
-    letsencrypt:
+      ports:
+          - 3000:3000
