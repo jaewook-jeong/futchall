@@ -3,7 +3,5 @@ services:
   nextjs: 
       build: ./
       restart: unless-stopped
-      ports:
-          -3001:3001
 volumes:
     letsencrypt:
