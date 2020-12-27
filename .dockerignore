@@ -6,5 +6,9 @@ _tests_/
 _mocks_/
 .dockerignore
 Dockerfile
-docker-compose.yml
+blue-green.sh
 node_modules/
+.ssh/
+.travis.yml
+enzyme.js
+jest.config.js
