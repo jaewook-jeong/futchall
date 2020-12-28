@@ -38,7 +38,7 @@ const Home = () => {
             <Statistic title="새로등록된 구장 수" value={7} valueStyle={{ color: "#40a9ff" }} prefix={<ArrowUpOutlined />} suffix="개"></Statistic>
           </Col>
           <Col md={{ span: 6, offset: 1 }} xs={{ span: 18, offset: 3 }}>
-            <Statistic title="구장깨기 성공 비율" value={30.45} precision={2} valueStyle={{ color: '#3f8600' }} prefix={<ArrowUpOutlined />} suffix="%"></Statistic>
+            <Statistic title="최다 점령 팀" value={"잔디FC"} valueStyle={{ color: '#3f8600' }}></Statistic>
           </Col>
         </Row>
       </Col>
