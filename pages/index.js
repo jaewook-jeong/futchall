@@ -30,7 +30,7 @@ const Home = () => {
       </Col>
       <Col md={{ span: 16, offset: 4 }} sm={{span: 18, offset: 3}} xs={{ span: 20, offset: 2 }}>
         <Row gutter={[0,20]}>
-          <Divider orientation="left"><Button icon={<TrophyTwoTone twoToneColor="#fbd71f" />} type="text">테스트 성공이냐?</Button></Divider>
+          <Divider orientation="left"><Button icon={<TrophyTwoTone twoToneColor="#fbd71f" />} type="text">어제의 기록</Button></Divider>
           <Col md={{ span: 6, offset: 2 }} xs={{ span: 18, offset: 3 }} >
             <Statistic title="최다 구장 점령 수" value={7} prefix={<LikeOutlined />}></Statistic>
           </Col>
