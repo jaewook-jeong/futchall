@@ -6,5 +6,37 @@ before_install:
 branches:
   only:
     - master
-cache:
-  npm: false
+before_deploy:
+  - rm -rf node_modules
+  - zip -r futchall-front *
+  - mkdir -p deploy
+  - mv futchall-front.zip deploy/futchall-front.zip
+deploy:
+  - provider: s3
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: front-build-bucket
+    region: ap-northeast-2
+    skip_cleanup: true
+    local_dir: deploy
+    wait-until-deployed: true
+    on:
+      repo: jaewook-jeong/futchall
+      branch: master
+  - provider: codedeploy
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: front-build-bucket
+    key: futchall-front.zip
+    bundle_type: zip
+    application: futchall-code-deploy-application
+    deployment_group: futchall-front-group
+    region: ap-northeast-2
+    wait-until-deployed: true
+    on:
+      repo: jaewook-jeong/futchall
+      branch: master
+notifications:
+  email:
+    recipients:
+      - dnrlwo11@gmail.com
