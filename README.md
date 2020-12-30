@@ -25,6 +25,7 @@ Pokémon GO에서 영감을 얻어 점령 시스템을 구현하였습니다.
 ## DevOps
 ![Deployment](https://github.com/jaewook-jeong/futchall/blob/master/public/deployment.jpg)
 배포자동화와 무중단배포를 구현하였습니다. 과정은 [블로그](https://velog.io/@_woogie/%EB%B0%B0%ED%8F%AC%EB%A5%BC-%EC%9E%90%EB%8F%99%ED%99%94%ED%95%B4%EB%B3%B4%EC%9E%90-feat.-Next-js-pm2-Nginx)에 자세히 기록해두었습니다.
+
 [Travis CI](https://travis-ci.com/github/jaewook-jeong/futchall)
 
 ## Test
