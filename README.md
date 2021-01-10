@@ -30,8 +30,12 @@ Pokémon GO에서 영감을 얻어 점령 시스템을 구현하였습니다.
 
 ## Test
 **Custom Hooks Testing**
+
 비동기 API 처리 및 상태 관리에 대한 테스트
 - Front-End : Jest + Enzyme
+
+Cypress를 이용한 End-to-End Testing
+- 페이지와 컴포넌트 UI 테스트
 
 ## Built with
 ![Build With](https://github.com/jaewook-jeong/futchall/blob/master/public/buildWith.jpg)
