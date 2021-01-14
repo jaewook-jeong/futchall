@@ -1,10 +1,10 @@
 /* eslint-disable no-undef */
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import Router, { withRouter, useRouter } from 'next/router';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { LoadingOutlined } from '@ant-design/icons';
-import { notification, message } from 'antd';
+import { ReloadOutlined } from '@ant-design/icons';
+import { notification, message, Button } from 'antd';
 import styled from 'styled-components';
 
 import { REFRESH_STADIUMLIST_REQUEST } from '../reducers/location';
@@ -18,11 +18,32 @@ const MapContainer = styled.div`
 
 const Maps = ({ list, onChangeSelected, nowSelected }) => {
   const dispatch = useDispatch();
+  const {isChangingLocation, isChangedLocation} = useSelector((state) => state.location);
   const kakaoMap = useRef();
   const router = useRouter();
   const newRequest = useRef();
+  const [btnVisible, setBtnVisible] = useState(false);
   const [overlays, setOverlays] = useState([]);
 
+  const ReloadMap = useCallback(() => {
+    const boundery = kakaoMap.current.getBounds();
+    const boundSwLatLng = boundery.getSouthWest();
+    const boundNeLatLng = boundery.getNorthEast();
+    dispatch({
+      type: REFRESH_STADIUMLIST_REQUEST,
+      data: {
+        left: boundSwLatLng.getLat(),
+        right: boundNeLatLng.getLat(),
+        top: boundNeLatLng.getLng(),
+        bottom: boundSwLatLng.getLng(),
+      },
+    });
+  }, []);
+  useEffect(() => {
+    if (isChangedLocation) {
+      !isChangingLocation && setBtnVisible(false);
+    }
+  }, [isChangedLocation, isChangingLocation]);
   useEffect(() => {
     const firstLoadMap = async () => {
       try {
@@ -54,20 +75,9 @@ const Maps = ({ list, onChangeSelected, nowSelected }) => {
           });
           kakao.maps.event.addListener(kakaoMap.current, 'dragend', () => {
             clearTimeout(newRequest.current);
-            const boundery = kakaoMap.current.getBounds();
-            const boundSwLatLng = boundery.getSouthWest();
-            const boundNeLatLng = boundery.getNorthEast();
             newRequest.current = setTimeout(() => (
-              dispatch({
-                type: REFRESH_STADIUMLIST_REQUEST,
-                data: {
-                  left: boundSwLatLng.getLat(),
-                  right: boundNeLatLng.getLat(),
-                  top: boundNeLatLng.getLng(),
-                  bottom: boundSwLatLng.getLng(),
-                },
-              })
-            ), 1000);
+              setBtnVisible(true)
+            ), 700);
           });
           if (result[0] === 'success') {
             message.success('현재위치에 기반한 구장정보입니다.');
@@ -215,8 +225,15 @@ const Maps = ({ list, onChangeSelected, nowSelected }) => {
   }, [nowSelected]);
 
   return (
-    <MapContainer id="mapContainer" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <LoadingOutlined style={{ fontSize: '50px' }} />
+    <MapContainer id="mapContainer">
+      {
+        btnVisible && (
+          <div style={{float: 'left', padding: '5px 0px 0px 15px'}}>
+            <Button style={{zIndex: 2, }} shape="round" type="primary" onClick={ReloadMap} loading={isChangingLocation}>{!isChangingLocation && <ReloadOutlined/>} 이 위치에서 다시 검색</Button>
+          </div>
+        )
+      }
+      
     </MapContainer>
   );
 };
