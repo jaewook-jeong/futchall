@@ -3,7 +3,7 @@ import React, { useEffect, useState, useRef, useCallback } from 'react';
 import Router, { withRouter, useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { ReloadOutlined } from '@ant-design/icons';
+import { LoadingOutlined, ReloadOutlined } from '@ant-design/icons';
 import { notification, message, Button } from 'antd';
 import styled from 'styled-components';
 
@@ -233,7 +233,7 @@ const Maps = ({ list, onChangeSelected, nowSelected }) => {
           </div>
         )
       }
-      
+      <LoadingOutlined style={{fontSize: '30px'}} />
     </MapContainer>
   );
 };
