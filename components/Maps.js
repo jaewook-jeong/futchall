@@ -160,7 +160,7 @@ const Maps = ({ list, onChangeSelected, nowSelected }) => {
       imgCenter.className = `${styles.imgCenter}`;
 
       const img = document.createElement('img');
-      img.setAttribute('src', `${stadiumInfo.Team?.Images[0]?.src ? stadiumInfo.Team.Images[0].src : stadiumInfo.Images[0].src ?? null}`);
+      img.setAttribute('src', `${stadiumInfo.Team?.Images[0]?.src ? stadiumInfo.Team.Images[0].src : stadiumInfo?.Images[0]?.src ? stadiumInfo?.Images[0]?.src : 'https://futchall.com/futchall.png'}`);
       imgCenter.appendChild(img);
       bodyImgInner.appendChild(imgCenter);
       bodyImgOutter.appendChild(bodyImgInner);
